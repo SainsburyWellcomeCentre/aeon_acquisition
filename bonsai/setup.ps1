@@ -1,6 +1,8 @@
 if (!(Test-Path "./Bonsai.exe")) {
     Invoke-WebRequest "https://github.com/bonsai-rx/bonsai/releases/download/2.6.1/Bonsai.zip" -OutFile "temp.zip"
+    Move-Item -Path "NuGet.config" "temp.config"
     Expand-Archive "temp.zip" -DestinationPath "." -Force
+    Move-Item -Path "temp.config" "NuGet.config" -Force
     Remove-Item -Path "temp.zip"
 }
 & .\Bonsai.exe --no-editor
