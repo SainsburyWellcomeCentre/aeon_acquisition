@@ -7,9 +7,7 @@ using System.Reactive.Linq;
 using Bonsai.Spinnaker;
 using SpinnakerNET;
 
-[Combinator]
 [Description("Configures and initializes a Spinnaker camera for triggered acquisition.")]
-[WorkflowElementCategory(ElementCategory.Source)]
 public class AeonCapture : SpinnakerCapture
 {
     public AeonCapture()
