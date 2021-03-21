@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bonsai.Core" Version="2.6.0" />
+    <PackageReference Include="Bonsai.Spinnaker" Version="0.7.0-preview3" />
+  </ItemGroup>
+
+</Project>
