@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using Bonsai.Spinnaker;
 using SpinnakerNET;
+using Bonsai.Harp;
 
 [Description("Configures and initializes a Spinnaker camera for triggered acquisition.")]
 public class AeonCapture : SpinnakerCapture
@@ -32,5 +33,16 @@ public class AeonCapture : SpinnakerCapture
         camera.GainAuto.Value = GainAutoEnums.Off.ToString();
         camera.Gain.Value = 0;
         base.Configure(camera);
+    }
+
+    public IObservable<Timestamped<SpinnakerDataFrame>> Generate(IObservable<HarpMessage> source)
+    {
+        var frames = Generate();
+        var triggers = source.Where(68, MessageType.Event);
+        return frames.Zip(triggers, (frame, trigger) =>
+        {
+            var payload = trigger.GetTimestampedPayloadByte();
+            return Timestamped.Create(frame, payload.Seconds);
+        });
     }
 }
