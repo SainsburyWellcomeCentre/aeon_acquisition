@@ -36,6 +36,10 @@ public class SubjectLogVisualizer : DialogTypeVisualizer
         {
             if (string.IsNullOrWhiteSpace(metadata.Id))
             {
+                MessageBox.Show("A valid subject ID is required to log event data.",
+                    nameof(SubjectLog),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
                 return;
             }
 
@@ -46,9 +50,13 @@ public class SubjectLogVisualizer : DialogTypeVisualizer
                 Event = metadata.Event
             });
 
-            if (metadata.Event == EventType.Enter)
+            if (metadata.Event == EventType.Start)
             {
-                metadata.Event = EventType.Exit;
+                metadata.Event = EventType.Stop;
+            }
+            else if (metadata.Event == EventType.Stop)
+            {
+                metadata.Event = EventType.End;
             }
             else
             {

@@ -15,12 +15,18 @@ public class LogMetadata
 
     [Browsable(false)]
     public EventType Event { get; set; }
+
+    public override string ToString()
+    {
+        return string.Format("Id:{0}, Weight:{1}, Event:{2}", Id, Weight, Event);
+    }
 }
 
 public enum EventType
 {
-    Enter,
-    Exit
+    Start,
+    Stop,
+    End
 }
 
 [Combinator]
@@ -38,15 +44,21 @@ public class SubjectLog
 
     public IObservable<LogMetadata> Process()
     {
-        return subject;
+        return subject.Where(data => data.Event != EventType.Stop);
     }
 
     public IObservable<Timestamped<LogMetadata>> Process(IObservable<HarpMessage> source)
     {
-        return subject.CombineLatest(source, (data, message) =>
+        return Observable.Defer(()=>
         {
-            var timestamp = message.GetTimestamp();
-            return Timestamped.Create(data, timestamp);
-        }).Sample(subject);
+            var stopTimestamp = 0.0;
+            return subject.CombineLatest(source, (data, message) =>
+            {
+                var timestamp = message.GetTimestamp();
+                if (data.Event == EventType.Stop) stopTimestamp = timestamp;
+                else if (data.Event == EventType.End) timestamp = stopTimestamp;
+                return Timestamped.Create(data, timestamp);
+            }).Sample(subject).Where(data => data.Value.Event != EventType.Stop);
+        });
     }
 }
