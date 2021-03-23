@@ -19,6 +19,9 @@ public class AeonCapture : SpinnakerCapture
     [Description("The duration of each individual exposure, in microseconds. In general, this should be 1 / frameRate - 1 millisecond to prepare for next trigger.")]
     public double ExposureTime { get; set; }
 
+    [Description("The gain of the sensor.")]
+    public double Gain { get; set; }
+
     protected override void Configure(IManagedCamera camera)
     {
         camera.AcquisitionFrameRateEnable.Value = false;
@@ -31,7 +34,7 @@ public class AeonCapture : SpinnakerCapture
         camera.ExposureMode.Value = ExposureModeEnums.Timed.ToString();
         camera.ExposureTime.Value = ExposureTime;
         camera.GainAuto.Value = GainAutoEnums.Off.ToString();
-        camera.Gain.Value = 0;
+        camera.Gain.Value = Gain;
         base.Configure(camera);
     }
 
