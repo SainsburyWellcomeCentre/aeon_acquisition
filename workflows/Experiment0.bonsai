@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.6.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:p1="clr-namespace:;assembly=Extensions"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Hardware</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\PatchController.bonsai">
+              <PortName>COM4</PortName>
+              <WheelPosition>WheelPosition</WheelPosition>
+              <PelletDelivered>PelletDelivered</PelletDelivered>
+              <DeliverPellet>DeliverPellet</DeliverPellet>
+              <PatchEvents>PatchEvents</PatchEvents>
+              <Radius>4</Radius>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\VideoController.bonsai">
+              <PortName>COM3</PortName>
+              <GlobalTriggerFrequency>50</GlobalTriggerFrequency>
+              <LocalTriggerFrequency>125</LocalTriggerFrequency>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\VideoSource.bonsai">
+              <SerialNumber xsi:nil="true" />
+              <Gain>0</Gain>
+              <TriggerSource>GlobalTrigger</TriggerSource>
+              <FrameEvents>FrameTop</FrameEvents>
+              <TriggerFrequency>GlobalTriggerFrequency</TriggerFrequency>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\VideoSource.bonsai">
+              <SerialNumber xsi:nil="true" />
+              <Gain>0</Gain>
+              <TriggerSource>LocalTrigger</TriggerSource>
+              <FrameEvents>FrameSide</FrameEvents>
+              <TriggerFrequency>LocalTriggerFrequency</TriggerFrequency>
+            </Expression>
+          </Nodes>
+          <Edges />
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Logging</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Value" DisplayName="Path" Description="The root folder on which to log all data." />
+            </Expression>
+            <Expression xsi:type="PropertySource" TypeArguments="io:GetFiles,sys:String">
+              <MemberName>Path</MemberName>
+              <Value>.</Value>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="AsyncSubject">
+              <Name>PathPrefix</Name>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Value" DisplayName="BinSize" />
+            </Expression>
+            <Expression xsi:type="PropertySource" TypeArguments="p1:GroupByTime,sys:Int32">
+              <MemberName>BinSize</MemberName>
+              <Value>1</Value>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="AsyncSubject">
+              <Name>BinSize</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>PatchEvents</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDemux.bonsai">
+              <LogName>PatchEvents</LogName>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>VideoEvents</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDemux.bonsai">
+              <LogName>VideoEvents</LogName>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>FrameTop</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogVideo.bonsai">
+              <LogName>FrameTop</LogName>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>FrameSide</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogVideo.bonsai">
+              <LogName>FrameSide</LogName>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="10" To="11" Label="Source1" />
+            <Edge From="12" To="13" Label="Source1" />
+            <Edge From="14" To="15" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+    </Nodes>
+    <Edges />
+  </Workflow>
+</WorkflowBuilder>
