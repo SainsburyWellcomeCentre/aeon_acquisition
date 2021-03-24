@@ -37,7 +37,7 @@ public class SubjectLogVisualizer : DialogTypeVisualizer
             if (string.IsNullOrWhiteSpace(metadata.Id))
             {
                 MessageBox.Show("A valid subject ID is required to log event data.",
-                    nameof(SubjectLog),
+                    "SubjectLog",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
                 return;
