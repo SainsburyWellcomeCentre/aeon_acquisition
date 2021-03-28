@@ -41,13 +41,14 @@ mkdir ${DEVICES[*]}
 
 # <s Check for and copy written out files
 while [[ EXP_ON ]]; do
-	cur_time_s=$(date +"%s")  # seconds since 1970-01-01
-	end_time_s=$(( ${cur_time} - ${CHUNK_TIME} ))
-	end_time_fmt=$(date -d @${end_time_s} +"%c")  # formatted for `find`
-	# start_time=$(( ${end_time}-${CHUNK_TIME} ))
-	files=$(find ! -newermt "${end_time_fmt}")
-	# files = find -newermt "${start_time}" ! -newermt "${end_times}"
-	cp -n ${files[*]} ${REMOTE_EXP_DIR}
+	for device in ${DEVICES[@]}; do
+		cur_time_s=$(date +"%s")  # seconds since 1970-01-01
+		end_time_s=$(( ${cur_time} - ${CHUNK_TIME} ))
+		end_time_fmt=$(date -d @${end_time_s} +"%c")  # formatted for `find`
+		# start_time=$(( ${end_time}-${CHUNK_TIME} ))
+		files=$(find ./${device} ! -newermt "${end_time_fmt}")
+		# files = find -newermt "${start_time}" ! -newermt "${end_times}"
+		cp -n ${files[*]} "${REMOTE_EXP_DIR}/${device}/"
 	
 	# Exit when user quits Bonsai or stops workflow
 	# if [ bonsai_exits ]; EXP_ON=0; fi
