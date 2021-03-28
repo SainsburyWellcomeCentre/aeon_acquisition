@@ -6,6 +6,7 @@
 LOCAL_PATH='/mnt/c/ProjectAeon/'
 REMOTE_PATH='/mnt/z/'  # \\ceph-gw01.hpc.swc.ucl.ac.uk\aeon\test2\
 EXP_NAME='experiment0'
+# hardware devices as top-level folders
 DEVICES=('camera_side' 'camera_top' 'microphone' 'harp_patch1' 'harp_patch2' \
          'harp_patch3')
 # time of files in seconds
@@ -28,8 +29,10 @@ test ! -d ${REMOTE_PATH} \
 && echo "User-specified remote path ${REMOTE_PATH} DOES NOT exist." && exit 1
 
 # make dirs
+mkdir ${REMOTE_EXP_DIR}
 cd ${REMOTE_EXP_DIR}
 mkdir ${DEVICES[*]}
+mkdir ${LOCAL_EXP_DIR}
 cd ${LOCAL_EXP_DIR}
 mkdir ${DEVICES[*]}
 
