@@ -7,7 +7,7 @@ LOCAL_PATH='/mnt/c/ProjectAeon/'
 REMOTE_PATH='/mnt/z/'  # \\ceph-gw01.hpc.swc.ucl.ac.uk\aeon\test2\
 EXP_NAME='experiment0'
 DEVICES=('camera_side' 'camera_top' 'microphone' 'harp_patch1' 'harp_patch2' \
-	     'harp_patch3')
+         'harp_patch3')
 # time of files in seconds
 CHUNK_TIME=3600
 # /s>
@@ -49,7 +49,7 @@ while [[ EXP_ON ]]; do
 		files=$(find ./${device} ! -newermt "${end_time_fmt}")
 		# files = find -newermt "${start_time}" ! -newermt "${end_times}"
 		cp -n ${files[*]} "${REMOTE_EXP_DIR}/${device}/"
-	
+	done
 	# Exit when user quits Bonsai or stops workflow
 	# if [ bonsai_exits ]; EXP_ON=0; fi
 done
