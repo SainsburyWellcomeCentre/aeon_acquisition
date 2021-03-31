@@ -5,16 +5,14 @@
 # found, copy over from acquisition computer to ceph server.
 
 # <s User modifiable constants
-LOCAL_PATH='/mnt/c/ProjectAeon/'
-#REMOTE_PATH='/mnt/z/'  # \\ceph-gw01.hpc.swc.ucl.ac.uk\aeon\test2\
-REMOTE_PATH='/mnt/c/ProjectAeon/remote/'
+LOCAL_PATH='/mnt/d/ProjectAeon/'
+REMOTE_PATH='/mnt/z/'  # \\ceph-gw01.hpc.swc.ucl.ac.uk\aeon\test2\
 EXP_NAME='experiment0'
 # hardware devices as top-level folders
 DEVICES=('camera_side' 'camera_top' 'microphone' 'harp_patch1' 'harp_patch2' \
          'harp_patch3')
 # time of files in seconds
-#CHUNK_TIME=3600
-CHUNK_TIME=1
+CHUNK_TIME=$(( 60 * 60 * 3 ))
 # /s>
 
 # <s Script constants (do not edit!)
@@ -53,8 +51,8 @@ while [[ EXP_ON ]]; do
 		end_time_s=$(( ${cur_time_s} - ${CHUNK_TIME} ))
 		end_time_fmt=$(date -d @${end_time_s} +"%c")  # formatted for `find`
 		#start_time=$(( ${end_time}-${CHUNK_TIME} ))
-		#files = find -newermt "${start_time}" ! -newermt "${end_times}"
-		files=$(find ${device} ! -newermt "${end_time_fmt}" -type f)
+		#files = find -newermt "${start_time}" ! -newermt "${end_time}"
+		files=($(find ${device} ! -newermt "${end_time_fmt}" -type f))
 		# Ensure files found before attempting to copy.
 		if (( ${#files[@]} )); then
 			cp -n ${files[*]} "${REMOTE_EXP_DIR}${device}/"

@@ -3,9 +3,8 @@
 # Check ceph server for files, and if found, delete them from local.
 
 # <s User modifiable constants
-LOCAL_PATH='/mnt/c/ProjectAeon/'
-#REMOTE_PATH='/mnt/z/'  # \\ceph-gw01.hpc.swc.ucl.ac.uk\aeon\test2\
-REMOTE_PATH='/mnt/c/ProjectAeon/remote/'
+LOCAL_PATH='/mnt/d/ProjectAeon/'
+REMOTE_PATH='/mnt/z/'  # \\ceph-gw01.hpc.swc.ucl.ac.uk\aeon\test2\
 EXP_NAME='experiment0'
 # hardware devices as top-level folders
 DEVICES=('camera_side' 'camera_top' 'microphone' 'harp_patch1' 'harp_patch2' \
