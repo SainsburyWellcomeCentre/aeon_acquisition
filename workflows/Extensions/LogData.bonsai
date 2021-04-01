@@ -53,7 +53,7 @@
               <Property Name="Name" />
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\FormatFileName.bonsai">
-              <Extension>bin</Extension>
+              <Extension>csv</Extension>
               <Name>Data</Name>
             </Expression>
             <Expression xsi:type="PropertyMapping">
