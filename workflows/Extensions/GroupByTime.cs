@@ -37,4 +37,9 @@ public class GroupByTime
     {
         return source.GroupBy(value => GetTimeBin(value.GetTimestamp()));
     }
+
+    public IObservable<IGroupedObservable<DateTime, Tuple<TSource, double>>> Process<TSource>(IObservable<Tuple<TSource, double>> source)
+    {
+        return source.GroupBy(value => GetTimeBin(value.Item2));
+    }
 }
