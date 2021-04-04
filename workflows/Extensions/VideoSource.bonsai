@@ -2,9 +2,9 @@
 <WorkflowBuilder Version="2.6.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
-                 xmlns:p1="clr-namespace:;assembly=Extensions"
-                 xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
+                 xmlns:p1="clr-namespace:;assembly=Extensions"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Contains control and acquisition functionality for arena video capture devices.</Description>
   <Workflow>
@@ -39,8 +39,9 @@
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="p1:AeonCapture">
           <p1:Index xsi:nil="true" />
+          <p1:SerialNumber />
           <p1:ColorProcessing>Default</p1:ColorProcessing>
-          <p1:ExposureTime>19000</p1:ExposureTime>
+          <p1:ExposureTime>19500</p1:ExposureTime>
           <p1:Gain>0</p1:Gain>
         </Combinator>
       </Expression>

@@ -69,7 +69,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="p1:OutputExpander">
-          <p1:PortName>COM4</p1:PortName>
+          <p1:PortName />
         </Combinator>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">

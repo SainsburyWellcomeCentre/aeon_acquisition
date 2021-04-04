@@ -67,7 +67,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="p1:OutputExpander">
-          <p1:PortName>COM3</p1:PortName>
+          <p1:PortName />
         </Combinator>
       </Expression>
       <Expression xsi:type="PublishSubject">
@@ -117,7 +117,7 @@
         </Workflow>
       </Expression>
       <Expression xsi:type="PublishSubject">
-        <Name>GlobalTrigger</Name>
+        <Name>LocalTrigger</Name>
       </Expression>
       <Expression xsi:type="Condition">
         <Name>Pwm2</Name>
@@ -156,7 +156,7 @@
         </Workflow>
       </Expression>
       <Expression xsi:type="PublishSubject">
-        <Name>LocalTrigger</Name>
+        <Name>GlobalTrigger</Name>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Value" DisplayName="GlobalTriggerFrequency" Description="The frequency at which to trigger global cameras." />
