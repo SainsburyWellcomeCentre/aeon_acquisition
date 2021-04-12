@@ -1,52 +1,55 @@
 #!/bin/bash
 
+# <h
 # Given an experiment name and devices, create folders on acquisition computer
 # and mounted ceph server. While experiment is running, check for new files; if 
 # found, copy over from acquisition computer to ceph server.
+#
+# Usage: `transfer_chunked_files <local_path> <remote_path> <exp_name> \
+#         <devices>`
+# /h>
 
-# <s User modifiable constants
-LOCAL_PATH='/mnt/d/ProjectAeon/'
-REMOTE_PATH='/mnt/z/'  # \\ceph-gw01.hpc.swc.ucl.ac.uk\aeon\test2\
-EXP_NAME='experiment0'
-# hardware devices as top-level folders
-DEVICES=('camera_side' 'camera_top' 'microphone' 'harp_patch1' 'harp_patch2' \
-         'harp_patch3')
+# Read input args.
+local_path=$1
+remote_path=$2
+exp_name=$3
+devices=($4)
+
+# Define script constants and params.
 # time of files in seconds
 CHUNK_TIME=$(( 60 * 60 * 3 ))
-# /s>
-
-# <s Script constants (do not edit!)
 # flag to indicate experiment is running
-EXP_ON=1
-LOCAL_EXP_DIR="${LOCAL_PATH}${EXP_NAME}/"
-REMOTE_EXP_DIR="${REMOTE_PATH}${EXP_NAME}/"
-# /s>
+exp_on=1
+
+# Set paths.
+local_exp_dir="${local_path}${exp_name}/"
+remote_exp_dir="${remote_path}${exp_name}/"
 
 # <s Make directories on acquisition computer and ceph server
 
 # Ensure user-defined directories exist
-test ! -d ${LOCAL_PATH} \
-&& echo "User-specified local path ${LOCAL_PATH} DOES NOT exist." && exit 1
-test ! -d ${REMOTE_PATH} \
-&& echo "User-specified remote path ${REMOTE_PATH} DOES NOT exist." && exit 1
+test ! -d ${local_path} \
+&& echo "User-specified local path ${local_path} DOES NOT exist." && exit 1
+test ! -d ${remote_path} \
+&& echo "User-specified remote path ${remote_path} DOES NOT exist." && exit 1
 
 # make dirs
-mkdir ${REMOTE_EXP_DIR}
-cd ${REMOTE_EXP_DIR}
-mkdir ${DEVICES[*]}
-mkdir ${LOCAL_EXP_DIR}
-cd ${LOCAL_EXP_DIR}
-mkdir ${DEVICES[*]}
+mkdir ${remote_exp_dir}
+cd ${remote_exp_dir}
+mkdir ${devices[*]}
+mkdir ${local_exp_dir}
+cd ${local_exp_dir}
+mkdir ${devices[*]}
 
-#for device in ${DEVICES[@]}; do
-    #mkdir("${LOCAL_EXP_DIR}/${device}/")
-    #mkdir("${REMOTE_EXP_DIR}/${device}/")
+#for device in ${devices[@]}; do
+    #mkdir("${local_exp_dir}/${device}/")
+    #mkdir("${remote_exp_dir}/${device}/")
 #done
 # /s>
 
 # <s Check for and copy written out files
-while [[ EXP_ON ]]; do
-	for device in "${DEVICES[@]}"; do
+while [[ exp_on ]]; do
+	for device in "${devices[@]}"; do
 		cur_time_s=$(date +"%s")  # seconds since 1970-01-01
 		end_time_s=$(( ${cur_time_s} - ${CHUNK_TIME} ))
 		end_time_fmt=$(date -d @${end_time_s} +"%c")  # formatted for `find`
@@ -55,10 +58,10 @@ while [[ EXP_ON ]]; do
 		files=($(find ${device} ! -newermt "${end_time_fmt}" -type f))
 		# Ensure files found before attempting to copy.
 		if (( ${#files[@]} )); then
-			cp -n ${files[*]} "${REMOTE_EXP_DIR}${device}/"
+			cp -n ${files[*]} "${remote_exp_dir}${device}/"
 		fi
 	done
 	# Exit when user quits Bonsai or stops workflow
-	#if [ bonsai_exits ]; EXP_ON=0; fi
+	#if [ bonsai_exits ]; exp_on=0; fi
 done
 # /s>
