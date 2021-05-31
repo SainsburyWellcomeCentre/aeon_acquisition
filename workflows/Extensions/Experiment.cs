@@ -43,6 +43,8 @@ public class ExperimentClockSynchronizer
     public string SerialNumber { get; set; }
 
     public string PortName { get; set; }
+
+    public string Description { get; set; }
 }
 
 public class ExperimentVideoController
@@ -50,6 +52,8 @@ public class ExperimentVideoController
     public string SerialNumber { get; set; }
 
     public string PortName { get; set; }
+
+    public string Description { get; set; }
 
     public double StandardTriggerFrequency { get; set; }
 
@@ -60,16 +64,18 @@ public class ExperimentMicrophone
 {
     public string SerialNumber { get; set; }
 
+    public string Description { get; set; }
+
     public int SampleRate { get; set; }
 }
 
 public class ExperimentCamera
 {
-    public ExperimentVector3 Position { get; set; }
-
-    public ExperimentVector3 Rotation { get; set; }
-
     public string SerialNumber { get; set; }
+
+    public string Description { get; set; }
+
+    public ExperimentVector3 Position { get; set; }
     
     public ExperimentVideoTriggerSource TriggerSource { get; set; }
 
@@ -82,9 +88,9 @@ public class ExperimentPatchController
 
     public string PortName { get; set; }
 
-    public ExperimentVector3 Position { get; set; }
+    public string Description { get; set; }
 
-    public ExperimentVector3 Rotation { get; set; }
+    public ExperimentVector3 Position { get; set; }
 
     public double Radius { get; set; }
 
