@@ -14,6 +14,7 @@ public class AeonCapture : SpinnakerCapture
     public AeonCapture()
     {
         ExposureTime = 1e6 / 50 - 1000;
+        Binning = 1;
     }
 
     [Description("The duration of each individual exposure, in microseconds. In general, this should be 1 / frameRate - 1 millisecond to prepare for next trigger.")]
@@ -22,8 +23,16 @@ public class AeonCapture : SpinnakerCapture
     [Description("The gain of the sensor.")]
     public double Gain { get; set; }
 
+    [Description("The size of the binning area of the sensor, e.g. a binning size of 2 specifies a 2x2 binning region.")]
+    public int Binning { get; set; }
+
     protected override void Configure(IManagedCamera camera)
     {
+        camera.BinningSelector.Value = BinningSelectorEnums.All.ToString();
+        camera.BinningHorizontalMode.Value = BinningHorizontalModeEnums.Sum.ToString();
+        camera.BinningVerticalMode.Value = BinningVerticalModeEnums.Sum.ToString();
+        camera.BinningHorizontal.Value = Binning;
+        camera.BinningVertical.Value = Binning;
         camera.AcquisitionFrameRateEnable.Value = false;
         camera.TriggerMode.Value = TriggerModeEnums.On.ToString();
         camera.TriggerSelector.Value = TriggerSelectorEnums.FrameStart.ToString();
