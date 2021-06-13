@@ -30,7 +30,7 @@
               <TriggerFrequency>GlobalTriggerFrequency</TriggerFrequency>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\VideoTracking.bonsai">
-              <Mask />
+              <Mask>ArenaMask_2021-06-01.png</Mask>
               <ThresholdValue>80</ThresholdValue>
               <TrackingEvents>TrackingTop</TrackingEvents>
             </Expression>
