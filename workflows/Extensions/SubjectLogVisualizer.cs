@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using Bonsai.Design;
 using Bonsai.Expressions;
 using System.Windows.Forms;
+using System.Drawing;
 
 public class SubjectLogVisualizer : DialogTypeVisualizer
 {
@@ -22,10 +23,12 @@ public class SubjectLogVisualizer : DialogTypeVisualizer
         panel.Font = new System.Drawing.Font(panel.Font.FontFamily, panel.Font.SizeInPoints * 2);
         panel.Dock = DockStyle.Fill;
         panel.ColumnCount = 1;
-        panel.RowCount = 2;
+        panel.RowCount = 4;
         panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));
-        panel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-        panel.Size = new System.Drawing.Size(400, 400);
+        panel.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
+        panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));
+        panel.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
+        panel.Size = new System.Drawing.Size(400, 800);
 
         var metadata = new LogMetadata();
         var propertyGrid = new Bonsai.Design.PropertyGrid();
@@ -67,10 +70,41 @@ public class SubjectLogVisualizer : DialogTypeVisualizer
         };
         panel.Controls.Add(button);
 
+        propertyGrid.HelpVisible = false;
         propertyGrid.Dock = DockStyle.Fill;
         propertyGrid.SelectedObject = metadata;
         panel.Controls.Add(propertyGrid);
         
+        var annotationButton = new Button();
+        var annotationBox = new TextBox();
+        annotationButton.Text = "Annotate";
+        annotationButton.Dock = DockStyle.Fill;
+        annotationButton.Click += delegate
+        {
+            if (string.IsNullOrWhiteSpace(metadata.Id))
+            {
+                MessageBox.Show("A valid subject ID is required to log event data.",
+                    "SubjectLog",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            source.OnNext(new LogMetadata
+            {
+                Id = metadata.Id,
+                Weight = metadata.Weight,
+                Event = EventType.Annotation,
+                Annotation = annotationBox.Text
+            });
+        };
+
+        annotationBox.Dock = DockStyle.Fill;
+        annotationBox.Multiline = true;
+        annotationBox.WordWrap = true;
+        panel.Controls.Add(annotationButton);
+        panel.Controls.Add(annotationBox);
+
         var visualizerService = (IDialogTypeVisualizerService)provider.GetService(typeof(IDialogTypeVisualizerService));
         if (visualizerService != null)
         {
