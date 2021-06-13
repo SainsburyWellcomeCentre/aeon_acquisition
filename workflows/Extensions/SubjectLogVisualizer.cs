@@ -81,6 +81,15 @@ public class SubjectLogVisualizer : DialogTypeVisualizer
         annotationButton.Dock = DockStyle.Fill;
         annotationButton.Click += delegate
         {
+            if (string.IsNullOrEmpty(annotationBox.Text))
+            {
+                MessageBox.Show("Annotation box is empty, so annotation mark will be ignored.",
+                    "SubjectLog",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(metadata.Id))
             {
                 MessageBox.Show("A valid subject ID is required to log event data.",
@@ -97,6 +106,7 @@ public class SubjectLogVisualizer : DialogTypeVisualizer
                 Event = EventType.Annotation,
                 Annotation = annotationBox.Text
             });
+            annotationBox.Text = string.Empty;
         };
 
         annotationBox.Dock = DockStyle.Fill;
