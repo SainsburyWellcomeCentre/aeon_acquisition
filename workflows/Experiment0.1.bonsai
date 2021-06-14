@@ -420,8 +420,8 @@ Item3 as Delta)</scr:Expression>
         <Name>WheelPatch1</Name>
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="Extensions\LinearDepletion.bonsai">
-        <DistanceThreshold>50</DistanceThreshold>
-        <Delta>25</Delta>
+        <DistanceThreshold>100</DistanceThreshold>
+        <Delta>0</Delta>
         <PatchState>PatchState1</PatchState>
         <TrialCount>TrialCount1</TrialCount>
       </Expression>
@@ -432,7 +432,7 @@ Item3 as Delta)</scr:Expression>
         <Name>WheelPatch2</Name>
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="Extensions\LinearDepletion.bonsai">
-        <DistanceThreshold>25</DistanceThreshold>
+        <DistanceThreshold>100</DistanceThreshold>
         <Delta>0</Delta>
         <PatchState>PatchState2</PatchState>
         <TrialCount>TrialCount2</TrialCount>
