@@ -42,6 +42,7 @@ public class AeonCapture : SpinnakerCapture
         camera.ExposureAuto.Value = ExposureAutoEnums.Off.ToString();
         camera.ExposureMode.Value = ExposureModeEnums.Timed.ToString();
         camera.ExposureTime.Value = ExposureTime;
+        camera.DeviceLinkThroughputLimit.Value = camera.DeviceLinkThroughputLimit.Max;
         camera.GainAuto.Value = GainAutoEnums.Off.ToString();
         camera.Gain.Value = Gain;
         base.Configure(camera);
