@@ -12,6 +12,7 @@
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="SerialNumber" />
         <Property Name="Gain" />
+        <Property Name="Binning" />
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="TriggerSource" Description="The PWM trigger source used to drive the camera." />
@@ -43,6 +44,7 @@
           <p1:ColorProcessing>Default</p1:ColorProcessing>
           <p1:ExposureTime>19500</p1:ExposureTime>
           <p1:Gain>0</p1:Gain>
+          <p1:Binning>1</p1:Binning>
         </Combinator>
       </Expression>
       <Expression xsi:type="PublishSubject">
