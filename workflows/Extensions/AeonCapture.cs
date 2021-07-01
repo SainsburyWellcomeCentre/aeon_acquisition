@@ -28,6 +28,8 @@ public class AeonCapture : SpinnakerCapture
 
     protected override void Configure(IManagedCamera camera)
     {
+        try { camera.AcquisitionStop.Execute(); }
+        catch { }
         camera.BinningSelector.Value = BinningSelectorEnums.All.ToString();
         camera.BinningHorizontalMode.Value = BinningHorizontalModeEnums.Sum.ToString();
         camera.BinningVerticalMode.Value = BinningVerticalModeEnums.Sum.ToString();

@@ -16,6 +16,9 @@ public class LogMetadata
     [Browsable(false)]
     public EventType Event { get; set; }
 
+    [Browsable(false)]
+    public string Annotation { get; set; }
+
     public override string ToString()
     {
         return string.Format("Id:{0}, Weight:{1}, Event:{2}", Id, Weight, Event);
@@ -26,7 +29,8 @@ public enum EventType
 {
     Start,
     Stop,
-    End
+    End,
+    Annotation
 }
 
 [Combinator]

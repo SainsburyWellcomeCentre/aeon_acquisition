@@ -73,7 +73,7 @@
               <io:Append>false</io:Append>
               <io:Overwrite>false</io:Overwrite>
               <io:Suffix>None</io:Suffix>
-              <io:IncludeHeader>false</io:IncludeHeader>
+              <io:IncludeHeader>true</io:IncludeHeader>
               <io:Selector>Seconds,Value.ChunkData.FrameID,Value.ChunkData.Timestamp</io:Selector>
             </Expression>
             <Expression xsi:type="MemberSelector">

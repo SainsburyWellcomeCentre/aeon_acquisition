@@ -13,6 +13,7 @@
     <PackageReference Include="Bonsai.Design" Version="2.6.0" />
     <PackageReference Include="Bonsai.System" Version="2.6.0" />
     <PackageReference Include="YamlDotNet" Version="8.1.0" />
+    <PackageReference Include="Bonsai.Vision" Version="2.6.0" />
   </ItemGroup>
 
 </Project>
