@@ -26,7 +26,7 @@
 			- Clear any debris from the FED3 aperture that may be breaking the beambreak (even though this debris is not stopping pellet delivery).
 			- Restart the workflow and/or Bonsai.
 	
-	![Magnetic encoder noise](Magnetic_encoder_noise.png)
+	![Magnetic encoder noise](magnetic_encoder_noise.png)
 
 	- Things to try if there is noise and/or fluctuations in the wheel's magnetic encoder values:
 		- Underneath the wheel, check that the magnet and the encoder PCB are in alignment.
