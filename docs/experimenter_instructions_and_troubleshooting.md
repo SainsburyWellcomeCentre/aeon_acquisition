@@ -38,24 +38,27 @@
 
 ## Starting a Session (Placing a mouse in the arena)
 
-1. Manually trigger each patch multiple times to ensure pellets are being delivered properly.
-2. Ensure parameter values in Bonsai workflow are properly set.
-3. Take some bedding from the animal's cage and place it in the arena nesting box.
-4. Place water in the arena.
-5. Weigh the animal.
-6. Place the animal in the arena nesting box.
-7. In Bonsai, record the animal's ID and weight, and start the session.
+1. Replenish pellets in fed3 hoppers (there should be about 200-400 in each hopper).
+2. Manually trigger each patch multiple times to ensure pellets are being delivered properly. If they are not, follow the troubleshooting instructions above (under "Things to try if the FED3 is not delivering pellets when triggered").
+3. Ensure parameter values in Bonsai workflow are properly set.
+4. Take some bedding from the animal's cage and place it in the arena nesting box.
+5. Place water in the arena.
+6. Weigh the animal.
+7. Place the animal in the arena nesting box.
+8. Place a blocker in front of the animal to keep it in the arena nesting box. 
+9. In Bonsai, record the animal's ID and weight, and start the session.
+10. Remove the blocker in front of the animal so that it can travel into the corridor and arena.
 
 ## Ending a Session (Removing a mouse from the arena)
 1. In Bonsai, stop the session.
-2. Remove the animal from the arena and weight it.
+2. Remove the animal from the arena, weigh it, and place it back in its homecage.
 3. In Bonsai, record the animal's weight and end the session.
 4. Record the number of missed pellets (that fell through the wheel to the petry dish below the arena) for each patch for the session.
 5. Clean the arena nesting box, corridor, and arena (particularly the food patch tiles) with 70% ethanol.
 
 ## General Maintenance
 
-- Clean the chutes from the FED3 apertures to the wheels, weekly.
+- Clean the FED3 hopper, disk, and the chutes from the FED3 apertures to the wheels, weekly.
 - Measure and record wheels' start torques, weekly.
 - Replace 3d printed parts as necessary.
 
