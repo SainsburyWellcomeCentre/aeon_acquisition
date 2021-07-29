@@ -38,18 +38,20 @@
 
 ## Starting a Session (Placing a mouse in the arena)
 
-1. Replenish pellets in fed3 hoppers (there should be about 200-400 in each hopper).
-2. Manually trigger each patch multiple times to ensure pellets are being delivered properly. If they are not, follow the troubleshooting instructions above (under "Things to try if the FED3 is not delivering pellets when triggered").
-3. Ensure parameter values in Bonsai workflow are properly set.
-4. Take some bedding from the animal's cage and place it in the arena nesting box.
-5. Place water in the arena.
-6. Weigh the animal.
-7. Place the animal in the arena nesting box.
-8. Place a blocker in front of the animal to keep it in the arena nesting box. 
-9. In Bonsai, record the animal's ID and weight, and start the session.
-10. Remove the blocker in front of the animal so that it can travel into the corridor and arena.
+1. Ensure cameras are on, well-positioned, zoomed, and focused.
+2. Replenish pellets in fed3 hoppers (there should be about 200-400 in each hopper).
+3. Manually trigger each patch multiple times to ensure pellets are being delivered properly. If they are not, follow the troubleshooting instructions above (under "Things to try if the FED3 is not delivering pellets when triggered").
+4. Ensure parameter values in Bonsai workflow are properly set.
+5. Take some bedding from the animal's cage and place it in the arena nesting box.
+6. Place water in the arena.
+7. Weigh the animal.
+8. Place the animal in the arena nesting box.
+9. Place a blocker in front of the animal to keep it in the arena nesting box. 
+10. In Bonsai, record the animal's ID and weight, and start the session.
+11. Remove the blocker in front of the animal so that it can travel into the corridor and arena.
 
 ## Ending a Session (Removing a mouse from the arena)
+
 1. In Bonsai, stop the session.
 2. Remove the animal from the arena, weigh it, and place it back in its homecage.
 3. In Bonsai, record the animal's weight and end the session.
