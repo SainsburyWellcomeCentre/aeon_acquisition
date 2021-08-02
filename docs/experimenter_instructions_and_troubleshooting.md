@@ -6,7 +6,9 @@
 	- start: shift + F1	
 	- stop: shift + F2
 - Starting Postion Tracking
-	- click on overhead camera gui and move hand around, above the arena
+	- click on overhead camera gui and move hand around, above the arena (clicking on the plot toggles the tracking visualization between 3 modes: 1.  plotting the dot of the tracked object, 2. plotting the entire history trajectory of the tracked object, 3. plotting the history trajectory of the tracked object until the object stops moving for a window greater than the time of the current trajectory)
+  2. plot the dot + trajectory (infinite)
+  3. plot the dot + trajectory (finite w/ rolling window equal to current trajectory
 - Hotkey triggering of pellets
 	- patch 1: shift + F3
 	- patch 2: shift + F4
@@ -35,6 +37,14 @@
 - Notes on Errors:
 	- Out-of-memory error
 	- Tracking error (tracking queue empty)
+	- Com port access denied error: Bonsai is not able to access a COM port on the acquisition computer that a hardware device is connected to.
+		- Causes:
+			- Some other process in Windows gains access to that COM port.
+			- The Bonsai workflow is started too quickly after Bonsai is started (this would mean the COM ports did not initialize properly in Bonsai).
+		- Fixes:
+			- Restart Bonsai.
+			- Restart the computer.
+
 
 ## Starting a Session (Placing a mouse in the arena)
 
