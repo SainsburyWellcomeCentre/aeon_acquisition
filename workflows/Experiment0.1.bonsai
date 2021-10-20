@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.6.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:p1="clr-namespace:;assembly=Extensions"
@@ -30,7 +30,7 @@
               <TriggerFrequency>GlobalTriggerFrequency</TriggerFrequency>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\VideoTracking.bonsai">
-              <Mask>ArenaMask_2021-06-01.png</Mask>
+              <Mask>ArenaMask_2021-09-01.png</Mask>
               <ThresholdValue>80</ThresholdValue>
               <TrackingEvents>TrackingTop</TrackingEvents>
             </Expression>
