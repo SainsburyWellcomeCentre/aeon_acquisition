@@ -47,3 +47,30 @@ In case the configuration of the environment ever gets corrupted, you can revert
 Data is continuously transferred to a CEPH partition by calling Robocopy from a scheduled task which runs periodically every hour. This task is started as soon as the computer boots, using the OS task scheduler. A script with the task definitions is versioned in this repository at `workflows\RobocopyAeon.xml`. This script can be installed in a new computer by opening the Task Scheduler app and selecting `Action > Import Task`.
 
 The data transfer script currently assumes data is collected in `D:\ProjectAeon\experiment0.1` and backed up to a network mount at `Z:\experiment0.1`.
+
+### Calibration Targets
+
+To allow spatial registration of video data, all cameras used in Project Aeon need to be calibrated against a series of targets to extract both intrinsic and extrinsic parameters.
+
+Calibration of camera intrinsics requires a 13x9 checkerboard of an appropriate scale for the camera sensor and lens focal distance.
+
+Checkerboard patterns were generated at [calib.io](https://calib.io/pages/camera-calibration-pattern-generator) with the following parameters:
+
+| Camera | Board Size (mm) | Checker Size (mm) |
+|--------| --------------- |------------------ |
+| `Top`  | 420 x 594       | 40                |
+| `Side` | 85.6 x 53.98    | 5                 |
+
+The larger `Top` pattern was printed into an Aluminium (Dibond) sheet with straight edges to ensure a rigid flat surface.
+
+The smaller `Side` pattern was printed onto the back of a blank ID card using an ID card printer.
+
+### Camera Intrinsics
+
+Extraction of camera intrinsics was performed using OpenCV calibration routines in Python. The `python` folder contains scripts which can be used to bootstrap an environment compatible with the acquisition setup.
+
+In addition, if using Windows 10 N editions or LTSR, the [media feature pack](https://support.microsoft.com/en-us/topic/media-feature-pack-list-for-windows-n-editions-c1c6fffa-d052-8338-7a79-a4bb980a700a) may need to be installed in advance.
+
+Below are details for the specific environments we have tested:
+  * Windows LTSR : Version 1807 (AEON2 - Download from microsoft support)
+  * Windows 10 N: Version 20H2 (latest AEON1 - Apps & Features > Add a feature)

@@ -1,0 +1,2 @@
+matplotlib~=3.4.3
+opencv-python~=4.5.3
