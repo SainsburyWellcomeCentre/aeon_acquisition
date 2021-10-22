@@ -79,7 +79,7 @@
               <Selector>Value.Image</Selector>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\FormatFileName.bonsai">
-              <Extension>avi</Extension>
+              <Extension>bin</Extension>
               <Name>VideoData</Name>
             </Expression>
             <Expression xsi:type="PropertyMapping">
