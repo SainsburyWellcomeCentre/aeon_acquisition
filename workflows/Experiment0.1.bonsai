@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.6.0"
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.6.2"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:p1="clr-namespace:;assembly=Extensions"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
@@ -111,6 +111,11 @@
               <PatchEvents>Patch2</PatchEvents>
               <Radius>4</Radius>
             </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\ThermalSource.bonsai">
+              <SerialNumber>89900418</SerialNumber>
+              <FrameEvents>FrameThermal</FrameEvents>
+              <PortName>COM5</PortName>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="1" To="2" Label="Source1" />
@@ -195,6 +200,12 @@
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogVideo.bonsai">
               <LogName>FrameGate</LogName>
               <FrameRate>125</FrameRate>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>FrameThermal</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogThermal.bonsai">
+              <LogName>FrameThermal</LogName>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>Patch1</Name>
@@ -335,21 +346,22 @@ Item3 as Delta)</scr:Expression>
             <Edge From="20" To="21" Label="Source1" />
             <Edge From="22" To="23" Label="Source1" />
             <Edge From="24" To="25" Label="Source1" />
-            <Edge From="25" To="28" Label="Source2" />
             <Edge From="26" To="27" Label="Source1" />
-            <Edge From="27" To="28" Label="Source1" />
+            <Edge From="27" To="30" Label="Source2" />
             <Edge From="28" To="29" Label="Source1" />
+            <Edge From="29" To="30" Label="Source1" />
             <Edge From="30" To="31" Label="Source1" />
             <Edge From="32" To="33" Label="Source1" />
-            <Edge From="33" To="36" Label="Source2" />
             <Edge From="34" To="35" Label="Source1" />
-            <Edge From="35" To="36" Label="Source1" />
+            <Edge From="35" To="38" Label="Source2" />
             <Edge From="36" To="37" Label="Source1" />
+            <Edge From="37" To="38" Label="Source1" />
             <Edge From="38" To="39" Label="Source1" />
             <Edge From="40" To="41" Label="Source1" />
-            <Edge From="40" To="43" Label="Source1" />
-            <Edge From="41" To="42" Label="Source1" />
+            <Edge From="42" To="43" Label="Source1" />
+            <Edge From="42" To="45" Label="Source1" />
             <Edge From="43" To="44" Label="Source1" />
+            <Edge From="45" To="46" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -1227,6 +1239,12 @@ Item3 as Delta)</scr:Expression>
       <Expression xsi:type="MulticastSubject">
         <Name>DeliverPelletPatch2</Name>
       </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>FrameThermal</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Value.Image</Selector>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge From="2" To="3" Label="Source1" />
@@ -1342,6 +1360,7 @@ Item3 as Delta)</scr:Expression>
       <Edge From="137" To="138" Label="Source1" />
       <Edge From="139" To="140" Label="Source1" />
       <Edge From="141" To="142" Label="Source1" />
+      <Edge From="143" To="144" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>

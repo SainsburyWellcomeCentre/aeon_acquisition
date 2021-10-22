@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.6.2"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:p1="clr-namespace:Bonsai.Harp.Expander;assembly=Bonsai.Harp.Expander"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:p2="clr-namespace:;assembly=Extensions"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Description>Contains control and acquisition functionality for arena thermal cameras.</Description>
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="SerialNumber" />
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="FrameEvents" Description="The name of the output sequence containing all frame events from the video source." />
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="PortName" />
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>ThermalController</Name>
+        <Description>Supplies synchronized camera triggering for thermal cameras.</Description>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="PortName" />
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>StartCameras</Name>
+            </Expression>
+            <Expression xsi:type="p1:DigitalOutput">
+              <p1:Command>Set</p1:Command>
+              <p1:Mask>Output5</p1:Mask>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>StopCameras</Name>
+            </Expression>
+            <Expression xsi:type="p1:DigitalOutput">
+              <p1:Command>Clear</p1:Command>
+              <p1:Mask>Output5</p1:Mask>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p1:InputExpander">
+                <p1:PortName />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="p1:AuxInputs">
+              <p1:Type>Input1</p1:Type>
+              <p1:IncludeTimestamp>true</p1:IncludeTimestamp>
+            </Expression>
+            <Expression xsi:type="Condition">
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Value</Selector>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="6" Label="Source2" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="5" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source2" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="8" To="9" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="p2:ThermalCapture">
+          <p2:Index xsi:nil="true" />
+          <p2:ColorProcessing>Default</p2:ColorProcessing>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="p2:ObserveOnTaskPool" />
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>FrameEvents</Name>
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="4" Label="Source2" />
+      <Edge From="1" To="6" Label="Source2" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="6" To="7" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
