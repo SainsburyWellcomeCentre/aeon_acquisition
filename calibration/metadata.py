@@ -1,4 +1,6 @@
+from pathlib import Path
 from lxml import etree
+from git import Repo
 import argparse
 import json
 import sys
@@ -6,7 +8,13 @@ import sys
 parser = argparse.ArgumentParser(description="Exports device and experiment metadata for the specified workflow file.")
 parser.add_argument('workflow', type=str, help="The path to the workflow file used for data acquisition.")
 parser.add_argument('--indent', type=int, help="The optional indent level for JSON pretty printing.")
+parser.add_argument('--allow-dirty', action="store_true", help="Optionally allow exporting metadata for modified repositories.")
 args = parser.parse_args()
+dname = Path(__file__).parent
+
+repo = Repo(dname.parent)
+if repo.is_dirty() and not args.allow_dirty:
+    parser.error("all modifications to the acquisition repository must be committed before exporting metadata")
 
 ns = {
     'x' : 'https://bonsai-rx.org/2018/workflow',
@@ -30,6 +38,8 @@ audio_sources = hardware.xpath('./x:Expression[@Path="Extensions\AudioSource.bon
 patches = hardware.xpath('./x:Expression[@Path="Extensions\PatchController.bonsai"]', namespaces=ns)
 
 metadata = {
+    'Workflow' : args.workflow,
+    'Revision' : repo.head.commit.hexsha,
     'VideoControllers' : list_metadata(video_controllers),
     'VideoSources' : list_metadata(video_sources),
     'AudioSources' : list_metadata(audio_sources),
