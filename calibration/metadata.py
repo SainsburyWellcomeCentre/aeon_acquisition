@@ -43,6 +43,7 @@ video_controllers = hardware.xpath('./x:Expression[@Path="Extensions\VideoContro
 video_sources = hardware.xpath('./x:Expression[@Path="Extensions\VideoSource.bonsai"]', namespaces=ns)
 audio_sources = hardware.xpath('./x:Expression[@Path="Extensions\AudioSource.bonsai"]', namespaces=ns)
 patches = hardware.xpath('./x:Expression[@Path="Extensions\PatchController.bonsai"]', namespaces=ns)
+weight_scales = hardware.xpath('./x:Expression[@Path="Extensions\WeightScale.bonsai"]', namespaces=ns)
 
 metadata = {
     'Workflow' : args.workflow,
@@ -50,7 +51,8 @@ metadata = {
     'Devices' : list_metadata(video_controllers, 'VideoController', Type='VideoController') +
                 list_metadata(video_sources, 'FrameEvents', Type='VideoSource') +
                 list_metadata(audio_sources, 'AudioAmbient', Type='AudioSource') +
-                list_metadata(patches, 'PatchEvents', Type='Patch')
+                list_metadata(patches, 'PatchEvents', Type='Patch') +
+                list_metadata(weight_scales, 'WeightEvents', Type='WeightScale')
 }
 
 json.dump(metadata, sys.stdout, indent=args.indent)

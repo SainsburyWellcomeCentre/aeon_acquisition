@@ -116,7 +116,7 @@
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\WeightScale.bonsai">
               <PortName>COM8</PortName>
               <TimingSource>LocalTrigger</TimingSource>
-              <Name>WeightEvents</Name>
+              <WeightEvents>WeightEvents</WeightEvents>
             </Expression>
           </Nodes>
           <Edges>

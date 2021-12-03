@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.6.0"
+<WorkflowBuilder Version="2.6.2"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
                  xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
@@ -11,7 +11,7 @@
   <Workflow>
     <Nodes>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="PortName" />
+        <Property Name="PortName" Description="The name of the serial port used to communicate with the electronic scale." />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="io:CreateSerialPort">
@@ -46,7 +46,7 @@ single.Parse(Item1) as Weight,
 !Item2.Contains("?") as Stable)</scr:Expression>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Name" DisplayName="TimingSource" />
+        <Property Name="Name" DisplayName="TimingSource" Description="The name of the input sequence used to assign event timestamps." />
       </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>TimingSource</Name>
@@ -62,7 +62,7 @@ single.Parse(Item1) as Weight,
         <Combinator xsi:type="p1:CreateTimestamped" />
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Name" />
+        <Property Name="Name" DisplayName="WeightEvents" Description="The name of the output sequence containing all weight events." />
       </Expression>
       <Expression xsi:type="PublishSubject">
         <Name>WeightEvents</Name>
