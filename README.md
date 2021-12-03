@@ -36,7 +36,7 @@ All these boards are connected to the computer and configured at the following C
 | COM4     | Patch1            |
 | COM7     | Patch2            |
 
-Automatic weighing of animals is performed using the [Ohaus Navigator NVT4201 Electronic Balance](https://europe.ohaus.com/en-OC/Products/Balances-Scales/Portable-Balances/Navigator/Electronic-Balance-NVT4201) via their USB interface. This requires the following setup procedure to be done on the balance itself before it is connected to the system for the first time:
+Automatic weighing of animals is performed using the [Ohaus Navigator NVT2201 Electronic Balance](https://us.ohaus.com/en-US/Products/Balances-Scales/Portable-Balances/Navigator/Electronic-Balance-NVT2201-AM) via their USB interface. This requires the following setup procedure to be done on the balance itself before it is connected to the system for the first time:
 
  1. Rotate the transportation lock located under the balance to the unlocked position.
  2. Level the balance to ensure the level indicator bubble on the top-right corner of the front panel is centered.
@@ -49,9 +49,12 @@ Automatic weighing of animals is performed using the [Ohaus Navigator NVT4201 El
     * Parity: 8-none
     * Handsh: none
     * End: End
-7. Back to the main menu, press the `Print / No` button until the menu shows `P.r.i.n.t`.
-8. Press the `Zero / Yes` button once to start automatic print configuration and set the following parameters:
-    * Stable
+7. Back to the main menu, press the `Print / No` button until the menu shows `Mode`.
+8. Press the `Zero / Yes` button once to start mode configuration and set the following configuration:
+    * Stable: Off
+9. Back to the main menu, press the `Print / No` button until the menu shows `P.r.i.n.t`.
+10. Press the `Zero / Yes` button once to start automatic print configuration and set the following parameters:
+    * Stable: Off
     * A.Print: Cont
     * End: End
 
