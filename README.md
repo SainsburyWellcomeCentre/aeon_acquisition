@@ -36,6 +36,25 @@ All these boards are connected to the computer and configured at the following C
 | COM4     | Patch1            |
 | COM7     | Patch2            |
 
+Automatic weighing of animals is performed using the [Ohaus Navigator NVT4201 Electronic Balance](https://europe.ohaus.com/en-OC/Products/Balances-Scales/Portable-Balances/Navigator/Electronic-Balance-NVT4201) via their USB interface. This requires the following setup procedure to be done on the balance itself before it is connected to the system for the first time:
+
+ 1. Rotate the transportation lock located under the balance to the unlocked position.
+ 2. Level the balance to ensure the level indicator bubble on the top-right corner of the front panel is centered.
+ 3. Connect the USB Interface to the communication port located under the balance, and to the computer.
+ 4. Hold the Tare button until the display changes to `Menu` and then release the button. The display should now show `.C.A.L.`.
+ 5. Press the `Print / No`button until the menu shows `U.S.b.`.
+ 6. Press the `Zero / Yes` button once to start USB interface configuration. For each configuration parameter, pressing `Zero / Yes` confirms and advances to the next parameter, and `Print / No` cycles through the different options. Set the following parameters:
+    * On-Off: On
+    * Baud: 9600
+    * Parity: 8-none
+    * Handsh: none
+    * End: End
+7. Back to the main menu, press the `Print / No` button until the menu shows `P.r.i.n.t`.
+8. Press the `Zero / Yes` button once to start automatic print configuration and set the following parameters:
+    * Stable
+    * A.Print: Cont
+    * End: End
+
 ### Environment Setup
 
 The `bonsai` folder contains a snapshot of the runtime environment required to run experiments on the foraging arena. The `setup.cmd` batch script is included in this repository to automate the download and configuration of this environment. Simply double-clicking on this script should launch the necessary powershell commands as long as an active connection to the internet is available.

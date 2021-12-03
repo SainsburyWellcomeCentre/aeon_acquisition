@@ -113,6 +113,11 @@
               <Radius>4</Radius>
               <SampleRate>SampleRate500Hz</SampleRate>
             </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\WeightScale.bonsai">
+              <PortName>COM8</PortName>
+              <TimingSource>LocalTrigger</TimingSource>
+              <Name>WeightEvents</Name>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="1" To="2" Label="Source1" />
@@ -264,6 +269,13 @@ Item3 as Delta)</scr:Expression>
               <SampleRate>192000</SampleRate>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
+              <Name>WeightEvents</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogData.bonsai">
+              <LogName>WeightData</LogName>
+              <Selector>Seconds,Value.Weight,Value.Stable</Selector>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
               <Name>SessionData</Name>
             </Expression>
             <Expression xsi:type="Condition">
@@ -349,9 +361,10 @@ Item3 as Delta)</scr:Expression>
             <Edge From="36" To="37" Label="Source1" />
             <Edge From="38" To="39" Label="Source1" />
             <Edge From="40" To="41" Label="Source1" />
-            <Edge From="40" To="43" Label="Source1" />
-            <Edge From="41" To="42" Label="Source1" />
+            <Edge From="42" To="43" Label="Source1" />
+            <Edge From="42" To="45" Label="Source1" />
             <Edge From="43" To="44" Label="Source1" />
+            <Edge From="45" To="46" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
