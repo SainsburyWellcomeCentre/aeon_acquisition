@@ -25,8 +25,15 @@ def recursive_dict(element):
     return etree.QName(element).localname, \
         dict(map(recursive_dict, element)) or element.text
 
-def list_metadata(elements):
-    return list((recursive_dict(x)[1]) for x in elements)
+def list_metadata(elements, key, **kwargs):
+    metadata = []
+    for x in elements:
+        elem_metadata = {}
+        elem_metadata = (recursive_dict(x)[1])
+        elem_metadata.update(kwargs)
+        elem_metadata['Name'] = elem_metadata.pop(key, key)
+        metadata.append(elem_metadata)
+    return metadata
 
 root = etree.parse(args.workflow)
 workflow = root.xpath('/x:WorkflowBuilder/x:Workflow/x:Nodes', namespaces=ns)[0]
@@ -40,10 +47,10 @@ patches = hardware.xpath('./x:Expression[@Path="Extensions\PatchController.bonsa
 metadata = {
     'Workflow' : args.workflow,
     'Revision' : repo.head.commit.hexsha,
-    'VideoControllers' : list_metadata(video_controllers),
-    'VideoSources' : list_metadata(video_sources),
-    'AudioSources' : list_metadata(audio_sources),
-    'Patches' : list_metadata(patches)
+    'Devices' : list_metadata(video_controllers, 'VideoController', Type='VideoController') +
+                list_metadata(video_sources, 'FrameEvents', Type='VideoSource') +
+                list_metadata(audio_sources, 'AudioAmbient', Type='AudioSource') +
+                list_metadata(patches, 'PatchEvents', Type='Patch')
 }
 
 json.dump(metadata, sys.stdout, indent=args.indent)
