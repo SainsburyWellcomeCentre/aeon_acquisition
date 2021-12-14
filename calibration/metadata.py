@@ -9,6 +9,7 @@ parser = argparse.ArgumentParser(description="Exports device and experiment meta
 parser.add_argument('workflow', type=str, help="The path to the workflow file used for data acquisition.")
 parser.add_argument('--indent', type=int, help="The optional indent level for JSON pretty printing.")
 parser.add_argument('--allow-dirty', action="store_true", help="Optionally allow exporting metadata for modified repositories.")
+parser.add_argument('--output', type=str, help="The optional path to the exported JSON file.")
 args = parser.parse_args()
 dname = Path(__file__).parent
 
@@ -55,4 +56,8 @@ metadata = {
                 list_metadata(weight_scales, 'WeightEvents', Type='WeightScale')
 }
 
-json.dump(metadata, sys.stdout, indent=args.indent)
+if args.output:
+    with open(args.output, "w") as outfile:
+        json.dump(metadata, outfile, indent=args.indent)
+else:
+    json.dump(metadata, sys.stdout, indent=args.indent)
