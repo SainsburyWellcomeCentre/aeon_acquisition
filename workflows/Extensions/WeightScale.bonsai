@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.6.2"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
+                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:p1="clr-namespace:;assembly=Extensions"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Description>Contains acquisition functionality for automated arena weighing scales.</Description>
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="PortName" Description="The name of the serial port used to communicate with the electronic scale." />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="io:CreateSerialPort">
+          <io:Name />
+          <io:PortName />
+          <io:BaudRate>9600</io:BaudRate>
+          <io:Parity>None</io:Parity>
+          <io:ParityReplace>63</io:ParityReplace>
+          <io:DataBits>8</io:DataBits>
+          <io:StopBits>One</io:StopBits>
+          <io:Handshake>None</io:Handshake>
+          <io:DiscardNull>false</io:DiscardNull>
+          <io:DtrEnable>false</io:DtrEnable>
+          <io:RtsEnable>false</io:RtsEnable>
+          <io:ReadBufferSize>4096</io:ReadBufferSize>
+          <io:WriteBufferSize>2048</io:WriteBufferSize>
+          <io:ReceivedBytesThreshold>1</io:ReceivedBytesThreshold>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="io:SerialStringRead">
+          <io:PortName />
+          <io:NewLine>\r\n</io:NewLine>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Parse">
+        <Pattern>%s g %s</Pattern>
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Expression>new(
+single.Parse(Item1) as Weight,
+!Item2.Contains("?") as Stable)</scr:Expression>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="TimingSource" Description="The name of the input sequence used to assign event timestamps." />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>TimingSource</Name>
+      </Expression>
+      <Expression xsi:type="harp:Parse">
+        <harp:Type>Timestamp</harp:Type>
+        <harp:IsArray>false</harp:IsArray>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:WithLatestFrom" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="p1:CreateTimestamped" />
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="WeightEvents" Description="The name of the output sequence containing all weight events." />
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>WeightEvents</Name>
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="0" To="2" Label="Source1" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="4" To="8" Label="Source1" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="6" To="7" Label="Source1" />
+      <Edge From="7" To="8" Label="Source2" />
+      <Edge From="8" To="9" Label="Source1" />
+      <Edge From="9" To="11" Label="Source1" />
+      <Edge From="10" To="11" Label="Source2" />
+      <Edge From="11" To="12" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
