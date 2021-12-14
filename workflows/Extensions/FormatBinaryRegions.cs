@@ -7,9 +7,9 @@ using Bonsai.Vision;
 using Bonsai.Harp;
 
 [Combinator]
-[Description("Packs a timestamped binary region onto a Harp message.")]
+[Description("Converts timestamped binary regions into a sequence of Harp messages.")]
 [WorkflowElementCategory(ElementCategory.Transform)]
-public class FormatBinaryRegion
+public class FormatBinaryRegions
 {
     const int Address = 200;
 
@@ -29,6 +29,26 @@ public class FormatBinaryRegion
                 (float)region.MajorAxisLength,
                 (float)region.MinorAxisLength,
                 (float)region.Area);
+        });
+    }
+
+    public IObservable<HarpMessage> Process(IObservable<Tuple<ConnectedComponentCollection, double>> source)
+    {
+        return source.SelectMany(value =>
+        {
+            var regions = value.Item1;
+            var timestamp = value.Item2;
+            return regions.Select((region, index) => HarpMessage.FromSingle(
+                Address,
+                timestamp,
+                MessageType.Event,
+                region.Centroid.X,
+                region.Centroid.Y,
+                (float)region.Orientation,
+                (float)region.MajorAxisLength,
+                (float)region.MinorAxisLength,
+                (float)region.Area,
+                index));
         });
     }
 }

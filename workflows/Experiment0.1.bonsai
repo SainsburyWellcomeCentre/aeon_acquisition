@@ -149,7 +149,7 @@
               <Name>TrackingTop</Name>
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="p1:FormatBinaryRegion" />
+              <Combinator xsi:type="p1:FormatBinaryRegions" />
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpState.bonsai">
               <LogName>FrameTop</LogName>
