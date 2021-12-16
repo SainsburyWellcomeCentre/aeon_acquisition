@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.6.2"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
                  xmlns:p1="clr-namespace:;assembly=Extensions"
-                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Exports the current arena metadata.</Description>
   <Workflow>
@@ -28,7 +28,7 @@
         <Combinator xsi:type="rx:Zip" />
       </Expression>
       <Expression xsi:type="Format">
-        <Format>..\calibration\metadata.py {1} --output {0}\Metadata.yml</Format>
+        <Format>..\calibration\metadata.py {1} --output {0}\Metadata.yml --indent 2</Format>
         <Selector>Item1,Item2</Selector>
       </Expression>
       <Expression xsi:type="PropertyMapping">
