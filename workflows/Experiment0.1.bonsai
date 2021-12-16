@@ -116,7 +116,7 @@
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\WeightScale.bonsai">
               <PortName>COM8</PortName>
               <TimingSource>LocalTrigger</TimingSource>
-              <WeightEvents>WeightEvents</WeightEvents>
+              <WeightEvents>WeightData</WeightEvents>
             </Expression>
           </Nodes>
           <Edges>
@@ -272,7 +272,7 @@ Item3 as Delta)</scr:Expression>
               <SampleRate>192000</SampleRate>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
-              <Name>WeightEvents</Name>
+              <Name>WeightData</Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogData.bonsai">
               <LogName>WeightData</LogName>
