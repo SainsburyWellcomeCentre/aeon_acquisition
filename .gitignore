@@ -8,6 +8,7 @@ Packages
 *.dll
 *.exe
 *.exe.settings
+SessionSummary
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
