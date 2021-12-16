@@ -1,0 +1,1170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.6.2"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:p1="clr-namespace:;assembly=Extensions"
+                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:wie="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input"
+                 xmlns:viz="clr-namespace:Bonsai.Design.Visualizers;assembly=Bonsai.Design.Visualizers"
+                 xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Hardware</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\VideoController.bonsai">
+              <PortName>COM4</PortName>
+              <GlobalTriggerFrequency>50</GlobalTriggerFrequency>
+              <LocalTriggerFrequency>125</LocalTriggerFrequency>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\VideoSource.bonsai">
+              <SerialNumber>21199220</SerialNumber>
+              <Gain>4</Gain>
+              <Binning>1</Binning>
+              <TriggerSource>GlobalTrigger</TriggerSource>
+              <FrameEvents>FrameTop</FrameEvents>
+              <TriggerFrequency>GlobalTriggerFrequency</TriggerFrequency>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\VideoTracking.bonsai">
+              <Mask>SocialArenaMask_2021-11-29.png</Mask>
+              <ThresholdValue>60</ThresholdValue>
+              <TrackingEvents>TrackingTop</TrackingEvents>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\PatchController.bonsai">
+              <PortName>COM7</PortName>
+              <WheelPosition>WheelPatch1</WheelPosition>
+              <PelletDelivered>PelletDeliveredPatch1</PelletDelivered>
+              <DeliverPellet>DeliverPelletPatch1</DeliverPellet>
+              <PatchEvents>Patch1</PatchEvents>
+              <Radius>4</Radius>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\PatchController.bonsai">
+              <PortName>COM8</PortName>
+              <WheelPosition>WheelPatch2</WheelPosition>
+              <PelletDelivered>PelletDeliveredPatch2</PelletDelivered>
+              <DeliverPellet>DeliverPelletPatch2</DeliverPellet>
+              <PatchEvents>Patch2</PatchEvents>
+              <Radius>4</Radius>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="1" To="2" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Logging</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogController.bonsai">
+              <Path>C:\ProjectAeon\socialexperiment0</Path>
+              <BinSize>1</BinSize>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>VideoEvents</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpState.bonsai">
+              <LogName>VideoController</LogName>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>FrameTop</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogVideo.bonsai">
+              <LogName>FrameTop</LogName>
+              <FrameRate>50</FrameRate>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TrackingTop</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p1:FormatBinaryRegions" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpState.bonsai">
+              <LogName>FrameTop</LogName>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Patch1</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpState.bonsai">
+              <LogName>Patch1</LogName>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Patch1</Name>
+            </Expression>
+            <Expression xsi:type="harp:Parse">
+              <harp:Type>Timestamp</harp:Type>
+              <harp:IsArray>false</harp:IsArray>
+            </Expression>
+            <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Tuple(sys:Double,sys:Double,sys:Double)">
+              <Name>PatchState1</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new(
+Item1 as Threshold,
+Item2 as D1,
+Item3 as Delta)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogData.bonsai">
+              <LogName>Patch1_State</LogName>
+              <Selector xsi:nil="true" />
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Patch2</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpState.bonsai">
+              <LogName>Patch2</LogName>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Patch2</Name>
+            </Expression>
+            <Expression xsi:type="harp:Parse">
+              <harp:Type>Timestamp</harp:Type>
+              <harp:IsArray>false</harp:IsArray>
+            </Expression>
+            <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Tuple(sys:Double,sys:Double,sys:Double)">
+              <Name>PatchState2</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new(
+Item1 as Threshold,
+Item2 as D1,
+Item3 as Delta)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogData.bonsai">
+              <LogName>Patch2_State</LogName>
+              <Selector xsi:nil="true" />
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>SessionData</Name>
+            </Expression>
+            <Expression xsi:type="Condition">
+              <Name>WeightLog</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Value.Event</Selector>
+                  </Expression>
+                  <Expression xsi:type="NotEqual">
+                    <Operand xsi:type="WorkflowProperty" TypeArguments="p1:EventType">
+                      <Value>Annotation</Value>
+                    </Operand>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogData.bonsai">
+              <LogName>SessionData</LogName>
+              <Selector>Seconds,Value.Id,Value.Weight,Value.Event</Selector>
+            </Expression>
+            <Expression xsi:type="Condition">
+              <Name>AnnotationLog</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Value.Event</Selector>
+                  </Expression>
+                  <Expression xsi:type="Equal">
+                    <Operand xsi:type="WorkflowProperty" TypeArguments="p1:EventType">
+                      <Value>Annotation</Value>
+                    </Operand>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogData.bonsai">
+              <LogName>SessionData_Annotations</LogName>
+              <Selector>Seconds,Value.Id,Value.Annotation</Selector>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="10" To="11" Label="Source1" />
+            <Edge From="11" To="14" Label="Source2" />
+            <Edge From="12" To="13" Label="Source1" />
+            <Edge From="13" To="14" Label="Source1" />
+            <Edge From="14" To="15" Label="Source1" />
+            <Edge From="16" To="17" Label="Source1" />
+            <Edge From="18" To="19" Label="Source1" />
+            <Edge From="19" To="22" Label="Source2" />
+            <Edge From="20" To="21" Label="Source1" />
+            <Edge From="21" To="22" Label="Source1" />
+            <Edge From="22" To="23" Label="Source1" />
+            <Edge From="24" To="25" Label="Source1" />
+            <Edge From="24" To="27" Label="Source1" />
+            <Edge From="25" To="26" Label="Source1" />
+            <Edge From="27" To="28" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>VideoEvents</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="p1:SubjectLog" />
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>SessionData</Name>
+      </Expression>
+      <Expression xsi:type="Condition">
+        <Name>Start</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Value.Event</Selector>
+            </Expression>
+            <Expression xsi:type="Equal">
+              <Operand xsi:type="WorkflowProperty" TypeArguments="p1:EventType">
+                <Value>Start</Value>
+              </Operand>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>SubjectStart</Name>
+      </Expression>
+      <Expression xsi:type="Condition">
+        <Name>End</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Value.Event</Selector>
+            </Expression>
+            <Expression xsi:type="Equal">
+              <Operand xsi:type="WorkflowProperty" TypeArguments="p1:EventType">
+                <Value>End</Value>
+              </Operand>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>SubjectStop</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>WheelPatch1</Name>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\LinearDepletion.bonsai">
+        <DistanceThreshold>100</DistanceThreshold>
+        <Delta>0</Delta>
+        <PatchState>PatchState1</PatchState>
+        <TrialCount>TrialCount1</TrialCount>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>DeliverPelletPatch1</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>WheelPatch2</Name>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\LinearDepletion.bonsai">
+        <DistanceThreshold>100</DistanceThreshold>
+        <Delta>0</Delta>
+        <PatchState>PatchState2</PatchState>
+        <TrialCount>TrialCount2</TrialCount>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>DeliverPelletPatch2</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="wie:KeyDown">
+          <wie:Filter>ShiftKey Space D0 P NumPad0 F1 Shift</wie:Filter>
+          <wie:SuppressRepetitions>false</wie:SuppressRepetitions>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>StartCameras</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="wie:KeyDown">
+          <wie:Filter>LButton ShiftKey ControlKey Space Prior PageUp D0 D1 A P Q NumPad0 NumPad1 F1 F2 Shift</wie:Filter>
+          <wie:SuppressRepetitions>false</wie:SuppressRepetitions>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>StopCameras</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="wie:KeyDown">
+          <wie:Filter>RButton ShiftKey Menu Space Next PageDown D0 D2 B P R NumPad0 NumPad2 F1 F3 Shift</wie:Filter>
+          <wie:SuppressRepetitions>false</wie:SuppressRepetitions>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>DeliverPelletPatch1</Name>
+      </Expression>
+      <Expression xsi:type="viz:TableLayoutPanelBuilder">
+        <viz:ColumnCount>2</viz:ColumnCount>
+        <viz:RowCount>3</viz:RowCount>
+        <viz:ColumnStyles />
+        <viz:RowStyles />
+        <viz:CellSpans>
+          <viz:CellSpan ColumnSpan="1" RowSpan="1" />
+          <viz:CellSpan ColumnSpan="1" RowSpan="1" />
+          <viz:CellSpan ColumnSpan="1" RowSpan="1" />
+          <viz:CellSpan ColumnSpan="1" RowSpan="1" />
+          <viz:CellSpan ColumnSpan="1" RowSpan="1" />
+          <viz:CellSpan ColumnSpan="1" RowSpan="1" />
+        </viz:CellSpans>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>PatchActivity</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\TimeSpentOnWheel.bonsai">
+        <Patch>Patch1</Patch>
+        <WheelPatch>WheelPatch1</WheelPatch>
+        <Threshold>0.0003</Threshold>
+        <LowPass>1</LowPass>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RepeatEverySession.bonsai" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Repeat" />
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>TimeOnPatch1</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>TimeOnPatch1</Name>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RepeatEverySession.bonsai" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Repeat" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:DistinctUntilChanged" />
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\TimeSinceLastEvent.bonsai" />
+      <Expression xsi:type="PublishSubject">
+        <Name>TimeSinceLastVisit1</Name>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\TimeSpentOnWheel.bonsai">
+        <Patch>Patch2</Patch>
+        <WheelPatch>WheelPatch2</WheelPatch>
+        <Threshold>0.0003</Threshold>
+        <LowPass>1</LowPass>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RepeatEverySession.bonsai" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Repeat" />
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>TimeOnPatch2</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>TimeOnPatch2</Name>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RepeatEverySession.bonsai" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Repeat" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:DistinctUntilChanged" />
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\TimeSinceLastEvent.bonsai" />
+      <Expression xsi:type="PublishSubject">
+        <Name>TimeSinceLastVisit2</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>TrackingTop</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Item1.Centroid</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="dsp:Histogram2D">
+          <dsp:MinX>0</dsp:MinX>
+          <dsp:MaxX>1440</dsp:MaxX>
+          <dsp:MinY>0</dsp:MinY>
+          <dsp:MaxY>1080</dsp:MaxY>
+          <dsp:BinsX>288</dsp:BinsX>
+          <dsp:BinsY>216</dsp:BinsY>
+          <dsp:Normalize>false</dsp:Normalize>
+          <dsp:Accumulate>true</dsp:Accumulate>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="dsp:ConvertScale">
+          <dsp:Depth>U8</dsp:Depth>
+          <dsp:Scale>20</dsp:Scale>
+          <dsp:Shift>0</dsp:Shift>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RepeatEverySession.bonsai" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Repeat" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:SampleInterval">
+          <rx:Interval>PT0.03S</rx:Interval>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Heatmap</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>TimeOnPatch1</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>TimeOnPatch2</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:CombineLatest" />
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Expression>new(
+"Time Spent on Patch (s)" as Id,
+Item1 as Patch1,
+Item2 as Patch2)</scr:Expression>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:SampleInterval">
+          <rx:Interval>PT0.05S</rx:Interval>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="viz:BarGraphBuilder">
+        <viz:IndexSelector>Id</viz:IndexSelector>
+        <viz:ValueSelector>Patch1,Patch2</viz:ValueSelector>
+        <viz:BaseAxis>X</viz:BaseAxis>
+        <viz:BarType>Cluster</viz:BarType>
+        <viz:Capacity xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>TimeSpentOnPatches</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>TimeSinceLastVisit1</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>TimeSinceLastVisit2</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:CombineLatest" />
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Expression>new(
+"Time Since Last Visit (s)" as Id,
+Item1 as Patch1,
+Item2 as Patch2)</scr:Expression>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:SampleInterval">
+          <rx:Interval>PT0.05S</rx:Interval>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="viz:BarGraphBuilder">
+        <viz:IndexSelector>Id</viz:IndexSelector>
+        <viz:ValueSelector>Patch1,Patch2</viz:ValueSelector>
+        <viz:BaseAxis>X</viz:BaseAxis>
+        <viz:BarType>Cluster</viz:BarType>
+        <viz:Capacity xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>TimeSinceLastVisit</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>WheelPatch1</Name>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RelativeWheelPosition.bonsai" />
+      <Expression xsi:type="SubscribeSubject">
+        <Name>WheelPatch2</Name>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RelativeWheelPosition.bonsai" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:CombineLatest" />
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RepeatEverySession.bonsai" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Repeat" />
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Expression>new(
+"Total Distance Travelled (cm)" as Id,
+Item1 as Patch1,
+Item2 as Patch2)</scr:Expression>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:SampleInterval">
+          <rx:Interval>PT0.05S</rx:Interval>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="viz:BarGraphBuilder">
+        <viz:IndexSelector>Id</viz:IndexSelector>
+        <viz:ValueSelector>Patch1,Patch2</viz:ValueSelector>
+        <viz:BaseAxis>X</viz:BaseAxis>
+        <viz:BarType>Cluster</viz:BarType>
+        <viz:Capacity xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>TotalDistanceTravelled</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>PatchState1</Name>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>ToArray</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="SelectMany">
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Item1</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:ToArray" />
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:DelaySubscription">
+                <rx:DueTime>PT0.1S</rx:DueTime>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="DoubleProperty">
+                <Value>0</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:IgnoreElements" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:ToArray" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Concat" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="7" Label="Source2" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="7" To="8" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RepeatEverySession.bonsai" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:ElementIndex" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Repeat" />
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Expression>new(
+Index as TrialIndex,
+Value as Threshold)</scr:Expression>
+      </Expression>
+      <Expression xsi:type="viz:RollingGraphBuilder">
+        <viz:IndexSelector>TrialIndex</viz:IndexSelector>
+        <viz:ValueSelector>Threshold</viz:ValueSelector>
+        <viz:Capacity xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>ThresholdPatch1</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>PatchState2</Name>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>ToArray</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="SelectMany">
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Item1</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:ToArray" />
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:DelaySubscription">
+                <rx:DueTime>PT0.1S</rx:DueTime>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="DoubleProperty">
+                <Value>0</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:IgnoreElements" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:ToArray" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Concat" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="7" Label="Source2" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="7" To="8" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RepeatEverySession.bonsai" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:ElementIndex" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Repeat" />
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Expression>new(
+Index as TrialIndex,
+Value as Threshold)</scr:Expression>
+      </Expression>
+      <Expression xsi:type="viz:RollingGraphBuilder">
+        <viz:IndexSelector>TrialIndex</viz:IndexSelector>
+        <viz:ValueSelector>Threshold</viz:ValueSelector>
+        <viz:Capacity xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>ThresholdPatch2</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>WheelPatch1</Name>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RelativeWheelPosition.bonsai" />
+      <Expression xsi:type="SubscribeSubject">
+        <Name>PatchState1</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Skip">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:TakeUntil" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Repeat" />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>WheelPatch2</Name>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RelativeWheelPosition.bonsai" />
+      <Expression xsi:type="SubscribeSubject">
+        <Name>PatchState2</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Skip">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:TakeUntil" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Repeat" />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>PatchState1</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Item1</Selector>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>PatchState2</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Item1</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:CombineLatest" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Sample" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="dsp:Buffer">
+          <dsp:Count>15</dsp:Count>
+          <dsp:Skip xsi:nil="true" />
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>FrameTop</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Value.Image</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:SampleInterval">
+          <rx:Interval>PT0.03S</rx:Interval>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Trajectory</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>TrackingTop</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Item1.Centroid</Selector>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>PelletMonitor1</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Name" DisplayName="DeliverPellet" />
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>DeliverPelletPatch1</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="BooleanProperty">
+                <Value>false</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Name" DisplayName="PelletDelivered" />
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>PelletDeliveredPatch1</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="BooleanProperty">
+                <Value>true</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\RepeatEverySession.bonsai" />
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Repeat" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="6" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="6" Label="Source2" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="8" To="9" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>PelletMonitor2</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Name" DisplayName="DeliverPellet" />
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>DeliverPelletPatch2</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="BooleanProperty">
+                <Value>false</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Name" DisplayName="PelletDelivered" />
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>PelletDeliveredPatch2</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="BooleanProperty">
+                <Value>true</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\RepeatEverySession.bonsai" />
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Repeat" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="6" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="6" Label="Source2" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="8" To="9" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>PatchState1</Name>
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Expression>new(
+Item2 as D1,
+Item3 as Delta)</scr:Expression>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="p1:LabelControl">
+          <p1:FontSize>14</p1:FontSize>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Patch1</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>PatchState2</Name>
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Expression>new(
+Item2 as D1,
+Item3 as Delta)</scr:Expression>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="p1:LabelControl">
+          <p1:FontSize>14</p1:FontSize>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Patch2</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>SubjectStop</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="p1:SubjectLogBitmap">
+          <p1:Path>SessionSummary</p1:Path>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="wie:KeyDown">
+          <wie:Filter>LButton RButton Cancel ShiftKey ControlKey Menu Pause Space Prior PageUp Next PageDown End D0 D1 D2 D3 A B C P Q R S NumPad0 NumPad1 NumPad2 NumPad3 F1 F2 F3 F4 Shift</wie:Filter>
+          <wie:SuppressRepetitions>false</wie:SuppressRepetitions>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>DeliverPelletPatch2</Name>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="4" To="7" Label="Source1" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="10" To="11" Label="Source1" />
+      <Edge From="12" To="13" Label="Source1" />
+      <Edge From="13" To="14" Label="Source1" />
+      <Edge From="15" To="16" Label="Source1" />
+      <Edge From="17" To="18" Label="Source1" />
+      <Edge From="19" To="20" Label="Source1" />
+      <Edge From="21" To="22" Label="Source1" />
+      <Edge From="23" To="24" Label="Source1" />
+      <Edge From="24" To="25" Label="Source1" />
+      <Edge From="25" To="26" Label="Source1" />
+      <Edge From="27" To="28" Label="Source1" />
+      <Edge From="28" To="29" Label="Source1" />
+      <Edge From="29" To="30" Label="Source1" />
+      <Edge From="30" To="31" Label="Source1" />
+      <Edge From="31" To="32" Label="Source1" />
+      <Edge From="33" To="34" Label="Source1" />
+      <Edge From="34" To="35" Label="Source1" />
+      <Edge From="35" To="36" Label="Source1" />
+      <Edge From="37" To="38" Label="Source1" />
+      <Edge From="38" To="39" Label="Source1" />
+      <Edge From="39" To="40" Label="Source1" />
+      <Edge From="40" To="41" Label="Source1" />
+      <Edge From="41" To="42" Label="Source1" />
+      <Edge From="43" To="44" Label="Source1" />
+      <Edge From="44" To="45" Label="Source1" />
+      <Edge From="45" To="46" Label="Source1" />
+      <Edge From="46" To="47" Label="Source1" />
+      <Edge From="47" To="48" Label="Source1" />
+      <Edge From="48" To="49" Label="Source1" />
+      <Edge From="49" To="50" Label="Source1" />
+      <Edge From="51" To="53" Label="Source1" />
+      <Edge From="52" To="53" Label="Source2" />
+      <Edge From="53" To="54" Label="Source1" />
+      <Edge From="54" To="55" Label="Source1" />
+      <Edge From="55" To="56" Label="Source1" />
+      <Edge From="56" To="57" Label="Source1" />
+      <Edge From="58" To="60" Label="Source1" />
+      <Edge From="59" To="60" Label="Source2" />
+      <Edge From="60" To="61" Label="Source1" />
+      <Edge From="61" To="62" Label="Source1" />
+      <Edge From="62" To="63" Label="Source1" />
+      <Edge From="63" To="64" Label="Source1" />
+      <Edge From="65" To="66" Label="Source1" />
+      <Edge From="66" To="69" Label="Source1" />
+      <Edge From="67" To="68" Label="Source1" />
+      <Edge From="68" To="69" Label="Source2" />
+      <Edge From="69" To="70" Label="Source1" />
+      <Edge From="70" To="71" Label="Source1" />
+      <Edge From="71" To="72" Label="Source1" />
+      <Edge From="72" To="73" Label="Source1" />
+      <Edge From="73" To="74" Label="Source1" />
+      <Edge From="74" To="75" Label="Source1" />
+      <Edge From="76" To="77" Label="Source1" />
+      <Edge From="77" To="78" Label="Source1" />
+      <Edge From="78" To="79" Label="Source1" />
+      <Edge From="79" To="80" Label="Source1" />
+      <Edge From="80" To="81" Label="Source1" />
+      <Edge From="81" To="82" Label="Source1" />
+      <Edge From="82" To="83" Label="Source1" />
+      <Edge From="84" To="85" Label="Source1" />
+      <Edge From="85" To="86" Label="Source1" />
+      <Edge From="86" To="87" Label="Source1" />
+      <Edge From="87" To="88" Label="Source1" />
+      <Edge From="88" To="89" Label="Source1" />
+      <Edge From="89" To="90" Label="Source1" />
+      <Edge From="90" To="91" Label="Source1" />
+      <Edge From="92" To="93" Label="Source1" />
+      <Edge From="93" To="96" Label="Source1" />
+      <Edge From="94" To="95" Label="Source1" />
+      <Edge From="95" To="96" Label="Source2" />
+      <Edge From="96" To="97" Label="Source1" />
+      <Edge From="97" To="108" Label="Source1" />
+      <Edge From="97" To="109" Label="Source2" />
+      <Edge From="98" To="99" Label="Source1" />
+      <Edge From="99" To="102" Label="Source1" />
+      <Edge From="100" To="101" Label="Source1" />
+      <Edge From="101" To="102" Label="Source2" />
+      <Edge From="102" To="103" Label="Source1" />
+      <Edge From="103" To="108" Label="Source2" />
+      <Edge From="104" To="105" Label="Source1" />
+      <Edge From="105" To="108" Label="Source3" />
+      <Edge From="106" To="107" Label="Source1" />
+      <Edge From="107" To="108" Label="Source4" />
+      <Edge From="108" To="109" Label="Source1" />
+      <Edge From="109" To="110" Label="Source1" />
+      <Edge From="111" To="112" Label="Source1" />
+      <Edge From="112" To="113" Label="Source1" />
+      <Edge From="113" To="114" Label="Source1" />
+      <Edge From="115" To="116" Label="Source1" />
+      <Edge From="119" To="120" Label="Source1" />
+      <Edge From="120" To="121" Label="Source1" />
+      <Edge From="121" To="122" Label="Source1" />
+      <Edge From="123" To="124" Label="Source1" />
+      <Edge From="124" To="125" Label="Source1" />
+      <Edge From="125" To="126" Label="Source1" />
+      <Edge From="127" To="128" Label="Source1" />
+      <Edge From="129" To="130" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
