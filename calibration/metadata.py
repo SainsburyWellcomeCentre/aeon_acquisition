@@ -14,7 +14,7 @@ args = parser.parse_args()
 dname = Path(__file__).parent
 
 repo = Repo(dname.parent)
-if repo.is_dirty() and not args.allow_dirty:
+if not args.allow_dirty and (repo.is_dirty() or len(repo.untracked_files) > 0):
     parser.error("all modifications to the acquisition repository must be committed before exporting metadata")
 
 ns = {
