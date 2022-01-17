@@ -8,7 +8,7 @@
     <PackageProjectUrl>https://github.com/SainsburyWellcomeCentre/aeon_acquisition</PackageProjectUrl>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageIcon></PackageIcon>
-    <PackageOutputPath>..\bin\$(Configuration)</PackageOutputPath>
+    <PackageOutputPath>..\..\bin\$(Configuration)</PackageOutputPath>
     <PackageTags>Bonsai Rx Project Aeon Acquisition</PackageTags>
     <TargetFramework>net472</TargetFramework>
     <Version>0.1.0</Version>
