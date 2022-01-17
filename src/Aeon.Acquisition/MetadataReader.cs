@@ -6,27 +6,30 @@ using System.IO;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-[Combinator]
-[DefaultProperty("FileName")]
-[Description("Reads experiment metadata from the specified YML file.")]
-[WorkflowElementCategory(ElementCategory.Source)]
-public class MetadataReader
+namespace Aeon.Acquisition
 {
-    [Description("The name of the metadata file.")]
-    [Editor(DesignTypes.OpenFileNameEditor, DesignTypes.UITypeEditor)]
-    public string FileName { get; set; }
-
-    public IObservable<Experiment> Process()
+    [Combinator]
+    [DefaultProperty("FileName")]
+    [Description("Reads experiment metadata from the specified YML file.")]
+    [WorkflowElementCategory(ElementCategory.Source)]
+    public class MetadataReader
     {
-        return Observable.Defer(() =>
+        [Description("The name of the metadata file.")]
+        [Editor(DesignTypes.OpenFileNameEditor, DesignTypes.UITypeEditor)]
+        public string FileName { get; set; }
+
+        public IObservable<Experiment> Process()
         {
-            var reader = new StringReader(File.ReadAllText(FileName));
-            var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(HyphenatedNamingConvention.Instance)
-                .Build();
-            
-            var metadata = deserializer.Deserialize<Experiment>(reader);
-            return Observable.Return(metadata);
-        });
+            return Observable.Defer(() =>
+            {
+                var reader = new StringReader(File.ReadAllText(FileName));
+                var deserializer = new DeserializerBuilder()
+                    .WithNamingConvention(HyphenatedNamingConvention.Instance)
+                    .Build();
+
+                var metadata = deserializer.Deserialize<Experiment>(reader);
+                return Observable.Return(metadata);
+            });
+        }
     }
 }

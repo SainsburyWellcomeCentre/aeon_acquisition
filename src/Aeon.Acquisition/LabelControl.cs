@@ -3,21 +3,23 @@ using System.ComponentModel;
 using System.Reactive.Linq;
 using Bonsai;
 
-
-[Combinator]
-[TypeVisualizer(typeof(LabelVisualizer))]
-[Description("Visualizes input values as text labels of configurable size.")]
-public class LabelControl
+namespace Aeon.Acquisition
 {
-    public LabelControl()
+    [Combinator]
+    [TypeVisualizer(typeof(LabelVisualizer))]
+    [Description("Visualizes input values as text labels of configurable size.")]
+    public class LabelControl
     {
-        FontSize = 14;
-    }
+        public LabelControl()
+        {
+            FontSize = 14;
+        }
 
-    public float FontSize { get; set; }
+        public float FontSize { get; set; }
 
-    public IObservable<TSource> Process<TSource>(IObservable<TSource> source)
-    {
-        return source;
+        public IObservable<TSource> Process<TSource>(IObservable<TSource> source)
+        {
+            return source;
+        }
     }
 }

@@ -8,24 +8,27 @@ using Bonsai.Audio;
 using Bonsai.Harp;
 using OpenCV.Net;
 
-[Description("Configures and initializes a software timestamped audio capture.")]
-public class AeonAudio : AudioCapture
+namespace Aeon.Acquisition
 {
-    IEnumerable<Timestamped<Mat>> TimestampBuffers(IEnumerable<Mat> buffers, HarpMessage message)
+    [Description("Configures and initializes a software timestamped audio capture.")]
+    public class AeonAudio : AudioCapture
     {
-        var timestamp = message.GetTimestamp();
-        foreach (var buffer in buffers)
+        IEnumerable<Timestamped<Mat>> TimestampBuffers(IEnumerable<Mat> buffers, HarpMessage message)
         {
-            yield return Timestamped.Create(buffer, timestamp);
+            var timestamp = message.GetTimestamp();
+            foreach (var buffer in buffers)
+            {
+                yield return Timestamped.Create(buffer, timestamp);
+            }
         }
-    }
 
-    public IObservable<Timestamped<Mat>> Generate(IObservable<HarpMessage> source)
-    {
-        var frames = Generate();
-        return source.Where(68, MessageType.Event).Publish(triggers =>
-            frames.Buffer(triggers)
-                  .Zip(triggers, (list, trigger) => TimestampBuffers(list, trigger))
-                  .SelectMany(x => x));
+        public IObservable<Timestamped<Mat>> Generate(IObservable<HarpMessage> source)
+        {
+            var frames = Generate();
+            return source.Where(68, MessageType.Event).Publish(triggers =>
+                frames.Buffer(triggers)
+                      .Zip(triggers, (list, trigger) => TimestampBuffers(list, trigger))
+                      .SelectMany(x => x));
+        }
     }
 }

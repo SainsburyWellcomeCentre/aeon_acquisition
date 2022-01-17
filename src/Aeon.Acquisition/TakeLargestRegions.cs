@@ -6,28 +6,31 @@ using System.Reactive.Linq;
 using Bonsai.Vision;
 using OpenCV.Net;
 
-[Combinator]
-[Description("Takes the N-largest binary regions.")]
-[WorkflowElementCategory(ElementCategory.Transform)]
-public class TakeLargestRegions
+namespace Aeon.Acquisition
 {
-    [Description("The number of largest binary regions to take.")]
-    public int Count { get; set; }
-
-    public IObservable<ConnectedComponentCollection> Process(IObservable<ConnectedComponentCollection> source)
+    [Combinator]
+    [Description("Takes the N-largest binary regions.")]
+    [WorkflowElementCategory(ElementCategory.Transform)]
+    public class TakeLargestRegions
     {
-        return source.Select(value =>
+        [Description("The number of largest binary regions to take.")]
+        public int Count { get; set; }
+
+        public IObservable<ConnectedComponentCollection> Process(IObservable<ConnectedComponentCollection> source)
         {
-            var regionCount = Count;
-            var largestRegions = value.OrderByDescending(x => x.Area).Take(regionCount).ToList();
-            while (largestRegions.Count < regionCount)
+            return source.Select(value =>
             {
-                var missingRegion = new ConnectedComponent();
-                missingRegion.Centroid = new Point2f(float.NaN, float.NaN);
-                missingRegion.Orientation = double.NaN;
-                largestRegions.Add(missingRegion);
-            }
-            return new ConnectedComponentCollection(largestRegions, value.ImageSize);
-        });
+                var regionCount = Count;
+                var largestRegions = value.OrderByDescending(x => x.Area).Take(regionCount).ToList();
+                while (largestRegions.Count < regionCount)
+                {
+                    var missingRegion = new ConnectedComponent();
+                    missingRegion.Centroid = new Point2f(float.NaN, float.NaN);
+                    missingRegion.Orientation = double.NaN;
+                    largestRegions.Add(missingRegion);
+                }
+                return new ConnectedComponentCollection(largestRegions, value.ImageSize);
+            });
+        }
     }
 }

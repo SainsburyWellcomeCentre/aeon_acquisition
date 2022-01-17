@@ -4,17 +4,20 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 
-[Combinator]
-[Description("Formats a date time into a string with no illegal path characters.")]
-[WorkflowElementCategory(ElementCategory.Transform)]
-public class FormatDate
+namespace Aeon.Acquisition
 {
-    public IObservable<string> Process(IObservable<DateTime> source)
+    [Combinator]
+    [Description("Formats a date time into a string with no illegal path characters.")]
+    [WorkflowElementCategory(ElementCategory.Transform)]
+    public class FormatDate
     {
-        return source.Select(value =>
+        public IObservable<string> Process(IObservable<DateTime> source)
         {
-            var result = value.ToString("o").Replace(':','-');
-            return result.Substring(0, result.IndexOf('.'));
-        });
+            return source.Select(value =>
+            {
+                var result = value.ToString("o").Replace(':', '-');
+                return result.Substring(0, result.IndexOf('.'));
+            });
+        }
     }
 }

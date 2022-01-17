@@ -5,19 +5,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 
-[Combinator]
-[Description("Selects the substring preceding the first occurrence of the specified separator.")]
-[WorkflowElementCategory(ElementCategory.Transform)]
-public class StripSubstring
+namespace Aeon.Acquisition
 {
-    public string Separator { get; set; }
-
-    public IObservable<string> Process(IObservable<string> source)
+    [Combinator]
+    [Description("Selects the substring preceding the first occurrence of the specified separator.")]
+    [WorkflowElementCategory(ElementCategory.Transform)]
+    public class StripSubstring
     {
-        return source.Select(value =>
+        public string Separator { get; set; }
+
+        public IObservable<string> Process(IObservable<string> source)
         {
-            var parts = value.Split(new[] { Separator }, StringSplitOptions.RemoveEmptyEntries);
-            return parts.Length > 0 ? parts[0] : value;
-        });
+            return source.Select(value =>
+            {
+                var parts = value.Split(new[] { Separator }, StringSplitOptions.RemoveEmptyEntries);
+                return parts.Length > 0 ? parts[0] : value;
+            });
+        }
     }
 }

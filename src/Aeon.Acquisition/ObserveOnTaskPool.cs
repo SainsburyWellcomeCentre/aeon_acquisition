@@ -4,13 +4,16 @@ using System.ComponentModel;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
 
-[Combinator]
-[Description("Runs observer callbacks in the Task Parallel Library (TPL) task pool.")]
-[WorkflowElementCategory(ElementCategory.Combinator)]
-public class ObserveOnTaskPool
+namespace Aeon.Acquisition
 {
-    public IObservable<TSource> Process<TSource>(IObservable<TSource> source)
+    [Combinator]
+    [Description("Runs observer callbacks in the Task Parallel Library (TPL) task pool.")]
+    [WorkflowElementCategory(ElementCategory.Combinator)]
+    public class ObserveOnTaskPool
     {
-        return source.ObserveOn(Scheduler.TaskPool);
+        public IObservable<TSource> Process<TSource>(IObservable<TSource> source)
+        {
+            return source.ObserveOn(Scheduler.TaskPool);
+        }
     }
 }

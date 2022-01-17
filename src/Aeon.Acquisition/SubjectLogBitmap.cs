@@ -9,37 +9,40 @@ using System.Drawing;
 using System.Windows.Forms;
 using Bonsai.IO;
 
-[Combinator]
-[Description("Generates a timestamped screenshot of the monitoring interface.")]
-[WorkflowElementCategory(ElementCategory.Sink)]
-public class SubjectLogBitmap
+namespace Aeon.Acquisition
 {
-    // The default real-time reference is unix time in total seconds from 1904
-    static readonly DateTime ReferenceTime = new DateTime(1904, 1, 1);
-
-    [Editor(DesignTypes.FolderNameEditor, DesignTypes.UITypeEditor)]
-    public string Path { get; set; }
-
-    public IObservable<Timestamped<LogMetadata>> Process(IObservable<Timestamped<LogMetadata>> source)
+    [Combinator]
+    [Description("Generates a timestamped screenshot of the monitoring interface.")]
+    [WorkflowElementCategory(ElementCategory.Sink)]
+    public class SubjectLogBitmap
     {
-        return source.Do(value =>
+        // The default real-time reference is unix time in total seconds from 1904
+        static readonly DateTime ReferenceTime = new DateTime(1904, 1, 1);
+
+        [Editor(DesignTypes.FolderNameEditor, DesignTypes.UITypeEditor)]
+        public string Path { get; set; }
+
+        public IObservable<Timestamped<LogMetadata>> Process(IObservable<Timestamped<LogMetadata>> source)
         {
-            using (Bitmap bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Width, 
-                                              Screen.PrimaryScreen.Bounds.Height))
+            return source.Do(value =>
             {
-                using (Graphics g = Graphics.FromImage(bitmap))
+                using (Bitmap bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Width,
+                                                  Screen.PrimaryScreen.Bounds.Height))
                 {
-                    g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
-                                     Screen.PrimaryScreen.Bounds.Y,
-                                     0, 0,
-                                     bitmap.Size,
-                                     CopyPixelOperation.SourceCopy);
+                    using (Graphics g = Graphics.FromImage(bitmap))
+                    {
+                        g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                                         Screen.PrimaryScreen.Bounds.Y,
+                                         0, 0,
+                                         bitmap.Size,
+                                         CopyPixelOperation.SourceCopy);
+                    }
+                    var dateTime = ReferenceTime.AddSeconds(value.Seconds);
+                    var fileName = string.Format(Path + "\\" + "{0}_{1}_Summary.png", value.Value.Id, dateTime.ToString("yyyy-MM-ddThh-mm-ss"));
+                    PathHelper.EnsureDirectory(fileName);
+                    bitmap.Save(fileName);
                 }
-                var dateTime = ReferenceTime.AddSeconds(value.Seconds);
-                var fileName = string.Format(Path + "\\" + "{0}_{1}_Summary.png", value.Value.Id, dateTime.ToString("yyyy-MM-ddThh-mm-ss"));
-                PathHelper.EnsureDirectory(fileName);
-                bitmap.Save(fileName);
-            }
-        });
+            });
+        }
     }
 }
