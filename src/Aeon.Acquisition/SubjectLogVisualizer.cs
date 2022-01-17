@@ -1,13 +1,7 @@
-using Bonsai;
 using System;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
 using Bonsai.Design;
 using Bonsai.Expressions;
 using System.Windows.Forms;
-using System.Drawing;
 
 namespace Aeon.Acquisition
 {

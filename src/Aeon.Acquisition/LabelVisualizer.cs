@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using Bonsai;
 using Bonsai.Design;
 using System.Drawing;
 using Bonsai.Expressions;

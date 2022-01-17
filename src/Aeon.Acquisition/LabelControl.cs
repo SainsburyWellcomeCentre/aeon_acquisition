@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.Reactive.Linq;
 using Bonsai;
 
 namespace Aeon.Acquisition
