@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
  
 jobs:
-  build:
+  audit:
     runs-on: windows-latest
     steps:
     - name: Checkout
@@ -28,3 +28,6 @@ jobs:
  
     - name: Build Project
       run: msbuild src/Aeon.sln /p:Configuration=Release
+
+    - name: Run Tests
+      run: vstest.console.exe src/Aeon.Acquisition.Tests/bin/Release/net472/Aeon.Acquisition.Tests.dll
