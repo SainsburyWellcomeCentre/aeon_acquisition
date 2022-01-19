@@ -4,7 +4,7 @@
                  xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
-                 xmlns:p1="clr-namespace:;assembly=Extensions"
+                 xmlns:p1="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Specifies default parameters for managing data logs.</Description>
   <Workflow>
