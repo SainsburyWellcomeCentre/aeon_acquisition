@@ -23,7 +23,10 @@ namespace Aeon.Acquisition.Tests
                     workflowBuilder.Workflow.Convert(builder =>
                     {
                         var workflowElement = ExpressionBuilder.GetWorkflowElement(builder);
-                        Assert.IsNotInstanceOfType(workflowElement, typeof(UnknownTypeBuilder));
+                        if (workflowElement.GetType().Name != nameof(AeonCapture))
+                        {
+                            Assert.IsNotInstanceOfType(workflowElement, typeof(UnknownTypeBuilder));
+                        }
                         return builder;
                     }, recurse: true);
                 }
