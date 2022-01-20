@@ -4,7 +4,6 @@
     <UseWindowsForms>true</UseWindowsForms>
     <Title>Project Aeon - Acquisition</Title>
     <Description>A package providing common acquisition and control functionality for all Project Aeon experiments.</Description>
-    <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/SainsburyWellcomeCentre/aeon_blog</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SainsburyWellcomeCentre/aeon_acquisition</RepositoryUrl>
     <PackageLicenseExpression></PackageLicenseExpression>
