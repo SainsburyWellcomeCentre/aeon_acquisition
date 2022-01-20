@@ -53,7 +53,7 @@
             <Expression xsi:type="ExternalizedMapping">
               <Property Name="Name" />
             </Expression>
-            <Expression xsi:type="IncludeWorkflow" Path="Extensions\FormatFileName.bonsai">
+            <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:FormatFileName.bonsai">
               <Extension>csv</Extension>
               <Name>Data</Name>
             </Expression>

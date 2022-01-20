@@ -19,7 +19,7 @@
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="LogName" />
       </Expression>
-      <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarp.bonsai">
+      <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:LogHarp.bonsai">
         <LogName>HarpData</LogName>
       </Expression>
       <Expression xsi:type="Condition">
@@ -46,7 +46,7 @@
           </Edges>
         </Workflow>
       </Expression>
-      <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDemux.bonsai">
+      <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:LogHarpDemux.bonsai">
         <LogName>HarpData</LogName>
       </Expression>
       <Expression xsi:type="Combinator">

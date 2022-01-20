@@ -30,12 +30,12 @@
       <Expression xsi:type="SubscribeSubject">
         <Name>WheelPatch1</Name>
       </Expression>
-      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RelativeWheelPosition.bonsai" />
+      <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:RelativeWheelPosition.bonsai" />
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Threshold" />
         <Property Name="LowPass" />
       </Expression>
-      <Expression xsi:type="IncludeWorkflow" Path="Extensions\WheelMovement.bonsai">
+      <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:WheelMovement.bonsai">
         <Threshold>0.0005</Threshold>
         <LowPass>5</LowPass>
       </Expression>

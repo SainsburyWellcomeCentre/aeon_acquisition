@@ -17,7 +17,7 @@
       <Expression xsi:type="WorkflowInput">
         <Name>Source1</Name>
       </Expression>
-      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RelativeWheelPosition.bonsai" />
+      <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:RelativeWheelPosition.bonsai" />
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="DistanceThreshold" />
         <Property Name="Delta" />
