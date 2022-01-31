@@ -2,9 +2,9 @@
 <WorkflowBuilder Version="2.6.2"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
-                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:p1="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Contains acquisition functionality for automated arena weighing scales.</Description>
@@ -50,11 +50,8 @@
 single.Parse(Item1) as Weight,
 !Item2.Contains("?") as Stable)</scr:Expression>
       </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Name" DisplayName="TimingSource" Description="The name of the input sequence used to assign event timestamps." />
-      </Expression>
       <Expression xsi:type="SubscribeSubject">
-        <Name>TimingSource</Name>
+        <Name>GlobalTrigger</Name>
       </Expression>
       <Expression xsi:type="harp:Parse">
         <harp:Type>Timestamp</harp:Type>
@@ -80,14 +77,13 @@ single.Parse(Item1) as Weight,
       <Edge From="2" To="3" Label="Source1" />
       <Edge From="3" To="4" Label="Source1" />
       <Edge From="4" To="5" Label="Source1" />
-      <Edge From="5" To="9" Label="Source1" />
+      <Edge From="5" To="8" Label="Source1" />
       <Edge From="6" To="7" Label="Source1" />
-      <Edge From="7" To="8" Label="Source1" />
-      <Edge From="8" To="9" Label="Source2" />
-      <Edge From="9" To="10" Label="Source1" />
-      <Edge From="10" To="12" Label="Source1" />
-      <Edge From="11" To="12" Label="Source2" />
-      <Edge From="12" To="13" Label="Source1" />
+      <Edge From="7" To="8" Label="Source2" />
+      <Edge From="8" To="9" Label="Source1" />
+      <Edge From="9" To="11" Label="Source1" />
+      <Edge From="10" To="11" Label="Source2" />
+      <Edge From="11" To="12" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
