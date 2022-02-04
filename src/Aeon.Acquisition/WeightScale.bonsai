@@ -48,7 +48,7 @@
       <Expression xsi:type="scr:ExpressionTransform">
         <scr:Expression>new(
 single.Parse(Item1) as Weight,
-!Item2.Contains("?") as Stable)</scr:Expression>
+Item2.Contains("?") ? 0.0 : 1.0 as Confidence)</scr:Expression>
       </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>GlobalTrigger</Name>
