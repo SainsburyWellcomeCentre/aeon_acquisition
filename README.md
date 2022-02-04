@@ -64,6 +64,17 @@ The `bonsai` folder contains a snapshot of the runtime environment required to r
 
 In case the configuration of the environment ever gets corrupted, you can revert the `bonsai` folder to its original state by deleting all the executable and package files and folders and re-running the `setup.cmd` script. This process may be automated in the future.
 
+### Alerts Webhook
+
+The system supports sending alerts to incoming webhooks configured on a Slack or Teams channel. This is used during acquisition for live notifications of critical failures, warnings or other conditions of interest which might require manual intervention.
+
+The following setup procedure details how to configure an incoming webhook (admin access is required):
+1. Create the Teams channel which will receive the alerts.
+2. Right-click channel name > `Connectors`.
+3. Find **Incoming Webhook** and click `Configure`.
+4. Provide a name for the Webhook and click `Create`.
+5. Copy the webhook URL and store it, this is the `Address` you will need to provide to the `SendMessageCard` node.
+
 ### Data Transfer
 
 Data is continuously transferred to a CEPH partition by calling Robocopy from a scheduled task which runs periodically every hour. This task is started as soon as the computer boots, using the OS task scheduler. A script with the task definitions is versioned in this repository at `workflows\RobocopyAeon.xml`. This script can be installed in a new computer by opening the Task Scheduler app and selecting `Action > Import Task`.
