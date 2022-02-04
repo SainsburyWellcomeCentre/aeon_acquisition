@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Title>Project Aeon - Acquisition</Title>
+    <Description>A package providing common acquisition and control functionality for all Project Aeon experiments.</Description>
+    <PackageProjectUrl>https://github.com/SainsburyWellcomeCentre/aeon_blog</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SainsburyWellcomeCentre/aeon_acquisition</RepositoryUrl>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageIcon></PackageIcon>
+    <PackageOutputPath>..\..\bin\$(Configuration)</PackageOutputPath>
+    <PackageTags>Bonsai Rx Project Aeon Acquisition</PackageTags>
+    <TargetFramework>net472</TargetFramework>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="**\*.bonsai" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bonsai.Core" Version="2.6.2" />
+    <PackageReference Include="Bonsai.Audio" Version="2.6.0" />
+    <PackageReference Include="Bonsai.Harp" Version="3.3.0" />
+    <PackageReference Include="Bonsai.Harp.Expander" Version="0.1.0-build1534" />
+    <PackageReference Include="Bonsai.Spinnaker" Version="0.7.0" />
+    <PackageReference Include="Bonsai.Design" Version="2.6.1" />
+    <PackageReference Include="Bonsai.System" Version="2.6.0" />
+    <PackageReference Include="Bonsai.Scripting" Version="2.6.1" />
+    <PackageReference Include="YamlDotNet" Version="8.1.0" />
+    <PackageReference Include="Bonsai.Vision" Version="2.6.1" />
+  </ItemGroup>
+
+</Project>
