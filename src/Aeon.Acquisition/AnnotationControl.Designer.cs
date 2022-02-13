@@ -44,9 +44,9 @@
             this.annotationsPanel.Controls.Add(this.annotationButton);
             this.annotationsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.annotationsPanel.Location = new System.Drawing.Point(0, 0);
-            this.annotationsPanel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.annotationsPanel.Margin = new System.Windows.Forms.Padding(6);
             this.annotationsPanel.Name = "annotationsPanel";
-            this.annotationsPanel.Size = new System.Drawing.Size(428, 374);
+            this.annotationsPanel.Size = new System.Drawing.Size(400, 374);
             this.annotationsPanel.TabIndex = 10;
             // 
             // annotationsGroupBox
@@ -56,33 +56,32 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.annotationsGroupBox.Controls.Add(this.annotationsTextBox);
             this.annotationsGroupBox.Location = new System.Drawing.Point(12, 12);
-            this.annotationsGroupBox.Margin = new System.Windows.Forms.Padding(12, 12, 12, 12);
+            this.annotationsGroupBox.Margin = new System.Windows.Forms.Padding(12);
             this.annotationsGroupBox.Name = "annotationsGroupBox";
-            this.annotationsGroupBox.Padding = new System.Windows.Forms.Padding(12, 12, 12, 12);
-            this.annotationsGroupBox.Size = new System.Drawing.Size(403, 279);
+            this.annotationsGroupBox.Padding = new System.Windows.Forms.Padding(12);
+            this.annotationsGroupBox.Size = new System.Drawing.Size(375, 279);
             this.annotationsGroupBox.TabIndex = 4;
             this.annotationsGroupBox.TabStop = false;
             this.annotationsGroupBox.Text = "Annotations";
             // 
-            // annotationBox
+            // annotationsTextBox
             // 
             this.annotationsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.annotationsTextBox.Location = new System.Drawing.Point(12, 43);
-            this.annotationsTextBox.Margin = new System.Windows.Forms.Padding(12, 12, 12, 12);
+            this.annotationsTextBox.Margin = new System.Windows.Forms.Padding(12);
             this.annotationsTextBox.Multiline = true;
-            this.annotationsTextBox.Name = "annotationBox";
-            this.annotationsTextBox.Size = new System.Drawing.Size(379, 224);
+            this.annotationsTextBox.Name = "annotationsTextBox";
+            this.annotationsTextBox.Size = new System.Drawing.Size(351, 224);
             this.annotationsTextBox.TabIndex = 0;
             this.annotationsTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.annotationBox_KeyDown);
             // 
             // alertButton
             // 
             this.alertButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.alertButton.AutoSize = true;
-            this.alertButton.Location = new System.Drawing.Point(226, 303);
-            this.alertButton.Margin = new System.Windows.Forms.Padding(12, 12, 12, 12);
+            this.alertButton.Location = new System.Drawing.Point(227, 303);
+            this.alertButton.Margin = new System.Windows.Forms.Padding(12);
             this.alertButton.Name = "alertButton";
-            this.alertButton.Size = new System.Drawing.Size(189, 52);
+            this.alertButton.Size = new System.Drawing.Size(160, 52);
             this.alertButton.TabIndex = 6;
             this.alertButton.Text = "Alert";
             this.alertButton.UseVisualStyleBackColor = true;
@@ -92,11 +91,10 @@
             // 
             this.annotationButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.annotationButton.AutoSize = true;
             this.annotationButton.Location = new System.Drawing.Point(24, 303);
-            this.annotationButton.Margin = new System.Windows.Forms.Padding(12, 12, 12, 12);
+            this.annotationButton.Margin = new System.Windows.Forms.Padding(12);
             this.annotationButton.Name = "annotationButton";
-            this.annotationButton.Size = new System.Drawing.Size(189, 52);
+            this.annotationButton.Size = new System.Drawing.Size(190, 52);
             this.annotationButton.TabIndex = 5;
             this.annotationButton.Text = "Annotation";
             this.annotationButton.UseVisualStyleBackColor = true;
@@ -108,11 +106,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.annotationsPanel);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "AnnotationControl";
-            this.Size = new System.Drawing.Size(428, 374);
+            this.Size = new System.Drawing.Size(400, 374);
             this.annotationsPanel.ResumeLayout(false);
-            this.annotationsPanel.PerformLayout();
             this.annotationsGroupBox.ResumeLayout(false);
             this.annotationsGroupBox.PerformLayout();
             this.ResumeLayout(false);
