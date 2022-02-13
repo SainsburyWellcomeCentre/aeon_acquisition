@@ -1,4 +1,4 @@
-﻿namespace Aeon.Acquisition
+namespace Aeon.Acquisition
 {
     public class AlertMetadata
     {
@@ -14,7 +14,7 @@
 
         public override string ToString()
         {
-            return $"Type:{Type}, Message:{Message}";
+            return $"Alert({Type}, Message:{Message})";
         }
     }
 
