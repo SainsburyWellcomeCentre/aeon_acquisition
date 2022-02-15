@@ -6,7 +6,9 @@ namespace Aeon.Acquisition
 {
     public static class StateRecovery<TState> where TState : new()
     {
-        static string GetFileName(string name) => $"~{typeof(TState).Name}.{name}.tmp";
+        static string GetFileName(string name) => !string.IsNullOrEmpty(name)
+            ? $"~{typeof(TState).Name}.{name}.tmp"
+            : $"~{typeof(TState).Name}.tmp";
 
         public static void Serialize(string name, TState value)
         {
