@@ -5,6 +5,7 @@ using System.Windows.Forms;
 
 namespace Aeon.Acquisition
 {
+    [Obsolete]
     public class SubjectLogVisualizer : DialogTypeVisualizer
     {
         TableLayoutPanel panel;
