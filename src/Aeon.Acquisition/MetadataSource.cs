@@ -17,7 +17,7 @@ namespace Aeon.Acquisition
             subject.OnNext(value);
         }
 
-        public IObservable<TMetadata> Process()
+        public virtual IObservable<TMetadata> Process()
         {
             return subject;
         }
@@ -26,7 +26,7 @@ namespace Aeon.Acquisition
         {
             return Observable.Defer(() =>
             {
-                return subject.CombineLatest(source, (data, message) =>
+                return Process().CombineLatest(source, (data, message) =>
                 {
                     var timestamp = message.GetTimestamp();
                     return Timestamped.Create(data, timestamp);
