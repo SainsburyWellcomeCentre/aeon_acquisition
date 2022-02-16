@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -7,17 +8,20 @@ namespace Aeon.Acquisition
     public partial class EnvironmentSubjectStateControl : UserControl
     {
         readonly ColumnHeader idHeader;
+        readonly IServiceProvider serviceProvider;
         RemoveState removeState;
         AddState addState;
         ViewState viewState;
 
-        public EnvironmentSubjectStateControl(EnvironmentSubjectState source)
+        public EnvironmentSubjectStateControl(EnvironmentSubjectState source, IServiceProvider provider)
         {
             Source = source ?? throw new ArgumentNullException(nameof(source));
+            serviceProvider = provider ?? throw new ArgumentNullException(nameof(provider));
             InitializeComponent();
             subjectListView.Columns.Add(string.Empty);
             idHeader = subjectListView.Columns.Add(nameof(EnvironmentSubjectStateMetadata.Id));
             propertyGrid.Enabled = false;
+            propertyGrid.Site = new EditorSite(this);
         }
 
         public EnvironmentSubjectState Source { get; }
@@ -131,6 +135,29 @@ namespace Aeon.Acquisition
                 .Select(item => item.Tag)
                 .ToArray();
             propertyGrid.SelectedObjects = selectedSubjects;
+        }
+
+        class EditorSite : ISite
+        {
+            readonly EnvironmentSubjectStateControl owner;
+
+            public EditorSite(EnvironmentSubjectStateControl control)
+            {
+                owner = control;
+            }
+
+            public IComponent Component => null;
+
+            public IContainer Container => null;
+
+            public bool DesignMode => false;
+
+            public string Name { get; set; }
+
+            public object GetService(Type serviceType)
+            {
+                return owner.serviceProvider.GetService(serviceType);
+            }
         }
 
         enum AddState

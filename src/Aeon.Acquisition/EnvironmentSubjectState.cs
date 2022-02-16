@@ -15,6 +15,11 @@ namespace Aeon.Acquisition
         [Description("The name of the environment.")]
         public string Name { get; set; }
 
+        [Description("The path to the subject database.")]
+        [Editor(DesignTypes.OpenFileNameEditor, DesignTypes.UITypeEditor)]
+        [FileNameFilter("CSV (Comma delimited)|*.csv|All Files|*.*")]
+        public string DatabasePath { get; set; }
+
         string INamedElement.Name => $"{Name.AsNullIfEmpty() ?? "Environment"}SubjectState";
 
         internal SubjectStateRecovery State { get; set; }

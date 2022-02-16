@@ -16,7 +16,7 @@ namespace Aeon.Acquisition
             var visualizerElement = ExpressionBuilder.GetVisualizerElement(context.Source);
             var source = (EnvironmentSubjectState)ExpressionBuilder.GetWorkflowElement(visualizerElement.Builder);
 
-            control = new EnvironmentSubjectStateControl(source);
+            control = new EnvironmentSubjectStateControl(source, provider);
             control.Dock = DockStyle.Fill;
             if (source.State != null)
             {
