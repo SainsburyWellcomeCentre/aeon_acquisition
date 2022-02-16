@@ -8,6 +8,7 @@ using Bonsai.Harp;
 
 namespace Aeon.Acquisition
 {
+    [Obsolete]
     public class LogMetadata
     {
         public string Id { get; set; }
