@@ -34,6 +34,7 @@ namespace Aeon.Acquisition
         Annotation
     }
 
+    [Obsolete]
     [Combinator]
     [Description("Logs information about subjects manually entered or removed into the arena.")]
     [WorkflowElementCategory(ElementCategory.Source)]
