@@ -15,6 +15,11 @@ namespace Aeon.Acquisition.Tests
             var assembly = typeof(CreateTimestamped).Assembly;
             foreach (var name in assembly.GetManifestResourceNames())
             {
+                if (Path.GetExtension(name) != ".bonsai")
+                {
+                    continue;
+                }
+
                 using (var workflowStream = assembly.GetManifestResourceStream(name))
                 using (var reader = XmlReader.Create(workflowStream))
                 {
