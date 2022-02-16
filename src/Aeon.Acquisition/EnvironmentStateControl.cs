@@ -24,6 +24,7 @@ namespace Aeon.Acquisition
             set
             {
                 maintenanceButton.Checked = value == EnvironmentStateType.Maintenance;
+                maintenanceButton.Text = $"{(maintenanceButton.Checked ? "Stop" : "Start")} Maintenance";
             }
         }
 
