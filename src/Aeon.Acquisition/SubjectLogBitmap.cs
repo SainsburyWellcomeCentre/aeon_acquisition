@@ -20,7 +20,18 @@ namespace Aeon.Acquisition
         [Editor(DesignTypes.FolderNameEditor, DesignTypes.UITypeEditor)]
         public string Path { get; set; }
 
+        [Obsolete]
         public IObservable<Timestamped<LogMetadata>> Process(IObservable<Timestamped<LogMetadata>> source)
+        {
+            return Process(source, value => value.Id);
+        }
+
+        public IObservable<Timestamped<EnvironmentSubjectStateMetadata>> Process(IObservable<Timestamped<EnvironmentSubjectStateMetadata>> source)
+        {
+            return Process(source, value => value.Id);
+        }
+
+        private IObservable<Timestamped<TSource>> Process<TSource>(IObservable<Timestamped<TSource>> source, Func<TSource, string> idSelector)
         {
             return source.Do(value =>
             {
@@ -36,7 +47,7 @@ namespace Aeon.Acquisition
                                          CopyPixelOperation.SourceCopy);
                     }
                     var dateTime = ReferenceTime.AddSeconds(value.Seconds);
-                    var fileName = string.Format(Path + "\\" + "{0}_{1}_Summary.png", value.Value.Id, dateTime.ToString("yyyy-MM-ddThh-mm-ss"));
+                    var fileName = string.Format(Path + "\\" + "{0}_{1}_Summary.png", idSelector(value.Value), dateTime.ToString("yyyy-MM-ddThh-mm-ss"));
                     PathHelper.EnsureDirectory(fileName);
                     bitmap.Save(fileName);
                 }
