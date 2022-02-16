@@ -20,7 +20,7 @@
 
         public override string ToString()
         {
-            return $"SubjectChange({Id}, {Type}, {Weight})";
+            return $"EnvironmentSubject({Id}, {Type}, {Weight})";
         }
     }
 

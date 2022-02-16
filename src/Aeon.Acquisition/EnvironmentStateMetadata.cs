@@ -11,6 +11,11 @@
         public string Name { get; }
 
         public EnvironmentStateType Type { get; }
+
+        public override string ToString()
+        {
+            return $"EnvironmentState({Type})";
+        }
     }
 
     public enum EnvironmentStateType
