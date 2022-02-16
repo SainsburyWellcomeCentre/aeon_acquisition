@@ -4,43 +4,47 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Xml.Serialization;
 
 namespace Aeon.Acquisition
 {
-    [TypeVisualizer(typeof(SubjectChangeVisualizer))]
-    [Description("Generates a sequence of events about subjects entering or leaving the experiment.")]
-    public class SubjectChange : MetadataSource<SubjectChangeMetadata>
+    [TypeVisualizer(typeof(EnvironmentSubjectStateVisualizer))]
+    [Description("Generates a sequence of events about subjects entering or leaving an environment.")]
+    public class EnvironmentSubjectState : MetadataSource<EnvironmentSubjectStateMetadata>
     {
+        [Description("The name of the environment.")]
+        public string Name { get; set; }
+
         internal SubjectStateRecovery State { get; set; }
 
-        public override IObservable<SubjectChangeMetadata> Process()
+        public override IObservable<EnvironmentSubjectStateMetadata> Process()
         {
             var changes = base.Process();
             return Observable.Defer(() =>
             {
-                State = StateRecovery<SubjectStateRecovery>.Deserialize(string.Empty);
+                State = StateRecovery<SubjectStateRecovery>.Deserialize(Name);
                 var initialState = State.ActiveSubjects
-                    .Select(subject => new SubjectChangeMetadata(subject, SubjectChangeType.Remain))
+                    .Select(subject => new EnvironmentSubjectStateMetadata(subject, EnvironmentSubjectChangeType.Remain))
                     .ToArray();
                 return changes.Do(change =>
                 {
                     switch (change.Type)
                     {
-                        case SubjectChangeType.Enter:
-                            State.ActiveSubjects.Add(new SubjectChangeEntry
+                        case EnvironmentSubjectChangeType.Enter:
+                            State.ActiveSubjects.Add(new EnvironmentSubjectStateEntry
                             {
                                 Id = change.Id,
                                 Weight = change.Weight,
                                 ReferenceWeight = change.ReferenceWeight
                             });
                             break;
-                        case SubjectChangeType.Exit:
+                        case EnvironmentSubjectChangeType.Exit:
                             State.ActiveSubjects.Remove(change.Id);
                             break;
                         default:
                             return;
                     }
-                    StateRecovery<SubjectStateRecovery>.Serialize(string.Empty, State);
+                    StateRecovery<SubjectStateRecovery>.Serialize(Name, State);
                 }).StartWith(initialState);
             });
         }
@@ -50,14 +54,15 @@ namespace Aeon.Acquisition
     {
         readonly ActiveSubjectCollection activeSubjects = new ActiveSubjectCollection();
 
+        [XmlArrayItem("SubjectStateEntry")]
         public ActiveSubjectCollection ActiveSubjects
         {
             get { return activeSubjects; }
         }
     }
-    public class ActiveSubjectCollection : KeyedCollection<string, SubjectChangeEntry>
+    public class ActiveSubjectCollection : KeyedCollection<string, EnvironmentSubjectStateEntry>
     {
-        protected override string GetKeyForItem(SubjectChangeEntry item)
+        protected override string GetKeyForItem(EnvironmentSubjectStateEntry item)
         {
             return item.Id;
         }

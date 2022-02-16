@@ -1,8 +1,8 @@
 ﻿namespace Aeon.Acquisition
 {
-    public class SubjectChangeMetadata
+    public class EnvironmentSubjectStateMetadata
     {
-        public SubjectChangeMetadata(SubjectChangeEntry entry, SubjectChangeType entryType)
+        public EnvironmentSubjectStateMetadata(EnvironmentSubjectStateEntry entry, EnvironmentSubjectChangeType entryType)
         {
             Id = entry.Id;
             Type = entryType;
@@ -12,7 +12,7 @@
 
         public string Id { get; }
 
-        public SubjectChangeType Type { get; }
+        public EnvironmentSubjectChangeType Type { get; }
 
         public float ReferenceWeight { get; }
 
@@ -24,7 +24,7 @@
         }
     }
 
-    public enum SubjectChangeType
+    public enum EnvironmentSubjectChangeType
     {
         Enter,
         Exit,

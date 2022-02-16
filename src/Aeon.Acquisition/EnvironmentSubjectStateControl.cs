@@ -1,23 +1,22 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace Aeon.Acquisition
 {
-    public partial class SubjectChangeControl : UserControl
+    public partial class EnvironmentSubjectStateControl : UserControl
     {
         readonly ColumnHeader idHeader;
         RemoveState removeState;
         AddState addState;
         ViewState viewState;
 
-        public SubjectChangeControl(SubjectChange source)
+        public EnvironmentSubjectStateControl(EnvironmentSubjectState source)
         {
             Source = source ?? throw new ArgumentNullException(nameof(source));
             InitializeComponent();
             subjectListView.Columns.Add(string.Empty);
-            idHeader = subjectListView.Columns.Add(nameof(SubjectChangeMetadata.Id));
+            idHeader = subjectListView.Columns.Add(nameof(EnvironmentSubjectStateMetadata.Id));
             propertyGrid.Enabled = false;
             var state = Source.State;
             if (state != null)
@@ -29,12 +28,12 @@ namespace Aeon.Acquisition
             }
         }
 
-        public SubjectChange Source { get; }
+        public EnvironmentSubjectState Source { get; }
 
-        private void AddSubject(SubjectChangeEntry metadata)
+        private void AddSubject(EnvironmentSubjectStateEntry metadata)
         {
             var item = subjectListView.Items.Add(subjectListView.Items.Count.ToString());
-            metadata.Type = SubjectChangeType.Exit;
+            metadata.Type = EnvironmentSubjectChangeType.Exit;
             item.SubItems.Add(metadata.Id);
             item.Tag = metadata;
             idHeader.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -68,15 +67,15 @@ namespace Aeon.Acquisition
         {
             if (viewState == ViewState.Browse)
             {
-                var metadata = new SubjectChangeEntry { Type = SubjectChangeType.Enter };
+                var metadata = new EnvironmentSubjectStateEntry { Type = EnvironmentSubjectChangeType.Enter };
                 propertyGrid.SelectedObject = metadata;
                 RefreshViewState(ViewState.Adding);
             }
             else if (viewState == ViewState.Adding)
             {
-                var metadata = (SubjectChangeEntry)propertyGrid.SelectedObject;
+                var metadata = (EnvironmentSubjectStateEntry)propertyGrid.SelectedObject;
                 AddSubject(metadata);
-                Source.OnNext(new SubjectChangeMetadata(metadata, SubjectChangeType.Enter));
+                Source.OnNext(new EnvironmentSubjectStateMetadata(metadata, EnvironmentSubjectChangeType.Enter));
                 RefreshViewState(ViewState.Browse);
             }
             else if (viewState == ViewState.Removing)
@@ -84,9 +83,9 @@ namespace Aeon.Acquisition
                 var selectedItems = subjectListView.SelectedItems.OfType<ListViewItem>().ToArray();
                 foreach (var item in selectedItems)
                 {
-                    var metadata = (SubjectChangeEntry)item.Tag;
+                    var metadata = (EnvironmentSubjectStateEntry)item.Tag;
                     subjectListView.Items.Remove(item);
-                    Source.OnNext(new SubjectChangeMetadata(metadata, SubjectChangeType.Exit));
+                    Source.OnNext(new EnvironmentSubjectStateMetadata(metadata, EnvironmentSubjectChangeType.Exit));
                 }
 
                 for (int i = 0; i < subjectListView.Items.Count; i++)

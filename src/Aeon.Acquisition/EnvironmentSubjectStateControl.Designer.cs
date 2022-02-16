@@ -1,7 +1,7 @@
 ﻿
 namespace Aeon.Acquisition
 {
-    partial class SubjectChangeControl
+    partial class EnvironmentSubjectStateControl
     {
         /// <summary>
         /// Required designer variable.

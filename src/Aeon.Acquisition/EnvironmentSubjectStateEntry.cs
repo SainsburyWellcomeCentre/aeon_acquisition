@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 namespace Aeon.Acquisition
 {
     [TypeDescriptionProvider(typeof(EntryTypeDescriptionProvider))]
-    public class SubjectChangeEntry
+    public class EnvironmentSubjectStateEntry
     {
         public string Id { get; set; } = string.Empty;
 
@@ -15,11 +15,11 @@ namespace Aeon.Acquisition
 
         [XmlIgnore]
         [Browsable(false)]
-        public SubjectChangeType Type { get; set; }
+        public EnvironmentSubjectChangeType Type { get; set; }
 
         class EntryTypeDescriptionProvider : TypeDescriptionProvider
         {
-            static readonly TypeDescriptionProvider parentProvider = TypeDescriptor.GetProvider(typeof(SubjectChangeEntry));
+            static readonly TypeDescriptionProvider parentProvider = TypeDescriptor.GetProvider(typeof(EnvironmentSubjectStateEntry));
 
             public EntryTypeDescriptionProvider()
                 : base(parentProvider)
@@ -29,7 +29,7 @@ namespace Aeon.Acquisition
             public override ICustomTypeDescriptor GetTypeDescriptor(Type objectType, object instance)
             {
                 var descriptor = base.GetTypeDescriptor(objectType, instance);
-                if (instance is SubjectChangeEntry metadata && metadata.Type == SubjectChangeType.Exit)
+                if (instance is EnvironmentSubjectStateEntry metadata && metadata.Type == EnvironmentSubjectChangeType.Exit)
                 {
                     return new ReadOnlyTypeDescriptor(descriptor, nameof(Id), nameof(ReferenceWeight));
                 }

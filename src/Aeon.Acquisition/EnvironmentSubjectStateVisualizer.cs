@@ -5,17 +5,17 @@ using System.Windows.Forms;
 
 namespace Aeon.Acquisition
 {
-    public class SubjectChangeVisualizer : DialogTypeVisualizer
+    public class EnvironmentSubjectStateVisualizer : DialogTypeVisualizer
     {
-        SubjectChangeControl control;
+        EnvironmentSubjectStateControl control;
 
         public override void Load(IServiceProvider provider)
         {
             var context = (ITypeVisualizerContext)provider.GetService(typeof(ITypeVisualizerContext));
             var visualizerElement = ExpressionBuilder.GetVisualizerElement(context.Source);
-            var source = (SubjectChange)ExpressionBuilder.GetWorkflowElement(visualizerElement.Builder);
+            var source = (EnvironmentSubjectState)ExpressionBuilder.GetWorkflowElement(visualizerElement.Builder);
 
-            control = new SubjectChangeControl(source);
+            control = new EnvironmentSubjectStateControl(source);
             control.Dock = DockStyle.Fill;
 
             var visualizerService = (IDialogTypeVisualizerService)provider.GetService(typeof(IDialogTypeVisualizerService));
