@@ -10,10 +10,12 @@ namespace Aeon.Acquisition
 {
     [TypeVisualizer(typeof(EnvironmentSubjectStateVisualizer))]
     [Description("Generates a sequence of events about subjects entering or leaving an environment.")]
-    public class EnvironmentSubjectState : MetadataSource<EnvironmentSubjectStateMetadata>
+    public class EnvironmentSubjectState : MetadataSource<EnvironmentSubjectStateMetadata>, INamedElement
     {
         [Description("The name of the environment.")]
         public string Name { get; set; }
+
+        string INamedElement.Name => $"{Name.AsNullIfEmpty() ?? "Environment"}SubjectState";
 
         internal SubjectStateRecovery State { get; set; }
 

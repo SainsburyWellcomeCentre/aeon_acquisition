@@ -2,6 +2,7 @@ using System;
 using Bonsai.Design;
 using Bonsai.Expressions;
 using System.Windows.Forms;
+using Bonsai.Harp;
 
 namespace Aeon.Acquisition
 {
@@ -17,6 +18,13 @@ namespace Aeon.Acquisition
 
             control = new EnvironmentSubjectStateControl(source);
             control.Dock = DockStyle.Fill;
+            if (source.State != null)
+            {
+                foreach (var subject in source.State.ActiveSubjects)
+                {
+                    control.AddSubject(subject);
+                }
+            }
 
             var visualizerService = (IDialogTypeVisualizerService)provider.GetService(typeof(IDialogTypeVisualizerService));
             if (visualizerService != null)
@@ -25,8 +33,38 @@ namespace Aeon.Acquisition
             }
         }
 
+        private void UpdateSubject(EnvironmentSubjectStateMetadata metadata)
+        {
+            switch (metadata.Type)
+            {
+                case EnvironmentSubjectChangeType.Remain:
+                case EnvironmentSubjectChangeType.Enter:
+                    control.AddSubject(new EnvironmentSubjectStateEntry
+                    {
+                        Id = metadata.Id,
+                        ReferenceWeight = metadata.ReferenceWeight,
+                        Weight = metadata.Weight,
+                        Type = EnvironmentSubjectChangeType.Enter
+                    });
+                    break;
+                case EnvironmentSubjectChangeType.Exit:
+                    control.RemoveSubject(metadata.Id);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public override void Show(object value)
         {
+            if (value is EnvironmentSubjectStateMetadata metadata)
+            {
+                UpdateSubject(metadata);
+            }
+            else if (value is Timestamped<EnvironmentSubjectStateMetadata> timestampedMetadata)
+            {
+                UpdateSubject(timestampedMetadata.Value);
+            }
         }
 
         public override void Unload()

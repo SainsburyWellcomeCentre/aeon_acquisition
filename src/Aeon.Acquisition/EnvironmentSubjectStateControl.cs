@@ -18,25 +18,27 @@ namespace Aeon.Acquisition
             subjectListView.Columns.Add(string.Empty);
             idHeader = subjectListView.Columns.Add(nameof(EnvironmentSubjectStateMetadata.Id));
             propertyGrid.Enabled = false;
-            var state = Source.State;
-            if (state != null)
-            {
-                foreach (var subject in state.ActiveSubjects)
-                {
-                    AddSubject(subject);
-                }
-            }
         }
 
         public EnvironmentSubjectState Source { get; }
 
-        private void AddSubject(EnvironmentSubjectStateEntry metadata)
+        public void AddSubject(EnvironmentSubjectStateEntry metadata)
         {
-            var item = subjectListView.Items.Add(subjectListView.Items.Count.ToString());
+            if (subjectListView.Items.ContainsKey(metadata.Id))
+            {
+                return;
+            }
+
+            var item = subjectListView.Items.Add(metadata.Id, subjectListView.Items.Count.ToString(), 0);
             metadata.Type = EnvironmentSubjectChangeType.Exit;
             item.SubItems.Add(metadata.Id);
             item.Tag = metadata;
             idHeader.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+        }
+
+        public void RemoveSubject(string id)
+        {
+            subjectListView.Items.RemoveByKey(id);
         }
 
         private void RefreshViewState(ViewState view)
@@ -74,7 +76,13 @@ namespace Aeon.Acquisition
             else if (viewState == ViewState.Adding)
             {
                 var metadata = (EnvironmentSubjectStateEntry)propertyGrid.SelectedObject;
-                AddSubject(metadata);
+                if (subjectListView.Items.ContainsKey(metadata.Id))
+                {
+                    MessageBox.Show(
+                        $"A subject with id {metadata.Id} has already been added.",
+                        ((Bonsai.INamedElement)Source).Name);
+                    return;
+                }
                 Source.OnNext(new EnvironmentSubjectStateMetadata(metadata, EnvironmentSubjectChangeType.Enter));
                 RefreshViewState(ViewState.Browse);
             }
@@ -84,7 +92,6 @@ namespace Aeon.Acquisition
                 foreach (var item in selectedItems)
                 {
                     var metadata = (EnvironmentSubjectStateEntry)item.Tag;
-                    subjectListView.Items.Remove(item);
                     Source.OnNext(new EnvironmentSubjectStateMetadata(metadata, EnvironmentSubjectChangeType.Exit));
                 }
 
