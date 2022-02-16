@@ -43,6 +43,10 @@ namespace Aeon.Acquisition
         public void RemoveSubject(string id)
         {
             subjectListView.Items.RemoveByKey(id);
+            for (int i = 0; i < subjectListView.Items.Count; i++)
+            {
+                subjectListView.Items[i].Text = i.ToString();
+            }
         }
 
         private void RefreshViewState(ViewState view)
