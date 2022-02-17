@@ -28,11 +28,11 @@ namespace Aeon.Acquisition
                 return source.Publish(ps =>
                 {
                     const int AuxInputs = 32;
-                    const int BeamBreak = 0x20;
+                    const int TriggerPellet = 0x80;
                     var discount = ps.Where(message =>
                         message.Address == AuxInputs &&
                         message.MessageType == MessageType.Event &&
-                        message.GetPayloadByte() == BeamBreak)
+                        message.GetPayloadByte() == TriggerPellet)
                         .Select(_ => new DispenserStateMetadata(Name, -1));
                     return refill.Merge(discount).StartWith(initialState).Publish(changes =>
                         changes.CombineLatest(ps, (data, message) => (data, message))
