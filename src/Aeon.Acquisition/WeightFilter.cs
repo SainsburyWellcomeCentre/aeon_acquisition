@@ -38,21 +38,5 @@ namespace Aeon.Acquisition
                     return result;
                 });
         }
-
-        public IObservable<WeightMeasurement> Process<TOther>(IObservable<WeightMeasurement> source, IObservable<TOther> trigger)
-        {
-            return Process(source)
-                .Window(trigger)
-                .SelectMany(window =>
-                    window.Publish(pwindow =>
-                        pwindow.Take(1).CombineLatest(pwindow, (reference, measurement) =>
-                        {
-                            WeightMeasurement result;
-                            result.Timestamp = measurement.Timestamp;
-                            result.Confidence = measurement.Confidence;
-                            result.Value = measurement.Value - reference.Value;
-                            return result;
-                        })));
-        }
     }
 }
