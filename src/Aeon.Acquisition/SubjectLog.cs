@@ -27,6 +27,7 @@ namespace Aeon.Acquisition
         }
     }
 
+    [Obsolete]
     public enum EventType
     {
         Start,
