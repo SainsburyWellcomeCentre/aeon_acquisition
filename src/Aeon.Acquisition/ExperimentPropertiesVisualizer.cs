@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace Aeon.Acquisition
 {
-    sealed class ExternalizedPropertiesVisualizer : DialogTypeVisualizer
+    public sealed class ExternalizedPropertiesVisualizer : DialogTypeVisualizer
     {
         PropertyGrid control;
 
