@@ -15,14 +15,16 @@ namespace Aeon.Acquisition
         {
             return source
                 .Window(trigger)
-                .SelectMany(window =>
+                .SelectMany((window, index) =>
                     window.Publish(pwindow =>
                         pwindow.Take(1).CombineLatest(pwindow, (reference, measurement) =>
                         {
                             WeightMeasurement result;
                             result.Timestamp = measurement.Timestamp;
                             result.Confidence = measurement.Confidence;
-                            result.Value = measurement.Value - reference.Value;
+                            result.Value = index > 0
+                                ? measurement.Value - reference.Value
+                                : measurement.Value;
                             return result;
                         })));
         }
