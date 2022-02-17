@@ -1,6 +1,7 @@
 ﻿using Bonsai;
 using Bonsai.Harp;
 using System;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
@@ -19,7 +20,7 @@ namespace Aeon.Acquisition
 
         public virtual IObservable<TMetadata> Process()
         {
-            return subject;
+            return subject.ObserveOn(Scheduler.TaskPool);
         }
 
         public virtual IObservable<Timestamped<TMetadata>> Process(IObservable<HarpMessage> source)
