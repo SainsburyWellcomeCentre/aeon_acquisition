@@ -57,6 +57,7 @@ namespace Aeon.Acquisition
 
             IEnumerable<IGrouping<string, string[]>> GetDatabaseEntries(EnvironmentSubjectState source)
             {
+                if (!File.Exists(source.DatabasePath)) return Enumerable.Empty<IGrouping<string, string[]>>();
                 return from row in File.ReadAllLines(source.DatabasePath).Skip(1)
                        let attributes = row?.Split(',')
                        where attributes?.Length > 1
