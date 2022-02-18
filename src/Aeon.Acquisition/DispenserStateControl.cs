@@ -36,5 +36,12 @@ namespace Aeon.Acquisition
             var metadata = new DispenserStateMetadata(Source.Name, (int)refillUpDown.Value);
             Source.OnNext(metadata);
         }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            var delta = (int)refillUpDown.Value - Value;
+            var metadata = new DispenserStateMetadata(Source.Name, delta);
+            Source.OnNext(metadata);
+        }
     }
 }

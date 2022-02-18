@@ -34,6 +34,7 @@
             this.currentLabel = new System.Windows.Forms.Label();
             this.refillUpDown = new System.Windows.Forms.NumericUpDown();
             this.refillButton = new System.Windows.Forms.Button();
+            this.resetButton = new System.Windows.Forms.Button();
             this.dispenserPanel.SuspendLayout();
             this.dispenserGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.refillUpDown)).BeginInit();
@@ -41,6 +42,7 @@
             // 
             // dispenserPanel
             // 
+            this.dispenserPanel.Controls.Add(this.resetButton);
             this.dispenserPanel.Controls.Add(this.dispenserGroupBox);
             this.dispenserPanel.Controls.Add(this.refillButton);
             this.dispenserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -91,6 +93,11 @@
             this.refillUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.refillUpDown.Location = new System.Drawing.Point(15, 100);
+            this.refillUpDown.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
             this.refillUpDown.Name = "refillUpDown";
             this.refillUpDown.Size = new System.Drawing.Size(345, 38);
             this.refillUpDown.TabIndex = 0;
@@ -103,11 +110,24 @@
             this.refillButton.Location = new System.Drawing.Point(12, 175);
             this.refillButton.Margin = new System.Windows.Forms.Padding(12);
             this.refillButton.Name = "refillButton";
-            this.refillButton.Size = new System.Drawing.Size(375, 52);
+            this.refillButton.Size = new System.Drawing.Size(176, 52);
             this.refillButton.TabIndex = 5;
-            this.refillButton.Text = "Refill Dispenser";
+            this.refillButton.Text = "Refill";
             this.refillButton.UseVisualStyleBackColor = true;
             this.refillButton.Click += new System.EventHandler(this.refillButton_Click);
+            // 
+            // resetButton
+            // 
+            this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.resetButton.Location = new System.Drawing.Point(212, 175);
+            this.resetButton.Margin = new System.Windows.Forms.Padding(12);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(175, 52);
+            this.resetButton.TabIndex = 6;
+            this.resetButton.Text = "Reset";
+            this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
             // DispenserStateControl
             // 
@@ -134,5 +154,6 @@
         private System.Windows.Forms.NumericUpDown refillUpDown;
         private System.Windows.Forms.Label currentValueLabel;
         private System.Windows.Forms.Label currentLabel;
+        private System.Windows.Forms.Button resetButton;
     }
 }
