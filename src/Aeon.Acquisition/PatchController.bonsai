@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.6.2"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xmlns:p1="clr-namespace:Bonsai.Harp.Expander;assembly=Bonsai.Harp.Expander"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:p1="clr-namespace:Bonsai.Harp.Expander;assembly=Bonsai.Harp.Expander"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
-                 xmlns:p2="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
+                 xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Contains control and acquisition functionality for a foraging patch.</Description>
   <Workflow>
@@ -13,7 +13,7 @@
         <Property Name="PortName" />
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Name" DisplayName="WheelPosition" Description="The name of the output sequence carrying wheel positions." />
+        <Property Name="Name" DisplayName="WheelDisplacement" Description="The name of the output sequence carrying total distance travelled on the wheel." />
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="PelletDelivered" Description="The name of the output sequence carrying pellet delivery notifications." />
@@ -92,12 +92,12 @@
         <Selector>Angle</Selector>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p2:WheelPosition">
-          <p2:Radius>4</p2:Radius>
+        <Combinator xsi:type="aeon:WheelDisplacement">
+          <aeon:Radius>4</aeon:Radius>
         </Combinator>
       </Expression>
       <Expression xsi:type="PublishSubject">
-        <Name>WheelPosition</Name>
+        <Name>WheelDisplacement</Name>
       </Expression>
       <Expression xsi:type="p1:AuxInputs">
         <p1:Type>Input1</p1:Type>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.6.0"
+<WorkflowBuilder Version="2.6.2"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
@@ -30,7 +30,7 @@
       <Expression xsi:type="SubscribeSubject">
         <Name>WheelPatch1</Name>
       </Expression>
-      <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:RelativeWheelPosition.bonsai" />
+      <Expression xsi:type="rx:Accumulate" />
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Threshold" />
         <Property Name="LowPass" />

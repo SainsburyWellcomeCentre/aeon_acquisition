@@ -7,17 +7,12 @@ using System.Reactive.Linq;
 namespace Aeon.Acquisition
 {
     [Combinator]
-    [Description("Decodes the absolute cumulative distance travelled on the wheel in metric units.")]
+    [Description("Generates a sequence of all changes in wheel position, in metric units.")]
     [WorkflowElementCategory(ElementCategory.Transform)]
-    public class WheelPosition
+    public class WheelDisplacement
     {
-        public WheelPosition()
-        {
-            Radius = 1;
-        }
-
         [Description("The radius of the wheel, in metric units.")]
-        public double Radius { get; set; }
+        public double Radius { get; set; } = 1;
 
         public IObservable<double> Process(IObservable<ushort> source)
         {
@@ -26,19 +21,18 @@ namespace Aeon.Acquisition
             const int JumpThreshold = MaxValue / 2;
             return Observable.Defer(() =>
             {
-                var turns = 0;
                 var previous = default(ushort?);
                 return source.Select(value =>
                 {
                     int diff = 0;
                     if (previous.HasValue)
                     {
-                        diff = value - (int)previous.Value;
-                        if (diff < -JumpThreshold) turns++;
-                        else if (diff > JumpThreshold) turns--;
+                        diff = value - previous.Value;
+                        if (diff < -JumpThreshold) diff += MaxValue;
+                        else if (diff > JumpThreshold) diff -= MaxValue;
                     }
                     previous = value;
-                    return 2 * Math.PI * Radius * (turns + previous.Value / (double)MaxValue);
+                    return 2 * Math.PI * Radius * (diff / (double)MaxValue);
                 });
             });
         }

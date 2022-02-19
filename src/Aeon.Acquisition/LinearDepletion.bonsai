@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.6.0"
+<WorkflowBuilder Version="2.6.2"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
@@ -17,7 +17,7 @@
       <Expression xsi:type="WorkflowInput">
         <Name>Source1</Name>
       </Expression>
-      <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:RelativeWheelPosition.bonsai" />
+      <Expression xsi:type="rx:Accumulate" />
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="DistanceThreshold" />
         <Property Name="Delta" />
@@ -134,13 +134,13 @@ Item2 as Delta)</scr:Expression>
                 <Value>1</Value>
               </Combinator>
             </Expression>
-                  <Expression xsi:type="Combinator">
+            <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Repeat" />
-                  </Expression>
+            </Expression>
             <Expression xsi:type="rx:Accumulate" />
-                  <Expression xsi:type="MulticastSubject">
-                    <Name>TrialCount</Name>
-                  </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>TrialCount</Name>
+            </Expression>
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
