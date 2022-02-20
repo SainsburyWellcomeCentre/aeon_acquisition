@@ -40,11 +40,12 @@ root = etree.parse(args.workflow)
 workflow = root.xpath('/x:WorkflowBuilder/x:Workflow/x:Nodes', namespaces=ns)[0]
 hardware = workflow.xpath('./x:Expression[@xsi:type="GroupWorkflow" and ./x:Name[text()="Hardware"]]/x:Workflow/x:Nodes', namespaces=ns)[0]
 
-video_controllers = hardware.xpath('./x:Expression[@Path="Extensions\VideoController.bonsai"]', namespaces=ns)
-video_sources = hardware.xpath('./x:Expression[@Path="Extensions\VideoSource.bonsai"]', namespaces=ns)
-audio_sources = hardware.xpath('./x:Expression[@Path="Extensions\AudioSource.bonsai"]', namespaces=ns)
-patches = hardware.xpath('./x:Expression[@Path="Extensions\PatchController.bonsai"]', namespaces=ns)
-weight_scales = hardware.xpath('./x:Expression[@Path="Extensions\WeightScale.bonsai"]', namespaces=ns)
+video_controllers = hardware.xpath('./x:Expression[@Path="Aeon.Acquisition:VideoController.bonsai"]', namespaces=ns)
+video_sources = hardware.xpath('./x:Expression[@Path="Aeon.Acquisition:VideoSource.bonsai"]', namespaces=ns)
+audio_sources = hardware.xpath('./x:Expression[@Path="Aeon.Acquisition:AudioSource.bonsai"]', namespaces=ns)
+patches = hardware.xpath('./x:Expression[@Path="Aeon.Acquisition:PatchController.bonsai"]', namespaces=ns)
+weight_scales = hardware.xpath('./x:Expression[@Path="Aeon.Acquisition:WeightScale.bonsai"]', namespaces=ns)
+position_tracking = hardware.xpath('./x:Expression[@Path="Aeon.Acquisition:PositionTracking.bonsai"]', namespaces=ns)
 
 metadata = {
     'Workflow' : args.workflow,
@@ -53,7 +54,8 @@ metadata = {
                 list_metadata(video_sources, 'FrameEvents', Type='VideoSource') +
                 list_metadata(audio_sources, 'AudioAmbient', Type='AudioSource') +
                 list_metadata(patches, 'PatchEvents', Type='Patch') +
-                list_metadata(weight_scales, 'WeightEvents', Type='WeightScale')
+                list_metadata(weight_scales, 'WeightEvents', Type='WeightScale') +
+                list_metadata(position_tracking, 'TrackingEvents', Type='PositionTracking')
 }
 
 if args.output:
