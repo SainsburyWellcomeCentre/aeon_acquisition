@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
     <UseWindowsForms>true</UseWindowsForms>
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bonsai.Core" Version="2.6.2" />
+    <PackageReference Include="Bonsai.Core" Version="2.6.3" />
     <PackageReference Include="Bonsai.Audio" Version="2.6.0" />
     <PackageReference Include="Bonsai.Harp" Version="3.3.0" />
     <PackageReference Include="Bonsai.Harp.Expander" Version="0.1.0-build1534" />
