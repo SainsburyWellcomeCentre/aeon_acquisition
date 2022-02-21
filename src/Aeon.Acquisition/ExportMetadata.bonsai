@@ -3,7 +3,7 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
-                 xmlns:p1="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
+                 xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Exports the current arena metadata.</Description>
   <Workflow>
@@ -28,7 +28,7 @@
         <Combinator xsi:type="rx:Zip" />
       </Expression>
       <Expression xsi:type="Format">
-        <Format>..\calibration\metadata.py {1} --output {0}\Metadata.yml --indent 2</Format>
+        <Format>..\..\calibration\metadata.py {1} --output {0}\Metadata.yml --indent 2</Format>
         <Selector>Item1,Item2</Selector>
       </Expression>
       <Expression xsi:type="PropertyMapping">
@@ -38,7 +38,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="io:StartProcess">
-          <io:FileName>..\python\winpython\python-3.9.5.amd64\python.exe</io:FileName>
+          <io:FileName>..\..\python\winpython\python-3.9.5.amd64\python.exe</io:FileName>
           <io:Arguments />
         </Combinator>
       </Expression>
@@ -63,8 +63,8 @@
         </Workflow>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p1:ThrowException">
-          <p1:Message>Error exporting workflow metadata.</p1:Message>
+        <Combinator xsi:type="aeon:ThrowException">
+          <aeon:Message>Error exporting workflow metadata.</aeon:Message>
         </Combinator>
       </Expression>
     </Nodes>
