@@ -20,7 +20,7 @@
 
     public enum EnvironmentStateType
     {
-        Experiment,
-        Maintenance
+        Maintenance,
+        Experiment
     }
 }
