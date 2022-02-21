@@ -11,7 +11,7 @@
     <PackageOutputPath>..\..\bin\$(Configuration)</PackageOutputPath>
     <PackageTags>Bonsai Rx Project Aeon Acquisition</PackageTags>
     <TargetFramework>net472</TargetFramework>
-    <Version>0.2.0</Version>
+    <Version>0.2.0-test212230</Version>
   </PropertyGroup>
   
   <ItemGroup>
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bonsai.Core" Version="2.6.3" />
+    <PackageReference Include="Bonsai.Core" Version="2.6.4-preview" />
     <PackageReference Include="Bonsai.Audio" Version="2.6.0" />
     <PackageReference Include="Bonsai.Harp" Version="3.3.0" />
     <PackageReference Include="Bonsai.Harp.Expander" Version="0.1.0-build1534" />
