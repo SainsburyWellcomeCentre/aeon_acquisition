@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -29,9 +30,16 @@ namespace Aeon.Acquisition
             }
 
             var serializer = new XmlSerializer(typeof(TState));
-            using (var reader = XmlReader.Create(fileName))
+            try
             {
-                return (TState)serializer.Deserialize(reader);
+                using (var reader = XmlReader.Create(fileName))
+                {
+                    return (TState)serializer.Deserialize(reader);
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                return new TState();
             }
         }
     }
