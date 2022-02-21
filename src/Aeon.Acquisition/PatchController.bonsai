@@ -101,7 +101,7 @@
       </Expression>
       <Expression xsi:type="p1:AuxInputs">
         <p1:Type>Input1</p1:Type>
-        <p1:IncludeTimestamp>false</p1:IncludeTimestamp>
+        <p1:IncludeTimestamp>true</p1:IncludeTimestamp>
       </Expression>
       <Expression xsi:type="Condition">
         <Name>PelletDelivered</Name>
@@ -110,10 +110,14 @@
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
             </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Value</Selector>
+            </Expression>
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
