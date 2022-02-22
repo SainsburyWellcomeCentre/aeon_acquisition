@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Net;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace Aeon.Acquisition
 {
@@ -16,7 +17,7 @@ namespace Aeon.Acquisition
 
         public IObservable<TSource> Process<TSource>(IObservable<TSource> source)
         {
-            return source.Do(value =>
+            return source.Do(value => Task.Run(() =>
             {
                 using (var client = new WebClient())
                 {
@@ -24,7 +25,7 @@ namespace Aeon.Acquisition
                     client.Headers["content-type"] = "application/json";
                     client.UploadString(Address, "post", data);
                 }
-            });
+            }));
         }
     }
 }
