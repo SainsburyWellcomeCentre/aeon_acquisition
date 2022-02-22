@@ -21,7 +21,7 @@
         </Combinator>
       </Expression>
       <Expression xsi:type="harp:Parse">
-        <harp:Type>TimestampedU8</harp:Type>
+        <harp:Type>TimestampedU16</harp:Type>
         <harp:IsArray>false</harp:IsArray>
       </Expression>
       <Expression xsi:type="Condition">
