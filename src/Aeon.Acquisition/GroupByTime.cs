@@ -14,35 +14,35 @@ namespace Aeon.Acquisition
     {
         public GroupByTime()
         {
-            BinSize = 1;
+            ChunkSize = 1;
         }
 
         // The default real-time reference is unix time in total seconds from 1904
         static readonly DateTime ReferenceTime = new DateTime(1904, 1, 1);
 
-        [Description("The size of each time bin, in whole hours.")]
-        public int BinSize { get; set; }
+        [Description("The size of each chunk, in whole hours.")]
+        public int ChunkSize { get; set; }
 
-        DateTime GetTimeBin(double seconds)
+        DateTime GetChunkIndex(double seconds)
         {
             var currentTime = ReferenceTime.AddSeconds(seconds);
-            var timeBin = currentTime.Hour / BinSize;
-            return currentTime.Date.AddHours(timeBin * BinSize);
+            var timeBin = currentTime.Hour / ChunkSize;
+            return currentTime.Date.AddHours(timeBin * ChunkSize);
         }
 
         public IObservable<IGroupedObservable<DateTime, Timestamped<TSource>>> Process<TSource>(IObservable<Timestamped<TSource>> source)
         {
-            return source.GroupBy(value => GetTimeBin(value.Seconds));
+            return source.GroupBy(value => GetChunkIndex(value.Seconds));
         }
 
         public IObservable<IGroupedObservable<DateTime, HarpMessage>> Process(IObservable<HarpMessage> source)
         {
-            return source.GroupBy(value => GetTimeBin(value.GetTimestamp()));
+            return source.GroupBy(value => GetChunkIndex(value.GetTimestamp()));
         }
 
         public IObservable<IGroupedObservable<DateTime, Timestamped<TSource>>> Process<TSource>(IObservable<Tuple<TSource, double>> source)
         {
-            return source.GroupBy(value => GetTimeBin(value.Item2), value => Timestamped.Create(value.Item1, value.Item2));
+            return source.GroupBy(value => GetChunkIndex(value.Item2), value => Timestamped.Create(value.Item1, value.Item2));
         }
     }
 }

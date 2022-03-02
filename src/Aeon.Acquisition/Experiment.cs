@@ -21,7 +21,7 @@ namespace Aeon.Acquisition
 
         public string DataPath { get; set; }
 
-        public int TimeBinSize { get; set; }
+        public int TimeChunkSize { get; set; }
 
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ExperimentArena Arena { get; set; }

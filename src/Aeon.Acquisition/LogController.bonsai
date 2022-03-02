@@ -44,10 +44,10 @@
         <Name>PathPrefix</Name>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Value" DisplayName="BinSize" />
+        <Property Name="Value" DisplayName="ChunkSize" />
       </Expression>
       <Expression xsi:type="PropertySource" TypeArguments="p1:GroupByTime,sys:Int32">
-        <MemberName>BinSize</MemberName>
+        <MemberName>ChunkSize</MemberName>
         <Value>1</Value>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -56,7 +56,7 @@
         </Combinator>
       </Expression>
       <Expression xsi:type="AsyncSubject">
-        <Name>BinSize</Name>
+        <Name>ChunkSize</Name>
       </Expression>
     </Nodes>
     <Edges>

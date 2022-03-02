@@ -64,16 +64,16 @@
               <Combinator xsi:type="rx:Merge" />
             </Expression>
             <Expression xsi:type="SubscribeSubject">
-              <Name>BinSize</Name>
+              <Name>ChunkSize</Name>
             </Expression>
             <Expression xsi:type="PropertyMapping">
               <PropertyMappings>
-                <Property Name="BinSize" />
+                <Property Name="ChunkSize" />
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:GroupByTime">
-                <p1:BinSize>1</p1:BinSize>
+                <p1:ChunkSize>1</p1:ChunkSize>
               </Combinator>
             </Expression>
             <Expression xsi:type="CreateObservable">
