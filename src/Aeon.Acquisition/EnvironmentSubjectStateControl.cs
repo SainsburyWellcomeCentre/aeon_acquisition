@@ -49,6 +49,27 @@ namespace Aeon.Acquisition
             }
         }
 
+        private bool ValidateSubject(EnvironmentSubjectStateEntry metadata)
+        {
+            if (metadata.ReferenceWeight <= 0)
+            {
+                MessageBox.Show(
+                    $"Reference weight must be specified before adding or removing subjects.",
+                    ((Bonsai.INamedElement)Source).Name);
+                return false;
+            }
+
+            if (metadata.Weight <= 0)
+            {
+                MessageBox.Show(
+                    $"A valid weight must be specified when adding or removing subjects.",
+                    ((Bonsai.INamedElement)Source).Name);
+                return false;
+            }
+
+            return true;
+        }
+
         private void RefreshViewState(ViewState view)
         {
             viewState = view;
@@ -91,17 +112,22 @@ namespace Aeon.Acquisition
                         ((Bonsai.INamedElement)Source).Name);
                     return;
                 }
+                if (!ValidateSubject(metadata)) return;
                 Source.OnNext(new EnvironmentSubjectStateMetadata(metadata, EnvironmentSubjectChangeType.Enter));
                 RefreshViewState(ViewState.Browse);
             }
             else if (viewState == ViewState.Removing)
             {
-                var selectedItems = subjectListView.SelectedItems.OfType<ListViewItem>().ToArray();
-                foreach (var item in selectedItems)
+                var metadata = (EnvironmentSubjectStateEntry)propertyGrid.SelectedObject;
+                if (!subjectListView.Items.ContainsKey(metadata.Id))
                 {
-                    var metadata = (EnvironmentSubjectStateEntry)item.Tag;
-                    Source.OnNext(new EnvironmentSubjectStateMetadata(metadata, EnvironmentSubjectChangeType.Exit));
+                    MessageBox.Show(
+                        $"A subject with id {metadata.Id} has not been added yet.",
+                        ((Bonsai.INamedElement)Source).Name);
+                    return;
                 }
+                if (!ValidateSubject(metadata)) return;
+                Source.OnNext(new EnvironmentSubjectStateMetadata(metadata, EnvironmentSubjectChangeType.Exit));
 
                 for (int i = 0; i < subjectListView.Items.Count; i++)
                 {
@@ -119,8 +145,14 @@ namespace Aeon.Acquisition
                 var selectedItem = subjectListView.SelectedItems.OfType<ListViewItem>().FirstOrDefault();
                 if (selectedItem != null)
                 {
-                    var metadata = selectedItem.Tag;
-                    propertyGrid.SelectedObject = metadata;
+                    var metadata = (EnvironmentSubjectStateEntry)selectedItem.Tag;
+                    propertyGrid.SelectedObject = new EnvironmentSubjectStateEntry
+                    {
+                        Id = metadata.Id,
+                        Type = metadata.Type,
+                        ReferenceWeight = metadata.ReferenceWeight,
+                        Weight = 0
+                    };
                     RefreshViewState(ViewState.Removing);
                 }
             }
