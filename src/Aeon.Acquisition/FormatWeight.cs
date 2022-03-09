@@ -12,7 +12,8 @@ namespace Aeon.Acquisition
     [WorkflowElementCategory(ElementCategory.Transform)]
     public class FormatWeight
     {
-        const int Address = 200;
+        [Description("The address of the virtual Harp register.")]
+        public int Address { get; set; } = 200;
 
         public IObservable<HarpMessage> Process(IObservable<WeightMeasurement> source)
         {

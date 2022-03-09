@@ -108,11 +108,6 @@ Item2.Contains("?") ? 0.0 : 1.0 as Confidence)</scr:Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="aeon:CreateTimestamped" />
       </Expression>
-      <Expression xsi:type="harp:Format">
-        <harp:MessageType>Write</harp:MessageType>
-        <harp:Address>201</harp:Address>
-        <harp:PayloadType>TimestampedU8</harp:PayloadType>
-      </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="TareEvents" Description="The name of the output sequence containing all timestamped tare events." />
       </Expression>
@@ -143,9 +138,8 @@ Item2.Contains("?") ? 0.0 : 1.0 as Confidence)</scr:Expression>
       <Edge From="19" To="20" Label="Source1" />
       <Edge From="20" To="21" Label="Source2" />
       <Edge From="21" To="22" Label="Source1" />
-      <Edge From="22" To="23" Label="Source1" />
-      <Edge From="23" To="25" Label="Source1" />
-      <Edge From="24" To="25" Label="Source2" />
+      <Edge From="22" To="24" Label="Source1" />
+      <Edge From="23" To="24" Label="Source2" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
