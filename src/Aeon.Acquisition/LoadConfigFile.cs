@@ -12,7 +12,7 @@ namespace Aeon.Acquisition
     public class LoadConfigFile : Source<Dictionary<string, string>>
     {
         [Editor(DesignTypes.OpenFileNameEditor, DesignTypes.UITypeEditor)]
-        [FileNameFilter("YAML file (*.yml)|*.yml|JSON file (*.json)|*.json|All Files|*.*")]
+        [FileNameFilter("Config file (*.config)|*.config|YAML file (*.yaml;*.yml)|*.yaml;*.yml|JSON file (*.json)|*.json|All Files|*.*")]
         [Description("The path to the file containing the dictionary values.")]
         public string FileName { get; set; }
 
