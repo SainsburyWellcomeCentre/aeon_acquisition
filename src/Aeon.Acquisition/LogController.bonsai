@@ -29,22 +29,11 @@
         <Selector>Value</Selector>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="aeon:ServiceAccountName" />
-      </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Value" DisplayName="ExperimentName" Description="The name of the experiment subfolder." />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="StringProperty">
-          <Value>experiment</Value>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Zip" />
       </Expression>
       <Expression xsi:type="Format">
-        <Format>{0}\{2}\{3}\{1}</Format>
-        <Selector>Item1,Item2,Item3,Item4</Selector>
+        <Format>{0}\{1}</Format>
+        <Selector>Item1,Item2</Selector>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Take">
@@ -75,20 +64,15 @@
       <Edge From="1" To="2" Label="Source1" />
       <Edge From="2" To="3" Label="Source1" />
       <Edge From="2" To="5" Label="Source1" />
-      <Edge From="2" To="6" Label="Source1" />
-      <Edge From="2" To="8" Label="Source1" />
       <Edge From="3" To="4" Label="Source1" />
-      <Edge From="4" To="9" Label="Source2" />
-      <Edge From="5" To="9" Label="Source1" />
-      <Edge From="6" To="9" Label="Source3" />
-      <Edge From="7" To="8" Label="Source2" />
-      <Edge From="8" To="9" Label="Source4" />
-      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="4" To="6" Label="Source2" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="6" To="7" Label="Source1" />
+      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="8" To="9" Label="Source1" />
       <Edge From="10" To="11" Label="Source1" />
       <Edge From="11" To="12" Label="Source1" />
-      <Edge From="13" To="14" Label="Source1" />
-      <Edge From="14" To="15" Label="Source1" />
-      <Edge From="15" To="16" Label="Source1" />
+      <Edge From="12" To="13" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
