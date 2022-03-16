@@ -18,13 +18,13 @@ namespace Aeon.Acquisition
 
         public override IObservable<bool> Process(IObservable<double> source)
         {
-            return source.Select(value => !(Lower > value || value >= Upper));
+            return source.Select(value => !(Lower > value || value >= Upper) && !double.IsNaN(value));
         }
 
         public IObservable<Timestamped<bool>> Process(IObservable<Timestamped<double>> source)
         {
             return source.Select(input => Timestamped.Create(
-                !(Lower > input.Value || input.Value >= Upper),
+                !(Lower > input.Value || input.Value >= Upper) && !double.IsNaN(input.Value),
                 input.Seconds));
         }
     }
