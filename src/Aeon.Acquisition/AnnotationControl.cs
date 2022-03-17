@@ -20,7 +20,10 @@ namespace Aeon.Acquisition
                 return;
             }
 
-            var metadata = new LogMessage(priority, annotationsTextBox.Text);
+            var message = annotationsTextBox.Text
+                .Replace(',', '\t')
+                .Replace(Environment.NewLine, "\t");
+            var metadata = new LogMessage(priority, message);
             annotationsTextBox.Text = string.Empty;
             Source.OnNext(metadata);
         }
