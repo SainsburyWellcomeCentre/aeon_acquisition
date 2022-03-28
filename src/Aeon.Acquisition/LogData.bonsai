@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.6.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xmlns:p1="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
+                 xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
                  xmlns="https://bonsai-rx.org/2018/workflow">
@@ -20,8 +20,8 @@
         </PropertyMappings>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p1:GroupByTime">
-          <p1:ChunkSize>1</p1:ChunkSize>
+        <Combinator xsi:type="aeon:GroupByTime">
+          <aeon:ChunkSize>1</aeon:ChunkSize>
         </Combinator>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
@@ -65,11 +65,12 @@
             <Expression xsi:type="ExternalizedMapping">
               <Property Name="Selector" />
             </Expression>
-            <Expression xsi:type="io:CsvWriter">
+            <Expression xsi:type="aeon:AeonWriter">
               <io:Append>false</io:Append>
               <io:Overwrite>false</io:Overwrite>
               <io:Suffix>None</io:Suffix>
               <io:IncludeHeader>true</io:IncludeHeader>
+              <aeon:FlushDuration>PT1M</aeon:FlushDuration>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
