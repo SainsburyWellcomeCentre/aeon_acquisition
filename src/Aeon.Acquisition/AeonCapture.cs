@@ -1,4 +1,4 @@
-using Bonsai;
+﻿using Bonsai;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -15,6 +15,7 @@ namespace Aeon.Acquisition
         public AeonCapture()
         {
             ExposureTime = 1e6 / 50 - 1000;
+            TriggerAddress = 68;
             Binning = 1;
         }
 
@@ -26,6 +27,9 @@ namespace Aeon.Acquisition
 
         [Description("The size of the binning area of the sensor, e.g. a binning size of 2 specifies a 2x2 binning region.")]
         public int Binning { get; set; }
+
+        [Description("The address of the Harp register used for triggering new exposures.")]
+        public int TriggerAddress { get; set; }
 
         protected override void Configure(IManagedCamera camera)
         {
@@ -54,12 +58,12 @@ namespace Aeon.Acquisition
         public IObservable<Timestamped<SpinnakerDataFrame>> Generate(IObservable<HarpMessage> source)
         {
             var frames = Generate();
-            var triggers = source.Where(68, MessageType.Event);
+            var triggers = source.Where(TriggerAddress, MessageType.Event);
             return frames.Zip(triggers, (frame, trigger) =>
-            {
-                var payload = trigger.GetTimestampedPayloadByte();
-                return Timestamped.Create(frame, payload.Seconds);
-            });
+                {
+                    var payload = trigger.GetTimestampedPayloadByte();
+                    return Timestamped.Create(frame, payload.Seconds);
+                });
         }
     }
 }
