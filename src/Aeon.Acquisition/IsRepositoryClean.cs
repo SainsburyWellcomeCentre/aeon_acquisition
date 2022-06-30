@@ -7,18 +7,17 @@ using LibGit2Sharp;
 namespace Aeon.Acquisition
 {
     [Combinator]
-    [Description("Determines whether a specified repository is clean or if uncommitted or untracked changes exist")]
     [WorkflowElementCategory(ElementCategory.Transform)]
+    [Description("Determines whether a specified repository is clean or if uncommitted or untracked changes exist")]
     public class IsRepositoryClean
     {
-        public IObservable<Boolean> Process(IObservable<IRepository> source)
+        public IObservable<bool> Process(IObservable<IRepository> source)
         {
             return source.Select(value =>
             {
-                RepositoryStatus status = value.RetrieveStatus();
-                bool isDirtyRepostatus = status.IsDirty;
-                bool isUncommitedFiles = value.Diff.Compare<TreeChanges>().Count > 0;
-                return !(isDirtyRepostatus | isUncommitedFiles);
+                var status = value.RetrieveStatus();
+                var untrackedChanges = value.Diff.Compare<TreeChanges>().Count > 0;
+                return !(status.IsDirty || untrackedChanges);
             });
         }
     }
