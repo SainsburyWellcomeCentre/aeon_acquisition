@@ -12,7 +12,7 @@ namespace Aeon.Acquisition
     {
         [Description("The relative or absolute path of the repository directory.")]
         [Editor("Bonsai.Design.FolderNameEditor, Bonsai.Design", DesignTypes.UITypeEditor)]
-        public string Path { get; set; } = "";
+        public string Path { get; set; }
 
         public override IObservable<IRepository> Generate()
         {
