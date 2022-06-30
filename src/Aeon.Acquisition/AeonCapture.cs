@@ -59,11 +59,14 @@ namespace Aeon.Acquisition
         {
             var frames = Generate();
             var triggers = source.Where(TriggerAddress, MessageType.Event);
-            return frames.Zip(triggers, (frame, trigger) =>
+            return frames
+                .FillGaps((previous, current) => (int)(current.ChunkData.FrameID - previous.ChunkData.FrameID - 1))
+                .Zip(triggers, (frame, trigger) =>
                 {
                     var payload = trigger.GetTimestampedPayloadByte();
                     return Timestamped.Create(frame, payload.Seconds);
-                });
+                })
+                .Where(timestamped => timestamped.Value != null);
         }
     }
 }
