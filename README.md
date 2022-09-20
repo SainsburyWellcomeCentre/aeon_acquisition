@@ -107,3 +107,13 @@ In addition, if using Windows 10 N editions or LTSR, the [media feature pack](ht
 Below are details for the specific environments we have tested:
   * Windows LTSR : Version 1807 (AEON2 - Download from microsoft support)
   * Windows 10 N: Version 20H2 (latest AEON1 - Apps & Features > Add a feature)
+  
+### Room Light Controller
+
+Room lights can be dynamically controlled using a serial over ethernet protocol and the [ES-257 Ethernet to Serial](https://www.brainboxes.com/product/ethernet-to-serial/es-poe/es-257) from [Brainboxes](https://www.brainboxes.com/). These provide addressable control of built-in light panels. Each one of the panels houses three different light temperatures (warm white, cold white, red). Each combination of color channel and panel has a unique address in the system. There are two available ports to connect on the ES-257, and each port allows access to full light control on all four rooms.
+
+The drivers can be obtained from the [Brainboxes website support page](https://www.brainboxes.com/faq/where-can-i-find-the-windows-drivers-for-my-ethernet-to-serial). At the time of writing we are using Boost.LAN Driver Version 4.3.284.0.
+
+After installation, the network should be scanned for devices using Boost.LAN Manager File > "Find Devices". The ES-257 should be automatically detected and displayed in the list. The virtual COM ports then need to be installed by selecting the device and the option "Install Virtual COM Port". After successful configuration, the ports should be listed in Windows device manager.
+
+![Virtual COM Ports](https://user-images.githubusercontent.com/5315880/191293434-4723812d-f16f-41b1-a40c-f982686277a4.png)
