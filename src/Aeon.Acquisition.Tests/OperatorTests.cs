@@ -28,7 +28,7 @@ namespace Aeon.Acquisition.Tests
                     workflowBuilder.Workflow.Convert(builder =>
                     {
                         var workflowElement = ExpressionBuilder.GetWorkflowElement(builder);
-                        if (workflowElement.GetType().Name != nameof(AeonCapture))
+                        if (workflowElement.GetType().Name != nameof(AeonSpinnakerCapture))
                         {
                             Assert.IsNotInstanceOfType(workflowElement, typeof(UnknownTypeBuilder));
                         }
