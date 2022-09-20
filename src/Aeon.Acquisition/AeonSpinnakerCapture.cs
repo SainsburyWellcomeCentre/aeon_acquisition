@@ -10,9 +10,9 @@ using Bonsai.Harp;
 namespace Aeon.Acquisition
 {
     [Description("Configures and initializes a Spinnaker camera for triggered acquisition.")]
-    public class AeonCapture : SpinnakerCapture
+    public class AeonSpinnakerCapture : SpinnakerCapture
     {
-        public AeonCapture()
+        public AeonSpinnakerCapture()
         {
             ExposureTime = 1e6 / 50 - 1000;
             TriggerAddress = 68;
@@ -60,7 +60,7 @@ namespace Aeon.Acquisition
             var frames = Generate();
             var triggers = source.Where(TriggerAddress, MessageType.Event);
             return frames
-                .FillGaps((previous, current) => (int)(current.ChunkData.FrameID - previous.ChunkData.FrameID - 1))
+                .FillGaps(frame => frame.ChunkData.FrameID, (previous, current) => (int)(current - previous - 1))
                 .Zip(triggers, (frame, trigger) =>
                 {
                     var payload = trigger.GetTimestampedPayloadByte();
@@ -68,5 +68,11 @@ namespace Aeon.Acquisition
                 })
                 .Where(timestamped => timestamped.Value != null);
         }
+    }
+
+    [Obsolete]
+    [Description("Configures and initializes a Spinnaker camera for triggered acquisition.")]
+    public class AeonCapture : AeonSpinnakerCapture
+    {
     }
 }

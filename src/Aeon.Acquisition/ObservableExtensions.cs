@@ -9,15 +9,24 @@ namespace Aeon.Acquisition
     {
         public static IObservable<TSource> FillGaps<TSource>(this IObservable<TSource> source, Func<TSource, TSource, int> gapSelector)
         {
+            return FillGaps(source, value => value, gapSelector);
+        }
+
+        public static IObservable<TSource> FillGaps<TSource, TCounter>(
+            this IObservable<TSource> source,
+            Func<TSource, TCounter> counterSelector,
+            Func<TCounter, TCounter, int> gapSelector)
+        {
             return Observable.Create<TSource>(observer =>
             {
                 bool hasPrevious = false;
-                TSource previous = default;
+                TCounter previousCounter = default;
                 var gapObserver = Observer.Create<TSource>(value =>
                 {
+                    var counter = counterSelector(value);
                     if (hasPrevious)
                     {
-                        var missing = gapSelector(previous, value);
+                        var missing = gapSelector(previousCounter, counter);
                         if (missing < 0)
                         {
                             observer.OnError(new InvalidOperationException("Negative gap sizes are not allowed."));
@@ -30,7 +39,7 @@ namespace Aeon.Acquisition
                         }
                     }
                     observer.OnNext(value);
-                    previous = value;
+                    previousCounter = counter;
                     hasPrevious = true;
                 });
                 return source.SubscribeSafe(gapObserver);
