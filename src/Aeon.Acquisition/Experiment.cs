@@ -142,28 +142,4 @@ namespace Aeon.Acquisition
 
         public double Z;
     }
-
-    public class ExperimentRoomLight
-    {
-        [Category(nameof(CategoryAttribute.Design))]
-        [Description("The name of the room light panel.")]
-        public string Name { get; set; }
-
-        [Description("The unique ID of the cold white channel for this light panel.")]
-        public int ColdWhiteChannel { get; set; }
-
-        [Description("The unique ID of the warm white channel for this light panel.")]
-        public int WarmWhiteChannel { get; set; }
-
-        [Description("The unique ID of the red channel for this light panel.")]
-        public int RedChannel { get; set; }
-    }
-
-    public class ExperimentRoomLightCollection : KeyedCollection<string, ExperimentRoomLight>
-    {
-        protected override string GetKeyForItem(ExperimentRoomLight item)
-        {
-            return item.Name;
-        }
-    }
 }
