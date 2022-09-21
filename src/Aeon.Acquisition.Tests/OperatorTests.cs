@@ -1,4 +1,4 @@
-using Bonsai;
+﻿using Bonsai;
 using Bonsai.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
@@ -28,7 +28,11 @@ namespace Aeon.Acquisition.Tests
                     workflowBuilder.Workflow.Convert(builder =>
                     {
                         var workflowElement = ExpressionBuilder.GetWorkflowElement(builder);
-                        if (workflowElement.GetType().Name != nameof(AeonSpinnakerCapture))
+                        if (workflowElement.GetType().Name != nameof(AeonSpinnakerCapture) &&
+                            workflowElement.GetType().Name != nameof(AeonPylonCapture) &&
+#pragma warning disable CS0612 // Type or member is obsolete
+                            workflowElement.GetType().Name != nameof(AeonCapture))
+#pragma warning restore CS0612 // Type or member is obsolete
                         {
                             Assert.IsNotInstanceOfType(workflowElement, typeof(UnknownTypeBuilder));
                         }
