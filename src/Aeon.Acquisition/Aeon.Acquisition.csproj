@@ -20,18 +20,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bonsai.Core" Version="2.7.0-rc1" />
-    <PackageReference Include="Bonsai.Audio" Version="2.7.0-rc1" />
+    <PackageReference Include="Bonsai.Core" Version="2.7.0-rc3" />
+    <PackageReference Include="Bonsai.Audio" Version="2.7.0-rc3" />
     <PackageReference Include="Bonsai.Harp" Version="3.4.0-build220224" />
     <PackageReference Include="Bonsai.Harp.Expander" Version="0.1.0-build1534" />
     <PackageReference Include="Bonsai.Pylon" Version="0.3.0-rc1" />
     <PackageReference Include="Bonsai.Spinnaker" Version="0.7.0" />
-    <PackageReference Include="Bonsai.Design" Version="2.7.0-rc1" />
-    <PackageReference Include="Bonsai.System" Version="2.7.0-rc1" />
-    <PackageReference Include="Bonsai.Scripting" Version="2.7.0-rc2" />
+    <PackageReference Include="Bonsai.Design" Version="2.7.0-rc3" />
+    <PackageReference Include="Bonsai.System" Version="2.7.0-rc3" />
+    <PackageReference Include="Bonsai.Scripting" Version="2.7.0-rc3" />
     <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
-    <PackageReference Include="Bonsai.Vision" Version="2.7.0-rc1" />
+    <PackageReference Include="Bonsai.Vision" Version="2.7.0-rc3" />
     <PackageReference Include="MathNet.Numerics" Version="4.5.1" />
   </ItemGroup>
 
