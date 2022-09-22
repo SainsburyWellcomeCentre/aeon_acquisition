@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.6.0"
+<WorkflowBuilder Version="2.7.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:p1="clr-namespace:Bonsai.Harp.Expander;assembly=Bonsai.Harp.Expander"
@@ -80,7 +80,7 @@
           <harp:MessageType>Event</harp:MessageType>
         </Combinator>
       </Expression>
-      <Expression xsi:type="Condition">
+      <Expression xsi:type="rx:Condition">
         <Name>Pwm1</Name>
         <Workflow>
           <Nodes>
@@ -119,7 +119,7 @@
       <Expression xsi:type="PublishSubject">
         <Name>LocalTrigger</Name>
       </Expression>
-      <Expression xsi:type="Condition">
+      <Expression xsi:type="rx:Condition">
         <Name>Pwm2</Name>
         <Workflow>
           <Nodes>

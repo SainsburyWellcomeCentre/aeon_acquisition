@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.6.0"
+<WorkflowBuilder Version="2.7.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
-                 xmlns:p1="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Chunks and logs a timestamped harp data stream into the base data log, splitting each independent register into a separate file.</Description>
   <Workflow>
@@ -18,7 +18,7 @@
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="LogName" />
       </Expression>
-      <Expression xsi:type="SelectMany">
+      <Expression xsi:type="rx:SelectMany">
         <Name>LogRegisters</Name>
         <Workflow>
           <Nodes>
@@ -72,11 +72,11 @@
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="p1:GroupByTime">
-                <p1:ChunkSize>1</p1:ChunkSize>
+              <Combinator xsi:type="aeon:GroupByTime">
+                <aeon:ChunkSize>1</aeon:ChunkSize>
               </Combinator>
             </Expression>
-            <Expression xsi:type="CreateObservable">
+            <Expression xsi:type="rx:CreateObservable">
               <Name>LogHarp</Name>
               <Workflow>
                 <Nodes>
