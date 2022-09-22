@@ -3,16 +3,15 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
-using Bonsai.Spinnaker;
 using SpinnakerNET;
 using Bonsai.Harp;
 
 namespace Aeon.Acquisition
 {
     [Description("Configures and initializes a Spinnaker camera for triggered acquisition.")]
-    public class AeonSpinnakerCapture : SpinnakerCapture
+    public class SpinnakerCapture : Bonsai.Spinnaker.SpinnakerCapture
     {
-        public AeonSpinnakerCapture()
+        public SpinnakerCapture()
         {
             ExposureTime = 1e6 / 50 - 1000;
             TriggerAddress = 68;
@@ -55,11 +54,12 @@ namespace Aeon.Acquisition
             base.Configure(camera);
         }
 
-        public IObservable<Timestamped<SpinnakerDataFrame>> Generate(IObservable<HarpMessage> source)
+        public IObservable<Timestamped<VideoDataFrame>> Generate(IObservable<HarpMessage> source)
         {
             var frames = Generate();
             var triggers = source.Where(TriggerAddress, MessageType.Event);
             return frames
+                .Select(frame => new VideoDataFrame(frame.Image, frame.ChunkData.FrameID, frame.ChunkData.Timestamp))
                 .FillGaps(frame => frame.ChunkData.FrameID, (previous, current) => (int)(current - previous - 1))
                 .Zip(triggers, (frame, trigger) =>
                 {
@@ -72,7 +72,7 @@ namespace Aeon.Acquisition
 
     [Obsolete]
     [Description("Configures and initializes a Spinnaker camera for triggered acquisition.")]
-    public class AeonCapture : AeonSpinnakerCapture
+    public class AeonCapture : SpinnakerCapture
     {
     }
 }

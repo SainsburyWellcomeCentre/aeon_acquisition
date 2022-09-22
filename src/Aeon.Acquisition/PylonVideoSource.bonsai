@@ -18,7 +18,7 @@
         <Name>GlobalTrigger</Name>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="aeon:AeonPylonCapture">
+        <Combinator xsi:type="aeon:PylonCapture">
           <aeon:GrabStrategy>OneByOne</aeon:GrabStrategy>
           <aeon:TriggerAddress>68</aeon:TriggerAddress>
         </Combinator>
