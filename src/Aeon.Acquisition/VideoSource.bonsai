@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.6.1"
+<WorkflowBuilder Version="2.7.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                 xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
-                 xmlns:p1="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
+                 xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
+                 xmlns:spk="clr-namespace:Bonsai.Spinnaker;assembly=Bonsai.Spinnaker"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Contains control and acquisition functionality for arena video capture devices.</Description>
   <Workflow>
@@ -38,17 +39,17 @@
         </PropertyMappings>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p1:AeonCapture">
-          <p1:Index xsi:nil="true" />
-          <p1:SerialNumber />
-          <p1:ColorProcessing>Default</p1:ColorProcessing>
-          <p1:ExposureTime>19500</p1:ExposureTime>
-          <p1:Gain>0</p1:Gain>
-          <p1:Binning>1</p1:Binning>
+        <Combinator xsi:type="aeon:SpinnakerCapture">
+          <spk:Index xsi:nil="true" />
+          <spk:ColorProcessing>Default</spk:ColorProcessing>
+          <aeon:ExposureTime>19500</aeon:ExposureTime>
+          <aeon:Gain>0</aeon:Gain>
+          <aeon:Binning>1</aeon:Binning>
+          <aeon:TriggerAddress>68</aeon:TriggerAddress>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p1:ObserveOnTaskPool" />
+        <Combinator xsi:type="aeon:ObserveOnTaskPool" />
       </Expression>
       <Expression xsi:type="PublishSubject">
         <Name>FrameEvents</Name>

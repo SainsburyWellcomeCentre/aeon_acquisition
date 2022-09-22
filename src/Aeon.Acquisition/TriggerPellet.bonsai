@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.7.0-alpha0"
+<WorkflowBuilder Version="2.7.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
-                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Delivers a single pellet to the specified patch when the input source raises an event.</Description>
   <Workflow>
@@ -24,7 +24,7 @@
         <harp:Type>TimestampedU16</harp:Type>
         <harp:IsArray>false</harp:IsArray>
       </Expression>
-      <Expression xsi:type="Condition">
+      <Expression xsi:type="rx:Condition">
         <Name>TriggerPellet</Name>
         <Workflow>
           <Nodes>
@@ -58,7 +58,7 @@
         <Name>DeliverPellet</Name>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:TriggeredWindow">
+        <Combinator xsi:type="rx:WindowTrigger">
           <rx:Count>1</rx:Count>
         </Combinator>
       </Expression>
