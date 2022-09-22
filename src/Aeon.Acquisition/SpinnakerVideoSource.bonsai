@@ -38,7 +38,7 @@
         </PropertyMappings>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="aeon:AeonSpinnakerCapture">
+        <Combinator xsi:type="aeon:SpinnakerCapture">
           <aeon:Index xsi:nil="true" />
           <aeon:ColorProcessing>Default</aeon:ColorProcessing>
           <aeon:ExposureTime>19500</aeon:ExposureTime>

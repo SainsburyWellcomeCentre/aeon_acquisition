@@ -28,8 +28,8 @@ namespace Aeon.Acquisition.Tests
                     workflowBuilder.Workflow.Convert(builder =>
                     {
                         var workflowElement = ExpressionBuilder.GetWorkflowElement(builder);
-                        if (workflowElement.GetType().Name != nameof(AeonSpinnakerCapture) &&
-                            workflowElement.GetType().Name != nameof(AeonPylonCapture) &&
+                        if (workflowElement.GetType().Name != nameof(SpinnakerCapture) &&
+                            workflowElement.GetType().Name != nameof(PylonCapture) &&
 #pragma warning disable CS0612 // Type or member is obsolete
                             workflowElement.GetType().Name != nameof(AeonCapture))
 #pragma warning restore CS0612 // Type or member is obsolete
