@@ -1,4 +1,4 @@
-using Bonsai;
+﻿using Bonsai;
 using Bonsai.Harp;
 using System;
 using System.ComponentModel;
@@ -47,6 +47,24 @@ namespace Aeon.Acquisition
                             return Timestamped.Create(data, timestamp);
                         }));
                 });
+            });
+        }
+
+        public IObservable<Timestamped<DispenserStateMetadata>> Process(IObservable<int> dispenser, IObservable<HarpMessage> source)
+        {
+            var refill = Process();
+            var discount = dispenser.Select(x => new DispenserStateMetadata(Name, -x, DispenserEventType.Discount));
+            return Observable.Defer(() =>
+            {
+                State = StateRecovery<DispenserStateRecovery>.Deserialize(Name);
+                var initialState = new DispenserStateMetadata(Name, State.Value, DispenserEventType.Reset);
+                return discount.Merge(refill).StartWith(initialState).Select((data, i) =>
+                {
+                    if (i > 0) State.Value += data.Value;
+                    StateRecovery<DispenserStateRecovery>.Serialize(Name, State);
+                    data = new DispenserStateMetadata(data.Name, State.Value, data.EventType);
+                    return data;
+                }).Timestamp(source);
             });
         }
     }
