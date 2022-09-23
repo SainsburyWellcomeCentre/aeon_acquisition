@@ -7,7 +7,7 @@ using Bonsai.Harp;
 
 namespace Aeon.Acquisition
 {
-    [Description("Configures and initializes a Spinnaker camera for triggered acquisition.")]
+    [Description("Configures and initializes a Pylon camera for triggered acquisition.")]
     public class PylonCapture : Bonsai.Pylon.PylonCapture
     {
         public PylonCapture()
