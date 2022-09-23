@@ -1,4 +1,4 @@
-﻿using Bonsai;
+using Bonsai;
 using Bonsai.Harp;
 using System;
 using System.ComponentModel;
@@ -24,7 +24,7 @@ namespace Aeon.Acquisition
             return Observable.Defer(() =>
             {
                 State = StateRecovery<DispenserStateRecovery>.Deserialize(Name);
-                var initialState = new DispenserStateMetadata(Name, State.Value);
+                var initialState = new DispenserStateMetadata(Name, State.Value, DispenserEventType.Reset);
                 return source.Publish(ps =>
                 {
                     const int DigitalOutput = 35;
@@ -33,7 +33,7 @@ namespace Aeon.Acquisition
                         message.Address == DigitalOutput &&
                         message.MessageType == MessageType.Write &&
                         message.GetPayloadByte() == TriggerPellet)
-                        .Select(_ => new DispenserStateMetadata(Name, -1));
+                        .Select(_ => new DispenserStateMetadata(Name, -1, DispenserEventType.Discount));
                     return refill.Merge(discount).StartWith(initialState).Publish(changes =>
                         changes.CombineLatest(ps, (data, message) => (data, message))
                         .Sample(changes.MergeUnit(ps.Take(1)))
@@ -43,7 +43,7 @@ namespace Aeon.Acquisition
                             var timestamp = x.message.GetTimestamp();
                             if (i > 0) State.Value += data.Value;
                             StateRecovery<DispenserStateRecovery>.Serialize(Name, State);
-                            data = new DispenserStateMetadata(data.Name, State.Value);
+                            data = new DispenserStateMetadata(data.Name, State.Value, data.EventType);
                             return Timestamped.Create(data, timestamp);
                         }));
                 });
