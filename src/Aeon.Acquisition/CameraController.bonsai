@@ -11,236 +11,154 @@
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="PortName" />
       </Expression>
-      <Expression xsi:type="rx:Defer">
-        <Name>Commands</Name>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>LocalTriggerFrequency</Name>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="Frequency" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>ConfigurePwm</Name>
+        <Description />
         <Workflow>
           <Nodes>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>LocalTriggerFrequency</Name>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Value" DisplayName="Frequency" />
             </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="Frequency" />
-              </PropertyMappings>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="IntProperty">
+                <Value>125</Value>
+              </Combinator>
             </Expression>
-            <Expression xsi:type="GroupWorkflow">
-              <Name>ConfigurePwm</Name>
-              <Description />
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="ExternalizedMapping">
-                    <Property Name="Value" DisplayName="Frequency" />
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="IntProperty">
-                      <Value>125</Value>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Take">
-                      <rx:Count>1</rx:Count>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="ExternalizedMapping">
-                    <Property Name="Address" DisplayName="CamEvent" Category="Registers" />
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="harp:CreateMessage">
-                      <harp:MessageType>Write</harp:MessageType>
-                      <harp:Address>35</harp:Address>
-                      <harp:PayloadType>U8</harp:PayloadType>
-                      <harp:Payload>1</harp:Payload>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="ExternalizedMapping">
-                    <Property Name="Address" DisplayName="TriggerFrequency" Category="Registers" />
-                  </Expression>
-                  <Expression xsi:type="harp:Format">
-                    <harp:MessageType>Write</harp:MessageType>
-                    <harp:Address>52</harp:Address>
-                    <harp:PayloadType>U16</harp:PayloadType>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Merge" />
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                </Nodes>
-                <Edges>
-                  <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="1" To="2" Label="Source1" />
-                  <Edge From="2" To="6" Label="Source1" />
-                  <Edge From="3" To="4" Label="Source1" />
-                  <Edge From="4" To="7" Label="Source1" />
-                  <Edge From="5" To="6" Label="Source2" />
-                  <Edge From="6" To="7" Label="Source2" />
-                  <Edge From="7" To="8" Label="Source1" />
-                </Edges>
-              </Workflow>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>GlobalTriggerFrequency</Name>
-            </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="Frequency" />
-              </PropertyMappings>
-            </Expression>
-            <Expression xsi:type="GroupWorkflow">
-              <Name>ConfigurePwm</Name>
-              <Description />
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="ExternalizedMapping">
-                    <Property Name="Value" DisplayName="Frequency" />
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="IntProperty">
-                      <Value>50</Value>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Take">
-                      <rx:Count>1</rx:Count>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="ExternalizedMapping">
-                    <Property Name="Address" DisplayName="CamEvent" Category="Registers" />
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="harp:CreateMessage">
-                      <harp:MessageType>Write</harp:MessageType>
-                      <harp:Address>34</harp:Address>
-                      <harp:PayloadType>U8</harp:PayloadType>
-                      <harp:Payload>1</harp:Payload>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="ExternalizedMapping">
-                    <Property Name="Address" DisplayName="TriggerFrequency" Category="Registers" />
-                  </Expression>
-                  <Expression xsi:type="harp:Format">
-                    <harp:MessageType>Write</harp:MessageType>
-                    <harp:Address>45</harp:Address>
-                    <harp:PayloadType>U16</harp:PayloadType>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Merge" />
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                </Nodes>
-                <Edges>
-                  <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="1" To="2" Label="Source1" />
-                  <Edge From="2" To="6" Label="Source1" />
-                  <Edge From="3" To="4" Label="Source1" />
-                  <Edge From="4" To="7" Label="Source1" />
-                  <Edge From="5" To="6" Label="Source2" />
-                  <Edge From="6" To="7" Label="Source2" />
-                  <Edge From="7" To="8" Label="Source1" />
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>StartCameras</Name>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Address" DisplayName="CamEvent" Category="Registers" />
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="harp:CreateMessage">
                 <harp:MessageType>Write</harp:MessageType>
-                <harp:Address>36</harp:Address>
+                <harp:Address>35</harp:Address>
                 <harp:PayloadType>U8</harp:PayloadType>
-                <harp:Payload>3</harp:Payload>
+                <harp:Payload>1</harp:Payload>
               </Combinator>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>StopCameras</Name>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Address" DisplayName="TriggerFrequency" Category="Registers" />
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="harp:CreateMessage">
-                <harp:MessageType>Write</harp:MessageType>
-                <harp:Address>36</harp:Address>
-                <harp:PayloadType>U8</harp:PayloadType>
-                <harp:Payload>12</harp:Payload>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>CameraStop</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:SubscribeWhen" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>CameraStop</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:SubscribeWhen" />
+            <Expression xsi:type="harp:Format">
+              <harp:MessageType>Write</harp:MessageType>
+              <harp:Address>52</harp:Address>
+              <harp:PayloadType>U16</harp:PayloadType>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Merge" />
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
-            <Expression xsi:type="SubscribeSubject">
-              <Name>VideoEvents</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="harp:FilterMessage">
-                <harp:Address>36</harp:Address>
-                <harp:MessageType>Write</harp:MessageType>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="rx:Condition">
-              <Name>CameraStop</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="harp:Parse">
-                    <harp:Type>U8</harp:Type>
-                    <harp:IsArray>false</harp:IsArray>
-                  </Expression>
-                  <Expression xsi:type="Equal">
-                    <Operand xsi:type="WorkflowProperty" TypeArguments="sys:Byte">
-                      <Value>0</Value>
-                    </Operand>
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                </Nodes>
-                <Edges>
-                  <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="1" To="2" Label="Source1" />
-                  <Edge From="2" To="3" Label="Source1" />
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="BehaviorSubject">
-              <Name>CameraStop</Name>
-            </Expression>
-            <Expression xsi:type="Unit" />
-            <Expression xsi:type="MulticastSubject">
-              <Name>StopCameras</Name>
-            </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="13" Label="Source1" />
+            <Edge From="2" To="6" Label="Source1" />
             <Edge From="3" To="4" Label="Source1" />
-            <Edge From="4" To="5" Label="Source1" />
-            <Edge From="5" To="11" Label="Source1" />
-            <Edge From="6" To="7" Label="Source1" />
-            <Edge From="7" To="14" Label="Source3" />
-            <Edge From="8" To="9" Label="Source1" />
-            <Edge From="9" To="14" Label="Source4" />
-            <Edge From="10" To="11" Label="Source2" />
-            <Edge From="11" To="14" Label="Source1" />
-            <Edge From="12" To="13" Label="Source2" />
-            <Edge From="13" To="14" Label="Source2" />
-            <Edge From="14" To="15" Label="Source1" />
-            <Edge From="16" To="17" Label="Source1" />
-            <Edge From="17" To="18" Label="Source1" />
-            <Edge From="18" To="19" Label="Source1" />
-            <Edge From="20" To="21" Label="Source1" />
+            <Edge From="4" To="7" Label="Source1" />
+            <Edge From="5" To="6" Label="Source2" />
+            <Edge From="6" To="7" Label="Source2" />
+            <Edge From="7" To="8" Label="Source1" />
           </Edges>
         </Workflow>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>GlobalTriggerFrequency</Name>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="Frequency" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>ConfigurePwm</Name>
+        <Description />
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Value" DisplayName="Frequency" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="IntProperty">
+                <Value>50</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Address" DisplayName="CamEvent" Category="Registers" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="harp:CreateMessage">
+                <harp:MessageType>Write</harp:MessageType>
+                <harp:Address>34</harp:Address>
+                <harp:PayloadType>U8</harp:PayloadType>
+                <harp:Payload>1</harp:Payload>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Address" DisplayName="TriggerFrequency" Category="Registers" />
+            </Expression>
+            <Expression xsi:type="harp:Format">
+              <harp:MessageType>Write</harp:MessageType>
+              <harp:Address>45</harp:Address>
+              <harp:PayloadType>U16</harp:PayloadType>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="6" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="7" Label="Source1" />
+            <Edge From="5" To="6" Label="Source2" />
+            <Edge From="6" To="7" Label="Source2" />
+            <Edge From="7" To="8" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Object">
+        <Name>StartCameras</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="harp:CreateMessage">
+          <harp:MessageType>Write</harp:MessageType>
+          <harp:Address>36</harp:Address>
+          <harp:PayloadType>U8</harp:PayloadType>
+          <harp:Payload>3</harp:Payload>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Object">
+        <Name>StopCameras</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="harp:CreateMessage">
+          <harp:MessageType>Write</harp:MessageType>
+          <harp:Address>36</harp:Address>
+          <harp:PayloadType>U8</harp:PayloadType>
+          <harp:Payload>12</harp:Payload>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Merge" />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="harp:Device">
@@ -253,9 +171,10 @@
           <harp:PortName />
         </Combinator>
       </Expression>
-      <Expression xsi:type="MulticastSubject">
+      <Expression xsi:type="PublishSubject">
         <Name>VideoEvents</Name>
       </Expression>
+      <Expression xsi:type="WorkflowOutput" />
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="harp:FilterMessage">
           <harp:Address>32</harp:Address>
@@ -368,34 +287,34 @@
       <Expression xsi:type="BehaviorSubject">
         <Name>LocalTriggerFrequency</Name>
       </Expression>
-      <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Object">
-        <Name>StartCameras</Name>
-      </Expression>
-      <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Object">
-        <Name>StopCameras</Name>
-      </Expression>
-      <Expression xsi:type="PublishSubject" TypeArguments="harp:HarpMessage">
-        <Name>VideoEvents</Name>
-      </Expression>
-      <Expression xsi:type="WorkflowOutput" />
     </Nodes>
     <Edges>
-      <Edge From="0" To="2" Label="Source2" />
+      <Edge From="0" To="12" Label="Source2" />
       <Edge From="1" To="2" Label="Source1" />
       <Edge From="2" To="3" Label="Source1" />
-      <Edge From="3" To="4" Label="Source1" />
-      <Edge From="3" To="7" Label="Source1" />
+      <Edge From="3" To="11" Label="Source2" />
       <Edge From="4" To="5" Label="Source1" />
       <Edge From="5" To="6" Label="Source1" />
+      <Edge From="6" To="11" Label="Source1" />
       <Edge From="7" To="8" Label="Source1" />
-      <Edge From="8" To="9" Label="Source1" />
-      <Edge From="10" To="11" Label="Source1" />
+      <Edge From="8" To="11" Label="Source3" />
+      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="10" To="11" Label="Source4" />
       <Edge From="11" To="12" Label="Source1" />
       <Edge From="12" To="13" Label="Source1" />
-      <Edge From="14" To="15" Label="Source1" />
+      <Edge From="13" To="14" Label="Source1" />
+      <Edge From="13" To="15" Label="Source1" />
+      <Edge From="13" To="18" Label="Source1" />
       <Edge From="15" To="16" Label="Source1" />
       <Edge From="16" To="17" Label="Source1" />
-      <Edge From="20" To="21" Label="Source1" />
+      <Edge From="18" To="19" Label="Source1" />
+      <Edge From="19" To="20" Label="Source1" />
+      <Edge From="21" To="22" Label="Source1" />
+      <Edge From="22" To="23" Label="Source1" />
+      <Edge From="23" To="24" Label="Source1" />
+      <Edge From="25" To="26" Label="Source1" />
+      <Edge From="26" To="27" Label="Source1" />
+      <Edge From="27" To="28" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
