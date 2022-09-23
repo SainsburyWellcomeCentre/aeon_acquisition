@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using Bonsai.Harp;
 
 namespace Aeon.Acquisition
 {
@@ -49,6 +50,19 @@ namespace Aeon.Acquisition
         public static IObservable<Unit> MergeUnit<TSource, TOther>(this IObservable<TSource> source, IObservable<TOther> other)
         {
             return source.Select(x => Unit.Default).Merge(other.Select(x => Unit.Default));
+        }
+
+        public static IObservable<Bonsai.Harp.Timestamped<TSource>> Timestamp<TSource>(this IObservable<TSource> source, IObservable<HarpMessage> clock)
+        {
+            return clock.Publish(
+                pc => source.Publish(
+                    ps => ps.CombineLatest(pc, (data, tick) => (data, tick))
+                            .Sample(ps.MergeUnit(pc.Take(1)))
+                            .Select(x =>
+                            {
+                                var timestamp = x.tick.GetTimestamp();
+                                return Bonsai.Harp.Timestamped.Create(x.data, timestamp);
+                            })));
         }
     }
 }
