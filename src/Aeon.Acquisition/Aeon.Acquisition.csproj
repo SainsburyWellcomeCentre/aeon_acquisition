@@ -12,7 +12,7 @@
     <PackageOutputPath>..\..\bin\$(Configuration)</PackageOutputPath>
     <PackageTags>Bonsai Rx Project Aeon Acquisition</PackageTags>
     <TargetFramework>net472</TargetFramework>
-    <Version>0.3.0-test092304</Version>
+    <Version>0.3.0-test092305</Version>
   </PropertyGroup>
   
   <ItemGroup>
