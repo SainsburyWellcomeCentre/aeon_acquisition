@@ -1,4 +1,4 @@
-using Bonsai;
+﻿using Bonsai;
 using System;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -24,11 +24,11 @@ namespace Aeon.Acquisition
 
         public IObservable<Timestamped<Mat>> Generate(IObservable<HarpMessage> source)
         {
-            var frames = Generate();
-            return source.Where(68, MessageType.Event).Publish(triggers =>
-                frames.Buffer(triggers)
-                      .Zip(triggers, (list, trigger) => TimestampBuffers(list, trigger))
-                      .SelectMany(x => x));
+            var data = Generate();
+            return source.Publish(triggers =>
+                data.Buffer(triggers)
+                    .Zip(triggers, (list, trigger) => TimestampBuffers(list, trigger))
+                    .SelectMany(x => x));
         }
     }
 }
