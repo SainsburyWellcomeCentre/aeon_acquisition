@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.7.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:osc="clr-namespace:Bonsai.Osc;assembly=Bonsai.Osc"
+                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Description>Contains control and acquisition functionality for automated room lighting.</Description>
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="HostName" />
+        <Property Name="Port" />
+        <Property Name="NoDelay" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="osc:CreateTcpClient">
+          <osc:Name>LightClient</osc:Name>
+          <osc:HostName>localhost</osc:HostName>
+          <osc:Port>4302</osc:Port>
+          <osc:NoDelay>false</osc:NoDelay>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="osc:ReceiveMessage">
+        <osc:Address />
+        <osc:Connection>LightClient</osc:Connection>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>GlobalTrigger</Name>
+      </Expression>
+      <Expression xsi:type="harp:Parse">
+        <harp:Type>Timestamp</harp:Type>
+        <harp:IsArray>false</harp:IsArray>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:WithLatestFrom" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="aeon:CreateTimestamped" />
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="LightEvents" Description="The name of the output sequence containing all timestamped light events." />
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>LightEvents</Name>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="2" To="5" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="4" To="5" Label="Source2" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="6" To="8" Label="Source1" />
+      <Edge From="7" To="8" Label="Source2" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
