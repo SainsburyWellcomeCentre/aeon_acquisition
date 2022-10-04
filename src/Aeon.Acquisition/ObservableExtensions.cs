@@ -30,7 +30,8 @@ namespace Aeon.Acquisition
                         var missing = gapSelector(previousCounter, counter);
                         if (missing < 0)
                         {
-                            observer.OnError(new InvalidOperationException("Negative gap sizes are not allowed."));
+                            observer.OnError(new InvalidOperationException(
+                                $"Negative gap sizes are not allowed.\n  Previous counter: {previousCounter}\n  Current counter: {counter}"));
                         }
 
                         while (missing > 0)
