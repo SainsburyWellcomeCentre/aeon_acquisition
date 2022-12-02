@@ -49,7 +49,7 @@ Item2 as Value)</scr:Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="LightEvents" Description="The name of the output sequence containing all timestamped light events." />
       </Expression>
-      <Expression xsi:type="PublishSubject">
+      <Expression xsi:type="rx:PublishSubject">
         <Name>LightEvents</Name>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />

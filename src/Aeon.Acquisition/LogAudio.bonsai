@@ -35,7 +35,7 @@
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
             </Expression>
-            <Expression xsi:type="AsyncSubject">
+            <Expression xsi:type="rx:AsyncSubject">
               <Name>Data</Name>
             </Expression>
             <Expression xsi:type="SubscribeSubject">

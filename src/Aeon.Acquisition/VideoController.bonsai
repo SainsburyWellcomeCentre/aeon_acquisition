@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.7.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:p1="clr-namespace:Bonsai.Harp.Expander;assembly=Bonsai.Harp.Expander"
-                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Supplies synchronized camera triggering for both global and local views.</Description>
@@ -12,8 +12,8 @@
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="PortName" />
       </Expression>
-      <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Object">
-        <Name>StartCameras</Name>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
+        <rx:Name>StartCameras</rx:Name>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="p1:PwmOutput">
@@ -21,8 +21,8 @@
           <p1:Mask>Pwm1 Pwm2</p1:Mask>
         </Combinator>
       </Expression>
-      <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Object">
-        <Name>StopCameras</Name>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
+        <rx:Name>StopCameras</rx:Name>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="p1:PwmOutput">
@@ -70,7 +70,7 @@
           <p1:PortName />
         </Combinator>
       </Expression>
-      <Expression xsi:type="PublishSubject">
+      <Expression xsi:type="rx:PublishSubject">
         <Name>VideoEvents</Name>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
@@ -116,7 +116,7 @@
           </Edges>
         </Workflow>
       </Expression>
-      <Expression xsi:type="PublishSubject">
+      <Expression xsi:type="rx:PublishSubject">
         <Name>LocalTrigger</Name>
       </Expression>
       <Expression xsi:type="rx:Condition">
@@ -155,7 +155,7 @@
           </Edges>
         </Workflow>
       </Expression>
-      <Expression xsi:type="PublishSubject">
+      <Expression xsi:type="rx:PublishSubject">
         <Name>GlobalTrigger</Name>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
@@ -171,7 +171,7 @@
           <rx:Count>1</rx:Count>
         </Combinator>
       </Expression>
-      <Expression xsi:type="BehaviorSubject">
+      <Expression xsi:type="rx:BehaviorSubject">
         <Name>GlobalTriggerFrequency</Name>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
@@ -187,7 +187,7 @@
           <rx:Count>1</rx:Count>
         </Combinator>
       </Expression>
-      <Expression xsi:type="BehaviorSubject">
+      <Expression xsi:type="rx:BehaviorSubject">
         <Name>LocalTriggerFrequency</Name>
       </Expression>
     </Nodes>

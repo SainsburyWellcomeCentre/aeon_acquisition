@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.7.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                 xmlns:p1="clr-namespace:Bonsai.Harp.Expander;assembly=Bonsai.Harp.Expander"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:p1="clr-namespace:Bonsai.Harp.Expander;assembly=Bonsai.Harp.Expander"
                  xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
                  xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns="https://bonsai-rx.org/2018/workflow">
@@ -20,20 +20,20 @@
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="PelletDelivered" Description="The name of the output sequence carrying pellet delivery notifications." />
       </Expression>
-      <Expression xsi:type="PublishSubject" TypeArguments="harp:Timestamped(sys:Boolean)">
-        <Name>PelletDelivered</Name>
+      <Expression xsi:type="rx:PublishSubject" TypeArguments="harp:Timestamped(sys:Boolean)">
+        <rx:Name>PelletDelivered</rx:Name>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="DeliverPellet" Description="The name of the input sequence used to trigger pellet delivery." />
       </Expression>
-      <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Object">
-        <Name>DeliverPellet</Name>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
+        <rx:Name>DeliverPellet</rx:Name>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="PatchEvents" Description="The name of the output sequence containing all patch events." />
       </Expression>
-      <Expression xsi:type="PublishSubject" TypeArguments="harp:HarpMessage">
-        <Name>PatchEvents</Name>
+      <Expression xsi:type="rx:PublishSubject" TypeArguments="harp:HarpMessage">
+        <rx:Name>PatchEvents</rx:Name>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
       <Expression xsi:type="ExternalizedMapping">
@@ -50,8 +50,8 @@
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="ResetFeeder" Description="The name of the input sequence used to reset the underground feeder." />
       </Expression>
-      <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Object">
-        <Name>ResetFeeder</Name>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
+        <rx:Name>ResetFeeder</rx:Name>
       </Expression>
       <Expression xsi:type="GroupWorkflow">
         <Name>ResetFeeder</Name>
@@ -255,7 +255,7 @@ Item2.GetTimestamp() as Seconds)</scr:Expression>
           <aeon:Radius>4</aeon:Radius>
         </Combinator>
       </Expression>
-      <Expression xsi:type="PublishSubject">
+      <Expression xsi:type="rx:PublishSubject">
         <Name>WheelDisplacement</Name>
       </Expression>
       <Expression xsi:type="p1:AuxInputs">

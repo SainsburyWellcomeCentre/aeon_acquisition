@@ -135,8 +135,8 @@
           </Edges>
         </Workflow>
       </Expression>
-      <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Object">
-        <Name>StartCameras</Name>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
+        <rx:Name>StartCameras</rx:Name>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="harp:CreateMessage">
@@ -146,8 +146,8 @@
           <harp:Payload>3</harp:Payload>
         </Combinator>
       </Expression>
-      <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Object">
-        <Name>StopCameras</Name>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
+        <rx:Name>StopCameras</rx:Name>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="harp:CreateMessage">
@@ -171,7 +171,7 @@
           <harp:PortName />
         </Combinator>
       </Expression>
-      <Expression xsi:type="PublishSubject">
+      <Expression xsi:type="rx:PublishSubject">
         <Name>VideoEvents</Name>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
@@ -212,7 +212,7 @@
           </Edges>
         </Workflow>
       </Expression>
-      <Expression xsi:type="PublishSubject">
+      <Expression xsi:type="rx:PublishSubject">
         <Name>GlobalTrigger</Name>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -252,7 +252,7 @@
           </Edges>
         </Workflow>
       </Expression>
-      <Expression xsi:type="PublishSubject">
+      <Expression xsi:type="rx:PublishSubject">
         <Name>LocalTrigger</Name>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
@@ -268,7 +268,7 @@
           <rx:Count>1</rx:Count>
         </Combinator>
       </Expression>
-      <Expression xsi:type="BehaviorSubject">
+      <Expression xsi:type="rx:BehaviorSubject">
         <Name>GlobalTriggerFrequency</Name>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
@@ -284,7 +284,7 @@
           <rx:Count>1</rx:Count>
         </Combinator>
       </Expression>
-      <Expression xsi:type="BehaviorSubject">
+      <Expression xsi:type="rx:BehaviorSubject">
         <Name>LocalTriggerFrequency</Name>
       </Expression>
     </Nodes>

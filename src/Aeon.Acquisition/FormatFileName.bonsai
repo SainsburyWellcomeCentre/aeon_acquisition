@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.6.0"
+<WorkflowBuilder Version="2.7.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
-                 xmlns:p1="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
+                 xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Generates a log filename based on the input timestamp.</Description>
   <Workflow>
@@ -40,11 +40,11 @@
         <Name>Source1</Name>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p1:FormatDate" />
+        <Combinator xsi:type="aeon:FormatDate" />
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p1:StripSubstring">
-          <p1:Separator>_</p1:Separator>
+        <Combinator xsi:type="aeon:StripSubstring">
+          <aeon:Separator>_</aeon:Separator>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">

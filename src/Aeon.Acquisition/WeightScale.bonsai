@@ -3,10 +3,10 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Contains acquisition functionality for automated arena weighing scales.</Description>
   <Workflow>
@@ -73,15 +73,15 @@ Item2.Contains("?") ? 0.0 : 1.0 as Confidence)</scr:Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="WeightEvents" Description="The name of the output sequence containing all weight events." />
       </Expression>
-      <Expression xsi:type="PublishSubject">
+      <Expression xsi:type="rx:PublishSubject">
         <Name>WeightEvents</Name>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="TareWeight" Description="The name of the input sequence with tare commands to be sent to the weight scale." />
       </Expression>
-      <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Object">
-        <Name>TareWeight</Name>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
+        <rx:Name>TareWeight</rx:Name>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="StringProperty">
@@ -114,7 +114,7 @@ Item2.Contains("?") ? 0.0 : 1.0 as Confidence)</scr:Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="TareEvents" Description="The name of the output sequence containing all timestamped tare events." />
       </Expression>
-      <Expression xsi:type="PublishSubject">
+      <Expression xsi:type="rx:PublishSubject">
         <Name>TareEvents</Name>
       </Expression>
     </Nodes>
