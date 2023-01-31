@@ -24,7 +24,10 @@ namespace Aeon.Acquisition
             {
                 using (var contourHeader = Mat.CreateMatHeader(contour[i], contour[i].Length, 2, Depth.S32, 1))
                 {
-                    return CV.PointPolygonTest(contourHeader, point, false) > 0;
+                    if (CV.PointPolygonTest(contourHeader, point, false) > 0)
+                    {
+                        return true;
+                    }
                 }
             }
 
