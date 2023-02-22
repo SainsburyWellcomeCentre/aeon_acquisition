@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.7.1"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Description>Provides functionality for synchronizing all arena Harp devices and setting the UTC time reference.</Description>
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
+        <rx:Name>SynchronizeTimestamp</rx:Name>
+      </Expression>
+      <Expression xsi:type="harp:DeviceCommand">
+        <harp:Command xsi:type="harp:SynchronizeTimestamp" />
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="PortName" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="harp:Device">
+          <harp:DeviceState>Active</harp:DeviceState>
+          <harp:DumpRegisters>true</harp:DumpRegisters>
+          <harp:LedState>On</harp:LedState>
+          <harp:VisualIndicators>On</harp:VisualIndicators>
+          <harp:Heartbeat>Enable</harp:Heartbeat>
+          <harp:IgnoreErrors>false</harp:IgnoreErrors>
+          <harp:PortName />
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject">
+        <Name>SynchronizerEvents</Name>
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="3" Label="Source1" />
+      <Edge From="2" To="3" Label="Source2" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
