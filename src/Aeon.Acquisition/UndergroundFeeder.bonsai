@@ -251,15 +251,35 @@ Item2.GetTimestamp() as Seconds)</scr:Expression>
         <Name>PatchEvents</Name>
       </Expression>
       <Expression xsi:type="p1:MagneticEncoder">
-        <p1:IncludeTimestamp>false</p1:IncludeTimestamp>
+        <p1:IncludeTimestamp>true</p1:IncludeTimestamp>
       </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>Angle</Selector>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="aeon:WheelDisplacement">
-          <aeon:Radius>4</aeon:Radius>
-        </Combinator>
+      <Expression xsi:type="aeon:TransformTimestamped">
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Angle</Selector>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Radius" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="aeon:WheelDisplacement">
+                <aeon:Radius>4</aeon:Radius>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="3" Label="Source1" />
+            <Edge From="2" To="3" Label="Source2" />
+            <Edge From="3" To="4" Label="Source1" />
+          </Edges>
+        </Workflow>
+        <aeon:IncludeTimestamp>false</aeon:IncludeTimestamp>
       </Expression>
       <Expression xsi:type="rx:PublishSubject">
         <Name>WheelDisplacement</Name>
@@ -292,8 +312,8 @@ Item2.GetTimestamp() as Seconds)</scr:Expression>
     </Nodes>
     <Edges>
       <Edge From="0" To="20" Label="Source2" />
-      <Edge From="1" To="28" Label="Source2" />
-      <Edge From="2" To="31" Label="Source2" />
+      <Edge From="1" To="27" Label="Source2" />
+      <Edge From="2" To="30" Label="Source2" />
       <Edge From="2" To="3" Label="Source1" />
       <Edge From="3" To="16" Label="Source2" />
       <Edge From="4" To="5" Label="Source1" />
@@ -302,7 +322,7 @@ Item2.GetTimestamp() as Seconds)</scr:Expression>
       <Edge From="6" To="7" Label="Source1" />
       <Edge From="6" To="22" Label="Source2" />
       <Edge From="7" To="8" Label="Source1" />
-      <Edge From="9" To="27" Label="Source2" />
+      <Edge From="9" To="26" Label="Source2" />
       <Edge From="10" To="11" Label="Source1" />
       <Edge From="11" To="19" Label="Source1" />
       <Edge From="12" To="13" Label="Source1" />
@@ -319,12 +339,11 @@ Item2.GetTimestamp() as Seconds)</scr:Expression>
       <Edge From="22" To="23" Label="Source2" />
       <Edge From="23" To="24" Label="Source1" />
       <Edge From="24" To="25" Label="Source1" />
-      <Edge From="24" To="29" Label="Source1" />
+      <Edge From="24" To="28" Label="Source1" />
       <Edge From="25" To="26" Label="Source1" />
       <Edge From="26" To="27" Label="Source1" />
-      <Edge From="27" To="28" Label="Source1" />
+      <Edge From="28" To="29" Label="Source1" />
       <Edge From="29" To="30" Label="Source1" />
-      <Edge From="30" To="31" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
