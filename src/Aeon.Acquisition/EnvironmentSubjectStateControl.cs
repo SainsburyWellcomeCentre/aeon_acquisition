@@ -70,6 +70,19 @@ namespace Aeon.Acquisition
             return true;
         }
 
+        private bool ValidateEnvironment(EnvironmentStateType? environmentState)
+        {
+            if (environmentState.HasValue && environmentState != EnvironmentStateType.Maintenance)
+            {
+                MessageBox.Show(
+                    $"Any changes to the list of active subjects must be made during maintenance mode.",
+                    ((Bonsai.INamedElement)Source).Name);
+                return false;
+            }
+
+            return true;
+        }
+
         private void RefreshViewState(ViewState view)
         {
             viewState = view;
@@ -98,6 +111,7 @@ namespace Aeon.Acquisition
         {
             if (viewState == ViewState.Browse)
             {
+                if (!ValidateEnvironment(Source.EnvironmentState)) return;
                 var metadata = new EnvironmentSubjectStateEntry { Type = EnvironmentSubjectChangeType.Enter };
                 propertyGrid.SelectedObject = metadata;
                 RefreshViewState(ViewState.Adding);
@@ -143,7 +157,7 @@ namespace Aeon.Acquisition
             if (viewState == ViewState.Browse)
             {
                 var selectedItem = subjectListView.SelectedItems.OfType<ListViewItem>().FirstOrDefault();
-                if (selectedItem != null)
+                if (selectedItem != null && ValidateEnvironment(Source.EnvironmentState))
                 {
                     var metadata = (EnvironmentSubjectStateEntry)selectedItem.Tag;
                     propertyGrid.SelectedObject = new EnvironmentSubjectStateEntry

@@ -20,6 +20,11 @@ namespace Aeon.Acquisition
         [FileNameFilter("CSV (Comma delimited)|*.csv|All Files|*.*")]
         public string DatabasePath { get; set; }
 
+        [Description("The current state of the environment.")]
+        public EnvironmentStateType? EnvironmentState { get; set; }
+
+        public bool ShouldSerializeEnvironmentState() => EnvironmentState.HasValue;
+
         string INamedElement.Name => $"{Name.AsNullIfEmpty() ?? "Environment"}SubjectState";
 
         internal SubjectStateRecovery State { get; set; }
