@@ -225,7 +225,7 @@ Item2.GetTimestamp() as Seconds)</scr:Expression>
             </Expression>
             <Expression xsi:type="harp:Format">
               <harp:MessageType>Write</harp:MessageType>
-              <harp:Address>200</harp:Address>
+              <harp:Address>203</harp:Address>
               <harp:PayloadType>TimestampedU8</harp:PayloadType>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
