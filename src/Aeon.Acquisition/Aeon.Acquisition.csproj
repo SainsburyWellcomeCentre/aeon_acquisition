@@ -12,7 +12,7 @@
     <PackageOutputPath>..\..\bin\$(Configuration)</PackageOutputPath>
     <PackageTags>Bonsai Rx Project Aeon Acquisition</PackageTags>
     <TargetFramework>net472</TargetFramework>
-    <Version>0.3.0-test151247</Version>
+    <Version>0.3.0-test181040</Version>
   </PropertyGroup>
   
   <ItemGroup>
@@ -30,7 +30,7 @@
     <PackageReference Include="Bonsai.Design" Version="2.7.0" />
     <PackageReference Include="Bonsai.System" Version="2.7.0" />
     <PackageReference Include="Bonsai.Scripting.Expressions" Version="2.7.0" />
-    <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
+    <PackageReference Include="LibGit2Sharp" Version="0.25.4" />
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
     <PackageReference Include="Bonsai.Vision" Version="2.7.0" />
     <PackageReference Include="MathNet.Numerics" Version="4.5.1" />
