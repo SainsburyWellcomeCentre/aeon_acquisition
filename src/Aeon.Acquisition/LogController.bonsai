@@ -20,7 +20,7 @@
         <Combinator xsi:type="rx:Timestamp" />
       </Expression>
       <Expression xsi:type="MemberSelector">
-        <Selector>Timestamp.DateTime</Selector>
+        <Selector>Timestamp.UtcDateTime</Selector>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="aeon:FormatDate" />
