@@ -12,14 +12,20 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="harp:FilterMessage">
-          <harp:Address xsi:nil="true" />
           <harp:MessageType>Read</harp:MessageType>
+          <harp:Register xsi:type="harp:FilterMessageAddress">
+            <harp:Address xsi:nil="true" />
+          </harp:Register>
         </Combinator>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="LogName" />
+        <Property Name="Heartbeats" />
+        <Property Name="ClosingDuration" />
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:LogHarp.bonsai">
+        <Heartbeats xsi:nil="true" />
+        <ClosingDuration xsi:nil="true" />
         <LogName>HarpData</LogName>
       </Expression>
       <Expression xsi:type="rx:Condition">
@@ -48,6 +54,8 @@
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:LogHarpDemux.bonsai">
         <LogName>HarpData</LogName>
+        <Heartbeats />
+        <ClosingDuration xsi:nil="true" />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Merge" />
