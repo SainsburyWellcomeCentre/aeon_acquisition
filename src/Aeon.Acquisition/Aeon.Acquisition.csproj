@@ -12,7 +12,7 @@
     <PackageOutputPath>..\..\bin\$(Configuration)</PackageOutputPath>
     <PackageTags>Bonsai Rx Project Aeon Acquisition</PackageTags>
     <TargetFramework>net472</TargetFramework>
-    <Version>0.3.0-test211418</Version>
+    <Version>0.3.0-test221337</Version>
   </PropertyGroup>
   
   <ItemGroup>
@@ -26,12 +26,12 @@
     <PackageReference Include="Bonsai.Harp.Expander" Version="0.1.0-build1534" />
     <PackageReference Include="Bonsai.Osc" Version="2.7.0" />
     <PackageReference Include="Bonsai.Pylon" Version="0.3.0" />
+    <PackageReference Include="Bonsai.Sleap" Version="0.2.0" />
     <PackageReference Include="Bonsai.Spinnaker" Version="0.7.1-rc" />
     <PackageReference Include="Bonsai.Design" Version="2.7.0" />
     <PackageReference Include="Bonsai.System" Version="2.7.0" />
     <PackageReference Include="Bonsai.Scripting.Expressions" Version="2.7.0" />
     <PackageReference Include="LibGit2Sharp" Version="0.25.4" />
-    <PackageReference Include="YamlDotNet" Version="11.2.1" />
     <PackageReference Include="Bonsai.Vision" Version="2.7.0" />
     <PackageReference Include="MathNet.Numerics" Version="4.5.1" />
   </ItemGroup>
