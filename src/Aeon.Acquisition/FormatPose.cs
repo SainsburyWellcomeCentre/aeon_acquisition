@@ -11,7 +11,7 @@ namespace Aeon.Acquisition
     [Combinator]
     [Description("Converts a timestamped pose collection into a sequence of Harp messages.")]
     [WorkflowElementCategory(ElementCategory.Transform)]
-    public class FormatSleapPose
+    public class FormatPose
     {
         [Description("The address of the formatted Harp message.")]
         public int Address { get; set; } = 255;
