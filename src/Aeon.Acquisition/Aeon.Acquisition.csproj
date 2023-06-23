@@ -4,15 +4,10 @@
     <UseWindowsForms>true</UseWindowsForms>
     <Title>Project Aeon - Acquisition</Title>
     <Description>A package providing common acquisition and control functionality for all Project Aeon experiments.</Description>
-    <PackageProjectUrl>https://github.com/SainsburyWellcomeCentre/aeon_blog</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/SainsburyWellcomeCentre/aeon_acquisition</RepositoryUrl>
-    <PackageLicenseExpression></PackageLicenseExpression>
-    <PackageIcon></PackageIcon>
-    <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
-    <PackageOutputPath>..\..\bin\$(Configuration)</PackageOutputPath>
     <PackageTags>Bonsai Rx Project Aeon Acquisition</PackageTags>
     <TargetFramework>net472</TargetFramework>
-    <Version>0.3.0-test221337</Version>
+    <VersionPrefix>0.3.0</VersionPrefix>
+    <VersionSuffix>test221337</VersionSuffix>
   </PropertyGroup>
   
   <ItemGroup>
