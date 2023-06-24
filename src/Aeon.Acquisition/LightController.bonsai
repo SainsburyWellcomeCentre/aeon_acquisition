@@ -1,38 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.7.0"
+<WorkflowBuilder Version="2.7.2"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:zmq="clr-namespace:Bonsai.ZeroMQ;assembly=Bonsai.ZeroMQ"
                  xmlns:osc="clr-namespace:Bonsai.Osc;assembly=Bonsai.Osc"
                  xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
-                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns="https://bonsai-rx.org/2018/workflow">
-  <Description>Contains control and acquisition functionality for automated room lighting.</Description>
+  <Description>Provides control and acquisition functionality for automated room lighting.</Description>
   <Workflow>
     <Nodes>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="HostName" />
-        <Property Name="Port" />
-        <Property Name="NoDelay" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="osc:CreateTcpClient">
-          <osc:Name>LightClient</osc:Name>
-          <osc:HostName>localhost</osc:HostName>
-          <osc:Port>4302</osc:Port>
-          <osc:NoDelay>false</osc:NoDelay>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="osc:ReceiveMessage">
-        <osc:Address>/light</osc:Address>
-        <osc:TypeTag>ii</osc:TypeTag>
-        <osc:Connection>LightClient</osc:Connection>
-      </Expression>
-      <Expression xsi:type="scr:ExpressionTransform">
-        <scr:Expression>new(
-Item1 as Channel,
-Item2 as Value)</scr:Expression>
-      </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>GlobalTrigger</Name>
       </Expression>
@@ -40,30 +19,95 @@ Item2 as Value)</scr:Expression>
         <harp:Type>Timestamp</harp:Type>
         <harp:IsArray>false</harp:IsArray>
       </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="LightEvents" Description="The name of the output sequence containing all timestamped light events." />
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="ConnectionString" DisplayName="EventSocket" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="zmq:Subscriber">
+          <zmq:ConnectionString>&gt;tcp://localhost:4303</zmq:ConnectionString>
+          <zmq:Topic>LightEvents</zmq:Topic>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Last.Buffer</Selector>
+      </Expression>
+      <Expression xsi:type="osc:Parse">
+        <osc:Address>/channel</osc:Address>
+        <osc:TypeTag>ii</osc:TypeTag>
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Expression>new(
+Item1 as Channel,
+Item2 as Value)</scr:Expression>
+      </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:WithLatestFrom" />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="aeon:CreateTimestamped" />
       </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Name" DisplayName="LightEvents" Description="The name of the output sequence containing all timestamped light events." />
-      </Expression>
       <Expression xsi:type="rx:PublishSubject">
         <Name>LightEvents</Name>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
+      <Expression xsi:type="rx:PublishSubject" TypeArguments="sys:Int32">
+        <rx:Name>SetRedLightLevel</rx:Name>
+      </Expression>
+      <Expression xsi:type="osc:Format">
+        <osc:Address>/red</osc:Address>
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject" TypeArguments="sys:Int32">
+        <rx:Name>SetColdWhiteLightLevel</rx:Name>
+      </Expression>
+      <Expression xsi:type="osc:Format">
+        <osc:Address>/cold</osc:Address>
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject" TypeArguments="sys:Int32">
+        <rx:Name>SetWarmWhiteLightLevel</rx:Name>
+      </Expression>
+      <Expression xsi:type="osc:Format">
+        <osc:Address>/warm</osc:Address>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Merge" />
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Buffer.Array</Selector>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="ConnectionString" DisplayName="CommandSocket" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="zmq:Publisher">
+          <zmq:ConnectionString>&gt;tcp://localhost:4304</zmq:ConnectionString>
+          <zmq:Topic>LightCommands</zmq:Topic>
+        </Combinator>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge From="0" To="1" Label="Source1" />
-      <Edge From="2" To="3" Label="Source1" />
-      <Edge From="3" To="6" Label="Source1" />
+      <Edge From="1" To="8" Label="Source2" />
+      <Edge From="2" To="10" Label="Source2" />
+      <Edge From="3" To="4" Label="Source1" />
       <Edge From="4" To="5" Label="Source1" />
-      <Edge From="5" To="6" Label="Source2" />
+      <Edge From="5" To="6" Label="Source1" />
       <Edge From="6" To="7" Label="Source1" />
-      <Edge From="7" To="9" Label="Source1" />
-      <Edge From="8" To="9" Label="Source2" />
+      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="8" To="9" Label="Source1" />
       <Edge From="9" To="10" Label="Source1" />
+      <Edge From="10" To="11" Label="Source1" />
+      <Edge From="12" To="13" Label="Source1" />
+      <Edge From="13" To="18" Label="Source1" />
+      <Edge From="14" To="15" Label="Source1" />
+      <Edge From="15" To="18" Label="Source2" />
+      <Edge From="16" To="17" Label="Source1" />
+      <Edge From="17" To="18" Label="Source3" />
+      <Edge From="18" To="19" Label="Source1" />
+      <Edge From="19" To="21" Label="Source1" />
+      <Edge From="20" To="21" Label="Source2" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>

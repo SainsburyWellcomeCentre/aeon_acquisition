@@ -7,7 +7,7 @@
     <PackageTags>Bonsai Rx Project Aeon Acquisition</PackageTags>
     <TargetFramework>net472</TargetFramework>
     <VersionPrefix>0.3.0</VersionPrefix>
-    <VersionSuffix>test232251</VersionSuffix>
+    <VersionSuffix>test241355</VersionSuffix>
   </PropertyGroup>
   
   <ItemGroup>
@@ -26,6 +26,7 @@
     <PackageReference Include="Bonsai.Design" Version="2.7.1" />
     <PackageReference Include="Bonsai.System" Version="2.7.1" />
     <PackageReference Include="Bonsai.Scripting.Expressions" Version="2.7.0" />
+    <PackageReference Include="Bonsai.ZeroMQ" Version="0.2.0" />
     <PackageReference Include="LibGit2Sharp" Version="0.25.4" />
     <PackageReference Include="Bonsai.Vision" Version="2.7.0" />
     <PackageReference Include="MathNet.Numerics" Version="4.5.1" />
