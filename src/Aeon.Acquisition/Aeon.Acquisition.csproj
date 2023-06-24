@@ -7,7 +7,7 @@
     <PackageTags>Bonsai Rx Project Aeon Acquisition</PackageTags>
     <TargetFramework>net472</TargetFramework>
     <VersionPrefix>0.3.0</VersionPrefix>
-    <VersionSuffix>test221337</VersionSuffix>
+    <VersionSuffix>test232251</VersionSuffix>
   </PropertyGroup>
   
   <ItemGroup>
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bonsai.Core" Version="2.7.1" />
+    <PackageReference Include="Bonsai.Core" Version="2.7.3" />
     <PackageReference Include="Bonsai.Audio" Version="2.7.0" />
     <PackageReference Include="Bonsai.Harp" Version="3.4.0" />
     <PackageReference Include="Bonsai.Harp.Expander" Version="0.1.0-build1534" />
@@ -23,8 +23,8 @@
     <PackageReference Include="Bonsai.Pylon" Version="0.3.0" />
     <PackageReference Include="Bonsai.Sleap" Version="0.2.0" />
     <PackageReference Include="Bonsai.Spinnaker" Version="0.7.1-rc" />
-    <PackageReference Include="Bonsai.Design" Version="2.7.0" />
-    <PackageReference Include="Bonsai.System" Version="2.7.0" />
+    <PackageReference Include="Bonsai.Design" Version="2.7.1" />
+    <PackageReference Include="Bonsai.System" Version="2.7.1" />
     <PackageReference Include="Bonsai.Scripting.Expressions" Version="2.7.0" />
     <PackageReference Include="LibGit2Sharp" Version="0.25.4" />
     <PackageReference Include="Bonsai.Vision" Version="2.7.0" />
