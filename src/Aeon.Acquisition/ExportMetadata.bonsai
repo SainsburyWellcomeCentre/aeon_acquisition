@@ -38,7 +38,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="io:StartProcess">
-          <io:FileName>..\..\python\winpython\python-3.9.5.amd64\python.exe</io:FileName>
+          <io:FileName>..\..\python\.venv\Scripts\python.exe</io:FileName>
           <io:Arguments />
         </Combinator>
       </Expression>
