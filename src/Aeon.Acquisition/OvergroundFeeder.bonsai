@@ -2,9 +2,9 @@
 <WorkflowBuilder Version="2.8.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:p1="clr-namespace:Harp.OutputExpander;assembly=Harp.OutputExpander"
-                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Contains control and acquisition functionality for an overground feeder module.</Description>
@@ -13,37 +13,10 @@
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="SampleRate" />
       </Expression>
-      <Expression xsi:type="GroupWorkflow">
-        <Name>ConfigureMagneticEncoder</Name>
-        <Workflow>
-          <Nodes>
-            <Expression xsi:type="p1:CreateMessage">
-              <harp:MessageType>Write</harp:MessageType>
-              <harp:Payload xsi:type="p1:CreateExpansionBoardPayload">
-                <p1:ExpansionBoard>MagneticEncoder</p1:ExpansionBoard>
-              </harp:Payload>
-            </Expression>
-            <Expression xsi:type="ExternalizedMapping">
-              <Property Name="MagneticEncoderSampleRate" DisplayName="SampleRate" />
-            </Expression>
-            <Expression xsi:type="p1:CreateMessage">
-              <harp:MessageType>Write</harp:MessageType>
-              <harp:Payload xsi:type="p1:CreateMagneticEncoderSampleRatePayload">
-                <p1:MagneticEncoderSampleRate>SampleRate500Hz</p1:MagneticEncoderSampleRate>
-              </harp:Payload>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Concat" />
-            </Expression>
-            <Expression xsi:type="WorkflowOutput" />
-          </Nodes>
-          <Edges>
-            <Edge From="0" To="3" Label="Source1" />
-            <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="3" Label="Source2" />
-            <Edge From="3" To="4" Label="Source1" />
-          </Edges>
-        </Workflow>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="p1:ConfigureMagneticEncoder">
+          <p1:SampleRate>SampleRate500Hz</p1:SampleRate>
+        </Combinator>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="DeliverPellet" Description="The name of the input sequence used to trigger pellet delivery." />
