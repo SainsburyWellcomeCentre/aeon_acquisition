@@ -30,7 +30,10 @@ namespace Aeon.Acquisition
                 if (!(status.IsDirty || untrackedChanges) &&
                     repo.Tags.FirstOrDefault(r => r.Target == repo.Head.Tip) is Tag tag)
                 {
-                    return Path.Combine(DataPath, tag.FriendlyName);
+                    var name = tag.FriendlyName;
+                    var lastDot = name.LastIndexOf('.');
+                    if (lastDot >= 0) name = name.Substring(0, lastDot);
+                    return Path.Combine(DataPath, name);
                 }
                 else
                 {
