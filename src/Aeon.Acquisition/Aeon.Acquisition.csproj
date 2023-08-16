@@ -7,7 +7,7 @@
     <PackageTags>Bonsai Rx Project Aeon Acquisition</PackageTags>
     <TargetFramework>net472</TargetFramework>
     <VersionPrefix>0.4.0</VersionPrefix>
-    <VersionSuffix>build230816</VersionSuffix>
+    <VersionSuffix>build230817</VersionSuffix>
   </PropertyGroup>
   
   <ItemGroup>

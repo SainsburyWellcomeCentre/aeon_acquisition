@@ -110,6 +110,14 @@
       <Expression xsi:type="p1:Parse">
         <harp:Register xsi:type="p1:TimestampedAuxInState" />
       </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Value</Selector>
+      </Expression>
+      <Expression xsi:type="HasFlag">
+        <Operand xsi:type="WorkflowProperty" TypeArguments="p1:AuxiliaryInputs">
+          <Value>Aux1</Value>
+        </Operand>
+      </Expression>
       <Expression xsi:type="rx:Condition">
         <Name>PelletDelivered</Name>
         <Workflow>
@@ -117,20 +125,10 @@
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
             </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Value</Selector>
-            </Expression>
-            <Expression xsi:type="HasFlag">
-              <Operand xsi:type="WorkflowProperty" TypeArguments="p1:AuxiliaryInputs">
-                <Value>Aux1</Value>
-              </Operand>
-            </Expression>
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
-            <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="3" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -160,8 +158,10 @@
       <Edge From="14" To="16" Label="Source1" />
       <Edge From="15" To="16" Label="Source2" />
       <Edge From="17" To="18" Label="Source1" />
-      <Edge From="18" To="20" Label="Source1" />
-      <Edge From="19" To="20" Label="Source2" />
+      <Edge From="18" To="19" Label="Source1" />
+      <Edge From="19" To="20" Label="Source1" />
+      <Edge From="20" To="22" Label="Source1" />
+      <Edge From="21" To="22" Label="Source2" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
