@@ -1,35 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.7.1"
+<WorkflowBuilder Version="2.8.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:p1="clr-namespace:Harp.OutputExpander;assembly=Harp.OutputExpander"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                 xmlns:p1="clr-namespace:Bonsai.Harp.Expander;assembly=Bonsai.Harp.Expander"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Supplies synchronized camera triggering for both global and local views.</Description>
   <Workflow>
     <Nodes>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="PortName" />
-      </Expression>
-      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
-        <rx:Name>StartCameras</rx:Name>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p1:PwmOutput">
-          <p1:Command>Start</p1:Command>
-          <p1:Mask>Pwm1 Pwm2</p1:Mask>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
-        <rx:Name>StopCameras</rx:Name>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p1:PwmOutput">
-          <p1:Command>Stop</p1:Command>
-          <p1:Mask>Pwm1 Pwm2</p1:Mask>
-        </Combinator>
-      </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>LocalTriggerFrequency</Name>
       </Expression>
@@ -43,7 +22,7 @@
           <p1:Mask>PwmOutput7</p1:Mask>
           <p1:Frequency>125</p1:Frequency>
           <p1:DutyCycle>50</p1:DutyCycle>
-          <p1:Count>0</p1:Count>
+          <p1:PulseCount>0</p1:PulseCount>
         </Combinator>
       </Expression>
       <Expression xsi:type="SubscribeSubject">
@@ -59,19 +38,40 @@
           <p1:Mask>PwmOutput9</p1:Mask>
           <p1:Frequency>50</p1:Frequency>
           <p1:DutyCycle>50</p1:DutyCycle>
-          <p1:Count>0</p1:Count>
+          <p1:PulseCount>0</p1:PulseCount>
         </Combinator>
+      </Expression>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
+        <rx:Name>StartCameras</rx:Name>
+      </Expression>
+      <Expression xsi:type="p1:CreateMessage">
+        <harp:MessageType>Write</harp:MessageType>
+        <harp:Payload xsi:type="p1:CreatePwmStartPayload">
+          <p1:PwmStart>Pwm1 Pwm2</p1:PwmStart>
+        </harp:Payload>
+      </Expression>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
+        <rx:Name>StopCameras</rx:Name>
+      </Expression>
+      <Expression xsi:type="p1:CreateMessage">
+        <harp:MessageType>Write</harp:MessageType>
+        <harp:Payload xsi:type="p1:CreatePwmStopPayload">
+          <p1:PwmStop>Pwm1 Pwm2</p1:PwmStop>
+        </harp:Payload>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Merge" />
       </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="PortName" />
+      </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="harp:Device">
-          <harp:DeviceState>Active</harp:DeviceState>
+          <harp:OperationMode>Active</harp:OperationMode>
+          <harp:OperationLed>On</harp:OperationLed>
           <harp:DumpRegisters>true</harp:DumpRegisters>
-          <harp:LedState>On</harp:LedState>
           <harp:VisualIndicators>On</harp:VisualIndicators>
-          <harp:Heartbeat>Enable</harp:Heartbeat>
+          <harp:Heartbeat>Enabled</harp:Heartbeat>
           <harp:IgnoreErrors>false</harp:IgnoreErrors>
           <harp:PortName />
         </Combinator>
@@ -80,11 +80,8 @@
         <Name>VideoEvents</Name>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="harp:FilterMessage">
-          <harp:Address>68</harp:Address>
-          <harp:MessageType>Event</harp:MessageType>
-        </Combinator>
+      <Expression xsi:type="p1:Parse">
+        <harp:Register xsi:type="p1:PwmRiseEvent" />
       </Expression>
       <Expression xsi:type="rx:Condition">
         <Name>Pwm1</Name>
@@ -93,22 +90,9 @@
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
             </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>MessageBytes</Selector>
-            </Expression>
-            <Expression xsi:type="Index">
-              <Operand xsi:type="IntProperty">
-                <Value>11</Value>
-              </Operand>
-            </Expression>
-            <Expression xsi:type="BitwiseAnd">
-              <Operand xsi:type="WorkflowProperty" TypeArguments="sys:Byte">
-                <Value>2</Value>
-              </Operand>
-            </Expression>
-            <Expression xsi:type="NotEqual">
-              <Operand xsi:type="WorkflowProperty" TypeArguments="sys:Byte">
-                <Value>0</Value>
+            <Expression xsi:type="HasFlag">
+              <Operand xsi:type="WorkflowProperty" TypeArguments="p1:PwmChannels">
+                <Value>Pwm1</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -116,9 +100,6 @@
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="3" Label="Source1" />
-            <Edge From="3" To="4" Label="Source1" />
-            <Edge From="4" To="5" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -132,22 +113,9 @@
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
             </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>MessageBytes</Selector>
-            </Expression>
-            <Expression xsi:type="Index">
-              <Operand xsi:type="IntProperty">
-                <Value>11</Value>
-              </Operand>
-            </Expression>
-            <Expression xsi:type="BitwiseAnd">
-              <Operand xsi:type="WorkflowProperty" TypeArguments="sys:Byte">
-                <Value>4</Value>
-              </Operand>
-            </Expression>
-            <Expression xsi:type="NotEqual">
-              <Operand xsi:type="WorkflowProperty" TypeArguments="sys:Byte">
-                <Value>0</Value>
+            <Expression xsi:type="HasFlag">
+              <Operand xsi:type="WorkflowProperty" TypeArguments="p1:PwmChannels">
+                <Value>Pwm2</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -155,9 +123,6 @@
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="3" Label="Source1" />
-            <Edge From="3" To="4" Label="Source1" />
-            <Edge From="4" To="5" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -198,18 +163,18 @@
       </Expression>
     </Nodes>
     <Edges>
-      <Edge From="0" To="12" Label="Source2" />
+      <Edge From="0" To="1" Label="Source1" />
       <Edge From="1" To="2" Label="Source1" />
-      <Edge From="2" To="11" Label="Source3" />
+      <Edge From="2" To="10" Label="Source1" />
       <Edge From="3" To="4" Label="Source1" />
-      <Edge From="4" To="11" Label="Source4" />
-      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="5" To="10" Label="Source2" />
       <Edge From="6" To="7" Label="Source1" />
-      <Edge From="7" To="11" Label="Source1" />
+      <Edge From="7" To="10" Label="Source3" />
       <Edge From="8" To="9" Label="Source1" />
-      <Edge From="9" To="10" Label="Source1" />
-      <Edge From="10" To="11" Label="Source2" />
-      <Edge From="11" To="12" Label="Source1" />
+      <Edge From="9" To="10" Label="Source4" />
+      <Edge From="10" To="12" Label="Source1" />
+      <Edge From="11" To="12" Label="Source2" />
       <Edge From="12" To="13" Label="Source1" />
       <Edge From="13" To="14" Label="Source1" />
       <Edge From="13" To="15" Label="Source1" />

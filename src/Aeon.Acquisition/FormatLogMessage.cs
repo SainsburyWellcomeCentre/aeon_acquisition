@@ -11,7 +11,7 @@ namespace Aeon.Acquisition
     [DefaultProperty(nameof(Timestamp))]
     [WorkflowElementCategory(ElementCategory.Transform)]
     [Description("Generates a sequence of custom formatted prioritised messages for the event log.")]
-    public class FormatLogMessage : FormatBuilder
+    public class FormatLogMessage : Bonsai.Expressions.FormatBuilder
     {
         [Category("Metadata")]
         [Description("The priority level of the log message.")]
