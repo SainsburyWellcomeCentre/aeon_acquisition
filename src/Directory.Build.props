@@ -2,14 +2,14 @@
 <Project>
   <PropertyGroup>
     <Authors>Sainsbury Wellcome Centre</Authors>
-    <Copyright>Copyright © University College London 2023</Copyright>
+    <Copyright>Copyright © 2023 University College London</Copyright>
     <PackageProjectUrl>https://github.com/SainsburyWellcomeCentre/aeon_blog</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SainsburyWellcomeCentre/aeon_acquisition.git</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageOutputPath>..\bin\$(Configuration)</PackageOutputPath>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageIcon></PackageIcon>
+    <PackageIcon>icon.png</PackageIcon>
     <IncludeSymbols>true</IncludeSymbols>
     <RepositoryType>git</RepositoryType>
     <VersionSuffix></VersionSuffix>
@@ -19,5 +19,6 @@
 
   <ItemGroup>
     <Content Include="..\..\LICENSE" PackagePath="/" />
+    <Content Include="..\..\icon.png" PackagePath="/" />
   </ItemGroup>
 </Project>
