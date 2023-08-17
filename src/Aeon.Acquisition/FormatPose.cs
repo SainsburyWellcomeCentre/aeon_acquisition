@@ -19,86 +19,100 @@ namespace Aeon.Acquisition
         [Description("Optional value to override or set the identity index returned by the source pose.")]
         public int? IdentityIndex { get; set; }
 
-        public IObservable<HarpMessage> Process(IObservable<Tuple<PoseIdentity, double>> source)
+        public IObservable<HarpMessage> Process(IObservable<Timestamped<PoseIdentity>> source)
         {
-            return source.Select(value =>
+            return source.Select(payload =>
             {
-                var pose = value.Item1;
-                var timestamp = value.Item2;
-                var data = new float[2 + pose.Count * 3];
-                data[0] = IdentityIndex == null ? pose.IdentityIndex : (float)IdentityIndex;
-                data[1] = pose.Confidence;
-                int i = 1;
+                var i = 0;
+                var pose = payload.Value;
+                var timestamp = payload.Seconds;
+                var data = new float[5 + pose.Count * 3];
+                data[i++] = IdentityIndex.GetValueOrDefault(pose.IdentityIndex);
+                data[i++] = pose.Confidence;
+                data[i++] = pose.Centroid.Position.X;
+                data[i++] = pose.Centroid.Position.Y;
+                data[i++] = pose.Centroid.Confidence;
                 foreach (var bp in pose)
                 {
-                    data[++i] = bp.Position.X;
-                    data[++i] = bp.Position.Y;
-                    data[++i] = bp.Confidence;
+                    data[i++] = bp.Position.X;
+                    data[i++] = bp.Position.Y;
+                    data[i++] = bp.Confidence;
                 }
                 return HarpMessage.FromSingle(Address, timestamp, MessageType.Event, data);
             });
         }
 
-        public IObservable<HarpMessage> Process(IObservable<Tuple<PoseIdentityCollection, double>> source)
+        public IObservable<HarpMessage> Process(IObservable<Timestamped<PoseIdentityCollection>> source)
         {
-            return source.SelectMany(value =>
+            return source.SelectMany(payload =>
             {
-                var poseCollection = value.Item1;
-                var timestamp = value.Item2;
+                var poseCollection = payload.Value;
+                var timestamp = payload.Seconds;
                 return poseCollection.Select((pose, index) =>
                 {
-                    var data = new float[2 + pose.Count * 3];
-                    data[0] = IdentityIndex == null ? pose.IdentityIndex : (float)IdentityIndex;
-                    data[1] = pose.Confidence;
-                    int i = 1;
+                    int i = 0;
+                    var data = new float[5 + pose.Count * 3];
+                    data[i++] = IdentityIndex.HasValue
+                        ? IdentityIndex.GetValueOrDefault() + index
+                        : pose.IdentityIndex;
+                    data[i++] = pose.Confidence;
+                    data[i++] = pose.Centroid.Position.X;
+                    data[i++] = pose.Centroid.Position.Y;
+                    data[i++] = pose.Centroid.Confidence;
                     foreach (var bp in pose)
                     {
-                        data[++i] = bp.Position.X;
-                        data[++i] = bp.Position.Y;
-                        data[++i] = bp.Confidence;
+                        data[i++] = bp.Position.X;
+                        data[i++] = bp.Position.Y;
+                        data[i++] = bp.Confidence;
                     }
                     return HarpMessage.FromSingle(Address, timestamp, MessageType.Event, data);
                 });
             });
         }
 
-        public IObservable<HarpMessage> Process(IObservable<Tuple<Pose, double>> source)
+        public IObservable<HarpMessage> Process(IObservable<Timestamped<Pose>> source)
         {
-            return source.Select(value =>
+            return source.Select(payload =>
             {
-                var pose = value.Item1;
-                var timestamp = value.Item2;
-                var data = new float[2 + pose.Count * 3];
-                data[0] = IdentityIndex == null ? -1f : (float)IdentityIndex;
-                data[1] = float.NaN;
-                int i = 1;
+                int i = 0;
+                var pose = payload.Value;
+                var timestamp = payload.Seconds;
+                var data = new float[5 + pose.Count * 3];
+                data[i++] = IdentityIndex.GetValueOrDefault(-1);
+                data[i++] = float.NaN;
+                data[i++] = pose.Centroid.Position.X;
+                data[i++] = pose.Centroid.Position.Y;
+                data[i++] = pose.Centroid.Confidence;
                 foreach (var bp in pose)
                 {
-                    data[++i] = bp.Position.X;
-                    data[++i] = bp.Position.Y;
-                    data[++i] = bp.Confidence;
+                    data[i++] = bp.Position.X;
+                    data[i++] = bp.Position.Y;
+                    data[i++] = bp.Confidence;
                 }
                 return HarpMessage.FromSingle(Address, timestamp, MessageType.Event, data);
             });
         }
 
-        public IObservable<HarpMessage> Process(IObservable<Tuple<PoseCollection, double>> source)
+        public IObservable<HarpMessage> Process(IObservable<Timestamped<PoseCollection>> source)
         {
-            return source.SelectMany(value =>
+            return source.SelectMany(payload =>
             {
-                var poseCollection = value.Item1;
-                var timestamp = value.Item2;
+                var poseCollection = payload.Value;
+                var timestamp = payload.Seconds;
                 return poseCollection.Select((pose, index) =>
                 {
-                    var data = new float[2 + pose.Count * 3];
-                    data[0] = IdentityIndex == null ? index : (float)IdentityIndex;
-                    data[1] = float.NaN;
-                    int i = 1;
+                    int i = 0;
+                    var data = new float[5 + pose.Count * 3];
+                    data[i++] = IdentityIndex.GetValueOrDefault() + index;
+                    data[i++] = float.NaN;
+                    data[i++] = pose.Centroid.Position.X;
+                    data[i++] = pose.Centroid.Position.Y;
+                    data[i++] = pose.Centroid.Confidence;
                     foreach (var bp in pose)
                     {
-                        data[++i] = bp.Position.X;
-                        data[++i] = bp.Position.Y;
-                        data[++i] = bp.Confidence;
+                        data[i++] = bp.Position.X;
+                        data[i++] = bp.Position.Y;
+                        data[i++] = bp.Confidence;
                     }
                     return HarpMessage.FromSingle(Address, timestamp, MessageType.Event, data);
                 });
