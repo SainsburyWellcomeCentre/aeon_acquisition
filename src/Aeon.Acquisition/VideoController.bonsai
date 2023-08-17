@@ -81,7 +81,7 @@
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
       <Expression xsi:type="p1:Parse">
-        <harp:Register xsi:type="p1:PwmRiseEvent" />
+        <harp:Register xsi:type="p1:TimestampedPwmRiseEvent" />
       </Expression>
       <Expression xsi:type="rx:Condition">
         <Name>Pwm1</Name>
@@ -89,6 +89,9 @@
           <Nodes>
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Value</Selector>
             </Expression>
             <Expression xsi:type="HasFlag">
               <Operand xsi:type="WorkflowProperty" TypeArguments="p1:PwmChannels">
@@ -100,6 +103,7 @@
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -113,6 +117,9 @@
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
             </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Value</Selector>
+            </Expression>
             <Expression xsi:type="HasFlag">
               <Operand xsi:type="WorkflowProperty" TypeArguments="p1:PwmChannels">
                 <Value>Pwm2</Value>
@@ -123,6 +130,7 @@
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
