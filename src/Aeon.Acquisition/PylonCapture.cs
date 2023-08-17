@@ -11,7 +11,7 @@ namespace Aeon.Acquisition
     [Description("Configures and initializes a Pylon camera for triggered acquisition.")]
     public class PylonCapture : Bonsai.Pylon.PylonCapture
     {
-        public IObservable<Timestamped<VideoDataFrame>> Generate(IObservable<HarpMessage> source)
+        public IObservable<Timestamped<VideoDataFrame>> Generate<TPayload>(IObservable<Timestamped<TPayload>> source)
         {
             var frames = Generate();
             return frames
@@ -20,11 +20,7 @@ namespace Aeon.Acquisition
                     frame.GrabResult.ChunkData[PLChunkData.ChunkCounterValue].GetValue(),
                     frame.GrabResult.ChunkData[PLChunkData.ChunkTimestamp].GetValue()))
                 .FillGaps(frame => frame.ChunkData.FrameID, (previous, current) => (int)(current - previous - 1))
-                .Zip(source, (frame, trigger) =>
-                {
-                    var payload = trigger.GetTimestampedPayloadByte();
-                    return Timestamped.Create(frame, payload.Seconds);
-                })
+                .Zip(source, (frame, payload) => Timestamped.Create(frame, payload.Seconds))
                 .Where(timestamped => timestamped.Value != null);
         }
     }

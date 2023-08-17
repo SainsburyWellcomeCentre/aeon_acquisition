@@ -50,17 +50,13 @@ namespace Aeon.Acquisition
             base.Configure(camera);
         }
 
-        public IObservable<Timestamped<VideoDataFrame>> Generate(IObservable<HarpMessage> source)
+        public IObservable<Timestamped<VideoDataFrame>> Generate<TPayload>(IObservable<Timestamped<TPayload>> source)
         {
             var frames = Generate();
             return frames
                 .Select(frame => new VideoDataFrame(frame.Image, frame.ChunkData.FrameID, frame.ChunkData.Timestamp))
                 .FillGaps(frame => frame.ChunkData.FrameID, (previous, current) => (int)(current - previous - 1))
-                .Zip(source, (frame, trigger) =>
-                {
-                    var payload = trigger.GetTimestampedPayloadByte();
-                    return Timestamped.Create(frame, payload.Seconds);
-                })
+                .Zip(source, (frame, payload) => Timestamped.Create(frame, payload.Seconds))
                 .Where(timestamped => timestamped.Value != null);
         }
     }
