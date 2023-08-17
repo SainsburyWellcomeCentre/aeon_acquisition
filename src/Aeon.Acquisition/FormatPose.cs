@@ -19,13 +19,13 @@ namespace Aeon.Acquisition
         [Description("Optional value to override or set the identity index returned by the source pose.")]
         public int? IdentityIndex { get; set; }
 
-        public IObservable<HarpMessage> Process(IObservable<Tuple<PoseIdentity, double>> source)
+        public IObservable<HarpMessage> Process(IObservable<Timestamped<PoseIdentity>> source)
         {
-            return source.Select(value =>
+            return source.Select(payload =>
             {
                 var i = 0;
-                var pose = value.Item1;
-                var timestamp = value.Item2;
+                var pose = payload.Value;
+                var timestamp = payload.Seconds;
                 var data = new float[5 + pose.Count * 3];
                 data[i++] = IdentityIndex.GetValueOrDefault(pose.IdentityIndex);
                 data[i++] = pose.Confidence;
@@ -42,12 +42,12 @@ namespace Aeon.Acquisition
             });
         }
 
-        public IObservable<HarpMessage> Process(IObservable<Tuple<PoseIdentityCollection, double>> source)
+        public IObservable<HarpMessage> Process(IObservable<Timestamped<PoseIdentityCollection>> source)
         {
-            return source.SelectMany(value =>
+            return source.SelectMany(payload =>
             {
-                var poseCollection = value.Item1;
-                var timestamp = value.Item2;
+                var poseCollection = payload.Value;
+                var timestamp = payload.Seconds;
                 return poseCollection.Select((pose, index) =>
                 {
                     int i = 0;
@@ -70,13 +70,13 @@ namespace Aeon.Acquisition
             });
         }
 
-        public IObservable<HarpMessage> Process(IObservable<Tuple<Pose, double>> source)
+        public IObservable<HarpMessage> Process(IObservable<Timestamped<Pose>> source)
         {
-            return source.Select(value =>
+            return source.Select(payload =>
             {
                 int i = 0;
-                var pose = value.Item1;
-                var timestamp = value.Item2;
+                var pose = payload.Value;
+                var timestamp = payload.Seconds;
                 var data = new float[5 + pose.Count * 3];
                 data[i++] = IdentityIndex.GetValueOrDefault(-1);
                 data[i++] = float.NaN;
@@ -93,12 +93,12 @@ namespace Aeon.Acquisition
             });
         }
 
-        public IObservable<HarpMessage> Process(IObservable<Tuple<PoseCollection, double>> source)
+        public IObservable<HarpMessage> Process(IObservable<Timestamped<PoseCollection>> source)
         {
-            return source.SelectMany(value =>
+            return source.SelectMany(payload =>
             {
-                var poseCollection = value.Item1;
-                var timestamp = value.Item2;
+                var poseCollection = payload.Value;
+                var timestamp = payload.Seconds;
                 return poseCollection.Select((pose, index) =>
                 {
                     int i = 0;
