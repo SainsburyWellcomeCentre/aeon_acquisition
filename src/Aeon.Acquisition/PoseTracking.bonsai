@@ -1,10 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.8.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
-                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
-                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
                  xmlns:sleap="clr-namespace:Bonsai.Sleap;assembly=Bonsai.Sleap"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns="https://bonsai-rx.org/2018/workflow">
@@ -18,21 +16,18 @@
         <Selector>Value.Image</Selector>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Value" DisplayName="ModelPath" Description="Specifies the path to the folder containing the pretrained SLEAP model." />
+        <Property Name="Name" DisplayName="PathPrefix" Description="The optional root folder containing all pretrained models." />
       </Expression>
-      <Expression xsi:type="PropertySource" TypeArguments="io:EnumerateFiles,sys:String">
-        <MemberName>Path</MemberName>
-        <Value>.</Value>
+      <Expression xsi:type="SubscribeSubject">
+        <Name />
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="ModelPath" />
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Take">
-          <rx:Count>1</rx:Count>
+        <Combinator xsi:type="aeon:CreatePoseTrackingMetadata">
+          <aeon:ModelPath />
         </Combinator>
-      </Expression>
-      <Expression xsi:type="scr:ExpressionTransform">
-        <scr:Expression>new(
-it + "/frozen_graph.pb" as ModelFileName,
-it + "/confmap_config.json" as TrainingConfig)</scr:Expression>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="PoseTrackingMetadata" Description="The name of the subject storing model metadata." />
@@ -82,8 +77,8 @@ it + "/confmap_config.json" as TrainingConfig)</scr:Expression>
       <Edge From="0" To="11" Label="Source1" />
       <Edge From="1" To="10" Label="Source1" />
       <Edge From="2" To="3" Label="Source1" />
-      <Edge From="3" To="4" Label="Source1" />
-      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="3" To="5" Label="Source1" />
+      <Edge From="4" To="5" Label="Source2" />
       <Edge From="5" To="7" Label="Source1" />
       <Edge From="6" To="7" Label="Source2" />
       <Edge From="7" To="8" Label="Source1" />
