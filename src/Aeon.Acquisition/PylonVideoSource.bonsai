@@ -15,7 +15,7 @@
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="TriggerSource" Description="The PWM trigger source used to drive the camera." />
       </Expression>
-      <Expression xsi:type="SubscribeSubject" TypeArguments="harp:HarpMessage">
+      <Expression xsi:type="SubscribeSubject">
         <Name>GlobalTrigger</Name>
       </Expression>
       <Expression xsi:type="Combinator">
