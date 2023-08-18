@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.7.1"
+<WorkflowBuilder Version="2.8.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -11,19 +11,19 @@
       <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
         <rx:Name>SynchronizeTimestamp</rx:Name>
       </Expression>
-      <Expression xsi:type="harp:DeviceCommand">
-        <harp:Command xsi:type="harp:SynchronizeTimestamp" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="harp:SynchronizeTimestamp" />
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="PortName" />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="harp:Device">
-          <harp:DeviceState>Active</harp:DeviceState>
+          <harp:OperationMode>Active</harp:OperationMode>
+          <harp:OperationLed>On</harp:OperationLed>
           <harp:DumpRegisters>true</harp:DumpRegisters>
-          <harp:LedState>On</harp:LedState>
           <harp:VisualIndicators>On</harp:VisualIndicators>
-          <harp:Heartbeat>Enable</harp:Heartbeat>
+          <harp:Heartbeat>Enabled</harp:Heartbeat>
           <harp:IgnoreErrors>false</harp:IgnoreErrors>
           <harp:PortName />
         </Combinator>

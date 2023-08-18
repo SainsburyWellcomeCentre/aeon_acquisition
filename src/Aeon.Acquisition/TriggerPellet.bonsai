@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.7.0"
+<WorkflowBuilder Version="2.8.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:p1="clr-namespace:Harp.OutputExpander;assembly=Harp.OutputExpander"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
-                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Delivers a single pellet to the specified patch when the input source raises an event.</Description>
   <Workflow>
@@ -15,14 +15,13 @@
         <Name>PatchEvents</Name>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="harp:FilterMessage">
-          <harp:Address>35</harp:Address>
+        <Combinator xsi:type="harp:FilterMessageType">
+          <harp:FilterType>Include</harp:FilterType>
           <harp:MessageType>Write</harp:MessageType>
         </Combinator>
       </Expression>
-      <Expression xsi:type="harp:Parse">
-        <harp:Type>TimestampedU16</harp:Type>
-        <harp:IsArray>false</harp:IsArray>
+      <Expression xsi:type="p1:Parse">
+        <harp:Register xsi:type="p1:OutputSet" />
       </Expression>
       <Expression xsi:type="rx:Condition">
         <Name>TriggerPellet</Name>
@@ -31,12 +30,9 @@
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
             </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Value</Selector>
-            </Expression>
-            <Expression xsi:type="Equal">
-              <Operand xsi:type="WorkflowProperty" TypeArguments="sys:Byte">
-                <Value>128</Value>
+            <Expression xsi:type="HasFlag">
+              <Operand xsi:type="WorkflowProperty" TypeArguments="p1:DigitalOutputs">
+                <Value>Out7</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -44,15 +40,14 @@
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="3" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Name" DisplayName="DeliverPellet" />
-      </Expression>
       <Expression xsi:type="WorkflowInput">
         <Name>Source1</Name>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="DeliverPellet" />
       </Expression>
       <Expression xsi:type="MulticastSubject">
         <Name>DeliverPellet</Name>
@@ -79,8 +74,8 @@
       <Edge From="2" To="3" Label="Source1" />
       <Edge From="3" To="4" Label="Source1" />
       <Edge From="4" To="8" Label="Source1" />
-      <Edge From="5" To="7" Label="Source2" />
-      <Edge From="6" To="7" Label="Source1" />
+      <Edge From="5" To="7" Label="Source1" />
+      <Edge From="6" To="7" Label="Source2" />
       <Edge From="7" To="8" Label="Source2" />
       <Edge From="7" To="10" Label="Source2" />
       <Edge From="8" To="9" Label="Source1" />
