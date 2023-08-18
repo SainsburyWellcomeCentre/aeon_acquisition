@@ -1,15 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.7.1"
+<WorkflowBuilder Version="2.8.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:p1="clr-namespace:Harp.CameraControllerGen2;assembly=Harp.CameraControllerGen2"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Supplies synchronized camera triggering for both global and local views.</Description>
   <Workflow>
     <Nodes>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="PortName" />
+      <Expression xsi:type="SubscribeSubject">
+        <Name>GlobalTriggerFrequency</Name>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="Frequency" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>ConfigurePwm</Name>
+        <Description />
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="p1:CreateMessage">
+              <harp:MessageType>Write</harp:MessageType>
+              <harp:Payload xsi:type="p1:CreateCam0EventPayload">
+                <p1:Cam0Event>Trigger</p1:Cam0Event>
+              </harp:Payload>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Value" DisplayName="Frequency" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="IntProperty">
+                <Value>50</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="p1:Format">
+              <harp:MessageType>Write</harp:MessageType>
+              <harp:Register xsi:type="p1:TriggerFrequencyCam0" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="5" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source2" />
+            <Edge From="5" To="6" Label="Source1" />
+          </Edges>
+        </Workflow>
       </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>LocalTriggerFrequency</Name>
@@ -24,6 +73,12 @@
         <Description />
         <Workflow>
           <Nodes>
+            <Expression xsi:type="p1:CreateMessage">
+              <harp:MessageType>Write</harp:MessageType>
+              <harp:Payload xsi:type="p1:CreateCam1EventPayload">
+                <p1:Cam1Event>Trigger</p1:Cam1Event>
+              </harp:Payload>
+            </Expression>
             <Expression xsi:type="ExternalizedMapping">
               <Property Name="Value" DisplayName="Frequency" />
             </Expression>
@@ -37,24 +92,9 @@
                 <rx:Count>1</rx:Count>
               </Combinator>
             </Expression>
-            <Expression xsi:type="ExternalizedMapping">
-              <Property Name="Address" DisplayName="CamEvent" Category="Registers" />
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="harp:CreateMessage">
-                <harp:MessageType>Write</harp:MessageType>
-                <harp:Address>35</harp:Address>
-                <harp:PayloadType>U8</harp:PayloadType>
-                <harp:Payload>1</harp:Payload>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="ExternalizedMapping">
-              <Property Name="Address" DisplayName="TriggerFrequency" Category="Registers" />
-            </Expression>
-            <Expression xsi:type="harp:Format">
+            <Expression xsi:type="p1:Format">
               <harp:MessageType>Write</harp:MessageType>
-              <harp:Address>52</harp:Address>
-              <harp:PayloadType>U16</harp:PayloadType>
+              <harp:Register xsi:type="p1:TriggerFrequencyCam1" />
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Merge" />
@@ -62,111 +102,46 @@
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
-            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="0" To="5" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="6" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
             <Edge From="3" To="4" Label="Source1" />
-            <Edge From="4" To="7" Label="Source1" />
-            <Edge From="5" To="6" Label="Source2" />
-            <Edge From="6" To="7" Label="Source2" />
-            <Edge From="7" To="8" Label="Source1" />
-          </Edges>
-        </Workflow>
-      </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>GlobalTriggerFrequency</Name>
-      </Expression>
-      <Expression xsi:type="PropertyMapping">
-        <PropertyMappings>
-          <Property Name="Frequency" />
-        </PropertyMappings>
-      </Expression>
-      <Expression xsi:type="GroupWorkflow">
-        <Name>ConfigurePwm</Name>
-        <Description />
-        <Workflow>
-          <Nodes>
-            <Expression xsi:type="ExternalizedMapping">
-              <Property Name="Value" DisplayName="Frequency" />
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="IntProperty">
-                <Value>50</Value>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Take">
-                <rx:Count>1</rx:Count>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="ExternalizedMapping">
-              <Property Name="Address" DisplayName="CamEvent" Category="Registers" />
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="harp:CreateMessage">
-                <harp:MessageType>Write</harp:MessageType>
-                <harp:Address>34</harp:Address>
-                <harp:PayloadType>U8</harp:PayloadType>
-                <harp:Payload>1</harp:Payload>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="ExternalizedMapping">
-              <Property Name="Address" DisplayName="TriggerFrequency" Category="Registers" />
-            </Expression>
-            <Expression xsi:type="harp:Format">
-              <harp:MessageType>Write</harp:MessageType>
-              <harp:Address>45</harp:Address>
-              <harp:PayloadType>U16</harp:PayloadType>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Merge" />
-            </Expression>
-            <Expression xsi:type="WorkflowOutput" />
-          </Nodes>
-          <Edges>
-            <Edge From="0" To="1" Label="Source1" />
-            <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="6" Label="Source1" />
-            <Edge From="3" To="4" Label="Source1" />
-            <Edge From="4" To="7" Label="Source1" />
-            <Edge From="5" To="6" Label="Source2" />
-            <Edge From="6" To="7" Label="Source2" />
-            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="4" To="5" Label="Source2" />
+            <Edge From="5" To="6" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
       <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
         <rx:Name>StartCameras</rx:Name>
       </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="harp:CreateMessage">
-          <harp:MessageType>Write</harp:MessageType>
-          <harp:Address>36</harp:Address>
-          <harp:PayloadType>U8</harp:PayloadType>
-          <harp:Payload>3</harp:Payload>
-        </Combinator>
+      <Expression xsi:type="p1:CreateMessage">
+        <harp:MessageType>Write</harp:MessageType>
+        <harp:Payload xsi:type="p1:CreateStartAndStopPayload">
+          <p1:StartAndStop>StartCam0 StartCam1</p1:StartAndStop>
+        </harp:Payload>
       </Expression>
       <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
         <rx:Name>StopCameras</rx:Name>
       </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="harp:CreateMessage">
-          <harp:MessageType>Write</harp:MessageType>
-          <harp:Address>36</harp:Address>
-          <harp:PayloadType>U8</harp:PayloadType>
-          <harp:Payload>12</harp:Payload>
-        </Combinator>
+      <Expression xsi:type="p1:CreateMessage">
+        <harp:MessageType>Write</harp:MessageType>
+        <harp:Payload xsi:type="p1:CreateStartAndStopPayload">
+          <p1:StartAndStop>StopCam0 StopCam1</p1:StartAndStop>
+        </harp:Payload>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Merge" />
       </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="PortName" />
+      </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="harp:Device">
-          <harp:DeviceState>Active</harp:DeviceState>
+        <Combinator xsi:type="p1:Device">
+          <harp:OperationMode>Active</harp:OperationMode>
+          <harp:OperationLed>On</harp:OperationLed>
           <harp:DumpRegisters>true</harp:DumpRegisters>
-          <harp:LedState>On</harp:LedState>
           <harp:VisualIndicators>On</harp:VisualIndicators>
-          <harp:Heartbeat>Enable</harp:Heartbeat>
+          <harp:Heartbeat>Enabled</harp:Heartbeat>
           <harp:IgnoreErrors>false</harp:IgnoreErrors>
           <harp:PortName />
         </Combinator>
@@ -175,11 +150,8 @@
         <Name>VideoEvents</Name>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="harp:FilterMessage">
-          <harp:Address>32</harp:Address>
-          <harp:MessageType>Event</harp:MessageType>
-        </Combinator>
+      <Expression xsi:type="p1:Parse">
+        <harp:Register xsi:type="p1:TimestampedCam0Event" />
       </Expression>
       <Expression xsi:type="rx:Condition">
         <Name>TriggerEvent</Name>
@@ -188,18 +160,12 @@
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
             </Expression>
-            <Expression xsi:type="harp:Parse">
-              <harp:Type>U8</harp:Type>
-              <harp:IsArray>false</harp:IsArray>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Value</Selector>
             </Expression>
-            <Expression xsi:type="BitwiseAnd">
-              <Operand xsi:type="WorkflowProperty" TypeArguments="sys:Byte">
-                <Value>1</Value>
-              </Operand>
-            </Expression>
-            <Expression xsi:type="NotEqual">
-              <Operand xsi:type="WorkflowProperty" TypeArguments="sys:Byte">
-                <Value>0</Value>
+            <Expression xsi:type="HasFlag">
+              <Operand xsi:type="WorkflowProperty" TypeArguments="p1:CameraEvents">
+                <Value>Trigger</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -208,18 +174,14 @@
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
             <Edge From="2" To="3" Label="Source1" />
-            <Edge From="3" To="4" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
       <Expression xsi:type="rx:PublishSubject">
         <Name>GlobalTrigger</Name>
       </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="harp:FilterMessage">
-          <harp:Address>33</harp:Address>
-          <harp:MessageType>Event</harp:MessageType>
-        </Combinator>
+      <Expression xsi:type="p1:Parse">
+        <harp:Register xsi:type="p1:TimestampedCam1Event" />
       </Expression>
       <Expression xsi:type="rx:Condition">
         <Name>TriggerEvent</Name>
@@ -228,18 +190,12 @@
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
             </Expression>
-            <Expression xsi:type="harp:Parse">
-              <harp:Type>U8</harp:Type>
-              <harp:IsArray>false</harp:IsArray>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Value</Selector>
             </Expression>
-            <Expression xsi:type="BitwiseAnd">
-              <Operand xsi:type="WorkflowProperty" TypeArguments="sys:Byte">
-                <Value>1</Value>
-              </Operand>
-            </Expression>
-            <Expression xsi:type="NotEqual">
-              <Operand xsi:type="WorkflowProperty" TypeArguments="sys:Byte">
-                <Value>0</Value>
+            <Expression xsi:type="HasFlag">
+              <Operand xsi:type="WorkflowProperty" TypeArguments="p1:CameraEvents">
+                <Value>Trigger</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -248,7 +204,6 @@
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
             <Edge From="2" To="3" Label="Source1" />
-            <Edge From="3" To="4" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -289,18 +244,18 @@
       </Expression>
     </Nodes>
     <Edges>
-      <Edge From="0" To="12" Label="Source2" />
+      <Edge From="0" To="1" Label="Source1" />
       <Edge From="1" To="2" Label="Source1" />
-      <Edge From="2" To="3" Label="Source1" />
-      <Edge From="3" To="11" Label="Source2" />
+      <Edge From="2" To="10" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
       <Edge From="4" To="5" Label="Source1" />
-      <Edge From="5" To="6" Label="Source1" />
-      <Edge From="6" To="11" Label="Source1" />
-      <Edge From="7" To="8" Label="Source1" />
-      <Edge From="8" To="11" Label="Source3" />
-      <Edge From="9" To="10" Label="Source1" />
-      <Edge From="10" To="11" Label="Source4" />
-      <Edge From="11" To="12" Label="Source1" />
+      <Edge From="5" To="10" Label="Source2" />
+      <Edge From="6" To="7" Label="Source1" />
+      <Edge From="7" To="10" Label="Source3" />
+      <Edge From="8" To="9" Label="Source1" />
+      <Edge From="9" To="10" Label="Source4" />
+      <Edge From="10" To="12" Label="Source1" />
+      <Edge From="11" To="12" Label="Source2" />
       <Edge From="12" To="13" Label="Source1" />
       <Edge From="13" To="14" Label="Source1" />
       <Edge From="13" To="15" Label="Source1" />

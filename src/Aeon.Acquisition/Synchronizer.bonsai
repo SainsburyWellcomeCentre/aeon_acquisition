@@ -4,6 +4,7 @@
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:p1="clr-namespace:Harp.Synchronizer;assembly=Harp.Synchronizer"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Provides functionality for synchronizing all arena Harp devices and setting the UTC time reference.</Description>
   <Workflow>
@@ -18,7 +19,7 @@
         <Property Name="PortName" />
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="harp:Device">
+        <Combinator xsi:type="p1:Device">
           <harp:OperationMode>Active</harp:OperationMode>
           <harp:OperationLed>On</harp:OperationLed>
           <harp:DumpRegisters>true</harp:DumpRegisters>
