@@ -21,7 +21,7 @@
         </Combinator>
       </Expression>
       <Expression xsi:type="p1:Parse">
-        <harp:Register xsi:type="p1:OutputSet" />
+        <harp:Register xsi:type="p1:TimestampedOutputSet" />
       </Expression>
       <Expression xsi:type="rx:Condition">
         <Name>TriggerPellet</Name>
@@ -29,6 +29,9 @@
           <Nodes>
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Value</Selector>
             </Expression>
             <Expression xsi:type="HasFlag">
               <Operand xsi:type="WorkflowProperty" TypeArguments="p1:DigitalOutputs">
@@ -40,6 +43,7 @@
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
