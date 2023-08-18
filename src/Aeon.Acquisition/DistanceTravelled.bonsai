@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.7.0"
+<WorkflowBuilder Version="2.8.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Computes the cumulative absolute distance travelled on the wheel with optional gain modulation.</Description>
   <Workflow>
     <Nodes>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Value" DisplayName="Gain" Description="A factor used to increase or decrease the speed of integration." />
-      </Expression>
       <Expression xsi:type="WorkflowInput">
         <Name>Source1</Name>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Value" DisplayName="Gain" Description="A factor used to increase or decrease the speed of integration." />
       </Expression>
       <Expression xsi:type="Multiply">
         <Operand xsi:type="DoubleProperty">
@@ -21,8 +21,8 @@
       <Expression xsi:type="WorkflowOutput" />
     </Nodes>
     <Edges>
-      <Edge From="0" To="2" Label="Source2" />
-      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="0" To="2" Label="Source1" />
+      <Edge From="1" To="2" Label="Source2" />
       <Edge From="2" To="3" Label="Source1" />
       <Edge From="3" To="4" Label="Source1" />
     </Edges>

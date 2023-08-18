@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.7.2"
+<WorkflowBuilder Version="2.8.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:zmq="clr-namespace:Bonsai.ZeroMQ;assembly=Bonsai.ZeroMQ"
                  xmlns:osc="clr-namespace:Bonsai.Osc;assembly=Bonsai.Osc"
                  xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
@@ -12,16 +11,6 @@
   <Description>Provides control and acquisition functionality for automated room lighting.</Description>
   <Workflow>
     <Nodes>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>GlobalTrigger</Name>
-      </Expression>
-      <Expression xsi:type="harp:Parse">
-        <harp:Type>Timestamp</harp:Type>
-        <harp:IsArray>false</harp:IsArray>
-      </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Name" DisplayName="LightEvents" Description="The name of the output sequence containing all timestamped light events." />
-      </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="ConnectionString" DisplayName="EventSocket" />
       </Expression>
@@ -43,11 +32,20 @@
 Item1 as Channel,
 Item2 as Value)</scr:Expression>
       </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>GlobalTrigger</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Seconds</Selector>
+      </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:WithLatestFrom" />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="aeon:CreateTimestamped" />
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="LightEvents" Description="The name of the output sequence containing all timestamped light events." />
       </Expression>
       <Expression xsi:type="rx:PublishSubject">
         <Name>LightEvents</Name>
@@ -89,15 +87,15 @@ Item2 as Value)</scr:Expression>
     </Nodes>
     <Edges>
       <Edge From="0" To="1" Label="Source1" />
-      <Edge From="1" To="8" Label="Source2" />
-      <Edge From="2" To="10" Label="Source2" />
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="2" To="3" Label="Source1" />
       <Edge From="3" To="4" Label="Source1" />
-      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="4" To="7" Label="Source1" />
       <Edge From="5" To="6" Label="Source1" />
-      <Edge From="6" To="7" Label="Source1" />
+      <Edge From="6" To="7" Label="Source2" />
       <Edge From="7" To="8" Label="Source1" />
-      <Edge From="8" To="9" Label="Source1" />
-      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="8" To="10" Label="Source1" />
+      <Edge From="9" To="10" Label="Source2" />
       <Edge From="10" To="11" Label="Source1" />
       <Edge From="12" To="13" Label="Source1" />
       <Edge From="13" To="18" Label="Source1" />

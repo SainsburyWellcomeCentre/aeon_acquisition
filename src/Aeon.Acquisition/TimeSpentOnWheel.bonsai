@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.7.1"
+<WorkflowBuilder Version="2.8.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
@@ -13,11 +13,13 @@
         <Property Name="Name" DisplayName="Patch" />
       </Expression>
       <Expression xsi:type="SubscribeSubject">
-        <Name>Patch1</Name>
+        <Name>PatchEvents</Name>
       </Expression>
       <Expression xsi:type="harp:Parse">
-        <harp:Type>Timestamp</harp:Type>
-        <harp:IsArray>false</harp:IsArray>
+        <harp:Register xsi:type="harp:ParseMessagePayload">
+          <harp:PayloadType>Timestamp</harp:PayloadType>
+          <harp:IsArray>false</harp:IsArray>
+        </harp:Register>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="dsp:Difference">
@@ -28,7 +30,7 @@
         <Property Name="Name" DisplayName="WheelPatch" />
       </Expression>
       <Expression xsi:type="SubscribeSubject">
-        <Name>WheelPatch1</Name>
+        <Name>WheelDisplacement</Name>
       </Expression>
       <Expression xsi:type="MemberSelector">
         <Selector>Value</Selector>
@@ -39,8 +41,8 @@
         <Property Name="LowPass" />
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:WheelMovement.bonsai">
-        <Threshold>0.0005</Threshold>
         <LowPass>5</LowPass>
+        <Threshold>0.0005</Threshold>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:DistinctUntilChanged" />

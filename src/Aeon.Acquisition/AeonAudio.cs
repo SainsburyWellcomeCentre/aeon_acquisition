@@ -13,21 +13,20 @@ namespace Aeon.Acquisition
     [Description("Configures and initializes a software timestamped audio capture.")]
     public class AeonAudio : AudioCapture
     {
-        IEnumerable<Timestamped<Mat>> TimestampBuffers(IEnumerable<Mat> buffers, HarpMessage message)
+        IEnumerable<Timestamped<Mat>> TimestampBuffers(IEnumerable<Mat> buffers, double timestamp)
         {
-            var timestamp = message.GetTimestamp();
             foreach (var buffer in buffers)
             {
                 yield return Timestamped.Create(buffer, timestamp);
             }
         }
 
-        public IObservable<Timestamped<Mat>> Generate(IObservable<HarpMessage> source)
+        public IObservable<Timestamped<Mat>> Generate<TPayload>(IObservable<Timestamped<TPayload>> source)
         {
             var data = Generate();
             return source.Publish(triggers =>
                 data.Buffer(triggers)
-                    .Zip(triggers, (list, trigger) => TimestampBuffers(list, trigger))
+                    .Zip(triggers, (list, trigger) => TimestampBuffers(list, trigger.Seconds))
                     .SelectMany(x => x));
         }
     }

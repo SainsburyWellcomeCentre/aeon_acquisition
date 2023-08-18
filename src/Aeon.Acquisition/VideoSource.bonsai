@@ -1,20 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.7.0"
+<WorkflowBuilder Version="2.8.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
                  xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
+                 xmlns:spk="clr-namespace:Bonsai.Spinnaker;assembly=Bonsai.Spinnaker"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Contains control and acquisition functionality for arena video capture devices.</Description>
   <Workflow>
     <Nodes>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="SerialNumber" />
-        <Property Name="Gain" />
-        <Property Name="Binning" />
-      </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="TriggerSource" Description="The PWM trigger source used to drive the camera." />
       </Expression>
@@ -22,24 +17,38 @@
         <Name>GlobalTrigger</Name>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Name" DisplayName="FrameEvents" Description="The name of the output sequence containing all frame events from the video source." />
-      </Expression>
-      <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="TriggerFrequency" Description="The frequency of the trigger source." />
       </Expression>
       <Expression xsi:type="SubscribeSubject" TypeArguments="sys:Double">
         <Name>GlobalTriggerFrequency</Name>
       </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Value" DisplayName="ExposureTime" Description="The duration of each individual exposure, in microseconds. To avoid trigger loss, values exceeding a period of 1 / frameRate - 1 millisecond will be capped." />
+      </Expression>
+      <Expression xsi:type="PropertySource" TypeArguments="aeon:SpinnakerCapture,sys:Double">
+        <MemberName>ExposureTime</MemberName>
+        <Value>INF</Value>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:CombineLatest" />
+      </Expression>
       <Expression xsi:type="scr:ExpressionTransform">
-        <scr:Expression>1e6 / it - 500</scr:Expression>
+        <scr:Expression>Math.Min(Item2, 1e6 / Item1 - 500)</scr:Expression>
       </Expression>
       <Expression xsi:type="PropertyMapping">
         <PropertyMappings>
           <Property Name="ExposureTime" />
         </PropertyMappings>
       </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="SerialNumber" />
+        <Property Name="Gain" />
+        <Property Name="Binning" />
+      </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="aeon:SpinnakerCapture">
+          <spk:Index xsi:nil="true" />
+          <spk:ColorProcessing>Default</spk:ColorProcessing>
           <aeon:ExposureTime>19500</aeon:ExposureTime>
           <aeon:Gain>0</aeon:Gain>
           <aeon:Binning>1</aeon:Binning>
@@ -48,23 +57,29 @@
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="aeon:ObserveOnTaskPool" />
       </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="FrameEvents" Description="The name of the output sequence containing all frame events from the video source." />
+      </Expression>
       <Expression xsi:type="rx:PublishSubject">
         <Name>FrameEvents</Name>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
     </Nodes>
     <Edges>
-      <Edge From="0" To="8" Label="Source3" />
-      <Edge From="1" To="2" Label="Source1" />
-      <Edge From="2" To="8" Label="Source1" />
-      <Edge From="3" To="10" Label="Source2" />
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="10" Label="Source1" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="3" To="6" Label="Source1" />
       <Edge From="4" To="5" Label="Source1" />
-      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="5" To="6" Label="Source2" />
       <Edge From="6" To="7" Label="Source1" />
-      <Edge From="7" To="8" Label="Source2" />
-      <Edge From="8" To="9" Label="Source1" />
-      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="8" To="10" Label="Source2" />
+      <Edge From="9" To="10" Label="Source3" />
       <Edge From="10" To="11" Label="Source1" />
+      <Edge From="11" To="13" Label="Source1" />
+      <Edge From="12" To="13" Label="Source2" />
+      <Edge From="13" To="14" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>

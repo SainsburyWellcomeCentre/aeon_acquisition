@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.7.0"
+<WorkflowBuilder Version="2.8.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
+                 xmlns:port="clr-namespace:Bonsai.IO.Ports;assembly=Bonsai.System"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
-                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns="https://bonsai-rx.org/2018/workflow">
@@ -15,28 +14,24 @@
         <Property Name="PortName" Description="The name of the serial port used to communicate with the electronic scale." />
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="io:CreateSerialPort">
-          <io:Name />
-          <io:PortName />
-          <io:BaudRate>9600</io:BaudRate>
-          <io:Parity>None</io:Parity>
-          <io:ParityReplace>63</io:ParityReplace>
-          <io:DataBits>8</io:DataBits>
-          <io:StopBits>One</io:StopBits>
-          <io:Handshake>None</io:Handshake>
-          <io:DiscardNull>false</io:DiscardNull>
-          <io:DtrEnable>false</io:DtrEnable>
-          <io:RtsEnable>false</io:RtsEnable>
-          <io:ReadBufferSize>4096</io:ReadBufferSize>
-          <io:WriteBufferSize>2048</io:WriteBufferSize>
-          <io:ReceivedBytesThreshold>1</io:ReceivedBytesThreshold>
+        <Combinator xsi:type="port:CreateSerialPort">
+          <port:BaudRate>9600</port:BaudRate>
+          <port:NewLine>\r\n</port:NewLine>
+          <port:Parity>None</port:Parity>
+          <port:ParityReplace>63</port:ParityReplace>
+          <port:DataBits>8</port:DataBits>
+          <port:StopBits>One</port:StopBits>
+          <port:Handshake>None</port:Handshake>
+          <port:DiscardNull>false</port:DiscardNull>
+          <port:DtrEnable>false</port:DtrEnable>
+          <port:RtsEnable>false</port:RtsEnable>
+          <port:ReadBufferSize>4096</port:ReadBufferSize>
+          <port:WriteBufferSize>2048</port:WriteBufferSize>
+          <port:ReceivedBytesThreshold>1</port:ReceivedBytesThreshold>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="io:SerialStringRead">
-          <io:PortName />
-          <io:NewLine>\r\n</io:NewLine>
-        </Combinator>
+        <Combinator xsi:type="port:SerialReadLine" />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Skip">
@@ -57,9 +52,8 @@ Item2.Contains("?") ? 0.0 : 1.0 as Confidence)</scr:Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>GlobalTrigger</Name>
       </Expression>
-      <Expression xsi:type="harp:Parse">
-        <harp:Type>Timestamp</harp:Type>
-        <harp:IsArray>false</harp:IsArray>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Seconds</Selector>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Sample" />
@@ -89,9 +83,7 @@ Item2.Contains("?") ? 0.0 : 1.0 as Confidence)</scr:Expression>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="io:SerialStringWrite">
-          <io:NewLine>\r\n</io:NewLine>
-        </Combinator>
+        <Combinator xsi:type="port:SerialWriteLine" />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="ByteProperty">
@@ -101,9 +93,8 @@ Item2.Contains("?") ? 0.0 : 1.0 as Confidence)</scr:Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>GlobalTrigger</Name>
       </Expression>
-      <Expression xsi:type="harp:Parse">
-        <harp:Type>Timestamp</harp:Type>
-        <harp:IsArray>false</harp:IsArray>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Seconds</Selector>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:WithLatestFrom" />
@@ -128,8 +119,8 @@ Item2.Contains("?") ? 0.0 : 1.0 as Confidence)</scr:Expression>
       <Edge From="5" To="6" Label="Source1" />
       <Edge From="6" To="9" Label="Source1" />
       <Edge From="7" To="8" Label="Source1" />
-      <Edge From="8" To="10" Label="Source2" />
       <Edge From="8" To="9" Label="Source2" />
+      <Edge From="8" To="10" Label="Source2" />
       <Edge From="9" To="10" Label="Source1" />
       <Edge From="10" To="11" Label="Source1" />
       <Edge From="11" To="13" Label="Source1" />

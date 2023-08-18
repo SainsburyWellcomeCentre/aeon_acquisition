@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.7.0"
+<WorkflowBuilder Version="2.8.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
@@ -7,9 +7,6 @@
   <Description>Measures whether a value is within the specified range.</Description>
   <Workflow>
     <Nodes>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Name" DisplayName="RangeEvents" />
-      </Expression>
       <Expression xsi:type="WorkflowInput">
         <Name>Source1</Name>
       </Expression>
@@ -23,16 +20,19 @@
           <aeon:Upper>0</aeon:Upper>
         </Combinator>
       </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="RangeEvents" />
+      </Expression>
       <Expression xsi:type="rx:PublishSubject">
         <Name>InRange</Name>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
     </Nodes>
     <Edges>
-      <Edge From="0" To="4" Label="Source2" />
-      <Edge From="1" To="3" Label="Source1" />
-      <Edge From="2" To="3" Label="Source2" />
-      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="0" To="2" Label="Source1" />
+      <Edge From="1" To="2" Label="Source2" />
+      <Edge From="2" To="4" Label="Source1" />
+      <Edge From="3" To="4" Label="Source2" />
       <Edge From="4" To="5" Label="Source1" />
     </Edges>
   </Workflow>

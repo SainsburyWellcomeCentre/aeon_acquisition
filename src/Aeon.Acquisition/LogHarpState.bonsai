@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.7.0"
+<WorkflowBuilder Version="2.8.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
@@ -11,11 +11,9 @@
         <Name>Source1</Name>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="harp:FilterMessage">
+        <Combinator xsi:type="harp:FilterMessageType">
+          <harp:FilterType>Include</harp:FilterType>
           <harp:MessageType>Read</harp:MessageType>
-          <harp:Register xsi:type="harp:FilterMessageAddress">
-            <harp:Address xsi:nil="true" />
-          </harp:Register>
         </Combinator>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
