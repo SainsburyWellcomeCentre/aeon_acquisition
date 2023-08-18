@@ -24,8 +24,8 @@
           <Nodes>
             <Expression xsi:type="p1:CreateMessage">
               <harp:MessageType>Write</harp:MessageType>
-              <harp:Payload xsi:type="p1:CreateCam0EventPayload">
-                <p1:Cam0Event>Trigger</p1:Cam0Event>
+              <harp:Payload xsi:type="p1:CreateConfigureCam0EventPayload">
+                <p1:ConfigureCam0Event>EventOnTrigger</p1:ConfigureCam0Event>
               </harp:Payload>
             </Expression>
             <Expression xsi:type="ExternalizedMapping">
@@ -75,8 +75,8 @@
           <Nodes>
             <Expression xsi:type="p1:CreateMessage">
               <harp:MessageType>Write</harp:MessageType>
-              <harp:Payload xsi:type="p1:CreateCam1EventPayload">
-                <p1:Cam1Event>Trigger</p1:Cam1Event>
+              <harp:Payload xsi:type="p1:CreateConfigureCam1EventPayload">
+                <p1:ConfigureCam1Event>EventOnTrigger</p1:ConfigureCam1Event>
               </harp:Payload>
             </Expression>
             <Expression xsi:type="ExternalizedMapping">
