@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.8.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:p1="clr-namespace:Harp.RfidReader;assembly=Harp.RfidReader"
+                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Description>Provides functionality for synchronizing and detecting inbound tags from an RFID reader module.</Description>
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="HardwareNotificationsState" />
+      </Expression>
+      <Expression xsi:type="p1:CreateMessage">
+        <harp:MessageType>Write</harp:MessageType>
+        <harp:Payload xsi:type="p1:CreateHardwareNotificationsStatePayload">
+          <p1:HardwareNotificationsState>None</p1:HardwareNotificationsState>
+        </harp:Payload>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>SynchronizerEvents</Name>
+      </Expression>
+      <Expression xsi:type="harp:Parse">
+        <harp:Register xsi:type="harp:TimestampSeconds" />
+      </Expression>
+      <Expression xsi:type="harp:Format">
+        <harp:MessageType>Write</harp:MessageType>
+        <harp:Register xsi:type="harp:TimestampSeconds" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Merge" />
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="PortName" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="p1:Device">
+          <harp:OperationMode>Active</harp:OperationMode>
+          <harp:OperationLed>On</harp:OperationLed>
+          <harp:DumpRegisters>true</harp:DumpRegisters>
+          <harp:VisualIndicators>On</harp:VisualIndicators>
+          <harp:Heartbeat>Enabled</harp:Heartbeat>
+          <harp:IgnoreErrors>false</harp:IgnoreErrors>
+          <harp:PortName />
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="RfidEvents" Description="The name of the output sequence containing all RFID events." />
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject">
+        <Name>RfidEvents</Name>
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+      <Expression xsi:type="p1:Parse">
+        <harp:Register xsi:type="p1:TimestampedInboundDetectionId" />
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="InboundRfidDetected" Description="The name of the output sequence carrying detected inbound RFID notifications." />
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject">
+        <Name>InboundRfidDetected</Name>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="5" Label="Source1" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="4" To="5" Label="Source2" />
+      <Edge From="5" To="7" Label="Source1" />
+      <Edge From="6" To="7" Label="Source2" />
+      <Edge From="7" To="9" Label="Source1" />
+      <Edge From="8" To="9" Label="Source2" />
+      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="9" To="11" Label="Source1" />
+      <Edge From="11" To="13" Label="Source1" />
+      <Edge From="12" To="13" Label="Source2" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
