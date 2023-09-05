@@ -11,6 +11,15 @@ namespace Aeon.Database
             return Query(queryString, connection, reader => reader);
         }
 
+        public static IObservable<TResult> Query<TResult>(string queryString, MySqlConnection connection)
+        {
+            return Query(
+                queryString,
+                connection,
+                RecordReader<TResult>.Instance.Validate,
+                RecordReader<TResult>.Instance.Select);
+        }
+
         public static IObservable<TResult> Query<TResult>(
             string queryString,
             MySqlConnection connection,
