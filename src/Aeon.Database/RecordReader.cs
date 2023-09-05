@@ -84,8 +84,7 @@ namespace Aeon.Database
                 {
                     var enumType = Expression.Constant(member.Type);
                     var ignoreCase = Expression.Constant(true);
-                    value = Expression.Call(reader, nameof(MySqlDataReader.GetString), null, ordinal);
-                    value = Expression.Call(typeof(Enum), nameof(Enum.Parse), null, enumType, value, ignoreCase);
+                    value = Expression.Call(reader, nameof(MySqlDataReader.GetChar), null, ordinal);
                     yield return Expression.Assign(member, Expression.Convert(value, member.Type));
                     continue;
                 }
