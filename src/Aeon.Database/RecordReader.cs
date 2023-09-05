@@ -54,7 +54,9 @@ namespace Aeon.Database
                             nameof(reader));
                     }
 
-                    if (column.DataType != Members[i].PropertyType)
+                    var propertyType = Members[i].PropertyType;
+                    propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
+                    if (column.DataType != propertyType)
                     {
                         if (column.DataTypeName == "ENUM")
                         {
@@ -88,98 +90,128 @@ namespace Aeon.Database
                     continue;
                 }
 
-                var memberTypeCode = Type.GetTypeCode(member.Type);
+                var nullableType = Nullable.GetUnderlyingType(member.Type);
+                var memberTypeCode = Type.GetTypeCode(nullableType ?? member.Type);
+                var isNullable = nullableType != null;
                 switch (memberTypeCode)
                 {
                     case TypeCode.Boolean:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetBooleanOrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            isNullable
+                                ? nameof(ObservableDatabase.BooleanField)
+                                : nameof(MySqlDataReader.GetBoolean),
+                            null, reader, ordinal);
                         break;
                     case TypeCode.Char:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetCharOrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            isNullable
+                                ? nameof(ObservableDatabase.CharField)
+                                : nameof(MySqlDataReader.GetChar),
+                            null, reader, ordinal);
                         break;
                     case TypeCode.SByte:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetSByteOrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            isNullable
+                                ? nameof(ObservableDatabase.SByteField)
+                                : nameof(MySqlDataReader.GetSByte),
+                            null, reader, ordinal);
                         break;
                     case TypeCode.Byte:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetByteOrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            isNullable
+                                ? nameof(ObservableDatabase.ByteField)
+                                : nameof(MySqlDataReader.GetByte),
+                            null, reader, ordinal);
                         break;
                     case TypeCode.Int16:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetInt16OrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            isNullable
+                                ? nameof(ObservableDatabase.Int16Field)
+                                : nameof(MySqlDataReader.GetInt16),
+                            null, reader, ordinal);
                         break;
                     case TypeCode.UInt16:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetUInt16OrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            isNullable
+                                ? nameof(ObservableDatabase.UInt16Field)
+                                : nameof(MySqlDataReader.GetUInt16),
+                            null, reader, ordinal);
                         break;
                     case TypeCode.Int32:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetInt32OrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            isNullable
+                                ? nameof(ObservableDatabase.Int32Field)
+                                : nameof(MySqlDataReader.GetInt32),
+                            null, reader, ordinal);
                         break;
                     case TypeCode.UInt32:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetUInt32OrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            isNullable
+                                ? nameof(ObservableDatabase.UInt32Field)
+                                : nameof(MySqlDataReader.GetUInt32),
+                            null, reader, ordinal);
                         break;
                     case TypeCode.Int64:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetInt64OrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            isNullable
+                                ? nameof(ObservableDatabase.Int64Field)
+                                : nameof(MySqlDataReader.GetInt64),
+                            null, reader, ordinal);
                         break;
                     case TypeCode.UInt64:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetUInt64OrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            isNullable
+                                ? nameof(ObservableDatabase.UInt64Field)
+                                : nameof(MySqlDataReader.GetUInt64),
+                            null, reader, ordinal);
                         break;
                     case TypeCode.Single:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetFloatOrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            isNullable
+                                ? nameof(ObservableDatabase.FloatField)
+                                : nameof(MySqlDataReader.GetFloat),
+                            null, reader, ordinal);
                         break;
                     case TypeCode.Double:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetDoubleOrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            isNullable
+                                ? nameof(ObservableDatabase.DoubleField)
+                                : nameof(MySqlDataReader.GetDouble),
+                            null, reader, ordinal);
                         break;
                     case TypeCode.Decimal:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetDecimalOrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            isNullable
+                                ? nameof(ObservableDatabase.DecimalField)
+                                : nameof(MySqlDataReader.GetDecimal),
+                            null, reader, ordinal);
                         break;
                     case TypeCode.DateTime:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetDateTimeOrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            isNullable
+                                ? nameof(ObservableDatabase.DateTimeField)
+                                : nameof(MySqlDataReader.GetDateTime),
+                            null, reader, ordinal);
                         break;
                     case TypeCode.String:
                         value = Expression.Call(
                             typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.GetStringOrDefault),
-                            null, reader, ordinal, Expression.Default(member.Type));
+                            nameof(ObservableDatabase.StringField),
+                            null, reader, ordinal);
                         break;
                     default:
                         throw new NotSupportedException(

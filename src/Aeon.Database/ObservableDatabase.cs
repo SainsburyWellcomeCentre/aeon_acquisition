@@ -48,79 +48,79 @@ namespace Aeon.Database
             });
         }
 
-        public static bool GetBooleanOrDefault(this MySqlDataReader reader, int ordinal, bool defaultValue = default)
+        public static bool? BooleanField(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetBoolean(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetBoolean(ordinal);
         }
 
-        public static char GetCharOrDefault(this MySqlDataReader reader, int ordinal, char defaultValue = default)
+        public static char? CharField(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetChar(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetChar(ordinal);
         }
 
-        public static sbyte GetSByteOrDefault(this MySqlDataReader reader, int ordinal, sbyte defaultValue = default)
+        public static sbyte? SByteField(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetSByte(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetSByte(ordinal);
         }
 
-        public static byte GetByteOrDefault(this MySqlDataReader reader, int ordinal, byte defaultValue = default)
+        public static byte? ByteField(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetByte(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetByte(ordinal);
         }
 
-        public static short GetInt16OrDefault(this MySqlDataReader reader, int ordinal, short defaultValue = default)
+        public static short? Int16Field(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetInt16(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetInt16(ordinal);
         }
 
-        public static ushort GetUInt16OrDefault(this MySqlDataReader reader, int ordinal, ushort defaultValue = default)
+        public static ushort? UInt16Field(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetUInt16(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetUInt16(ordinal);
         }
 
-        public static int GetInt32OrDefault(this MySqlDataReader reader, int ordinal, int defaultValue = default)
+        public static int? Int32Field(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetInt32(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetInt32(ordinal);
         }
 
-        public static uint GetUInt32OrDefault(this MySqlDataReader reader, int ordinal, uint defaultValue = default)
+        public static uint? UInt32Field(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetUInt32(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetUInt32(ordinal);
         }
 
-        public static long GetInt64OrDefault(this MySqlDataReader reader, int ordinal, long defaultValue = default)
+        public static long? Int64Field(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetInt64(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetInt64(ordinal);
         }
 
-        public static ulong GetUInt64OrDefault(this MySqlDataReader reader, int ordinal, ulong defaultValue = default)
+        public static ulong? UInt64Field(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetUInt64(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetUInt64(ordinal);
         }
 
-        public static float GetFloatOrDefault(this MySqlDataReader reader, int ordinal, float defaultValue = default)
+        public static float? FloatField(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetFloat(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetFloat(ordinal);
         }
 
-        public static double GetDoubleOrDefault(this MySqlDataReader reader, int ordinal, double defaultValue = default)
+        public static double? DoubleField(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetDouble(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetDouble(ordinal);
         }
 
-        public static decimal GetDecimalOrDefault(this MySqlDataReader reader, int ordinal, decimal defaultValue = default)
+        public static decimal? DecimalField(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetDecimal(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetDecimal(ordinal);
         }
 
-        public static DateTime GetDateTimeOrDefault(this MySqlDataReader reader, int ordinal, DateTime defaultValue = default)
+        public static DateTime? DateTimeField(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetDateTime(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetDateTime(ordinal);
         }
 
-        public static string GetStringOrDefault(this MySqlDataReader reader, int ordinal, string defaultValue = default)
+        public static string StringField(this MySqlDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? defaultValue : reader.GetString(ordinal);
+            return reader.IsDBNull(ordinal) ? null : reader.GetString(ordinal);
         }
     }
 }
