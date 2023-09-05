@@ -17,12 +17,7 @@ namespace Aeon.Database
 
         public override IObservable<MySqlDataReader> Process(IObservable<MySqlConnection> source)
         {
-            return source.SelectMany(async (connection, cancellationToken) =>
-            {
-                using var command = new MySqlCommand(QueryString, connection);
-                var reader = await command.ExecuteReaderAsync(cancellationToken);
-                return reader;
-            });
+            return source.SelectMany(connection => ObservableDatabase.Query(QueryString, connection));
         }
     }
 }
