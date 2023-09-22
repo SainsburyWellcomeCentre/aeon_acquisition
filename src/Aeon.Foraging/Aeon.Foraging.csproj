@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Title>Project Aeon - Foraging</Title>
+    <Description>Provides acquisition and control modules for Project Aeon foraging experiments.</Description>
+    <PackageTags>Bonsai Rx Project Aeon Foraging</PackageTags>
+    <TargetFramework>net472</TargetFramework>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionSuffix>build230920</VersionSuffix>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="**\*.bonsai" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Aeon.Acquisition\Aeon.Acquisition.csproj" />
+  </ItemGroup>
+
+</Project>
