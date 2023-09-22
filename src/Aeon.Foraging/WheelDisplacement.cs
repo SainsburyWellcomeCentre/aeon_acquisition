@@ -1,10 +1,10 @@
-using Bonsai;
+﻿using Bonsai;
 using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 
-namespace Aeon.Acquisition
+namespace Aeon.Foraging
 {
     [Combinator]
     [Description("Generates a sequence of all changes in wheel position, in metric units.")]

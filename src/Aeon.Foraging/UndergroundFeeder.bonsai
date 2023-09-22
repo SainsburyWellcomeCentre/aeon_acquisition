@@ -6,7 +6,7 @@
                  xmlns:p1="clr-namespace:Harp.OutputExpander;assembly=Harp.OutputExpander"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
-                 xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
+                 xmlns:aeon="clr-namespace:Aeon.Foraging;assembly=Aeon.Foraging"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Contains control and acquisition functionality for an underground feeder module.</Description>
   <Workflow>
@@ -263,7 +263,7 @@ Item2.Seconds as Seconds)</scr:Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Radius" />
       </Expression>
-      <Expression xsi:type="aeon:TransformTimestamped">
+      <Expression xsi:type="harp:ConvertTimestamped">
         <Workflow>
           <Nodes>
             <Expression xsi:type="WorkflowInput">
@@ -289,7 +289,6 @@ Item2.Seconds as Seconds)</scr:Expression>
             <Edge From="3" To="4" Label="Source1" />
           </Edges>
         </Workflow>
-        <aeon:IncludeTimestamp>false</aeon:IncludeTimestamp>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="WheelDisplacement" Description="The name of the output sequence carrying total distance travelled on the wheel." />
@@ -300,7 +299,7 @@ Item2.Seconds as Seconds)</scr:Expression>
       <Expression xsi:type="p1:Parse">
         <harp:Register xsi:type="p1:TimestampedAuxInState" />
       </Expression>
-      <Expression xsi:type="aeon:TransformTimestamped">
+      <Expression xsi:type="harp:ConvertTimestamped">
         <Workflow>
           <Nodes>
             <Expression xsi:type="WorkflowInput">
@@ -318,7 +317,6 @@ Item2.Seconds as Seconds)</scr:Expression>
             <Edge From="1" To="2" Label="Source1" />
           </Edges>
         </Workflow>
-        <aeon:IncludeTimestamp>false</aeon:IncludeTimestamp>
       </Expression>
       <Expression xsi:type="rx:Condition">
         <Name>PelletDelivered</Name>
