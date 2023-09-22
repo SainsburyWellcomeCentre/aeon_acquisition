@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Acquisition", "Aeon.Acquisition\Aeon.Acquisition.csproj", "{5F8F4AF8-7C4C-436F-A74E-4BE82A4526F6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Acquisition.Tests", "Aeon.Acquisition.Tests\Aeon.Acquisition.Tests.csproj", "{235C151D-1507-4EDA-8BE9-79FA24EE858E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Tests", "Aeon.Tests\Aeon.Tests.csproj", "{235C151D-1507-4EDA-8BE9-79FA24EE858E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FB666352-C351-407B-9BF6-AA5DDC6C9DD5}"
 	ProjectSection(SolutionItems) = preProject
