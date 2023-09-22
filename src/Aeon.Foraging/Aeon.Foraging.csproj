@@ -1,6 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
+    <UseWindowsForms>true</UseWindowsForms>
     <Title>Project Aeon - Foraging</Title>
     <Description>Provides acquisition and control modules for Project Aeon foraging experiments.</Description>
     <PackageTags>Bonsai Rx Project Aeon Foraging</PackageTags>

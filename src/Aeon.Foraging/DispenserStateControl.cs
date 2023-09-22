@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Aeon.Acquisition
+namespace Aeon.Foraging
 {
     public partial class DispenserStateControl : UserControl
     {

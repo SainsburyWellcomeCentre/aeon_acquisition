@@ -11,9 +11,6 @@
     <Compile Update="EnvironmentSubjectStateControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="DispenserStateControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="TareWeightControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
