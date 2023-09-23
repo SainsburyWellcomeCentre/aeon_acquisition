@@ -30,4 +30,4 @@ jobs:
       run: msbuild src/Aeon.sln /p:Configuration=Release
 
     - name: Run Tests
-      run: vstest.console.exe src/Aeon.Acquisition.Tests/bin/Release/net472/Aeon.Acquisition.Tests.dll
+      run: vstest.console.exe src/Aeon.Tests/bin/Release/net472/Aeon.Tests.dll
