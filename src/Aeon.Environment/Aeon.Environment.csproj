@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <UseWindowsForms>true</UseWindowsForms>
-    <Title>Project Aeon - Foraging</Title>
-    <Description>Provides acquisition and control modules for Project Aeon foraging experiments.</Description>
-    <PackageTags>Bonsai Rx Project Aeon Foraging</PackageTags>
+    <Title>Project Aeon - Environment</Title>
+    <Description>Provides reactive modules for controlling and monitoring Project Aeon environments.</Description>
+    <PackageTags>Bonsai Rx Project Aeon Environment</PackageTags>
     <TargetFramework>net472</TargetFramework>
     <VersionPrefix>0.1.0</VersionPrefix>
-    <VersionSuffix>build230920</VersionSuffix>
+    <VersionSuffix>build230926</VersionSuffix>
   </PropertyGroup>
   
   <ItemGroup>
@@ -16,8 +16,9 @@
 
   <ItemGroup>
     <PackageReference Include="Bonsai.Design" Version="2.8.0" />
+    <PackageReference Include="Harp.RfidReader" Version="0.1.0" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\Aeon.Acquisition\Aeon.Acquisition.csproj" />
   </ItemGroup>
