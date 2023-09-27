@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using Bonsai;
-using Bonsai.IO;
+using Bonsai.IO.Ports;
 
 namespace Aeon.Environment
 {
@@ -17,7 +17,7 @@ namespace Aeon.Environment
     [Description("Creates and configures a connection to the room light controller over Brainboxes Ethernet to Serial.")]
     public class RoomLightController
     {
-        readonly CreateSerialPort serialPort = new CreateSerialPort();
+        readonly CreateSerialPort serialPort = new();
 
         [TypeConverter(typeof(SerialPortNameConverter))]
         [Description("The name of the room light controller serial port.")]
