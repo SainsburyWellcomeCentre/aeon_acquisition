@@ -4,7 +4,7 @@ using Bonsai.Harp;
 using System;
 using System.Windows.Forms;
 
-namespace Aeon.Acquisition
+namespace Aeon.Foraging
 {
     public class DispenserStateVisualizer : DialogTypeVisualizer
     {

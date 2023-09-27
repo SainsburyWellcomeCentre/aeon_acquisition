@@ -1,18 +1,17 @@
 ﻿using Bonsai;
+using System.Xml;
+using System.Reflection;
+using System.IO;
 using Bonsai.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
-using System.Xml;
+using Aeon.Acquisition;
 
-namespace Aeon.Acquisition.Tests
+namespace Aeon.Tests
 {
-    [TestClass]
-    public class OperatorTests
+    public static class AssertWorkflow
     {
-        [TestMethod]
-        public void Build_Workflows()
+        public static void CanBuildEmbeddedResources(Assembly assembly)
         {
-            var assembly = typeof(CreateTimestamped).Assembly;
             foreach (var name in assembly.GetManifestResourceNames())
             {
                 if (Path.GetExtension(name) != ".bonsai")

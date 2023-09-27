@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 
-namespace Aeon.Acquisition
+namespace Aeon.Foraging
 {
     [Combinator]
     [Description("Converts a sequence of dispenser states into a sequence of Harp messages.")]

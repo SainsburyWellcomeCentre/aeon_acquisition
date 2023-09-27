@@ -6,7 +6,7 @@ using Bonsai.Harp;
 
 namespace Aeon.Acquisition
 {
-    static class ObservableExtensions
+    public static class ObservableExtensions
     {
         public static IObservable<TSource> FillGaps<TSource>(this IObservable<TSource> source, Func<TSource, TSource, int> gapSelector)
         {

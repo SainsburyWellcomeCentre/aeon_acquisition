@@ -1,4 +1,4 @@
-﻿namespace Aeon.Acquisition
+﻿namespace Aeon.Foraging
 {
     public class DispenserStateMetadata
     {

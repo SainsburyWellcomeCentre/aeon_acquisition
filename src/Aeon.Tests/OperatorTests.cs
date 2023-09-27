@@ -1,0 +1,19 @@
+﻿using Aeon.Acquisition;
+using Aeon.Foraging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Aeon.Tests
+{
+    [TestClass]
+    public class OperatorTests
+    {
+        [TestMethod]
+        public void Build_Workflows()
+        {
+            var acquisition = typeof(CreateTimestamped).Assembly;
+            var foraging = typeof(WheelDisplacement).Assembly;
+            AssertWorkflow.CanBuildEmbeddedResources(acquisition);
+            AssertWorkflow.CanBuildEmbeddedResources(foraging);
+        }
+    }
+}

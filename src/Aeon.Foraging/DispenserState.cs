@@ -1,10 +1,11 @@
-﻿using Bonsai;
+﻿using Aeon.Acquisition;
+using Bonsai;
 using Bonsai.Harp;
 using System;
 using System.ComponentModel;
 using System.Reactive.Linq;
 
-namespace Aeon.Acquisition
+namespace Aeon.Foraging
 {
     [DefaultProperty(nameof(Name))]
     [TypeVisualizer(typeof(DispenserStateVisualizer))]
