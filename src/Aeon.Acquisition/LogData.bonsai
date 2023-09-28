@@ -74,12 +74,11 @@
             <Expression xsi:type="ExternalizedMapping">
               <Property Name="Selector" />
             </Expression>
-            <Expression xsi:type="aeon:AeonWriter">
+            <Expression xsi:type="io:CsvWriter">
               <io:Append>false</io:Append>
               <io:Overwrite>false</io:Overwrite>
               <io:Suffix>None</io:Suffix>
               <io:IncludeHeader>true</io:IncludeHeader>
-              <aeon:FlushDuration>PT1M</aeon:FlushDuration>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
