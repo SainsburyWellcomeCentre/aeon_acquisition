@@ -11,7 +11,7 @@ namespace Aeon.Tests
         [TestMethod]
         public void Build_Workflows()
         {
-            var acquisition = typeof(CreateTimestamped).Assembly;
+            var acquisition = typeof(GroupByTime).Assembly;
             var environment = typeof(EnvironmentState).Assembly;
             var foraging = typeof(WheelDisplacement).Assembly;
             AssertWorkflow.CanBuildEmbeddedResources(acquisition);
