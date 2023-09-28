@@ -20,7 +20,7 @@ namespace Aeon.Acquisition
         }
 
         // The default real-time reference is unix time in total seconds from 1904
-        static readonly DateTime ReferenceTime = new DateTime(1904, 1, 1);
+        internal static readonly DateTime ReferenceTime = new(1904, 1, 1);
 
         [Description("The size of each chunk, in whole hours.")]
         public int ChunkSize { get; set; }
