@@ -14,7 +14,7 @@ namespace Aeon.Environment
 {
     [Combinator]
     [Description("Creates and configures a connection to the room light controller over Brainboxes Ethernet to Serial.")]
-    public class RoomLightController
+    public class RoomLightDevice
     {
         readonly CreateSerialPort serialPort = new();
 
