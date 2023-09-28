@@ -33,7 +33,10 @@ namespace Aeon.Tests
                             workflowElement.GetType().Name != nameof(AeonCapture))
 #pragma warning restore CS0612 // Type or member is obsolete
                         {
-                            Assert.IsNotInstanceOfType(workflowElement, typeof(UnknownTypeBuilder));
+                            Assert.IsNotInstanceOfType(
+                                workflowElement,
+                                typeof(UnknownTypeBuilder),
+                                $"Embedded workflow: {name}.");
                         }
                         return builder;
                     }, recurse: true);
