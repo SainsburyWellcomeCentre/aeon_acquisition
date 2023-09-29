@@ -6,7 +6,7 @@ using Bonsai;
 namespace Aeon.Environment
 {
     [TypeConverter(typeof(SettingsConverter))]
-    [Description("Creates a light controller preset for the specified room.")]
+    [Description("Creates a light controller preset for the specified channel map.")]
     public class CreateRoomLightPreset : Source<RoomLightPreset>
     {
         [Description("The unique ID of the channel map on which to apply this preset.")]
@@ -14,18 +14,18 @@ namespace Aeon.Environment
 
         [Range(RoomLightMessage.NoChange, RoomLightMessage.MaxLightValue)]
         [Editor(DesignTypes.NumericUpDownEditor, DesignTypes.UITypeEditor)]
-        [Description("The intensity to set on the cold-white channels.")]
-        public int ColdWhite { get; set; }
+        [Description("The normalized light level to set on the cold-white channels.")]
+        public float ColdWhite { get; set; }
 
         [Range(RoomLightMessage.NoChange, RoomLightMessage.MaxLightValue)]
         [Editor(DesignTypes.NumericUpDownEditor, DesignTypes.UITypeEditor)]
-        [Description("The intensity to set on the warm-white channels.")]
-        public int WarmWhite { get; set; }
+        [Description("The normalized light level to set on the warm-white channels.")]
+        public float WarmWhite { get; set; }
 
         [Range(RoomLightMessage.NoChange, RoomLightMessage.MaxLightValue)]
         [Editor(DesignTypes.NumericUpDownEditor, DesignTypes.UITypeEditor)]
-        [Description("The intensity to set on the red light channels.")]
-        public int Red { get; set; }
+        [Description("The normalized light level to set on the red light channels.")]
+        public float Red { get; set; }
 
         public override IObservable<RoomLightPreset> Generate()
         {

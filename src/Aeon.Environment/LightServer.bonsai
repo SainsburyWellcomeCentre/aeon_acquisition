@@ -53,7 +53,7 @@
       </Expression>
       <Expression xsi:type="osc:Parse">
         <osc:Address>/preset</osc:Address>
-        <osc:TypeTag>siii</osc:TypeTag>
+        <osc:TypeTag>sfff</osc:TypeTag>
       </Expression>
       <Expression xsi:type="InputMapping">
         <PropertyMappings>
