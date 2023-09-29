@@ -6,7 +6,7 @@
                  xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
-                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:aeon-env="clr-namespace:Aeon.Environment;assembly=Aeon.Environment"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Provides control and acquisition functionality for automated room lighting.</Description>
   <Workflow>
@@ -48,26 +48,14 @@ Item2 as Value)</scr:Expression>
         <Name>LightEvents</Name>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
-      <Expression xsi:type="rx:PublishSubject" TypeArguments="sys:Int32">
-        <rx:Name>SetRedLightLevel</rx:Name>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="LightCommands" Description="The name of the sequence controlling room light presets." />
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject" TypeArguments="aeon-env:RoomLightPreset">
+        <rx:Name>LightCommands</rx:Name>
       </Expression>
       <Expression xsi:type="osc:Format">
-        <osc:Address>/red</osc:Address>
-      </Expression>
-      <Expression xsi:type="rx:PublishSubject" TypeArguments="sys:Int32">
-        <rx:Name>SetColdWhiteLightLevel</rx:Name>
-      </Expression>
-      <Expression xsi:type="osc:Format">
-        <osc:Address>/cold</osc:Address>
-      </Expression>
-      <Expression xsi:type="rx:PublishSubject" TypeArguments="sys:Int32">
-        <rx:Name>SetWarmWhiteLightLevel</rx:Name>
-      </Expression>
-      <Expression xsi:type="osc:Format">
-        <osc:Address>/warm</osc:Address>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Merge" />
+        <osc:Address>/preset</osc:Address>
       </Expression>
       <Expression xsi:type="MemberSelector">
         <Selector>Buffer.Array</Selector>
@@ -94,14 +82,10 @@ Item2 as Value)</scr:Expression>
       <Edge From="8" To="9" Label="Source2" />
       <Edge From="9" To="10" Label="Source1" />
       <Edge From="11" To="12" Label="Source1" />
-      <Edge From="12" To="17" Label="Source1" />
+      <Edge From="12" To="13" Label="Source1" />
       <Edge From="13" To="14" Label="Source1" />
-      <Edge From="14" To="17" Label="Source2" />
-      <Edge From="15" To="16" Label="Source1" />
-      <Edge From="16" To="17" Label="Source3" />
-      <Edge From="17" To="18" Label="Source1" />
-      <Edge From="18" To="20" Label="Source1" />
-      <Edge From="19" To="20" Label="Source2" />
+      <Edge From="14" To="16" Label="Source1" />
+      <Edge From="15" To="16" Label="Source2" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>

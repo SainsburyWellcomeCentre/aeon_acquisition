@@ -5,12 +5,13 @@
                  xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
+                 xmlns:aeon-env="clr-namespace:Aeon.Environment;assembly=Aeon.Environment"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Implements a simple light cycle model where light levels are sampled using the current time of day.</Description>
   <Workflow>
     <Nodes>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="FileName" Description="The name of the CSV file describing the light model, where each row represents one whole minute and the red, cold white and warm white light levels to set for that minute." />
+        <Property Name="FileName" DisplayName="ConfigFileName" Description="The name of the CSV file describing the light model, where each row represents one whole minute and the red, cold white and warm white light levels to set for that minute." />
       </Expression>
       <Expression xsi:type="io:CsvReader">
         <io:FileName>lightcycle.config</io:FileName>
@@ -40,6 +41,23 @@ Item4 as WarmWhite)</scr:Expression>
         <Combinator xsi:type="rx:CombineLatest" />
       </Expression>
       <Expression xsi:type="Index" />
+      <Expression xsi:type="InputMapping">
+        <PropertyMappings>
+          <Property Name="ColdWhite" Selector="ColdWhite" />
+          <Property Name="WarmWhite" Selector="WarmWhite" />
+          <Property Name="Red" Selector="Red" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="RoomName" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="aeon-env:CreateRoomLightPreset">
+          <aeon-env:ColdWhite>0</aeon-env:ColdWhite>
+          <aeon-env:WarmWhite>0</aeon-env:WarmWhite>
+          <aeon-env:Red>0</aeon-env:Red>
+        </Combinator>
+      </Expression>
       <Expression xsi:type="WorkflowOutput" />
     </Nodes>
     <Edges>
@@ -52,6 +70,9 @@ Item4 as WarmWhite)</scr:Expression>
       <Edge From="6" To="7" Label="Source2" />
       <Edge From="7" To="8" Label="Source1" />
       <Edge From="8" To="9" Label="Source1" />
+      <Edge From="9" To="11" Label="Source1" />
+      <Edge From="10" To="11" Label="Source2" />
+      <Edge From="11" To="12" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
