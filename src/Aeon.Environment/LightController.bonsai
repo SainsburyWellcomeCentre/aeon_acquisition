@@ -3,10 +3,9 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:zmq="clr-namespace:Bonsai.ZeroMQ;assembly=Bonsai.ZeroMQ"
                  xmlns:osc="clr-namespace:Bonsai.Osc;assembly=Bonsai.Osc"
-                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
+                 xmlns:aeon-env="clr-namespace:Aeon.Environment;assembly=Aeon.Environment"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
-                 xmlns:aeon-env="clr-namespace:Aeon.Environment;assembly=Aeon.Environment"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Provides control and acquisition functionality for automated room lighting.</Description>
   <Workflow>
@@ -27,10 +26,17 @@
         <osc:Address>/channel</osc:Address>
         <osc:TypeTag>ii</osc:TypeTag>
       </Expression>
-      <Expression xsi:type="scr:ExpressionTransform">
-        <scr:Expression>new(
-Item1 as Channel,
-Item2 as Value)</scr:Expression>
+      <Expression xsi:type="InputMapping">
+        <PropertyMappings>
+          <Property Name="Channel" Selector="Item1" />
+          <Property Name="Value" Selector="Item2" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="aeon-env:CreateRoomLightMessage">
+          <aeon-env:Channel>0</aeon-env:Channel>
+          <aeon-env:Value>0</aeon-env:Value>
+        </Combinator>
       </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>SynchronizerEvents</Name>
@@ -75,17 +81,18 @@ Item2 as Value)</scr:Expression>
       <Edge From="1" To="2" Label="Source1" />
       <Edge From="2" To="3" Label="Source1" />
       <Edge From="3" To="4" Label="Source1" />
-      <Edge From="4" To="6" Label="Source1" />
-      <Edge From="5" To="6" Label="Source2" />
-      <Edge From="6" To="7" Label="Source1" />
-      <Edge From="7" To="9" Label="Source1" />
-      <Edge From="8" To="9" Label="Source2" />
-      <Edge From="9" To="10" Label="Source1" />
-      <Edge From="11" To="12" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="5" To="7" Label="Source1" />
+      <Edge From="6" To="7" Label="Source2" />
+      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="8" To="10" Label="Source1" />
+      <Edge From="9" To="10" Label="Source2" />
+      <Edge From="10" To="11" Label="Source1" />
       <Edge From="12" To="13" Label="Source1" />
       <Edge From="13" To="14" Label="Source1" />
-      <Edge From="14" To="16" Label="Source1" />
-      <Edge From="15" To="16" Label="Source2" />
+      <Edge From="14" To="15" Label="Source1" />
+      <Edge From="15" To="17" Label="Source1" />
+      <Edge From="16" To="17" Label="Source2" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
