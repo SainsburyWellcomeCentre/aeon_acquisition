@@ -6,12 +6,9 @@ using Bonsai;
 namespace Aeon.Environment
 {
     [TypeConverter(typeof(SettingsConverter))]
-    [Description("Creates a light controller preset for the specified channel map.")]
+    [Description("Creates a light controller preset.")]
     public class CreateRoomLightPreset : Source<RoomLightPreset>
     {
-        [Description("The unique ID of the channel map on which to apply this preset.")]
-        public string Name { get; set; }
-
         [Range(RoomLightMessage.NoChange, RoomLightMessage.MaxLightValue)]
         [Editor(DesignTypes.NumericUpDownEditor, DesignTypes.UITypeEditor)]
         [Description("The normalized light level to set on the cold-white channels.")]
@@ -29,12 +26,12 @@ namespace Aeon.Environment
 
         public override IObservable<RoomLightPreset> Generate()
         {
-            return Observable.Return(new RoomLightPreset(Name, ColdWhite, WarmWhite, Red));
+            return Observable.Return(new RoomLightPreset(ColdWhite, WarmWhite, Red));
         }
 
         public IObservable<RoomLightPreset> Generate<TSource>(IObservable<TSource> source)
         {
-            return source.Select(value => new RoomLightPreset(Name, ColdWhite, WarmWhite, Red));
+            return source.Select(value => new RoomLightPreset(ColdWhite, WarmWhite, Red));
         }
 
         class SettingsConverter : ExpandableObjectConverter
@@ -48,7 +45,6 @@ namespace Aeon.Environment
                     .GetProperties(context, value, attributes)
                     .Sort(new[]
                     {
-                        nameof(Name),
                         nameof(ColdWhite),
                         nameof(WarmWhite),
                         nameof(Red)

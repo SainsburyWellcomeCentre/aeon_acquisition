@@ -2,6 +2,8 @@
 <WorkflowBuilder Version="2.8.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:p1="clr-namespace:System.Reactive.Linq;assembly=System.Reactive.Interfaces"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:aeon-env="clr-namespace:Aeon.Environment;assembly=Aeon.Environment"
                  xmlns:osc="clr-namespace:Bonsai.Osc;assembly=Bonsai.Osc"
                  xmlns:zmq="clr-namespace:Bonsai.ZeroMQ;assembly=Bonsai.ZeroMQ"
@@ -12,23 +14,134 @@
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="LightMessages" Description="The name of the sequence generating individual room light messages." />
       </Expression>
-      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="aeon-env:RoomLightMessage">
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p1:IGroupedObservable(sys:String,aeon-env:RoomLightMessage)">
         <rx:Name>LightMessages</rx:Name>
+      </Expression>
+      <Expression xsi:type="rx:SelectMany">
+        <Name>FlattenMessages</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="rx:AsyncSubject">
+              <Name>LightGroup</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>LightGroup</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Key</Selector>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>LightGroup</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:CombineLatest" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="6" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="6" Label="Source2" />
+            <Edge From="6" To="7" Label="Source1" />
+          </Edges>
+        </Workflow>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="PortName" />
         <Property Name="MessageDelay" />
       </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="aeon-env:RoomLightDevice">
-          <aeon-env:MessageDelay>PT0.1S</aeon-env:MessageDelay>
-        </Combinator>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>RoomLightDevice</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Item2</Selector>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="PortName" />
+              <Property Name="MessageDelay" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="aeon-env:RoomLightDevice">
+                <aeon-env:MessageDelay>PT0.1S</aeon-env:MessageDelay>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="osc:Format">
+              <osc:Address>/channel</osc:Address>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Buffer.Array</Selector>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Item1</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Zip" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="0" To="6" Label="Source1" />
+            <Edge From="1" To="3" Label="Source1" />
+            <Edge From="2" To="3" Label="Source2" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="7" Label="Source1" />
+            <Edge From="6" To="7" Label="Source2" />
+            <Edge From="7" To="8" Label="Source1" />
+          </Edges>
+        </Workflow>
       </Expression>
-      <Expression xsi:type="osc:Format">
-        <osc:Address>/channel</osc:Address>
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>Buffer.Array</Selector>
+      <Expression xsi:type="rx:SelectMany">
+        <Name>PackResponses</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Item2</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="zmq:ConvertToFrame" />
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Item1</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="zmq:ConvertToFrame" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="zmq:ToMessage" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="0" To="3" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="5" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source2" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+          </Edges>
+        </Workflow>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="ConnectionString" DisplayName="EventSocket" />
@@ -36,7 +149,7 @@
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="zmq:Publisher">
           <zmq:ConnectionString>@tcp://*:4303</zmq:ConnectionString>
-          <zmq:Topic>LightEvents</zmq:Topic>
+          <zmq:Topic />
         </Combinator>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
@@ -45,8 +158,14 @@
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="zmq:Subscriber">
           <zmq:ConnectionString>@tcp://*:4304</zmq:ConnectionString>
-          <zmq:Topic>LightCommands</zmq:Topic>
+          <zmq:Topic />
         </Combinator>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>First</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="zmq:ConvertToString" />
       </Expression>
       <Expression xsi:type="MemberSelector">
         <Selector>Last.Buffer</Selector>
@@ -57,7 +176,6 @@
       </Expression>
       <Expression xsi:type="InputMapping">
         <PropertyMappings>
-          <Property Name="Name" Selector="Item1" />
           <Property Name="ColdWhite" Selector="Item2" />
           <Property Name="WarmWhite" Selector="Item3" />
           <Property Name="Red" Selector="Item4" />
@@ -70,28 +188,41 @@
           <aeon-env:Red>0</aeon-env:Red>
         </Combinator>
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Zip" />
+      </Expression>
+      <Expression xsi:type="rx:GroupBy">
+        <rx:KeySelector>Item1</rx:KeySelector>
+        <rx:ElementSelector>Item2</rx:ElementSelector>
+      </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="LightPresets" Description="The name of the sequence receiving room light preset commands." />
       </Expression>
-      <Expression xsi:type="rx:PublishSubject">
+      <Expression xsi:type="rx:ReplaySubject">
         <Name>LightPresets</Name>
+        <rx:BufferSize xsi:nil="true" />
       </Expression>
     </Nodes>
     <Edges>
       <Edge From="0" To="1" Label="Source1" />
-      <Edge From="1" To="3" Label="Source1" />
-      <Edge From="2" To="3" Label="Source2" />
-      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="2" To="4" Label="Source1" />
+      <Edge From="3" To="4" Label="Source2" />
       <Edge From="4" To="5" Label="Source1" />
       <Edge From="5" To="7" Label="Source1" />
       <Edge From="6" To="7" Label="Source2" />
       <Edge From="8" To="9" Label="Source1" />
       <Edge From="9" To="10" Label="Source1" />
+      <Edge From="9" To="12" Label="Source1" />
       <Edge From="10" To="11" Label="Source1" />
-      <Edge From="11" To="12" Label="Source1" />
+      <Edge From="11" To="16" Label="Source1" />
       <Edge From="12" To="13" Label="Source1" />
-      <Edge From="13" To="15" Label="Source1" />
-      <Edge From="14" To="15" Label="Source2" />
+      <Edge From="13" To="14" Label="Source1" />
+      <Edge From="14" To="15" Label="Source1" />
+      <Edge From="15" To="16" Label="Source2" />
+      <Edge From="16" To="17" Label="Source1" />
+      <Edge From="17" To="19" Label="Source1" />
+      <Edge From="18" To="19" Label="Source2" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
