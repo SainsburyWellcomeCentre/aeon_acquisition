@@ -9,18 +9,12 @@ namespace Aeon.Environment
     [Description("Creates a light controller preset.")]
     public class CreateRoomLightPreset : Source<RoomLightPreset>
     {
-        [Range(RoomLightMessage.NoChange, RoomLightMessage.MaxLightValue)]
-        [Editor(DesignTypes.NumericUpDownEditor, DesignTypes.UITypeEditor)]
         [Description("The normalized light level to set on the cold-white channels.")]
         public float ColdWhite { get; set; }
 
-        [Range(RoomLightMessage.NoChange, RoomLightMessage.MaxLightValue)]
-        [Editor(DesignTypes.NumericUpDownEditor, DesignTypes.UITypeEditor)]
         [Description("The normalized light level to set on the warm-white channels.")]
         public float WarmWhite { get; set; }
 
-        [Range(RoomLightMessage.NoChange, RoomLightMessage.MaxLightValue)]
-        [Editor(DesignTypes.NumericUpDownEditor, DesignTypes.UITypeEditor)]
         [Description("The normalized light level to set on the red light channels.")]
         public float Red { get; set; }
 

@@ -2,9 +2,6 @@
 {
     public struct RoomLightMessage
     {
-        internal const int NoChange = -1;
-        internal const int MaxLightValue = 254;
-
         public int Channel;
         public int Value;
 
