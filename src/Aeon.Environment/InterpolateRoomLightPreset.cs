@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Xml.Serialization;
@@ -30,7 +31,7 @@ namespace Aeon.Environment
                         throw new ArgumentNullException(nameof(calibrationFile)));
                     var points = new List<double>();
                     var samples = new List<double>();
-                    Array.ForEach(calibrationContents, row =>
+                    foreach (var row in calibrationContents.Skip(1))
                     {
                         var values = row.Split(',');
                         if (values.Length != 2 ||
@@ -44,7 +45,7 @@ namespace Aeon.Environment
 
                         points.Add(lux);
                         samples.Add(level);
-                    });
+                    }
                     return Interpolate.Linear(points, samples);
                 default: throw new ArgumentException("Unsupported interpolation method.", nameof(method));
             }
