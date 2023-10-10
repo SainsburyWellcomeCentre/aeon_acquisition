@@ -14,7 +14,7 @@
         <Property Name="ConnectionString" DisplayName="EventSocket" />
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Topic" DisplayName="ChannelMap" Description="The name of the light channel map to monitor and control." />
+        <Property Name="Topic" DisplayName="RoomName" Description="The name of the room to monitor and control." />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="zmq:Subscriber">
