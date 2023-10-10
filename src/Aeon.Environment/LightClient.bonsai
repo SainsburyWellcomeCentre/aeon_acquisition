@@ -7,7 +7,7 @@
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns="https://bonsai-rx.org/2018/workflow">
-  <Description>Provides control and acquisition functionality for automated room lighting.</Description>
+  <Description>Provides a network client for automated room light control.</Description>
   <Workflow>
     <Nodes>
       <Expression xsi:type="ExternalizedMapping">
