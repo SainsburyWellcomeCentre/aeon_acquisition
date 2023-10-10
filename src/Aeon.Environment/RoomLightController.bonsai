@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.8.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:aeon-env="clr-namespace:Aeon.Environment;assembly=Aeon.Environment"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Description>Provides a centralized controller for automating grouped room light changes.</Description>
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="WorkflowInput">
+        <Name>Source1</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Item1</Selector>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="PortName" />
+        <Property Name="MessageDelay" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="aeon-env:RoomLightDevice">
+          <aeon-env:PortName />
+          <aeon-env:MessageDelay>PT0S</aeon-env:MessageDelay>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Item2</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Zip" />
+      </Expression>
+      <Expression xsi:type="rx:GroupBy">
+        <rx:KeySelector>Item2</rx:KeySelector>
+        <rx:ElementSelector>Item1</rx:ElementSelector>
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="0" To="4" Label="Source1" />
+      <Edge From="1" To="3" Label="Source1" />
+      <Edge From="2" To="3" Label="Source2" />
+      <Edge From="3" To="5" Label="Source1" />
+      <Edge From="4" To="5" Label="Source2" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="6" To="7" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
