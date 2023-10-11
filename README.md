@@ -2,6 +2,22 @@
 
 The Project Aeon acquisition repository contains the set of standardized data acquisition systems, protocols, operation instructions and metadata necessary for reproducible task control and acquisition on the foraging arena assay. The scripts contained in this repository should always represent as accurately as possible the automation routines and operational instructions used to log the experimental raw data for Project Aeon. Each acquired dataset should have a reference to the specific hash or release from this repository which was used in the experiment.
 
+## Build Instructions
+
+### Schema classes
+
+1. Install [`bonsai.sgen`](https://www.nuget.org/packages/Bonsai.Sgen) by running the `restore` command:
+
+    ```
+    dotnet tool restore
+    ```
+
+2. Run the command to regenerate each schema class, e.g. for `ChannelMap.json`:
+
+    ```
+    dotnet bonsai.sgen --namespace Aeon.Environment --schema ChannelMap.json
+    ```
+
 ## Deployment Instructions
 
 The Project Aeon acquisition framework runs on the [Bonsai](https://bonsai-rx.org/) visual programming language. This repository includes installation scripts which will automatically download and configure a reproducible, self-contained, Bonsai environment to run all acquisition systems on the foraging arena. It is necessary, however, to install a few system dependencies and device drivers which need to be installed separately, before runnning the environment configuration script.

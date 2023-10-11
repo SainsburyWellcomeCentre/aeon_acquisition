@@ -1,0 +1,49 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "$id": "https://sainsburywellcome.org/aeon/2023-10/channelmap",
+    "description": "Represents channel map configuration used by the light controller.",
+    "title": "ChannelMap",
+    "type": "object",
+    "properties": {
+        "rooms": {
+            "type": "object",
+            "description": "Specifies the collection of light channel maps for all rooms.",
+            "additionalProperties": { "$ref": "#/definitions/roomFixtures" }
+        }
+    },
+    "definitions": {
+        "roomFixtures": {
+            "type": "object",
+            "description": "Specifies the channel map for every light fixture in the room.",
+            "properties": {
+                "coldWhite": { "$ref": "#/definitions/fixture" },
+                "warmWhite": { "$ref": "#/definitions/fixture" },
+                "red": { "$ref": "#/definitions/fixture" }
+            }
+        },
+        "fixture": {
+            "type": "object",
+            "properties": {
+                "channels": {
+                    "type": "array",
+                    "description": "Specifies the collection of channels assigned to the fixture.",
+                    "items": { "type": "integer" }
+                },
+                "interpolationMethod": {
+                    "description": "Specifies the method used to interpolate light values for a fixture.",
+                    "$ref": "#/definitions/interpolationMethod"
+                },
+                "calibrationFile": {
+                    "type": "string",
+                    "description": "Specifies the path to the calibration file for this fixture."
+                }
+            },
+            "required": [ "channels", "interpolationMethod" ]
+        },
+        "interpolationMethod": {
+            "type": "string",
+            "description": "Specifies the method used to interpolate light values for a fixture.",
+            "enum": ["None", "Zero", "Linear"]
+        }
+    }
+}
