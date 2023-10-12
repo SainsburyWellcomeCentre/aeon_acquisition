@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using Bonsai;
 using Bonsai.Harp;
 using Bonsai.Vision;
+using OpenCV.Net;
 
 namespace Aeon.Acquisition
 {
@@ -16,9 +17,13 @@ namespace Aeon.Acquisition
         [Editor("Bonsai.Design.OpenFileNameEditor, Bonsai.Design", DesignTypes.UITypeEditor)]
         public string Path { get; set; }
 
+        [Description("Specifies the color conversion to use when reading the video frames.")]
+        public ColorConversion? ColorConversion { get; set; } = OpenCV.Net.ColorConversion.Bgr2Gray;
+
         public override IObservable<Timestamped<VideoDataFrame>> Generate()
         {
             var videoFileName = Path;
+            var colorConversion = ColorConversion;
             if (string.IsNullOrEmpty(videoFileName))
             {
                 throw new InvalidOperationException("A valid file name must be specified");
@@ -26,7 +31,6 @@ namespace Aeon.Acquisition
 
             return Observable.Defer(() =>
             {
-                var grayscale = new Grayscale();
                 var capture = new FileCapture { FileName = videoFileName };
                 var metadataFileName = System.IO.Path.ChangeExtension(videoFileName, ".csv");
                 var metadataContents = File.ReadAllLines(metadataFileName).Skip(1).Select(row =>
@@ -44,7 +48,14 @@ namespace Aeon.Acquisition
                     return (seconds, frameID, frameTimestamp);
                 }).ToArray();
 
-                return grayscale.Process(capture.Generate()).Select((frame, index) =>
+                var frames = capture.Generate();
+                if (colorConversion.HasValue)
+                {
+                    var convertColor = new ConvertColor { Conversion = colorConversion.GetValueOrDefault() };
+                    frames = convertColor.Process(frames);
+                }
+                
+                return frames.Select((frame, index) =>
                 {
                     var (seconds, frameID, frameTimestamp) = metadataContents[index];
                     var dataFrame = new VideoDataFrame(frame, frameID, frameTimestamp);
