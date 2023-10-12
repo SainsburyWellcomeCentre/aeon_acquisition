@@ -13,6 +13,7 @@ namespace Aeon.Acquisition
     public class VideoFileCapture : Source<Timestamped<VideoDataFrame>>
     {
         [Description("The path to the file used to source the video frames.")]
+        [Editor("Bonsai.Design.OpenFileNameEditor, Bonsai.Design", DesignTypes.UITypeEditor)]
         public string Path { get; set; }
 
         public override IObservable<Timestamped<VideoDataFrame>> Generate()
