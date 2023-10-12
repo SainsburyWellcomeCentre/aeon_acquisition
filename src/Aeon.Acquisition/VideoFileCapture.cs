@@ -26,6 +26,7 @@ namespace Aeon.Acquisition
 
             return Observable.Defer(() =>
             {
+                var grayscale = new Grayscale();
                 var capture = new FileCapture { FileName = videoFileName };
                 var metadataFileName = System.IO.Path.ChangeExtension(videoFileName, ".csv");
                 var metadataContents = File.ReadAllLines(metadataFileName).Skip(1).Select(row =>
@@ -43,7 +44,7 @@ namespace Aeon.Acquisition
                     return (seconds, frameID, frameTimestamp);
                 }).ToArray();
 
-                return capture.Generate().Select((frame, index) =>
+                return grayscale.Process(capture.Generate()).Select((frame, index) =>
                 {
                     var (seconds, frameID, frameTimestamp) = metadataContents[index];
                     var dataFrame = new VideoDataFrame(frame, frameID, frameTimestamp);
