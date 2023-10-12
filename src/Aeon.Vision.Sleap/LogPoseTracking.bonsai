@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.8.1"
+<WorkflowBuilder Version="2.8.5"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:aeon="clr-namespace:Aeon.Vision.Sleap;assembly=Aeon.Vision.Sleap"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Chunks and logs a timestamped pose tracking stream into the base data log.</Description>
   <Workflow>
@@ -13,89 +13,121 @@
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="IdentityIndex" />
-      </Expression>
-      <Expression xsi:type="ExternalizedMapping">
         <Property Name="Address" />
+        <Property Name="LogName" />
       </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="aeon:FormatPose">
-          <aeon:Address>255</aeon:Address>
-          <aeon:IdentityIndex xsi:nil="true" />
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="GroupWorkflow">
-        <Name>Address</Name>
+      <Expression xsi:type="rx:SelectMany">
+        <Name>LogPoseModel</Name>
         <Workflow>
           <Nodes>
-            <Expression xsi:type="ExternalizedMapping">
-              <Property Name="Value" DisplayName="Address" />
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="rx:AsyncSubject">
+              <Name>TrackingGroup</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TrackingGroup</Name>
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="IntProperty">
-                <Value>255</Value>
+              <Combinator xsi:type="rx:Merge" />
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="IdentityIndex" />
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Address" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="aeon:FormatPose">
+                <aeon:Address>255</aeon:Address>
+                <aeon:IdentityIndex xsi:nil="true" />
               </Combinator>
+            </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>Address</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Value" DisplayName="Address" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="IntProperty">
+                      <Value>255</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Value" DisplayName="LogName" />
+            </Expression>
+            <Expression xsi:type="PropertySource" TypeArguments="WorkflowProperty(sys:String),sys:String">
+              <MemberName>LogName</MemberName>
+              <Value>PoseTrackingData</Value>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TrackingGroup</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Key</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Zip" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Format">
+              <Format>{0}_{1}_{2}</Format>
+              <Selector>Item2,Item1,Item3.LogName</Selector>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="LogName" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:LogHarp.bonsai">
+              <Heartbeats xsi:nil="true" />
+              <ClosingDuration xsi:nil="true" />
+              <LogName>PoseTrackingData</LogName>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
-            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="6" Label="Source1" />
+            <Edge From="4" To="6" Label="Source2" />
+            <Edge From="5" To="6" Label="Source3" />
+            <Edge From="5" To="7" Label="Source1" />
+            <Edge From="6" To="16" Label="Source1" />
+            <Edge From="7" To="12" Label="Source1" />
+            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="9" To="12" Label="Source2" />
+            <Edge From="10" To="11" Label="Source1" />
+            <Edge From="11" To="12" Label="Source3" />
+            <Edge From="12" To="13" Label="Source1" />
+            <Edge From="13" To="14" Label="Source1" />
+            <Edge From="14" To="15" Label="Source1" />
+            <Edge From="15" To="16" Label="Source2" />
+            <Edge From="16" To="17" Label="Source1" />
           </Edges>
         </Workflow>
-      </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Value" DisplayName="LogName" />
-      </Expression>
-      <Expression xsi:type="PropertySource" TypeArguments="WorkflowProperty(sys:String),sys:String">
-        <MemberName>LogName</MemberName>
-        <Value>PoseTrackingData</Value>
-      </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Name" />
-      </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>PoseTrackingMetadata</Name>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Zip" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Take">
-          <rx:Count>1</rx:Count>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Format">
-        <Format>{0}_{1}_{2}</Format>
-        <Selector>Item2,Item1,Item3.LogName</Selector>
-      </Expression>
-      <Expression xsi:type="PropertyMapping">
-        <PropertyMappings>
-          <Property Name="LogName" />
-        </PropertyMappings>
-      </Expression>
-      <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:LogHarp.bonsai">
-        <Heartbeats xsi:nil="true" />
-        <ClosingDuration xsi:nil="true" />
-        <LogName>PoseTrackingData</LogName>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
     </Nodes>
     <Edges>
-      <Edge From="0" To="3" Label="Source1" />
-      <Edge From="1" To="3" Label="Source2" />
-      <Edge From="2" To="3" Label="Source3" />
-      <Edge From="2" To="4" Label="Source1" />
-      <Edge From="3" To="13" Label="Source1" />
-      <Edge From="4" To="9" Label="Source1" />
-      <Edge From="5" To="6" Label="Source1" />
-      <Edge From="6" To="9" Label="Source2" />
-      <Edge From="7" To="8" Label="Source1" />
-      <Edge From="8" To="9" Label="Source3" />
-      <Edge From="9" To="10" Label="Source1" />
-      <Edge From="10" To="11" Label="Source1" />
-      <Edge From="11" To="12" Label="Source1" />
-      <Edge From="12" To="13" Label="Source2" />
-      <Edge From="13" To="14" Label="Source1" />
+      <Edge From="0" To="2" Label="Source1" />
+      <Edge From="1" To="2" Label="Source2" />
+      <Edge From="2" To="3" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
