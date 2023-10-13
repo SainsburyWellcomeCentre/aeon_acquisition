@@ -2,6 +2,7 @@
 <WorkflowBuilder Version="2.7.1"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
+                 xmlns:aeon-env="clr-namespace:Aeon.Environment;assembly=Aeon.Environment"
                  xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
@@ -31,7 +32,7 @@
               <Selector>Value.Type</Selector>
             </Expression>
             <Expression xsi:type="Equal">
-              <Operand xsi:type="WorkflowProperty" TypeArguments="aeon:EnvironmentStateType">
+              <Operand xsi:type="WorkflowProperty" TypeArguments="aeon-env:EnvironmentStateType">
                 <Value>Experiment</Value>
               </Operand>
             </Expression>
@@ -92,7 +93,7 @@
                     <Selector>Value.Type</Selector>
                   </Expression>
                   <Expression xsi:type="Equal">
-                    <Operand xsi:type="WorkflowProperty" TypeArguments="aeon:EnvironmentSubjectChangeType">
+                    <Operand xsi:type="WorkflowProperty" TypeArguments="aeon-env:EnvironmentSubjectChangeType">
                       <Value>Enter</Value>
                     </Operand>
                   </Expression>
