@@ -36,6 +36,15 @@ namespace Aeon.Tests
                                 assembly.GetManifestResourceStream(resourceName),
                                 $"Embedded workflow: {name}. Missing resource name: {resourceName}");
                         }
+                        else if (workflowElement is BinaryOperatorBuilder binaryOperator &&
+                                 binaryOperator.Operand is WorkflowProperty operand &&
+                                 operand.GetType().IsGenericType)
+                        {
+                            var valueType = operand.GetType().GetGenericArguments()[0];
+                            Assert.IsFalse(
+                                typeof(UnknownTypeBuilder).IsAssignableFrom(valueType),
+                                $"Binary operator operand is unknown: {valueType}. Embedded workflow: {name}.");
+                        }
 
                         if (workflowElement.GetType().Name != nameof(SpinnakerCapture) &&
                             workflowElement.GetType().Name != nameof(PylonCapture) &&
