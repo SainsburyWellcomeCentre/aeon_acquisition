@@ -67,7 +67,7 @@
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="aeon:PrependOnce" />
       </Expression>
-      <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:DistanceTravelled.bonsai">
+      <Expression xsi:type="IncludeWorkflow" Path="Aeon.Foraging:DistanceTravelled.bonsai">
         <Gain>1</Gain>
       </Expression>
       <Expression xsi:type="MulticastSubject">

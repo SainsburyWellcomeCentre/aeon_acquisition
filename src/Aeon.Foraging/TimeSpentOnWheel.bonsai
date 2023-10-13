@@ -40,7 +40,7 @@
         <Property Name="Threshold" />
         <Property Name="LowPass" />
       </Expression>
-      <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:WheelMovement.bonsai">
+      <Expression xsi:type="IncludeWorkflow" Path="Aeon.Foraging:WheelMoving.bonsai">
         <LowPass>5</LowPass>
         <Threshold>0.0005</Threshold>
       </Expression>

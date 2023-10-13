@@ -27,6 +27,16 @@ namespace Aeon.Tests
                     workflowBuilder.Workflow.Convert(builder =>
                     {
                         var workflowElement = ExpressionBuilder.GetWorkflowElement(builder);
+                        if (workflowElement is IncludeWorkflowBuilder includeWorkflow)
+                        {
+                            var pathComponents = includeWorkflow.Path.Split(':');
+                            var assembly = Assembly.Load(pathComponents[0]);
+                            var resourceName = string.Join(ExpressionHelper.MemberSeparator, pathComponents);
+                            Assert.IsNotNull(
+                                assembly.GetManifestResourceStream(resourceName),
+                                $"Embedded workflow: {name}. Missing resource name: {resourceName}");
+                        }
+
                         if (workflowElement.GetType().Name != nameof(SpinnakerCapture) &&
                             workflowElement.GetType().Name != nameof(PylonCapture) &&
 #pragma warning disable CS0612 // Type or member is obsolete
