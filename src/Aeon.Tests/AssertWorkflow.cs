@@ -5,6 +5,7 @@ using System.IO;
 using Bonsai.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Aeon.Acquisition;
+using System;
 
 namespace Aeon.Tests
 {
@@ -23,7 +24,17 @@ namespace Aeon.Tests
                 using (var reader = XmlReader.Create(workflowStream))
                 {
                     reader.MoveToContent();
-                    var workflowBuilder = (WorkflowBuilder)WorkflowBuilder.Serializer.Deserialize(reader);
+                    WorkflowBuilder workflowBuilder;
+                    try { workflowBuilder = (WorkflowBuilder)WorkflowBuilder.Serializer.Deserialize(reader); }
+                    catch (Exception ex)
+                    {
+                        var message = ex.ToString().Split(
+                            new[] { System.Environment.NewLine },
+                            StringSplitOptions.None)[0];
+                        Assert.Fail($"Embedded workflow {name} threw exception:\n{message}");
+                        break;
+                    }
+
                     workflowBuilder.Workflow.Convert(builder =>
                     {
                         var workflowElement = ExpressionBuilder.GetWorkflowElement(builder);
