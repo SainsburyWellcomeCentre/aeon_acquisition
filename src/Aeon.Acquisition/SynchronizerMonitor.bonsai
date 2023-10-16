@@ -110,8 +110,8 @@ Item2 as Names)</scr:Expression>
       </Expression>
       <Expression xsi:type="scr:ExpressionTransform">
         <scr:Expression>new(
-Item1.Stats.Mean as MeanRawTimestamp,
-DateTime(1904, 1, 1) + TimeSpan.FromSeconds(Item1.Stats.Mean) as MeanTimestamp,
+Item1.Stats.Mean as MeanTimestamp,
+DateTime(1904, 1, 1) + TimeSpan.FromSeconds(Item1.Stats.Mean) as MeanUtcTimestamp,
 Item2 as ExpectedDeviceCount,
 Item1.Stats.Count as DeviceCount,
 Item1.Stats.Maximum - Item1.Stats.Minimum as MaxDifference,
