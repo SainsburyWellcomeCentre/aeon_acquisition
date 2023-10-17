@@ -14,7 +14,7 @@ namespace Aeon.Foraging
     {
         const int Address = 200;
 
-        public IObservable<HarpMessage> Process(IObservable<Timestamped<DispenserStateMetadata>> source)
+        public IObservable<HarpMessage> Process(IObservable<Timestamped<DispenserEventArgs>> source)
         {
             return source.Select(input => HarpMessage.FromSingle(
                 Address,

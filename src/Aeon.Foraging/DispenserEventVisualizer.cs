@@ -1,25 +1,34 @@
 ﻿using Bonsai.Design;
 using Bonsai.Expressions;
-using Bonsai.Harp;
 using System;
 using System.Windows.Forms;
 
 namespace Aeon.Foraging
 {
-    public class DispenserStateVisualizer : DialogTypeVisualizer
+    public class DispenserEventVisualizer : DialogTypeVisualizer
     {
-        DispenserStateControl control;
+        DispenserEventControl control;
+        IDisposable stateSubscription;
 
         public override void Load(IServiceProvider provider)
         {
             var context = (ITypeVisualizerContext)provider.GetService(typeof(ITypeVisualizerContext));
             var visualizerElement = ExpressionBuilder.GetVisualizerElement(context.Source);
-            var source = (DispenserState)ExpressionBuilder.GetWorkflowElement(visualizerElement.Builder);
+            var source = (DispenserController)ExpressionBuilder.GetWorkflowElement(visualizerElement.Builder);
 
-            control = new DispenserStateControl(source);
+            control = new DispenserEventControl(source);
             control.Dock = DockStyle.Fill;
-            var state = source.State;
-            if (state != null) control.Value = state.Value;
+            control.HandleDestroyed += delegate { stateSubscription?.Dispose(); };
+            control.HandleCreated += delegate
+            {
+                stateSubscription = source.State.ObserveOn(control).Subscribe(state =>
+                {
+                    if (state != null)
+                    {
+                        control.Value = state.Value;
+                    }
+                });
+            };
 
             var visualizerService = (IDialogTypeVisualizerService)provider.GetService(typeof(IDialogTypeVisualizerService));
             if (visualizerService != null)
@@ -30,14 +39,6 @@ namespace Aeon.Foraging
 
         public override void Show(object value)
         {
-            if (value is DispenserStateMetadata metadata)
-            {
-                control.Value = metadata.Value;
-            }
-            else if (value is Timestamped<DispenserStateMetadata> timestampedMetadata)
-            {
-                control.Value = timestampedMetadata.Value.Value;
-            }
         }
 
         public override void Unload()

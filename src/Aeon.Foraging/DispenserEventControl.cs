@@ -3,11 +3,11 @@ using System.Windows.Forms;
 
 namespace Aeon.Foraging
 {
-    public partial class DispenserStateControl : UserControl
+    public partial class DispenserEventControl : UserControl
     {
         int currentValue;
 
-        public DispenserStateControl(DispenserState source)
+        public DispenserEventControl(DispenserController source)
         {
             Source = source ?? throw new ArgumentNullException(nameof(source));
             InitializeComponent();
@@ -19,7 +19,7 @@ namespace Aeon.Foraging
             }
         }
 
-        public DispenserState Source { get; }
+        public DispenserController Source { get; }
 
         public int Value
         {
@@ -31,16 +31,24 @@ namespace Aeon.Foraging
             }
         }
 
+        private void deliverButton_Click(object sender, EventArgs e)
+        {
+            OnDispenserEvent(1m, DispenserEventType.Discount);
+        }
+
         private void refillButton_Click(object sender, EventArgs e)
         {
-            var metadata = new DispenserStateMetadata(Source.Name, (int)refillUpDown.Value, DispenserEventType.Refill);
-            Source.OnNext(metadata);
+            OnDispenserEvent(refillUpDown.Value, DispenserEventType.Refill);
         }
 
         private void resetButton_Click(object sender, EventArgs e)
         {
-            var delta = (int)refillUpDown.Value - Value;
-            var metadata = new DispenserStateMetadata(Source.Name, delta, DispenserEventType.Reset);
+            OnDispenserEvent(refillUpDown.Value, DispenserEventType.Reset);
+        }
+
+        private void OnDispenserEvent(decimal value, DispenserEventType eventType)
+        {
+            var metadata = new DispenserEventArgs((int)value, eventType);
             Source.OnNext(metadata);
         }
     }

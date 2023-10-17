@@ -1,71 +1,40 @@
-﻿using Aeon.Acquisition;
-using Bonsai;
-using Bonsai.Harp;
-using System;
+﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Reactive.Linq;
+using Aeon.Acquisition;
+using Bonsai;
 
 namespace Aeon.Foraging
 {
+    [Combinator]
     [DefaultProperty(nameof(Name))]
-    [TypeVisualizer(typeof(DispenserStateVisualizer))]
     [Description("Generates a sequence of the estimated number of units in the specified dispenser.")]
-    public class DispenserState : MetadataSource<DispenserStateMetadata>, INamedElement
+    public class DispenserState : INamedElement
     {
         [Description("The name of the dispenser.")]
         public string Name { get; set; }
 
-        string INamedElement.Name => $"{Name}Dispenser";
+        string INamedElement.Name => $"{Name}{nameof(DispenserState)}";
 
-        internal DispenserStateRecovery State { get; set; }
-
-        public override IObservable<Timestamped<DispenserStateMetadata>> Process(IObservable<HarpMessage> source)
+        public IObservable<DispenserStateRecovery> Process(IObservable<DispenserEventArgs> source)
         {
-            var refill = Process();
+            var name = Name;
             return Observable.Defer(() =>
             {
-                State = StateRecovery<DispenserStateRecovery>.Deserialize(Name);
-                var initialState = new DispenserStateMetadata(Name, State.Value, DispenserEventType.Reset);
-                return source.Publish(ps =>
+                var state = StateRecovery<DispenserStateRecovery>.Deserialize(name);
+                return Observable.Return(state).Concat(source.Select(evt =>
                 {
-                    const int DigitalOutput = 35;
-                    const int TriggerPellet = 0x80;
-                    var discount = ps.Where(message =>
-                        message.Address == DigitalOutput &&
-                        message.MessageType == MessageType.Write &&
-                        message.GetPayloadByte() == TriggerPellet)
-                        .Select(_ => new DispenserStateMetadata(Name, -1, DispenserEventType.Discount));
-                    return refill.Merge(discount).StartWith(initialState).Publish(changes =>
-                        changes.CombineLatest(ps, (data, message) => (data, message))
-                        .Sample(changes.MergeUnit(ps.Take(1)))
-                        .Select((x, i) =>
-                        {
-                            var data = x.data;
-                            var timestamp = x.message.GetTimestamp();
-                            if (i > 0) State.Value += data.Value;
-                            StateRecovery<DispenserStateRecovery>.Serialize(Name, State);
-                            data = new DispenserStateMetadata(data.Name, State.Value, data.EventType);
-                            return Timestamped.Create(data, timestamp);
-                        }));
-                });
-            });
-        }
-
-        public IObservable<Timestamped<DispenserStateMetadata>> Process(IObservable<int> dispenser, IObservable<HarpMessage> source)
-        {
-            var refill = Process();
-            var discount = dispenser.Select(x => new DispenserStateMetadata(Name, -x, DispenserEventType.Discount));
-            return Observable.Defer(() =>
-            {
-                State = StateRecovery<DispenserStateRecovery>.Deserialize(Name);
-                var initialState = new DispenserStateMetadata(Name, State.Value, DispenserEventType.Reset);
-                return discount.Merge(refill).StartWith(initialState).Select((data, i) =>
-                {
-                    if (i > 0) State.Value += data.Value;
-                    StateRecovery<DispenserStateRecovery>.Serialize(Name, State);
-                    data = new DispenserStateMetadata(data.Name, State.Value, data.EventType);
-                    return data;
-                }).Timestamp(source);
+                    state = evt.EventType switch
+                    {
+                        DispenserEventType.Discount => new DispenserStateRecovery { Value = state.Value - evt.Value },
+                        DispenserEventType.Refill => new DispenserStateRecovery { Value = state.Value + evt.Value },
+                        DispenserEventType.Reset => new DispenserStateRecovery { Value = evt.Value },
+                        _ => throw new InvalidOperationException("Invalid dispenser event type."),
+                    };
+                    StateRecovery<DispenserStateRecovery>.Serialize(name, state);
+                    return state;
+                }));
             });
         }
     }
