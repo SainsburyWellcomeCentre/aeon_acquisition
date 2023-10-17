@@ -14,7 +14,7 @@
 
         public override string ToString()
         {
-            return $"DispenserEvent({EventType}, Total:{Value})";
+            return $"DispenserEvent({EventType}, Value:{Value})";
         }
     }
 

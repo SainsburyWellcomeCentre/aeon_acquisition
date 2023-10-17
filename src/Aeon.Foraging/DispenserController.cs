@@ -18,15 +18,16 @@ namespace Aeon.Foraging
 
         string INamedElement.Name => $"{Name}{nameof(DispenserController)}";
 
-        internal BehaviorSubject<DispenserStateRecovery> State { get; } = new(value: default);
-        public IObservable<DispenserEventArgs> Process(IObservable<DispenserStateRecovery> source)
+        internal BehaviorSubject<DispenserState> State { get; } = new(value: default);
+
+        public IObservable<DispenserEventArgs> Process(IObservable<DispenserState> source)
         {
             return Process().Merge(source
                 .Do(State).IgnoreElements()
                 .Cast<DispenserEventArgs>());
         }
 
-        public IObservable<Timestamped<DispenserEventArgs>> Process(IObservable<DispenserStateRecovery> source, IObservable<HarpMessage> clockSource)
+        public IObservable<Timestamped<DispenserEventArgs>> Process(IObservable<DispenserState> source, IObservable<HarpMessage> clockSource)
         {
             return Process(clockSource).Merge(source
                 .Do(State).IgnoreElements()

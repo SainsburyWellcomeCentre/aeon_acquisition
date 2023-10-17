@@ -15,7 +15,7 @@ namespace Aeon.Foraging
         [Description("The address of the virtual Harp register.")]
         public int Address { get; set; } = 200;
 
-        public IObservable<HarpMessage> Process(IObservable<Timestamped<DispenserStateRecovery>> source)
+        public IObservable<HarpMessage> Process(IObservable<Timestamped<DispenserState>> source)
         {
             return source.Select(input => HarpMessage.FromSingle(
                 Address,
