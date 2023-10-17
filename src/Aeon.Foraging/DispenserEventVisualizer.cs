@@ -26,7 +26,7 @@ namespace Aeon.Foraging
                 {
                     if (state != null)
                     {
-                        control.Value = state.Value;
+                        control.Value = state.Count;
                     }
                 });
             };

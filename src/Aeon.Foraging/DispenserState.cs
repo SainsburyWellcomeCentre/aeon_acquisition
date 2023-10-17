@@ -27,9 +27,9 @@ namespace Aeon.Foraging
                 {
                     state = evt.EventType switch
                     {
-                        DispenserEventType.Discount => new DispenserStateRecovery { Value = state.Value - evt.Value },
-                        DispenserEventType.Refill => new DispenserStateRecovery { Value = state.Value + evt.Value },
-                        DispenserEventType.Reset => new DispenserStateRecovery { Value = evt.Value },
+                        DispenserEventType.Discount => new DispenserStateRecovery { Count = state.Count - evt.Value },
+                        DispenserEventType.Refill => new DispenserStateRecovery { Count = state.Count + evt.Value },
+                        DispenserEventType.Reset => new DispenserStateRecovery { Count = evt.Value },
                         _ => throw new InvalidOperationException("Invalid dispenser event type."),
                     };
                     StateRecovery<DispenserStateRecovery>.Serialize(name, state);
@@ -41,6 +41,6 @@ namespace Aeon.Foraging
 
     public class DispenserStateRecovery
     {
-        public int Value { get; set; }
+        public int Count { get; set; }
     }
 }
