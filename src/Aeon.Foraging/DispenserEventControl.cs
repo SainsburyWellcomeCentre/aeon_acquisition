@@ -15,7 +15,7 @@ namespace Aeon.Foraging
             var dispenserName = Source.Name;
             if (!string.IsNullOrEmpty(dispenserName))
             {
-                dispenserGroupBox.Text = $"{dispenserName} Dispenser";
+                dispenserGroupBox.Text = $"{dispenserName}";
             }
         }
 

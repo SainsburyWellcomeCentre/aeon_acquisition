@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.dispenserPanel = new System.Windows.Forms.Panel();
+            this.deliverButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
             this.dispenserGroupBox = new System.Windows.Forms.GroupBox();
             this.currentValueLabel = new System.Windows.Forms.Label();
             this.currentLabel = new System.Windows.Forms.Label();
             this.refillUpDown = new System.Windows.Forms.NumericUpDown();
             this.refillButton = new System.Windows.Forms.Button();
-            this.deliverButton = new System.Windows.Forms.Button();
             this.dispenserPanel.SuspendLayout();
             this.dispenserGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.refillUpDown)).BeginInit();
@@ -54,9 +54,23 @@
             this.dispenserPanel.Size = new System.Drawing.Size(400, 180);
             this.dispenserPanel.TabIndex = 10;
             // 
+            // deliverButton
+            // 
+            this.deliverButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.deliverButton.Location = new System.Drawing.Point(213, 23);
+            this.deliverButton.Margin = new System.Windows.Forms.Padding(12);
+            this.deliverButton.Name = "deliverButton";
+            this.deliverButton.Size = new System.Drawing.Size(175, 40);
+            this.deliverButton.TabIndex = 7;
+            this.deliverButton.Text = "Deliver";
+            this.deliverButton.UseVisualStyleBackColor = true;
+            this.deliverButton.Click += new System.EventHandler(this.deliverButton_Click);
+            // 
             // resetButton
             // 
-            this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.resetButton.Location = new System.Drawing.Point(214, 125);
             this.resetButton.Margin = new System.Windows.Forms.Padding(12);
             this.resetButton.Name = "resetButton";
@@ -68,8 +82,6 @@
             // 
             // dispenserGroupBox
             // 
-            this.dispenserGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dispenserGroupBox.Controls.Add(this.currentValueLabel);
             this.dispenserGroupBox.Controls.Add(this.currentLabel);
             this.dispenserGroupBox.Controls.Add(this.refillUpDown);
@@ -118,7 +130,8 @@
             // 
             // refillButton
             // 
-            this.refillButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.refillButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.refillButton.Location = new System.Drawing.Point(214, 75);
             this.refillButton.Margin = new System.Windows.Forms.Padding(12);
             this.refillButton.Name = "refillButton";
@@ -128,26 +141,14 @@
             this.refillButton.UseVisualStyleBackColor = true;
             this.refillButton.Click += new System.EventHandler(this.refillButton_Click);
             // 
-            // deliverButton
-            // 
-            this.deliverButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.deliverButton.Location = new System.Drawing.Point(213, 23);
-            this.deliverButton.Margin = new System.Windows.Forms.Padding(12);
-            this.deliverButton.Name = "deliverButton";
-            this.deliverButton.Size = new System.Drawing.Size(175, 40);
-            this.deliverButton.TabIndex = 7;
-            this.deliverButton.Text = "Deliver";
-            this.deliverButton.UseVisualStyleBackColor = true;
-            this.deliverButton.Click += new System.EventHandler(this.deliverButton_Click);
-            // 
-            // DispenserStateControl
+            // DispenserEventControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 26F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dispenserPanel);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(6);
-            this.Name = "DispenserStateControl";
+            this.Name = "DispenserEventControl";
             this.Size = new System.Drawing.Size(400, 180);
             this.dispenserPanel.ResumeLayout(false);
             this.dispenserGroupBox.ResumeLayout(false);
