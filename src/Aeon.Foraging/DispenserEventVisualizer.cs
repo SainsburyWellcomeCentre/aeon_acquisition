@@ -1,6 +1,7 @@
 ﻿using Bonsai.Design;
 using Bonsai.Expressions;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Aeon.Foraging
@@ -33,6 +34,10 @@ namespace Aeon.Foraging
             var visualizerService = (IDialogTypeVisualizerService)provider.GetService(typeof(IDialogTypeVisualizerService));
             if (visualizerService != null)
             {
+                using var graphics = Graphics.FromHwnd(IntPtr.Zero);
+                control.Scale(new SizeF(
+                    graphics.DpiX / control.DeviceDpi,
+                    graphics.DpiY / control.DeviceDpi));
                 visualizerService.AddControl(control);
             }
         }
