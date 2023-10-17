@@ -12,15 +12,16 @@ namespace Aeon.Foraging
     [WorkflowElementCategory(ElementCategory.Transform)]
     public class FormatDispenserState
     {
-        const int Address = 200;
+        [Description("The address of the virtual Harp register.")]
+        public int Address { get; set; } = 200;
 
-        public IObservable<HarpMessage> Process(IObservable<Timestamped<DispenserEventArgs>> source)
+        public IObservable<HarpMessage> Process(IObservable<Timestamped<DispenserStateRecovery>> source)
         {
             return source.Select(input => HarpMessage.FromSingle(
                 Address,
                 input.Seconds,
                 MessageType.Event,
-                input.Value.Value));
+                input.Value.Count));
         }
     }
 }
