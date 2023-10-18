@@ -1,15 +1,12 @@
 ﻿namespace Aeon.Foraging
 {
-    public class DispenserStateMetadata
+    public class DispenserEventArgs
     {
-        public DispenserStateMetadata(string name, int value, DispenserEventType eventType)
+        public DispenserEventArgs(int value, DispenserEventType eventType)
         {
-            Name = name;
             Value = value;
             EventType = eventType;
         }
-
-        public string Name { get; }
 
         public int Value { get; }
 
@@ -17,7 +14,7 @@
 
         public override string ToString()
         {
-            return $"DispenserState({Name}, {EventType}, Total:{Value})";
+            return $"DispenserEvent({EventType}, Value:{Value})";
         }
     }
 
