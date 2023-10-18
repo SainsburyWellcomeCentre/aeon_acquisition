@@ -14,7 +14,7 @@ namespace Aeon.Environment
         public IObservable<WeightMeasurement> Process<TOther>(IObservable<WeightMeasurement> source, IObservable<TOther> trigger)
         {
             return source
-                .Window(trigger).Skip(1)
+                .Window(trigger)
                 .SelectMany(window =>
                     window.Publish(pwindow =>
                         pwindow.Take(1).CombineLatest(pwindow, (reference, measurement) =>
