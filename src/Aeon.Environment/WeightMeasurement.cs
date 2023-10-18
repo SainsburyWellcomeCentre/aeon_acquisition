@@ -12,5 +12,10 @@
             Value = value;
             Confidence = confidence;
         }
+
+        public override string ToString()
+        {
+            return $"{nameof(WeightMeasurement)}(Seconds: {Timestamp}, Value: {Value}, Confidence: {Confidence})";
+        }
     }
 }
