@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using Bonsai.Design;
 
 namespace Aeon.Environment
 {
@@ -9,6 +10,7 @@ namespace Aeon.Environment
     {
         readonly ColumnHeader idHeader;
         readonly IServiceProvider serviceProvider;
+        readonly ITypeVisualizerContext visualizerContext;
         RemoveState removeState;
         AddState addState;
         ViewState viewState;
@@ -17,6 +19,7 @@ namespace Aeon.Environment
         {
             Source = source ?? throw new ArgumentNullException(nameof(source));
             serviceProvider = provider ?? throw new ArgumentNullException(nameof(provider));
+            visualizerContext = (ITypeVisualizerContext)serviceProvider.GetService(typeof(ITypeVisualizerContext));
             InitializeComponent();
             subjectListView.Columns.Add(string.Empty);
             idHeader = subjectListView.Columns.Add(nameof(EnvironmentSubjectStateMetadata.Id));
@@ -206,6 +209,11 @@ namespace Aeon.Environment
 
             public object GetService(Type serviceType)
             {
+                if (serviceType == typeof(ITypeVisualizerContext))
+                {
+                    return owner.visualizerContext;
+                }
+
                 return owner.serviceProvider.GetService(serviceType);
             }
         }
