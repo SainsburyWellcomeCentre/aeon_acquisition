@@ -1,4 +1,4 @@
-using Bonsai;
+﻿using Bonsai;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -15,12 +15,12 @@ namespace Aeon.Acquisition
     {
         const int Address = 200;
 
-        public IObservable<HarpMessage> Process(IObservable<Tuple<ConnectedComponent, double>> source)
+        public IObservable<HarpMessage> Process(IObservable<Timestamped<ConnectedComponent>> source)
         {
-            return source.Select(value =>
+            return source.Select(x =>
             {
-                var region = value.Item1;
-                var timestamp = value.Item2;
+                var region = x.Value;
+                var timestamp = x.Seconds;
                 return HarpMessage.FromSingle(
                     Address,
                     timestamp,
@@ -34,12 +34,12 @@ namespace Aeon.Acquisition
             });
         }
 
-        public IObservable<HarpMessage> Process(IObservable<Tuple<ConnectedComponentCollection, double>> source)
+        public IObservable<HarpMessage> Process(IObservable<Timestamped<ConnectedComponentCollection>> source)
         {
-            return source.SelectMany(value =>
+            return source.SelectMany(x =>
             {
-                var regions = value.Item1;
-                var timestamp = value.Item2;
+                var regions = x.Value;
+                var timestamp = x.Seconds;
                 return regions.Select((region, index) => HarpMessage.FromSingle(
                     Address,
                     timestamp,

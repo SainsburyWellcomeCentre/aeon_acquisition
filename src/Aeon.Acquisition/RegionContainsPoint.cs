@@ -34,22 +34,31 @@ namespace Aeon.Acquisition
             return false;
         }
 
-        public IObservable<Timestamped<bool>> Process(IObservable<Tuple<ConnectedComponent, double>> source)
+        public IObservable<Timestamped<bool>> Process(IObservable<Timestamped<Point2f>> source)
         {
             return source.Select(x =>
             {
-                var containsPoint = Contains(Regions, x.Item1.Centroid);
-                return Timestamped.Create(containsPoint, x.Item2);
+                var containsPoint = Contains(Regions, x.Value);
+                return Timestamped.Create(containsPoint, x.Seconds);
             });
         }
 
-        public IObservable<Timestamped<bool>> Process(IObservable<Tuple<ConnectedComponentCollection, double>> source)
+        public IObservable<Timestamped<bool>> Process(IObservable<Timestamped<ConnectedComponent>> source)
+        {
+            return source.Select(x =>
+            {
+                var containsPoint = Contains(Regions, x.Value.Centroid);
+                return Timestamped.Create(containsPoint, x.Seconds);
+            });
+        }
+
+        public IObservable<Timestamped<bool>> Process(IObservable<Timestamped<ConnectedComponentCollection>> source)
         {
             return source.Select(x =>
             {
                 var regions = Regions;
-                var containsPoint = x.Item1.Any(component => Contains(regions, component.Centroid));
-                return Timestamped.Create(containsPoint, x.Item2);
+                var containsPoint = x.Value.Any(component => Contains(regions, component.Centroid));
+                return Timestamped.Create(containsPoint, x.Seconds);
             });
         }
     }
