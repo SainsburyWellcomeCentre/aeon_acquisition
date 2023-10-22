@@ -4,6 +4,7 @@
                  xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
+                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Extracts information on the largest binary blob in the input image.</Description>
   <Workflow>
@@ -76,6 +77,9 @@
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Zip" />
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="harp:CreateTimestamped" />
+      </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="TrackingEvents" />
       </Expression>
@@ -100,9 +104,10 @@
       <Edge From="11" To="12" Label="Source2" />
       <Edge From="12" To="14" Label="Source1" />
       <Edge From="13" To="14" Label="Source2" />
-      <Edge From="14" To="16" Label="Source1" />
-      <Edge From="15" To="16" Label="Source2" />
-      <Edge From="16" To="17" Label="Source1" />
+      <Edge From="14" To="15" Label="Source1" />
+      <Edge From="15" To="17" Label="Source1" />
+      <Edge From="16" To="17" Label="Source2" />
+      <Edge From="17" To="18" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
