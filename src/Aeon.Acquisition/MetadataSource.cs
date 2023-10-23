@@ -25,15 +25,7 @@ namespace Aeon.Acquisition
 
         public virtual IObservable<Timestamped<TMetadata>> Process(IObservable<HarpMessage> source)
         {
-            return source.Publish(
-                ps => Process().Publish(
-                    xs => xs.CombineLatest(ps, (data, message) => (data, message))
-                            .Sample(xs.MergeUnit(ps.Take(1)))
-                            .Select(x =>
-                            {
-                                var timestamp = x.message.GetTimestamp();
-                                return Timestamped.Create(x.data, timestamp);
-                            })));
+            return Process().Timestamp(source);
         }
     }
 }

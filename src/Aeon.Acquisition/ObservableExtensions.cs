@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Bonsai.Harp;
 
@@ -55,15 +56,25 @@ namespace Aeon.Acquisition
 
         public static IObservable<Bonsai.Harp.Timestamped<TSource>> Timestamp<TSource>(this IObservable<TSource> source, IObservable<HarpMessage> clock)
         {
-            return clock.Publish(
-                pc => source.Publish(
-                    ps => ps.CombineLatest(pc, (data, tick) => (data, tick))
-                            .Sample(ps.MergeUnit(pc.Take(1)))
-                            .Select(x =>
-                            {
-                                var timestamp = x.tick.GetTimestamp();
-                                return Bonsai.Harp.Timestamped.Create(x.data, timestamp);
-                            })));
+            return Observable.Create<Bonsai.Harp.Timestamped<TSource>>(observer =>
+            {
+                var pc = clock.Publish();
+                var ps = source.Publish();
+                var trigger = Observer.Create<HarpMessage>(
+                    _ => ps.Connect(),
+                    observer.OnError);
+                var result = ps.CombineLatest(pc, (data, message) => (data, message))
+                               .Sample(ps.MergeUnit(pc.Take(1)))
+                               .Select(x =>
+                               {
+                                   var timestamp = x.message.GetTimestamp();
+                                   return Bonsai.Harp.Timestamped.Create(x.data, timestamp);
+                               });
+                return new CompositeDisposable(
+                    result.SubscribeSafe(observer),
+                    pc.Take(1).SubscribeSafe(trigger),
+                    pc.Connect());
+            });
         }
     }
 }
