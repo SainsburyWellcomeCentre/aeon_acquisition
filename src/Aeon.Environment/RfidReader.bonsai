@@ -4,6 +4,7 @@
                  xmlns:p1="clr-namespace:Harp.RfidReader;assembly=Harp.RfidReader"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:aeon-env="clr-namespace:Aeon.Environment;assembly=Aeon.Environment"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Provides functionality for synchronizing and detecting inbound tags from an RFID reader module.</Description>
   <Workflow>
@@ -51,8 +52,16 @@
         <Name>RfidEvents</Name>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
-      <Expression xsi:type="p1:Parse">
-        <harp:Register xsi:type="p1:TimestampedInboundDetectionId" />
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Location" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="aeon-env:ParseRfidMeasurement">
+          <aeon-env:Location>
+            <aeon-env:X>0</aeon-env:X>
+            <aeon-env:Y>0</aeon-env:Y>
+          </aeon-env:Location>
+        </Combinator>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="InboundRfidDetected" Description="The name of the output sequence carrying detected inbound RFID notifications." />
@@ -72,9 +81,10 @@
       <Edge From="7" To="9" Label="Source1" />
       <Edge From="8" To="9" Label="Source2" />
       <Edge From="9" To="10" Label="Source1" />
-      <Edge From="9" To="11" Label="Source1" />
-      <Edge From="11" To="13" Label="Source1" />
-      <Edge From="12" To="13" Label="Source2" />
+      <Edge From="9" To="12" Label="Source1" />
+      <Edge From="11" To="12" Label="Source2" />
+      <Edge From="12" To="14" Label="Source1" />
+      <Edge From="13" To="14" Label="Source2" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
