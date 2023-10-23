@@ -60,8 +60,9 @@ namespace Aeon.Acquisition
             {
                 var pc = clock.Publish();
                 var ps = source.Publish();
+                var sourceSubscription = new SingleAssignmentDisposable();
                 var trigger = Observer.Create<HarpMessage>(
-                    _ => ps.Connect(),
+                    _ => sourceSubscription.Disposable = ps.Connect(),
                     observer.OnError);
                 var result = ps.CombineLatest(pc, (data, message) => (data, message))
                                .Sample(ps.MergeUnit(pc.Take(1)))
@@ -73,6 +74,7 @@ namespace Aeon.Acquisition
                 return new CompositeDisposable(
                     result.SubscribeSafe(observer),
                     pc.Take(1).SubscribeSafe(trigger),
+                    sourceSubscription,
                     pc.Connect());
             });
         }
