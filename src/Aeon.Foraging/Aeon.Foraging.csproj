@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Aeon.Acquisition\Aeon.Acquisition.csproj" />
+    <ProjectReference Include="..\Aeon.Environment\Aeon.Environment.csproj" />
   </ItemGroup>
 
 </Project>
