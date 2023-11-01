@@ -17,7 +17,7 @@ namespace Aeon.Environment
         public override void Show(object value)
         {
             value = value ?? string.Empty;
-            textBox.Text = value.ToString();
+            textBox.Text = value.ToString().ReplaceLineEndings();
         }
 
         public override void Load(IServiceProvider provider)
