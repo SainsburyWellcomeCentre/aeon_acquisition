@@ -49,7 +49,7 @@ namespace Aeon.Acquisition
                     nameof(modelPath));
             }
 
-            var jsonConfigFiles = directoryInfo.GetFiles("*.json");
+            var jsonConfigFiles = directoryInfo.GetFiles("confmap_config.json");
             if (jsonConfigFiles.Length != 1)
             {
                 throw new ArgumentException(
