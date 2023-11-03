@@ -4,7 +4,7 @@ using MySqlConnector;
 
 namespace Aeon.Database
 {
-    static class ObservableDatabase
+    public static class ObservableDatabase
     {
         public static IObservable<MySqlDataReader> Query(string queryString, MySqlConnection connection)
         {
