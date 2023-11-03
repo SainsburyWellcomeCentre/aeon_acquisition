@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Common;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -10,6 +11,7 @@ namespace Aeon.Database
 {
     class RecordReader<T>
     {
+        private static readonly ColumnAttribute DefaultColumnAttribute = new ColumnAttribute();
         private static readonly PropertyInfo[] Members = typeof(T).GetProperties();
         public static readonly RecordReader<T> Instance = new();
 
@@ -44,14 +46,29 @@ namespace Aeon.Database
 
                 for (int i = 0; i < Members.Length; i++)
                 {
-                    var column = schema[i];
-                    var memberName = PascalCaseNamingConvention.Instance.Apply(column.ColumnName);
-                    if (memberName != Members[i].Name)
+                    var columnAttribute = Members[i].GetCustomAttribute<ColumnAttribute>() ?? DefaultColumnAttribute;
+                    var column = columnAttribute.Order >= 0 ? schema[columnAttribute.Order] : schema[i];
+                    if (!string.IsNullOrEmpty(columnAttribute.Name))
                     {
-                        throw new ArgumentException(
-                            $"The column {memberName} does not match the corresponding attribute " +
-                            $"{Members[i].Name} in the record type '{typeof(T).FullName}'.",
-                            nameof(reader));
+                        if (columnAttribute.Name != column.ColumnName)
+                        {
+                            throw new ArgumentException(
+                                $"The column {column.ColumnName} does not match the corresponding attribute " +
+                                $"{columnAttribute.Name} in the record type '{typeof(T).FullName}'.",
+                                nameof(reader));
+                        }
+                    }
+                    else
+                    {
+                        var memberName = PascalCaseNamingConvention.Instance.Apply(column.ColumnName);
+                        if (memberName != Members[i].Name)
+                        {
+                            throw new ArgumentException(
+                                $"The name of the column {column.ColumnName} could not be matched to the " +
+                                $"corresponding attribute {Members[i].Name} in the record type" +
+                                $"'{typeof(T).FullName}'.",
+                                nameof(reader));
+                        }
                     }
 
                     var propertyType = Members[i].PropertyType;
@@ -63,7 +80,7 @@ namespace Aeon.Database
 
                         }
                         else throw new ArgumentException(
-                            $"The type of the column {memberName} does not match the attribute " +
+                            $"The column data type {column.DataTypeName} {column.ColumnName} does not match the attribute " +
                             $"{Members[i].PropertyType} {Members[i].Name} in the record type " +
                             $"'{typeof(T).FullName}'.",
                             nameof(reader));
@@ -72,13 +89,21 @@ namespace Aeon.Database
             };
         }
 
+        private static Expression GetField(Expression reader, Expression ordinal, string name, bool isNullable)
+        {
+            return isNullable
+                ? Expression.Call(typeof(ObservableDatabase), $"{name}Field", null, reader, ordinal)
+                : Expression.Call(reader, $"Get{name}", null, ordinal);
+        }
+
         private static IEnumerable<Expression> CreateRecord(ParameterExpression reader, ParameterExpression record)
         {
             yield return Expression.Assign(record, Expression.New(typeof(T)));
             for (int i = 0; i < Members.Length; i++)
             {
                 Expression value;
-                var ordinal = Expression.Constant(i);
+                var columnAttribute = Members[i].GetCustomAttribute<ColumnAttribute>() ?? DefaultColumnAttribute;
+                var ordinal = Expression.Constant(columnAttribute.Order >= 0 ? columnAttribute.Order : i);
                 var member = Expression.PropertyOrField(record, Members[i].Name);
                 if (member.Type.IsEnum)
                 {
@@ -95,122 +120,49 @@ namespace Aeon.Database
                 switch (memberTypeCode)
                 {
                     case TypeCode.Boolean:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            isNullable
-                                ? nameof(ObservableDatabase.BooleanField)
-                                : nameof(MySqlDataReader.GetBoolean),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, nameof(Boolean), isNullable);
                         break;
                     case TypeCode.Char:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            isNullable
-                                ? nameof(ObservableDatabase.CharField)
-                                : nameof(MySqlDataReader.GetChar),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, nameof(Char), isNullable);
                         break;
                     case TypeCode.SByte:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            isNullable
-                                ? nameof(ObservableDatabase.SByteField)
-                                : nameof(MySqlDataReader.GetSByte),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, nameof(SByte), isNullable);
                         break;
                     case TypeCode.Byte:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            isNullable
-                                ? nameof(ObservableDatabase.ByteField)
-                                : nameof(MySqlDataReader.GetByte),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, nameof(Byte), isNullable);
                         break;
                     case TypeCode.Int16:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            isNullable
-                                ? nameof(ObservableDatabase.Int16Field)
-                                : nameof(MySqlDataReader.GetInt16),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, nameof(Int16), isNullable);
                         break;
                     case TypeCode.UInt16:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            isNullable
-                                ? nameof(ObservableDatabase.UInt16Field)
-                                : nameof(MySqlDataReader.GetUInt16),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, nameof(UInt16), isNullable);
                         break;
                     case TypeCode.Int32:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            isNullable
-                                ? nameof(ObservableDatabase.Int32Field)
-                                : nameof(MySqlDataReader.GetInt32),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, nameof(Int32), isNullable);
                         break;
                     case TypeCode.UInt32:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            isNullable
-                                ? nameof(ObservableDatabase.UInt32Field)
-                                : nameof(MySqlDataReader.GetUInt32),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, nameof(UInt32), isNullable);
                         break;
                     case TypeCode.Int64:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            isNullable
-                                ? nameof(ObservableDatabase.Int64Field)
-                                : nameof(MySqlDataReader.GetInt64),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, nameof(Int64), isNullable);
                         break;
                     case TypeCode.UInt64:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            isNullable
-                                ? nameof(ObservableDatabase.UInt64Field)
-                                : nameof(MySqlDataReader.GetUInt64),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, nameof(UInt64), isNullable);
                         break;
                     case TypeCode.Single:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            isNullable
-                                ? nameof(ObservableDatabase.FloatField)
-                                : nameof(MySqlDataReader.GetFloat),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, "Float", isNullable);
                         break;
                     case TypeCode.Double:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            isNullable
-                                ? nameof(ObservableDatabase.DoubleField)
-                                : nameof(MySqlDataReader.GetDouble),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, nameof(Double), isNullable);
                         break;
                     case TypeCode.Decimal:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            isNullable
-                                ? nameof(ObservableDatabase.DecimalField)
-                                : nameof(MySqlDataReader.GetDecimal),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, nameof(Decimal), isNullable);
                         break;
                     case TypeCode.DateTime:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            isNullable
-                                ? nameof(ObservableDatabase.DateTimeField)
-                                : nameof(MySqlDataReader.GetDateTime),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, nameof(DateTime), isNullable);
                         break;
                     case TypeCode.String:
-                        value = Expression.Call(
-                            typeof(ObservableDatabase),
-                            nameof(ObservableDatabase.StringField),
-                            null, reader, ordinal);
+                        value = GetField(reader, ordinal, nameof(String), isNullable: true);
                         break;
                     default:
                         throw new NotSupportedException(
