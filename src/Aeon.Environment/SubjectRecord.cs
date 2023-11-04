@@ -20,18 +20,6 @@ namespace Aeon.Environment
         [Column("lab_id")]
         public string LabId { get; set; }
 
-        [Column("responsible_fullname")]
-        public string ResponsibleFullName { get; set; }
-
-        [Column("gen_bg_id")]
-        public int? GeneticBackgroundId { get; set; }
-
-        [Column("strain_id")]
-        public int? StrainId { get; set; }
-
-        [Column("cage_number")]
-        public string CageNumber { get; set; }
-
         [Column("available")]
         public bool Available { get; set; }
 

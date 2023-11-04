@@ -14,8 +14,7 @@ namespace Aeon.Environment
         internal static IObservable<SubjectRecord> Query(MySqlConnection connection)
         {
             return ObservableDatabase.Query<SubjectRecord>(
-                "SELECT `subject`,`sex`,`subject_birth_date`,`subject_description`,`lab_id`," +
-                "`responsible_fullname`,`gen_bg_id`,`strain_id`,`cage_number`,`available` " +
+                "SELECT `subject`,`sex`,`subject_birth_date`,`subject_description`,`lab_id`,`available` " +
                 "FROM `aeon_subject`.`subject` NATURAL JOIN `aeon_subject`.`_subject_detail`;",
                 connection);
         }
