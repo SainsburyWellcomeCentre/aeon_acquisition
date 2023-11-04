@@ -11,30 +11,30 @@ namespace Aeon.Database
             return Query(queryString, connection, reader => reader);
         }
 
-        public static IObservable<TResult> Query<TResult>(string queryString, MySqlConnection connection)
+        public static IObservable<TRecord> Query<TRecord>(string queryString, MySqlConnection connection)
         {
             return Query(
                 queryString,
                 connection,
-                RecordReader<TResult>.Instance.Validate,
-                RecordReader<TResult>.Instance.Select);
+                RecordReader<TRecord>.Instance.Validate,
+                RecordReader<TRecord>.Instance.Select);
         }
 
-        public static IObservable<TResult> Query<TResult>(
+        public static IObservable<TRecord> Query<TRecord>(
             string queryString,
             MySqlConnection connection,
-            Func<MySqlDataReader, TResult> selector)
+            Func<MySqlDataReader, TRecord> selector)
         {
             return Query(queryString, connection, reader => { }, selector);
         }
 
-        public static IObservable<TResult> Query<TResult>(
+        public static IObservable<TRecord> Query<TRecord>(
             string queryString,
             MySqlConnection connection,
             Action<MySqlDataReader> validator,
-            Func<MySqlDataReader, TResult> selector)
+            Func<MySqlDataReader, TRecord> selector)
         {
-            return Observable.Create<TResult>(async (observer, cancellationToken) =>
+            return Observable.Create<TRecord>(async (observer, cancellationToken) =>
             {
                 using var command = new MySqlCommand(queryString, connection);
                 using var reader = await command.ExecuteReaderAsync(cancellationToken);
