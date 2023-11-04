@@ -36,18 +36,14 @@ namespace Aeon.Database
                 }
 
                 var schema = reader.GetColumnSchema();
-                if (schema.Count != Members.Length)
-                {
-                    throw new ArgumentException(
-                        $"The number of attributes in the reader does not match the record type +" +
-                        $"'{typeof(T).FullName}'.",
-                        nameof(reader));
-                }
-
                 for (int i = 0; i < Members.Length; i++)
                 {
+                    DbColumn column;
                     var columnAttribute = Members[i].GetCustomAttribute<ColumnAttribute>() ?? DefaultColumnAttribute;
-                    var column = columnAttribute.Order >= 0 ? schema[columnAttribute.Order] : schema[i];
+                    if (columnAttribute.Order >= 0) column = schema[columnAttribute.Order];
+                    else if (string.IsNullOrEmpty(columnAttribute.Name)) column = schema[i];
+                    else column = schema[reader.GetOrdinal(columnAttribute.Name)];
+
                     if (!string.IsNullOrEmpty(columnAttribute.Name))
                     {
                         if (columnAttribute.Name != column.ColumnName)
@@ -101,15 +97,18 @@ namespace Aeon.Database
             yield return Expression.Assign(record, Expression.New(typeof(T)));
             for (int i = 0; i < Members.Length; i++)
             {
-                Expression value;
+                Expression value, indexer;
                 var columnAttribute = Members[i].GetCustomAttribute<ColumnAttribute>() ?? DefaultColumnAttribute;
-                var ordinal = Expression.Constant(columnAttribute.Order >= 0 ? columnAttribute.Order : i);
+                if (columnAttribute.Order >= 0) indexer = Expression.Constant(columnAttribute.Order);
+                else if (string.IsNullOrEmpty(columnAttribute.Name)) indexer = Expression.Constant(i);
+                else indexer = Expression.Constant(columnAttribute.Name);
+
                 var member = Expression.PropertyOrField(record, Members[i].Name);
                 if (member.Type.IsEnum)
                 {
                     var enumType = Expression.Constant(member.Type);
                     var ignoreCase = Expression.Constant(true);
-                    value = Expression.Call(reader, nameof(MySqlDataReader.GetChar), null, ordinal);
+                    value = Expression.Call(reader, nameof(MySqlDataReader.GetChar), null, indexer);
                     yield return Expression.Assign(member, Expression.Convert(value, member.Type));
                     continue;
                 }
@@ -120,49 +119,49 @@ namespace Aeon.Database
                 switch (memberTypeCode)
                 {
                     case TypeCode.Boolean:
-                        value = GetField(reader, ordinal, nameof(Boolean), isNullable);
+                        value = GetField(reader, indexer, nameof(Boolean), isNullable);
                         break;
                     case TypeCode.Char:
-                        value = GetField(reader, ordinal, nameof(Char), isNullable);
+                        value = GetField(reader, indexer, nameof(Char), isNullable);
                         break;
                     case TypeCode.SByte:
-                        value = GetField(reader, ordinal, nameof(SByte), isNullable);
+                        value = GetField(reader, indexer, nameof(SByte), isNullable);
                         break;
                     case TypeCode.Byte:
-                        value = GetField(reader, ordinal, nameof(Byte), isNullable);
+                        value = GetField(reader, indexer, nameof(Byte), isNullable);
                         break;
                     case TypeCode.Int16:
-                        value = GetField(reader, ordinal, nameof(Int16), isNullable);
+                        value = GetField(reader, indexer, nameof(Int16), isNullable);
                         break;
                     case TypeCode.UInt16:
-                        value = GetField(reader, ordinal, nameof(UInt16), isNullable);
+                        value = GetField(reader, indexer, nameof(UInt16), isNullable);
                         break;
                     case TypeCode.Int32:
-                        value = GetField(reader, ordinal, nameof(Int32), isNullable);
+                        value = GetField(reader, indexer, nameof(Int32), isNullable);
                         break;
                     case TypeCode.UInt32:
-                        value = GetField(reader, ordinal, nameof(UInt32), isNullable);
+                        value = GetField(reader, indexer, nameof(UInt32), isNullable);
                         break;
                     case TypeCode.Int64:
-                        value = GetField(reader, ordinal, nameof(Int64), isNullable);
+                        value = GetField(reader, indexer, nameof(Int64), isNullable);
                         break;
                     case TypeCode.UInt64:
-                        value = GetField(reader, ordinal, nameof(UInt64), isNullable);
+                        value = GetField(reader, indexer, nameof(UInt64), isNullable);
                         break;
                     case TypeCode.Single:
-                        value = GetField(reader, ordinal, "Float", isNullable);
+                        value = GetField(reader, indexer, "Float", isNullable);
                         break;
                     case TypeCode.Double:
-                        value = GetField(reader, ordinal, nameof(Double), isNullable);
+                        value = GetField(reader, indexer, nameof(Double), isNullable);
                         break;
                     case TypeCode.Decimal:
-                        value = GetField(reader, ordinal, nameof(Decimal), isNullable);
+                        value = GetField(reader, indexer, nameof(Decimal), isNullable);
                         break;
                     case TypeCode.DateTime:
-                        value = GetField(reader, ordinal, nameof(DateTime), isNullable);
+                        value = GetField(reader, indexer, nameof(DateTime), isNullable);
                         break;
                     case TypeCode.String:
-                        value = GetField(reader, ordinal, nameof(String), isNullable: true);
+                        value = GetField(reader, indexer, nameof(String), isNullable: true);
                         break;
                     default:
                         throw new NotSupportedException(
