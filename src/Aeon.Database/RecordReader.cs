@@ -89,11 +89,11 @@ namespace Aeon.Database
             };
         }
 
-        private static Expression GetField(Expression reader, Expression ordinal, string name, bool isNullable)
+        private static Expression GetField(Expression reader, Expression indexer, string name, bool isNullable)
         {
             return isNullable
-                ? Expression.Call(typeof(ObservableDatabase), $"{name}Field", null, reader, ordinal)
-                : Expression.Call(reader, $"Get{name}", null, ordinal);
+                ? Expression.Call(typeof(DataReaderExtensions), $"GetNullable{name}", null, reader, indexer)
+                : Expression.Call(reader, $"Get{name}", null, indexer);
         }
 
         private static IEnumerable<Expression> CreateRecord(ParameterExpression reader, ParameterExpression record)
