@@ -1,10 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
 using MySqlConnector;
 
 namespace Aeon.Database
 {
     public static class DataReaderExtensions
     {
+        public static IEnumerable<TRecord> GetRecords<TRecord>(this MySqlDataReader reader)
+        {
+            return GetRecords(
+                reader,
+                RecordReader<TRecord>.Instance.Validate,
+                RecordReader<TRecord>.Instance.Select);
+        }
+
+        public static IEnumerable<TRecord> GetRecords<TRecord>(
+            this MySqlDataReader reader,
+            Func<MySqlDataReader, TRecord> selector)
+        {
+            return GetRecords(reader, reader => { }, selector);
+        }
+
+        public static IEnumerable<TRecord> GetRecords<TRecord>(
+            this MySqlDataReader reader,
+            Action<MySqlDataReader> validator,
+            Func<MySqlDataReader, TRecord> selector)
+        {
+            validator(reader);
+            while (reader.Read())
+            {
+                yield return selector(reader);
+            }
+        }
+
         public static bool? GetNullableBoolean(this MySqlDataReader reader, int ordinal)
         {
             return reader.IsDBNull(ordinal) ? null : reader.GetBoolean(ordinal);
