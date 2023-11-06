@@ -6,7 +6,7 @@
     <PackageTags>Bonsai Rx Project Aeon Database</PackageTags>
     <TargetFramework>net472</TargetFramework>
     <VersionPrefix>0.1.0</VersionPrefix>
-    <VersionSuffix>build230919</VersionSuffix>
+    <VersionSuffix>build231020</VersionSuffix>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +17,10 @@
     <PackageReference Include="Bonsai.Core" Version="2.8.1" />
     <PackageReference Include="MySqlConnector" Version="2.2.7" />
     <PackageReference Include="YamlDotNet" Version="13.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 
 </Project>

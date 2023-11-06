@@ -1,11 +1,14 @@
 ﻿using Bonsai.Design;
 using Bonsai.Expressions;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using System.Xml.Serialization;
 
 namespace Aeon.Environment
@@ -55,13 +58,41 @@ namespace Aeon.Environment
                 return (EnvironmentSubjectState)ExpressionBuilder.GetWorkflowElement(visualizerElement.Builder);
             }
 
-            IEnumerable<IGrouping<string, string[]>> GetDatabaseEntries(EnvironmentSubjectState source)
+            IEnumerable<EnvironmentSubjectStateEntry> GetFileDatabaseEntries(string databasePath)
             {
-                if (!File.Exists(source.DatabasePath)) return Enumerable.Empty<IGrouping<string, string[]>>();
-                return from row in File.ReadAllLines(source.DatabasePath).Skip(1)
+                return from row in File.ReadAllLines(databasePath).Skip(1)
                        let attributes = row?.Split(',')
                        where attributes?.Length > 1
-                       group attributes by attributes[0];
+                       select new EnvironmentSubjectStateEntry
+                       {
+                           Id = attributes[0],
+                           ReferenceWeight = float.Parse(attributes[1])
+                       };
+            }
+
+            IEnumerable<EnvironmentSubjectStateEntry> GetSqlDatabaseEntries(string databasePath)
+            {
+                return Observable.Using(
+                    () => new MySqlConnection(databasePath),
+                    connection =>
+                    {
+                        connection.Open();
+                        return EnumerateColony.Query(connection)
+                                              .SubscribeOn(Scheduler.Default);
+                    })
+                    .Where(record => record.Available)
+                    .Select(record => new EnvironmentSubjectStateEntry
+                    {
+                        Id = record.Id
+                    }).ToList().Wait();
+            }
+
+            IEnumerable<EnvironmentSubjectStateEntry> GetDatabaseEntries(EnvironmentSubjectState source)
+            {
+                var databasePath = source.DatabasePath;
+                if (string.IsNullOrEmpty(databasePath)) return Enumerable.Empty<EnvironmentSubjectStateEntry>();
+                else if (File.Exists(databasePath)) return GetFileDatabaseEntries(databasePath);
+                else return GetSqlDatabaseEntries(databasePath);
             }
 
             public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
@@ -71,14 +102,10 @@ namespace Aeon.Environment
                     !string.IsNullOrWhiteSpace(entry.Id))
                 {
                     var source = GetSource(context);
-                    var subjects = GetDatabaseEntries(source).FirstOrDefault(group => group.Key == entry.Id);
-                    if (subjects != null)
+                    var subject = GetDatabaseEntries(source).SingleOrDefault(group => group.Id == entry.Id);
+                    if (subject != null)
                     {
-                        var attributes = subjects.Last();
-                        if (float.TryParse(attributes[attributes.Length - 1], out float referenceWeight))
-                        {
-                            entry.ReferenceWeight = referenceWeight;
-                        }
+                        entry.ReferenceWeight = subject.ReferenceWeight;
                     }
                 }
 
@@ -93,7 +120,7 @@ namespace Aeon.Environment
                 }
 
                 var source = GetSource(context);
-                return File.Exists(source?.DatabasePath);
+                return source != null;
             }
 
             public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
@@ -101,7 +128,7 @@ namespace Aeon.Environment
                 var source = GetSource(context);
                 if (source == null) return base.GetStandardValues(context);
                 var subjects = GetDatabaseEntries(source);
-                return new StandardValuesCollection(subjects.Select(group => group.Key).ToArray());
+                return new StandardValuesCollection(subjects.Select(subject => subject.Id).ToArray());
             }
         }
     }
