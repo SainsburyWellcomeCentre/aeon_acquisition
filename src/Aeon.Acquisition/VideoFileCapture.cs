@@ -63,5 +63,32 @@ namespace Aeon.Acquisition
                 });
             });
         }
+
+        public IObservable<Timestamped<VideoDataFrame>> Generate<TPayload>(IObservable<Timestamped<TPayload>> source)
+        {
+            var videoFileName = Path;
+            var colorConversion = ColorConversion;
+            if (string.IsNullOrEmpty(videoFileName))
+            {
+                throw new InvalidOperationException("A valid file name must be specified");
+            }
+
+            return source.Publish(trigger =>
+            {
+                var capture = new FileCapture { FileName = videoFileName };
+                var frames = capture.Generate(trigger);
+                if (colorConversion.HasValue)
+                {
+                    var convertColor = new ConvertColor { Conversion = colorConversion.GetValueOrDefault() };
+                    frames = convertColor.Process(frames);
+                }
+
+                return trigger.Zip(frames, (timestamped, frame) =>
+                {
+                    var dataFrame = new VideoDataFrame(frame, 9, (long)(timestamped.Seconds * 1e6));
+                    return Timestamped.Create(dataFrame, timestamped.Seconds);
+                });
+            });
+        }
     }
 }
