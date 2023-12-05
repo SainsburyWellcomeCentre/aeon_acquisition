@@ -15,15 +15,11 @@ namespace Aeon.Acquisition
     {
         [Description("The path to the file used to source the video frames.")]
         [Editor("Bonsai.Design.OpenFileNameEditor, Bonsai.Design", DesignTypes.UITypeEditor)]
-        public string Path { get; set; }
-
-        [Description("Specifies the color conversion to use when reading the video frames.")]
-        public ColorConversion? ColorConversion { get; set; } = OpenCV.Net.ColorConversion.Bgr2Gray;
+        public string FileName { get; set; }
 
         public override IObservable<Timestamped<VideoDataFrame>> Generate()
         {
-            var videoFileName = Path;
-            var colorConversion = ColorConversion;
+            var videoFileName = FileName;
             if (string.IsNullOrEmpty(videoFileName))
             {
                 throw new InvalidOperationException("A valid file name must be specified");
@@ -31,8 +27,9 @@ namespace Aeon.Acquisition
 
             return Observable.Defer(() =>
             {
+                var grayscale = new Grayscale();
                 var capture = new FileCapture { FileName = videoFileName };
-                var metadataFileName = System.IO.Path.ChangeExtension(videoFileName, ".csv");
+                var metadataFileName = Path.ChangeExtension(videoFileName, ".csv");
                 var metadataContents = File.ReadAllLines(metadataFileName).Skip(1).Select(row =>
                 {
                     var values = row.Split(',');
@@ -49,18 +46,45 @@ namespace Aeon.Acquisition
                 }).ToArray();
 
                 var frames = capture.Generate();
-                if (colorConversion.HasValue)
-                {
-                    var convertColor = new ConvertColor { Conversion = colorConversion.GetValueOrDefault() };
-                    frames = convertColor.Process(frames);
-                }
-                
-                return frames.Select((frame, index) =>
+                return grayscale.Process(frames).Select((frame, index) =>
                 {
                     var (seconds, frameID, frameTimestamp) = metadataContents[index];
                     var dataFrame = new VideoDataFrame(frame, frameID, frameTimestamp);
                     return Timestamped.Create(dataFrame, seconds);
                 });
+            });
+        }
+
+        public IObservable<Timestamped<VideoDataFrame>> Generate<TPayload>(IObservable<Timestamped<TPayload>> source)
+        {
+            var videoFileName = FileName;
+            if (string.IsNullOrEmpty(videoFileName))
+            {
+                throw new InvalidOperationException("A valid file name must be specified");
+            }
+
+            const string ImageExtensions = ".png;.bmp;.jpg;.jpeg;.tif;.tiff;.exr";
+            var extension = Path.GetExtension(videoFileName);
+            return source.Publish(trigger =>
+            {
+                var frameID = 0L;
+                Timestamped<VideoDataFrame> TimestampFrame(Timestamped<TPayload> timestamped, IplImage frame)
+                {
+                    var dataFrame = new VideoDataFrame(frame, frameID++, (long)(timestamped.Seconds * 1e6));
+                    return Timestamped.Create(dataFrame, timestamped.Seconds);
+                }
+
+                if (!string.IsNullOrEmpty(extension) && ImageExtensions.Contains(extension))
+                {
+                    var capture = new LoadImage { FileName = videoFileName, Mode = LoadImageFlags.Grayscale };
+                    return trigger.CombineLatest(capture.Generate(), TimestampFrame);
+                }
+                else
+                {
+                    var grayscale = new Grayscale();
+                    var capture = new FileCapture { FileName = videoFileName, Loop = true };
+                    return trigger.Zip(grayscale.Process(capture.Generate(trigger)), TimestampFrame);
+                }
             });
         }
     }
