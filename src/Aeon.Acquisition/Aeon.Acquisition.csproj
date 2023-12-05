@@ -17,6 +17,7 @@
     <PackageReference Include="Bonsai.Core" Version="2.8.1" />
     <PackageReference Include="Bonsai.Audio" Version="2.8.0" />
     <PackageReference Include="Bonsai.Harp" Version="3.5.0" />
+    <PackageReference Include="Harp.Behavior" Version="0.1.0" />
     <PackageReference Include="Harp.CameraControllerGen2" Version="0.1.0" />
     <PackageReference Include="Harp.ClockSynchronizer" Version="0.1.0" />
     <PackageReference Include="Harp.OutputExpander" Version="0.2.0-build230803" />
