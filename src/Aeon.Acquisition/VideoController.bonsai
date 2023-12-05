@@ -57,10 +57,12 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:ConfigurePwm">
-                <p1:Mask>PwmOutput7</p1:Mask>
+                <p1:PwmChannels>Pwm1</p1:PwmChannels>
                 <p1:Frequency>125</p1:Frequency>
                 <p1:DutyCycle>50</p1:DutyCycle>
                 <p1:PulseCount>0</p1:PulseCount>
+                <p1:TriggerSource>Software</p1:TriggerSource>
+                <p1:EventConfig>Enabled</p1:EventConfig>
               </Combinator>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
@@ -73,11 +75,19 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:ConfigurePwm">
-                <p1:Mask>PwmOutput9</p1:Mask>
+                <p1:PwmChannels>Pwm2</p1:PwmChannels>
                 <p1:Frequency>50</p1:Frequency>
                 <p1:DutyCycle>50</p1:DutyCycle>
                 <p1:PulseCount>0</p1:PulseCount>
+                <p1:TriggerSource>Software</p1:TriggerSource>
+                <p1:EventConfig>Enabled</p1:EventConfig>
               </Combinator>
+            </Expression>
+            <Expression xsi:type="p1:CreateMessage">
+              <harp:MessageType>Write</harp:MessageType>
+              <harp:Payload xsi:type="p1:CreatePwmAndStimEnablePayload">
+                <p1:PwmAndStimEnable>Pwm1ToOut7 Pwm2ToOut9</p1:PwmAndStimEnable>
+              </harp:Payload>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>StartCameras</Name>
@@ -209,25 +219,26 @@
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="10" Label="Source1" />
+            <Edge From="2" To="11" Label="Source1" />
             <Edge From="3" To="4" Label="Source1" />
             <Edge From="4" To="5" Label="Source1" />
-            <Edge From="5" To="10" Label="Source2" />
-            <Edge From="6" To="7" Label="Source1" />
-            <Edge From="7" To="10" Label="Source3" />
-            <Edge From="8" To="9" Label="Source1" />
-            <Edge From="9" To="10" Label="Source4" />
-            <Edge From="10" To="12" Label="Source1" />
-            <Edge From="11" To="12" Label="Source2" />
-            <Edge From="12" To="13" Label="Source1" />
+            <Edge From="5" To="11" Label="Source2" />
+            <Edge From="6" To="11" Label="Source3" />
+            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="8" To="11" Label="Source4" />
+            <Edge From="9" To="10" Label="Source1" />
+            <Edge From="10" To="11" Label="Source5" />
+            <Edge From="11" To="13" Label="Source1" />
+            <Edge From="12" To="13" Label="Source2" />
             <Edge From="13" To="14" Label="Source1" />
-            <Edge From="13" To="15" Label="Source1" />
-            <Edge From="15" To="16" Label="Source1" />
-            <Edge From="15" To="19" Label="Source1" />
+            <Edge From="14" To="15" Label="Source1" />
+            <Edge From="14" To="16" Label="Source1" />
             <Edge From="16" To="17" Label="Source1" />
+            <Edge From="16" To="20" Label="Source1" />
             <Edge From="17" To="18" Label="Source1" />
-            <Edge From="19" To="20" Label="Source1" />
+            <Edge From="18" To="19" Label="Source1" />
             <Edge From="20" To="21" Label="Source1" />
+            <Edge From="21" To="22" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>

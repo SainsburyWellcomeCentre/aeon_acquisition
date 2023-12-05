@@ -20,7 +20,7 @@
     <PackageReference Include="Harp.Behavior" Version="0.1.0" />
     <PackageReference Include="Harp.CameraControllerGen2" Version="0.1.0" />
     <PackageReference Include="Harp.ClockSynchronizer" Version="0.1.0" />
-    <PackageReference Include="Harp.OutputExpander" Version="0.2.0-build230803" />
+    <PackageReference Include="Harp.OutputExpander" Version="0.2.0-build231203" />
     <PackageReference Include="Harp.TimestampGeneratorGen3" Version="0.1.0" />
     <PackageReference Include="Bonsai.Osc" Version="2.7.0" />
     <PackageReference Include="Bonsai.Pylon" Version="0.3.0" />
