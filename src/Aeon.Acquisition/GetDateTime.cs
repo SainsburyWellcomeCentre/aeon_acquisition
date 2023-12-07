@@ -17,7 +17,7 @@ namespace Aeon.Acquisition
             return GroupByTime.ReferenceTime.AddSeconds(seconds);
         }
 
-        public static IObservable<DateTime> Process(IObservable<double> source)
+        public IObservable<DateTime> Process(IObservable<double> source)
         {
             return source.Select(FromSeconds);
         }
