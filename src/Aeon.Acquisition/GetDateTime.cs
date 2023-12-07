@@ -17,6 +17,11 @@ namespace Aeon.Acquisition
             return GroupByTime.ReferenceTime.AddSeconds(seconds);
         }
 
+        public static IObservable<DateTime> Process(IObservable<double> source)
+        {
+            return source.Select(FromSeconds);
+        }
+
         public IObservable<DateTime> Process(IObservable<HarpMessage> source)
         {
             return source.Select(message => FromSeconds(message.GetTimestamp()));
