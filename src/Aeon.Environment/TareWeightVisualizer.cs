@@ -1,8 +1,6 @@
 ﻿using Bonsai.Design;
 using Bonsai.Expressions;
 using System;
-using System.Drawing;
-using System.Reactive;
 using System.Windows.Forms;
 
 namespace Aeon.Environment
