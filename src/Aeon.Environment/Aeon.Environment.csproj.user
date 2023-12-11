@@ -5,6 +5,9 @@
     <Compile Update="AnnotationControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="ButtonControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="EnvironmentStateControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
