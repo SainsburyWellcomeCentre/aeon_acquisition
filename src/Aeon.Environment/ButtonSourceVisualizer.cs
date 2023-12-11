@@ -5,17 +5,17 @@ using System.Windows.Forms;
 
 namespace Aeon.Environment
 {
-    public class TareWeightVisualizer : DialogTypeVisualizer
+    public class ButtonSourceVisualizer : DialogTypeVisualizer
     {
-        TareWeightControl control;
+        ButtonControl control;
 
         public override void Load(IServiceProvider provider)
         {
             var context = (ITypeVisualizerContext)provider.GetService(typeof(ITypeVisualizerContext));
             var visualizerElement = ExpressionBuilder.GetVisualizerElement(context.Source);
-            var source = (TareWeight)ExpressionBuilder.GetWorkflowElement(visualizerElement.Builder);
+            var source = (ButtonSource)ExpressionBuilder.GetWorkflowElement(visualizerElement.Builder);
 
-            control = new TareWeightControl(source);
+            control = new ButtonControl(source);
             control.Dock = DockStyle.Fill;
 
             var visualizerService = (IDialogTypeVisualizerService)provider.GetService(typeof(IDialogTypeVisualizerService));
