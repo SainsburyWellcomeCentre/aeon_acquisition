@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reactive;
 using System.Windows.Forms;
 
 namespace Aeon.Environment
@@ -21,7 +20,7 @@ namespace Aeon.Environment
 
         private void button_Click(object sender, EventArgs e)
         {
-            Source.OnNext(Unit.Default);
+            Source.OnNext(button.Text);
         }
     }
 }
