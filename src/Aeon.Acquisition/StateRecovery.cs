@@ -1,7 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
+﻿using System.IO;
+using Newtonsoft.Json;
 
 namespace Aeon.Acquisition
 {
@@ -14,11 +12,8 @@ namespace Aeon.Acquisition
         public static void Serialize(string name, TState value)
         {
             var fileName = GetFileName(name);
-            var serializer = new XmlSerializer(typeof(TState));
-            using (var writer = XmlWriter.Create(fileName, new XmlWriterSettings { Indent = true }))
-            {
-                serializer.Serialize(writer, value);
-            }
+            var json = JsonConvert.SerializeObject(value, Formatting.Indented);
+            File.WriteAllText(fileName, json);
         }
 
         public static TState Deserialize(string name)
@@ -29,15 +24,12 @@ namespace Aeon.Acquisition
                 return new TState();
             }
 
-            var serializer = new XmlSerializer(typeof(TState));
+            var json = File.ReadAllText(fileName);
             try
             {
-                using (var reader = XmlReader.Create(fileName))
-                {
-                    return (TState)serializer.Deserialize(reader);
-                }
+                return JsonConvert.DeserializeObject<TState>(json);
             }
-            catch (InvalidOperationException)
+            catch (JsonException)
             {
                 return new TState();
             }
