@@ -48,8 +48,12 @@ namespace Aeon.Foraging
 
         private void OnDispenserEvent(decimal value, DispenserEventType eventType)
         {
-            var metadata = new DispenserEventArgs((int)value, eventType);
-            Source.OnNext(metadata);
+            if (value != 0)
+            {
+                var metadata = new DispenserEventArgs((int)value, eventType);
+                Source.OnNext(metadata);
+                refillUpDown.Value = 0;
+            }
         }
     }
 }
