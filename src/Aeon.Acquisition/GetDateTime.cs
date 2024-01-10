@@ -12,7 +12,7 @@ namespace Aeon.Acquisition
     [Description("Converts a sequence of referenced Harp timestamps into system date-time objects.")]
     public class GetDateTime
     {
-        static DateTime FromSeconds(double seconds)
+        public static DateTime FromSeconds(double seconds)
         {
             return GroupByTime.ReferenceTime.AddSeconds(seconds);
         }
