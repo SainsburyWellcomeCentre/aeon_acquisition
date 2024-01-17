@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Authors>Sainsbury Wellcome Centre</Authors>
     <Copyright>Copyright © 2023 University College London</Copyright>
-    <PackageProjectUrl>https://github.com/SainsburyWellcomeCentre/aeon_blog</PackageProjectUrl>
+    <PackageProjectUrl>https://sainsburywellcomecentre.github.io/aeon_docs/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SainsburyWellcomeCentre/aeon_acquisition.git</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
