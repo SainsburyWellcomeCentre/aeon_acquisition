@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.8.0"
+<WorkflowBuilder Version="2.8.1"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:p1="clr-namespace:Harp.RfidReader;assembly=Harp.RfidReader"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
@@ -52,6 +52,12 @@
         <Name>RfidEvents</Name>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="harp:FilterMessageType">
+          <harp:FilterType>Include</harp:FilterType>
+          <harp:MessageType>Event</harp:MessageType>
+        </Combinator>
+      </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Location" />
       </Expression>
@@ -81,10 +87,11 @@
       <Edge From="7" To="9" Label="Source1" />
       <Edge From="8" To="9" Label="Source2" />
       <Edge From="9" To="10" Label="Source1" />
-      <Edge From="9" To="12" Label="Source1" />
-      <Edge From="11" To="12" Label="Source2" />
-      <Edge From="12" To="14" Label="Source1" />
-      <Edge From="13" To="14" Label="Source2" />
+      <Edge From="9" To="11" Label="Source1" />
+      <Edge From="11" To="13" Label="Source1" />
+      <Edge From="12" To="13" Label="Source2" />
+      <Edge From="13" To="15" Label="Source1" />
+      <Edge From="14" To="15" Label="Source2" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
