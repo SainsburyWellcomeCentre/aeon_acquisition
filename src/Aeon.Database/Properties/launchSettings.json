@@ -3,7 +3,7 @@
     "Bonsai": {
       "commandName": "Executable",
       "executablePath": "$(registry:HKEY_CURRENT_USER\\Software\\Bonsai Foundation\\Bonsai@InstallDir)Bonsai.exe",
-      "commandLineArgs": "--lib:$(TargetDir).",
+      "commandLineArgs": "--lib:\"$(TargetDir).\"",
       "nativeDebugging": true
     }
   }
