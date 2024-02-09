@@ -2,6 +2,7 @@
 using Bonsai.Design;
 using Bonsai.Expressions;
 using System;
+using System.ComponentModel;
 using System.Drawing;
 
 namespace Aeon.Environment
@@ -23,6 +24,7 @@ namespace Aeon.Environment
             control.Font = new Font(control.Font.FontFamily, 16.2F);
             control.Dock = System.Windows.Forms.DockStyle.Fill;
             control.SelectedObject = workflowBuilder.Workflow;
+            control.Site = new VisualizerContext(provider);
             control.Size = new Size(400, 450);
 
             var visualizerService = (IDialogTypeVisualizerService)provider.GetService(typeof(IDialogTypeVisualizerService));
@@ -42,6 +44,29 @@ namespace Aeon.Environment
             {
                 control.Dispose();
                 control = null;
+            }
+        }
+
+        class VisualizerContext : ISite
+        {
+            readonly IServiceProvider parentProvider;
+
+            public VisualizerContext(IServiceProvider provider)
+            {
+                parentProvider = provider;
+            }
+
+            public IComponent Component => null;
+
+            public IContainer Container => null;
+
+            public bool DesignMode => false;
+
+            public string Name { get; set; }
+
+            public object GetService(Type serviceType)
+            {
+                return parentProvider?.GetService(serviceType);
             }
         }
     }
