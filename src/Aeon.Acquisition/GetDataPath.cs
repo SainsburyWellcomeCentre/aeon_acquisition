@@ -38,7 +38,7 @@ namespace Aeon.Acquisition
                 else
                 {
                     var commitSha = repo.Head.Tip.Sha;
-                    var shortSha = commitSha.Substring(commitSha.Length - 7);
+                    var shortSha = commitSha.Substring(0, 7);
                     var name = repo.Info.IsHeadDetached
                         ? $"detached-{shortSha}"
                         : $"{repo.Head.FriendlyName}-{shortSha}";
