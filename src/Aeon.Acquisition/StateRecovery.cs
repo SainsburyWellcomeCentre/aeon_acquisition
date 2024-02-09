@@ -33,6 +33,10 @@ namespace Aeon.Acquisition
             {
                 return new TState();
             }
+            finally
+            {
+                File.Delete(fileName);
+            }
         }
     }
 }
