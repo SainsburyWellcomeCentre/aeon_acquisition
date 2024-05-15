@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 using SpinnakerNET;
 using Bonsai.Harp;
 
-namespace Aeon.Acquisition
+namespace Aeon.Video
 {
     [Description("Configures and initializes a Spinnaker camera for triggered acquisition.")]
     public class SpinnakerCapture : Bonsai.Spinnaker.SpinnakerCapture

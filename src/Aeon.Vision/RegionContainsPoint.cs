@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 
-namespace Aeon.Acquisition
+namespace Aeon.Vision
 {
     [Combinator]
     [Description("Generates boolean values indicating whether each point in the sequence is inside a region of interest.")]

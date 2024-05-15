@@ -18,7 +18,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Database", "Aeon.Datab
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Foraging", "Aeon.Foraging\Aeon.Foraging.csproj", "{2C814742-0F6D-40DC-B9B7-C54BDB95EE7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Environment", "Aeon.Environment\Aeon.Environment.csproj", "{49FC1C61-791E-41CF-BB7C-C2AC26AFAFE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Environment", "Aeon.Environment\Aeon.Environment.csproj", "{49FC1C61-791E-41CF-BB7C-C2AC26AFAFE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Video", "Aeon.Video\Aeon.Video.csproj", "{1D11793E-85E9-473C-8EF6-F4BD4B249E30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Vision", "Aeon.Vision\Aeon.Vision.csproj", "{709D0302-5A4F-4F76-8596-41B74DF3B3E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Vision.Sleap", "Aeon.Vision.Sleap\Aeon.Vision.Sleap.csproj", "{0D9D431D-EA23-4610-B262-313A48BFE34B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +52,18 @@ Global
 		{49FC1C61-791E-41CF-BB7C-C2AC26AFAFE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49FC1C61-791E-41CF-BB7C-C2AC26AFAFE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49FC1C61-791E-41CF-BB7C-C2AC26AFAFE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D9D431D-EA23-4610-B262-313A48BFE34B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D9D431D-EA23-4610-B262-313A48BFE34B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D9D431D-EA23-4610-B262-313A48BFE34B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D9D431D-EA23-4610-B262-313A48BFE34B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D11793E-85E9-473C-8EF6-F4BD4B249E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D11793E-85E9-473C-8EF6-F4BD4B249E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D11793E-85E9-473C-8EF6-F4BD4B249E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D11793E-85E9-473C-8EF6-F4BD4B249E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{709D0302-5A4F-4F76-8596-41B74DF3B3E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{709D0302-5A4F-4F76-8596-41B74DF3B3E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{709D0302-5A4F-4F76-8596-41B74DF3B3E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{709D0302-5A4F-4F76-8596-41B74DF3B3E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

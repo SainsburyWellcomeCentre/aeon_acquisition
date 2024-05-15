@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 using Bonsai.Harp;
 using Basler.Pylon;
 
-namespace Aeon.Acquisition
+namespace Aeon.Video
 {
     [Description("Configures and initializes a Pylon camera for triggered acquisition.")]
     public class PylonCapture : Bonsai.Pylon.PylonCapture
