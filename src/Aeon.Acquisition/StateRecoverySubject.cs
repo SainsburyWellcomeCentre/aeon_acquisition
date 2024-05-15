@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
 namespace Aeon.Acquisition
@@ -39,10 +40,8 @@ namespace Aeon.Acquisition
             {
                 var state = StateRecovery<T>.Deserialize(name);
                 subject = new BehaviorSubject<T>(state);
-                Name = name;
+                subject.Skip(1).Subscribe(value => StateRecovery<T>.Serialize(name, value));
             }
-
-            string Name { get; }
 
             public void OnCompleted()
             {
@@ -64,7 +63,6 @@ namespace Aeon.Acquisition
 
             public void Dispose()
             {
-                StateRecovery<T>.Serialize(Name, subject.Value);
                 subject.Dispose();
             }
         }
