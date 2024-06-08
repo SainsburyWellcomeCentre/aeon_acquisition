@@ -5,7 +5,7 @@
     <Description>A package providing common acquisition and control functionality for all Project Aeon experiments.</Description>
     <PackageTags>Bonsai Rx Project Aeon Acquisition</PackageTags>
     <TargetFramework>net472</TargetFramework>
-    <VersionPrefix>0.5.0</VersionPrefix>
+    <VersionPrefix>0.5.1</VersionPrefix>
     <VersionSuffix></VersionSuffix>
   </PropertyGroup>
   
