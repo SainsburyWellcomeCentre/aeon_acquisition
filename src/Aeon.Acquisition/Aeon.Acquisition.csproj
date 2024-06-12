@@ -5,7 +5,7 @@
     <Description>A package providing common acquisition and control functionality for all Project Aeon experiments.</Description>
     <PackageTags>Bonsai Rx Project Aeon Acquisition</PackageTags>
     <TargetFramework>net472</TargetFramework>
-    <VersionPrefix>0.5.0</VersionPrefix>
+    <VersionPrefix>0.6.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
   </PropertyGroup>
   
@@ -24,7 +24,7 @@
     <PackageReference Include="Harp.TimestampGeneratorGen3" Version="0.1.0" />
     <PackageReference Include="Bonsai.Osc" Version="2.7.0" />
     <PackageReference Include="Bonsai.Pylon" Version="0.3.0" />
-    <PackageReference Include="Bonsai.Sleap" Version="0.2.0" />
+    <PackageReference Include="Bonsai.Sleap" Version="0.3.0" />
     <PackageReference Include="Bonsai.Spinnaker" Version="0.7.1" />
     <PackageReference Include="Bonsai.System" Version="2.8.0" />
     <PackageReference Include="Bonsai.Scripting.Expressions" Version="2.8.0" />
