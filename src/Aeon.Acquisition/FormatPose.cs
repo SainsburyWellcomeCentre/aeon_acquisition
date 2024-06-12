@@ -26,9 +26,13 @@ namespace Aeon.Acquisition
                 var i = 0;
                 var pose = payload.Value;
                 var timestamp = payload.Seconds;
-                var data = new float[5 + pose.Count * 3];
+                var data = new float[4 + pose.IdentityScores.Length + pose.Count * 3];
                 data[i++] = IdentityIndex.GetValueOrDefault(pose.IdentityIndex);
-                data[i++] = pose.Confidence;
+                for (int k = 0; k < pose.IdentityScores.Length; k++)
+                {
+                    data[i++] = pose.IdentityScores[k];
+                }
+
                 data[i++] = pose.Centroid.Position.X;
                 data[i++] = pose.Centroid.Position.Y;
                 data[i++] = pose.Centroid.Confidence;
@@ -51,11 +55,15 @@ namespace Aeon.Acquisition
                 return poseCollection.Select((pose, index) =>
                 {
                     int i = 0;
-                    var data = new float[5 + pose.Count * 3];
+                    var data = new float[4 + pose.IdentityScores.Length + pose.Count * 3];
                     data[i++] = IdentityIndex.HasValue
                         ? IdentityIndex.GetValueOrDefault() + index
                         : pose.IdentityIndex;
-                    data[i++] = pose.Confidence;
+                    for (int k = 0; k < pose.IdentityScores.Length; k++)
+                    {
+                        data[i++] = pose.IdentityScores[k];
+                    }
+
                     data[i++] = pose.Centroid.Position.X;
                     data[i++] = pose.Centroid.Position.Y;
                     data[i++] = pose.Centroid.Confidence;
