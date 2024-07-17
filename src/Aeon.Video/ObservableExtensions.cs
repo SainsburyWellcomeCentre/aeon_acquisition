@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Reactive;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using Bonsai.Harp;
 
 namespace Aeon.Video
 {
-    public static class ObservableExtensions
+    internal static class ObservableExtensions
     {
         public static IObservable<TSource> FillGaps<TSource>(this IObservable<TSource> source, Func<TSource, TSource, int> gapSelector)
         {

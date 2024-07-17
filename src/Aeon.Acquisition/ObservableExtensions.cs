@@ -7,7 +7,7 @@ using Bonsai.Harp;
 
 namespace Aeon.Acquisition
 {
-    public static class ObservableExtensions
+    internal static class ObservableExtensions
     {
         public static IObservable<Unit> MergeUnit<TSource, TOther>(this IObservable<TSource> source, IObservable<TOther> other)
         {
