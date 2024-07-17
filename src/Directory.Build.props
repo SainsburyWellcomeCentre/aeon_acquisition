@@ -12,6 +12,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <IncludeSymbols>true</IncludeSymbols>
     <RepositoryType>git</RepositoryType>
+    <VersionPrefix>0.7.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <LangVersion>9.0</LangVersion>
     <Features>strict</Features>

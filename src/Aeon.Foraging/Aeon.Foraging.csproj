@@ -6,7 +6,6 @@
     <Description>Provides acquisition and control modules for Project Aeon foraging experiments.</Description>
     <PackageTags>Bonsai Rx Project Aeon Foraging</PackageTags>
     <TargetFramework>net472</TargetFramework>
-    <VersionPrefix>0.2.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
   </PropertyGroup>
   
@@ -15,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bonsai.Design" Version="2.8.0" />
+    <PackageReference Include="Bonsai.Design" Version="2.8.5" />
     <PackageReference Include="Bonsai.Windows.Input" Version="2.7.0" />
   </ItemGroup>
 
