@@ -18,6 +18,9 @@ jobs:
       matrix:
         configuration: [debug, release]
         os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            test-filter: --filter TestCategory!=DriverDependent
     runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout
@@ -35,7 +38,7 @@ jobs:
       run: dotnet build --no-restore --configuration ${{ matrix.configuration }}
 
     - name: Pack
-      run: dotnet pack --no-restore --no-build --configuration ${{ matrix.configuration }}
+      run: dotnet pack --no-build --configuration ${{ matrix.configuration }}
 
     - name: Test
-      run: dotnet test --no-restore --no-build --configuration ${{ matrix.configuration }}
+      run: dotnet test --no-build --configuration ${{ matrix.configuration }} ${{ matrix.test-filter }}
