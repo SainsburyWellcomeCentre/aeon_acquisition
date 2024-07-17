@@ -4,7 +4,7 @@ using System.Reflection;
 using System.IO;
 using Bonsai.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Aeon.Acquisition;
+using Aeon.Video;
 using System;
 
 namespace Aeon.Tests

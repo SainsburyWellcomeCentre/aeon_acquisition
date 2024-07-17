@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using Bonsai;
 
-namespace Aeon.Acquisition
+namespace Aeon.Vision.Sleap
 {
     [Description("Initializes a pose tracking metadata object from the specified model path.")]
     public class CreatePoseTrackingMetadata : Source<PoseTrackingMetadata>

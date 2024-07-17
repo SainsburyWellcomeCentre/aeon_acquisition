@@ -1,4 +1,4 @@
-using Bonsai;
+﻿using Bonsai;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 using Bonsai.Vision;
 using OpenCV.Net;
 
-namespace Aeon.Acquisition
+namespace Aeon.Vision
 {
     [Combinator]
     [Description("Takes the N-largest binary regions.")]

@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Title>Project Aeon - Video</Title>
+    <Description>Provides reactive modules for video acquisition in Project Aeon experiments.</Description>
+    <PackageTags>Bonsai Rx Project Aeon Video</PackageTags>
+    <TargetFramework>net472</TargetFramework>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="**\*.bonsai" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Harp.Behavior" Version="0.1.0" />
+    <PackageReference Include="Harp.CameraControllerGen2" Version="0.1.0" />
+    <PackageReference Include="Harp.OutputExpander" Version="0.2.0" />
+    <PackageReference Include="Bonsai.Pylon" Version="0.3.0" />
+    <PackageReference Include="Bonsai.Spinnaker" Version="0.7.1" />
+    <PackageReference Include="Bonsai.Vision" Version="2.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Aeon.Acquisition\Aeon.Acquisition.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,6 +1,6 @@
 ﻿using OpenCV.Net;
 
-namespace Aeon.Acquisition
+namespace Aeon.Video
 {
     public class VideoDataFrame
     {

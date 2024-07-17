@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 
-namespace Aeon.Acquisition
+namespace Aeon.Vision
 {
     [Combinator]
     [Description("Computes the distance from every component in the sequence to a point.")]

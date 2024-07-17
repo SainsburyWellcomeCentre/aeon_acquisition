@@ -8,7 +8,7 @@ using Bonsai.Harp;
 using Bonsai.Vision;
 using OpenCV.Net;
 
-namespace Aeon.Acquisition
+namespace Aeon.Video
 {
     [Description("Configures and initializes a file capture for timestamped replay of video data.")]
     public class VideoFileCapture : Source<Timestamped<VideoDataFrame>>

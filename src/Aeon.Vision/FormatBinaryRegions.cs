@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 using Bonsai.Vision;
 using Bonsai.Harp;
 
-namespace Aeon.Acquisition
+namespace Aeon.Vision
 {
     [Combinator]
     [Description("Converts timestamped binary regions into a sequence of Harp messages.")]

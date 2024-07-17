@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 using Bonsai.Sleap;
 using Bonsai.Harp;
 
-namespace Aeon.Acquisition
+namespace Aeon.Vision.Sleap
 {
     [Combinator]
     [Description("Converts a timestamped pose collection into a sequence of Harp messages.")]
