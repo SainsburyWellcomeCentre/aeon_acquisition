@@ -20,11 +20,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Foraging", "src\Aeon.F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Environment", "src\Aeon.Environment\Aeon.Environment.csproj", "{49FC1C61-791E-41CF-BB7C-C2AC26AFAFE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Video", "src\Aeon.Video\Aeon.Video.csproj", "{1D11793E-85E9-473C-8EF6-F4BD4B249E30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Video", "src\Aeon.Video\Aeon.Video.csproj", "{1D11793E-85E9-473C-8EF6-F4BD4B249E30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Vision", "src\Aeon.Vision\Aeon.Vision.csproj", "{709D0302-5A4F-4F76-8596-41B74DF3B3E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Vision", "src\Aeon.Vision\Aeon.Vision.csproj", "{709D0302-5A4F-4F76-8596-41B74DF3B3E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Vision.Sleap", "src\Aeon.Vision.Sleap\Aeon.Vision.Sleap.csproj", "{0D9D431D-EA23-4610-B262-313A48BFE34B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Vision.Sleap", "src\Aeon.Vision.Sleap\Aeon.Vision.Sleap.csproj", "{0D9D431D-EA23-4610-B262-313A48BFE34B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{EE2D6E09-6996-49EC-9A7F-4569854BC613}"
+	ProjectSection(SolutionItems) = preProject
+		build\Version.props = build\Version.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,10 +57,6 @@ Global
 		{49FC1C61-791E-41CF-BB7C-C2AC26AFAFE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49FC1C61-791E-41CF-BB7C-C2AC26AFAFE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49FC1C61-791E-41CF-BB7C-C2AC26AFAFE3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D9D431D-EA23-4610-B262-313A48BFE34B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D9D431D-EA23-4610-B262-313A48BFE34B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D9D431D-EA23-4610-B262-313A48BFE34B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D9D431D-EA23-4610-B262-313A48BFE34B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1D11793E-85E9-473C-8EF6-F4BD4B249E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1D11793E-85E9-473C-8EF6-F4BD4B249E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D11793E-85E9-473C-8EF6-F4BD4B249E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -64,6 +65,10 @@ Global
 		{709D0302-5A4F-4F76-8596-41B74DF3B3E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{709D0302-5A4F-4F76-8596-41B74DF3B3E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{709D0302-5A4F-4F76-8596-41B74DF3B3E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D9D431D-EA23-4610-B262-313A48BFE34B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D9D431D-EA23-4610-B262-313A48BFE34B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D9D431D-EA23-4610-B262-313A48BFE34B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D9D431D-EA23-4610-B262-313A48BFE34B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,7 +6,6 @@
     <Description>Provides reactive modules for SLEAP based pose estimation used for Project Aeon experiments.</Description>
     <PackageTags>Bonsai Rx Project Aeon Vision Sleap</PackageTags>
     <TargetFramework>net472</TargetFramework>
-    <VersionSuffix></VersionSuffix>
   </PropertyGroup>
 
   <ItemGroup>

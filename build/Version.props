@@ -1,0 +1,20 @@
+<Project>
+  <PropertyGroup Condition="'$(ContinuousIntegrationBuild)' != 'true'">
+    <!-- When making local builds DevVersion can be overridden to generate multiple local versions -->
+    <DevVersion Condition="'$(DevVersion)' == ''">0</DevVersion>
+
+    <VersionSuffix>dev$(DevVersion)</VersionSuffix>
+    <_FileVersionRevision>$([MSBuild]::Add(60000, $(DevVersion)))</_FileVersionRevision>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(ContinuousIntegrationBuild)' == 'true'">
+    <VersionSuffix>$(CiBuildVersionSuffix)</VersionSuffix>
+    <_FileVersionRevision>0</_FileVersionRevision>
+    <_FileVersionRevision Condition="'$(CiBuildVersionSuffix)' != '' and '$(CiRunNumber)' != ''">$(CiRunNumber)</_FileVersionRevision>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Force malformed versions to be an error -->
+    <WarningsAsErrors>$(WarningsAsErrors);CS7035</WarningsAsErrors>
+  </PropertyGroup>
+</Project>

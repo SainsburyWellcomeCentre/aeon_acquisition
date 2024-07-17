@@ -6,7 +6,6 @@
     <Description>Provides reactive modules for controlling and monitoring Project Aeon environments.</Description>
     <PackageTags>Bonsai Rx Project Aeon Environment</PackageTags>
     <TargetFramework>net472</TargetFramework>
-    <VersionSuffix></VersionSuffix>
   </PropertyGroup>
   
   <ItemGroup>
