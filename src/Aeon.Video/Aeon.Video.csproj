@@ -9,6 +9,11 @@
     <VersionSuffix></VersionSuffix>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <!-- The pylon and spinnaker packages include custom build scripts to deploy multi-architecture dependencies -->
+    <NoWarn>$(NoWarn);MSB3270</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="**\*.bonsai" />
   </ItemGroup>
