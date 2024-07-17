@@ -11,7 +11,7 @@ namespace Aeon.Tests
 {
     public static class AssertWorkflow
     {
-        public static void CanBuildEmbeddedResources(Assembly assembly)
+        public static void CanLoadEmbeddedResources(Assembly assembly)
         {
             foreach (var name in assembly.GetManifestResourceNames())
             {

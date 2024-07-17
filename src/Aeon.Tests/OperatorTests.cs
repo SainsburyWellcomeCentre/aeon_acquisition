@@ -12,25 +12,25 @@ namespace Aeon.Tests
     public class OperatorTests
     {
         [TestMethod]
-        public void Build_Workflows()
+        public void Load_Workflows()
         {
             var acquisition = typeof(GroupByTime).Assembly;
             var environment = typeof(EnvironmentState).Assembly;
             var foraging = typeof(WheelDisplacement).Assembly;
             var vision = typeof(DistanceFromPoint).Assembly;
             var sleap = typeof(FormatPose).Assembly;
-            AssertWorkflow.CanBuildEmbeddedResources(acquisition);
-            AssertWorkflow.CanBuildEmbeddedResources(environment);
-            AssertWorkflow.CanBuildEmbeddedResources(foraging);
-            AssertWorkflow.CanBuildEmbeddedResources(vision);
-            AssertWorkflow.CanBuildEmbeddedResources(sleap);
+            AssertWorkflow.CanLoadEmbeddedResources(acquisition);
+            AssertWorkflow.CanLoadEmbeddedResources(environment);
+            AssertWorkflow.CanLoadEmbeddedResources(foraging);
+            AssertWorkflow.CanLoadEmbeddedResources(vision);
+            AssertWorkflow.CanLoadEmbeddedResources(sleap);
         }
 
         [TestMethod, TestCategory("DriverDependent")]
-        public void Build_DriverDependentWorkflows()
+        public void Load_DriverDependentWorkflows()
         {
             var video = typeof(VideoDataFrame).Assembly;
-            AssertWorkflow.CanBuildEmbeddedResources(video);
+            AssertWorkflow.CanLoadEmbeddedResources(video);
         }
     }
 }
