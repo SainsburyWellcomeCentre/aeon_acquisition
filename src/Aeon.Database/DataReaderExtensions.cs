@@ -4,7 +4,7 @@ using MySqlConnector;
 
 namespace Aeon.Database
 {
-    public static class DataReaderExtensions
+    internal static class DataReaderExtensions
     {
         public static IEnumerable<TRecord> GetRecords<TRecord>(this MySqlDataReader reader)
         {

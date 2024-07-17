@@ -4,14 +4,14 @@ using System.Reflection;
 using System.IO;
 using Bonsai.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Aeon.Acquisition;
+using Aeon.Video;
 using System;
 
 namespace Aeon.Tests
 {
     public static class AssertWorkflow
     {
-        public static void CanBuildEmbeddedResources(Assembly assembly)
+        public static void CanLoadEmbeddedResources(Assembly assembly)
         {
             foreach (var name in assembly.GetManifestResourceNames())
             {

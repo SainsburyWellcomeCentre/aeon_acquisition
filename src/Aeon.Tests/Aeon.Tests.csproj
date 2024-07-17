@@ -11,10 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
-    <PackageReference Include="coverlet.collector" Version="3.2.0">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.5.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.5.0" />
+    <PackageReference Include="coverlet.collector" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -24,6 +24,9 @@
     <ProjectReference Include="..\Aeon.Acquisition\Aeon.Acquisition.csproj" />
     <ProjectReference Include="..\Aeon.Environment\Aeon.Environment.csproj" />
     <ProjectReference Include="..\Aeon.Foraging\Aeon.Foraging.csproj" />
+    <ProjectReference Include="..\Aeon.Video\Aeon.Video.csproj" />
+    <ProjectReference Include="..\Aeon.Vision.Sleap\Aeon.Vision.Sleap.csproj" />
+    <ProjectReference Include="..\Aeon.Vision\Aeon.Vision.csproj" />
   </ItemGroup>
 
 </Project>

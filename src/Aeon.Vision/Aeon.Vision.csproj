@@ -2,25 +2,23 @@
 
   <PropertyGroup>
     <UseWindowsForms>true</UseWindowsForms>
-    <Title>Project Aeon - Foraging</Title>
-    <Description>Provides acquisition and control modules for Project Aeon foraging experiments.</Description>
-    <PackageTags>Bonsai Rx Project Aeon Foraging</PackageTags>
+    <Title>Project Aeon - Tracking</Title>
+    <Description>Provides reactive modules for computer vision used for Project Aeon experiments.</Description>
+    <PackageTags>Bonsai Rx Project Aeon Vision</PackageTags>
     <TargetFramework>net472</TargetFramework>
     <VersionSuffix></VersionSuffix>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <EmbeddedResource Include="**\*.bonsai" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bonsai.Design" Version="2.8.5" />
-    <PackageReference Include="Bonsai.Windows.Input" Version="2.7.0" />
+    <PackageReference Include="Bonsai.Vision" Version="2.8.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Aeon.Acquisition\Aeon.Acquisition.csproj" />
-    <ProjectReference Include="..\Aeon.Environment\Aeon.Environment.csproj" />
   </ItemGroup>
 
 </Project>
