@@ -5,7 +5,6 @@
     <Copyright>Copyright © 2023-2024 University College London</Copyright>
     <PackageProjectUrl>https://sainsburywellcomecentre.github.io/aeon_docs</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SainsburyWellcomeCentre/aeon_acquisition.git</RepositoryUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <UseArtifactsOutput>true</UseArtifactsOutput>
