@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Acquisition", "Aeon.Acquisition\Aeon.Acquisition.csproj", "{5F8F4AF8-7C4C-436F-A74E-4BE82A4526F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Acquisition", "src\Aeon.Acquisition\Aeon.Acquisition.csproj", "{5F8F4AF8-7C4C-436F-A74E-4BE82A4526F6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Tests", "Aeon.Tests\Aeon.Tests.csproj", "{235C151D-1507-4EDA-8BE9-79FA24EE858E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Tests", "src\Aeon.Tests\Aeon.Tests.csproj", "{235C151D-1507-4EDA-8BE9-79FA24EE858E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FB666352-C351-407B-9BF6-AA5DDC6C9DD5}"
 	ProjectSection(SolutionItems) = preProject
@@ -14,17 +14,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		NuGet.config = NuGet.config
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Database", "Aeon.Database\Aeon.Database.csproj", "{D99F92A5-E825-4CDC-A7EB-849E860FB5B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Database", "src\Aeon.Database\Aeon.Database.csproj", "{D99F92A5-E825-4CDC-A7EB-849E860FB5B7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Foraging", "Aeon.Foraging\Aeon.Foraging.csproj", "{2C814742-0F6D-40DC-B9B7-C54BDB95EE7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Foraging", "src\Aeon.Foraging\Aeon.Foraging.csproj", "{2C814742-0F6D-40DC-B9B7-C54BDB95EE7F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Environment", "Aeon.Environment\Aeon.Environment.csproj", "{49FC1C61-791E-41CF-BB7C-C2AC26AFAFE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon.Environment", "src\Aeon.Environment\Aeon.Environment.csproj", "{49FC1C61-791E-41CF-BB7C-C2AC26AFAFE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Video", "Aeon.Video\Aeon.Video.csproj", "{1D11793E-85E9-473C-8EF6-F4BD4B249E30}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Video", "src\Aeon.Video\Aeon.Video.csproj", "{1D11793E-85E9-473C-8EF6-F4BD4B249E30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Vision", "Aeon.Vision\Aeon.Vision.csproj", "{709D0302-5A4F-4F76-8596-41B74DF3B3E9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Vision", "src\Aeon.Vision\Aeon.Vision.csproj", "{709D0302-5A4F-4F76-8596-41B74DF3B3E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Vision.Sleap", "Aeon.Vision.Sleap\Aeon.Vision.Sleap.csproj", "{0D9D431D-EA23-4610-B262-313A48BFE34B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Vision.Sleap", "src\Aeon.Vision.Sleap\Aeon.Vision.Sleap.csproj", "{0D9D431D-EA23-4610-B262-313A48BFE34B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

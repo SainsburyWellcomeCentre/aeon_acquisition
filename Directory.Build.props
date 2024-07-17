@@ -7,8 +7,8 @@
     <RepositoryUrl>https://github.com/SainsburyWellcomeCentre/aeon_acquisition.git</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PackageOutputPath>..\bin\$(Configuration)</PackageOutputPath>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
     <PackageIcon>icon.png</PackageIcon>
     <IncludeSymbols>true</IncludeSymbols>
     <RepositoryType>git</RepositoryType>
