@@ -6,7 +6,6 @@
     <Description>Provides acquisition and control modules for Project Aeon foraging experiments.</Description>
     <PackageTags>Bonsai Rx Project Aeon Foraging</PackageTags>
     <TargetFramework>net472</TargetFramework>
-    <VersionSuffix></VersionSuffix>
   </PropertyGroup>
   
   <ItemGroup>
