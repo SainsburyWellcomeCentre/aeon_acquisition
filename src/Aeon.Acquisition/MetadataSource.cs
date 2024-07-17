@@ -20,7 +20,7 @@ namespace Aeon.Acquisition
 
         public virtual IObservable<TMetadata> Process()
         {
-            return subject.ObserveOn(Scheduler.TaskPool);
+            return subject.ObserveOn(TaskPoolScheduler.Default);
         }
 
         public virtual IObservable<Timestamped<TMetadata>> Process(IObservable<HarpMessage> source)
