@@ -11,7 +11,7 @@ env:
   DOTNET_GENERATE_ASPNET_CERTIFICATE: false
   ContinuousIntegrationBuild: true
   CiRunNumber: ${{ github.run_number }}
-  CiRunMainSuffix: ci${{ github.run_number }}
+  CiRunPushSuffix: ${{ github.ref_name }}-ci${{ github.run_number }}
   CiRunPullSuffix: pull-${{ github.event.number }}-ci${{ github.run_number }}
 jobs:
   audit:
@@ -49,7 +49,7 @@ jobs:
         id: pack
         if: matrix.collect-packages
         env:
-          CiBuildVersionSuffix: ${{ github.ref_name == 'main' && env.CiRunMainSuffix || env.CiRunPullSuffix }}
+          CiBuildVersionSuffix: ${{ github.event_name == 'push' && env.CiRunPushSuffix || env.CiRunPullSuffix }}
         run: dotnet pack --no-build --configuration ${{ matrix.configuration }}
 
       - name: Collect packages
