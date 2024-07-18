@@ -5,7 +5,6 @@
     <Description>Provides querying and schema functionality for Project Aeon databases.</Description>
     <PackageTags>Bonsai Rx Project Aeon Database</PackageTags>
     <TargetFramework>net472</TargetFramework>
-    <VersionSuffix></VersionSuffix>
   </PropertyGroup>
 
   <ItemGroup>
