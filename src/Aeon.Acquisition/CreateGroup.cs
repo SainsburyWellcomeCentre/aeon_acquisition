@@ -86,8 +86,13 @@ namespace Aeon.Acquisition
         {
             public GroupedObservable(TKey key, IObservable<TElement> source)
             {
+                if (source is null)
+                {
+                    throw new ArgumentNullException(nameof(source));
+                }
+
                 Key = key;
-                Source = source ?? throw new ArgumentNullException(nameof(source));
+                Source = source.Publish().RefCount();
             }
 
             public TKey Key { get; }
