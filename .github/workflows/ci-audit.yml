@@ -9,6 +9,7 @@ env:
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   DOTNET_GENERATE_ASPNET_CERTIFICATE: false
+  DOTNET_INSTALL_DIR: "./.dotnet"
   ContinuousIntegrationBuild: true
   CiRunNumber: ${{ github.run_number }}
   CiRunPushSuffix: ${{ github.ref_name }}-ci${{ github.run_number }}
