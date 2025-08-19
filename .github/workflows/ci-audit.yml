@@ -43,10 +43,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.x
+      - name: Test Dotnet
+        run: |
+          dotnet --version
+          dotnet --info
+          dotnet --list-runtimes
+          dotnet --list-sdks
       
       - name: Restore
         run: dotnet restore
@@ -79,10 +81,12 @@ jobs:
     needs: [audit]
     if: github.event_name == 'push'
     steps:
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.x
+      - name: Test Dotnet
+        run: |
+          dotnet --version
+          dotnet --info
+          dotnet --list-runtimes
+          dotnet --list-sdks
 
       - name: Download packages
         uses: actions/download-artifact@v4
