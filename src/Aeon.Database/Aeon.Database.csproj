@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Title>Project Aeon - Database</Title>
     <Description>Provides querying and schema functionality for Project Aeon databases.</Description>
-    <PackageTags>Bonsai Rx Project Aeon Database</PackageTags>
+    <PackageTags>$(PackageTags) Database</PackageTags>
     <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
 

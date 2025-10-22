@@ -1,10 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <UseWindowsForms>true</UseWindowsForms>
     <Title>Project Aeon - SLEAP</Title>
     <Description>Provides reactive modules for SLEAP based pose estimation used for Project Aeon experiments.</Description>
-    <PackageTags>Bonsai Rx Project Aeon Vision Sleap</PackageTags>
+    <PackageTags>$(PackageTags) Vision Sleap</PackageTags>
     <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
 
