@@ -16,7 +16,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Features>strict</Features>
     <Nullable>enable</Nullable>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
 
     <!-- Build to central artifacts folder instead of scattering bin and obj throughout the solution tree -->
     <UseArtifactsOutput>true</UseArtifactsOutput>
