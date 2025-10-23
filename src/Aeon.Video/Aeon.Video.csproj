@@ -17,12 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Harp.Behavior" Version="0.1.0" />
+    <PackageReference Include="Harp.Behavior" Version="0.2.0" />
     <PackageReference Include="Harp.CameraControllerGen2" Version="0.1.0" />
     <PackageReference Include="Harp.OutputExpander" Version="0.2.0" />
-    <PackageReference Include="Bonsai.Pylon" Version="0.3.0" />
-    <PackageReference Include="Bonsai.Spinnaker" Version="0.7.1" />
-    <PackageReference Include="Bonsai.Vision" Version="2.8.1" />
+    <PackageReference Include="Bonsai.Pylon" Version="0.4.0" />
+    <PackageReference Include="Bonsai.Spinnaker" Version="0.9.1" />
+    <PackageReference Include="Bonsai.Vision" Version="2.9.0" />
   </ItemGroup>
 
   <ItemGroup>

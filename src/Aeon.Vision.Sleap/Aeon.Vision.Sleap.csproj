@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bonsai.Sleap" Version="0.3.0" />
+    <PackageReference Include="Bonsai.Sleap" Version="0.4.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -12,9 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bonsai.Core" Version="2.8.5" />
-    <PackageReference Include="MySqlConnector" Version="2.3.7" />
-    <PackageReference Include="YamlDotNet" Version="13.1.1" />
+    <PackageReference Include="Bonsai.Core" Version="2.9.0" />
+    <PackageReference Include="MySqlConnector" Version="2.4.0" />
+    <PackageReference Include="YamlDotNet" Version="16.3.0" />
   </ItemGroup>
 
   <ItemGroup>
