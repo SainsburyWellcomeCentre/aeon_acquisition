@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.8.0"
+<WorkflowBuilder Version="2.9.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:p1="clr-namespace:Harp.CameraControllerGen2;assembly=Harp.CameraControllerGen2"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
