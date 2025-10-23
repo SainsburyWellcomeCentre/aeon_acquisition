@@ -42,6 +42,7 @@ jobs:
           - name: Linux x64
             os: ubuntu-22.04
             rid: linux-x64
+            test-filter: --filter TestCategory!=DriverDependent
         configuration: ['debug', 'release']
         include:
           - platform:
@@ -84,7 +85,7 @@ jobs:
 
       # ----------------------------------------------------------------------- Test
       - name: Test .NET Framework 4.7.2
-        run: dotnet test --no-restore --no-build --configuration ${{matrix.configuration}} --verbosity normal --framework net472
+        run: dotnet test --no-restore --no-build --configuration ${{matrix.configuration}} --verbosity normal --framework net472 ${{ matrix.platform.test-filter }}
 
       # ----------------------------------------------------------------------- Collect artifacts
       - name: Collect NuGet packages
