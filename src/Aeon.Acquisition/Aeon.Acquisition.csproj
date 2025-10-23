@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Title>Project Aeon - Acquisition</Title>
     <Description>A package providing common acquisition and control functionality for all Project Aeon experiments.</Description>
-    <PackageTags>Bonsai Rx Project Aeon Acquisition</PackageTags>
+    <PackageTags>$(PackageTags) Acquisition</PackageTags>
     <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
   

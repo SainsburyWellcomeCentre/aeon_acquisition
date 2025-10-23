@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <PackageTags>Bonsai Rx Aeon</PackageTags>
+    <PackageProjectUrl>https://aeon.swc.ucl.ac.uk</PackageProjectUrl>
+
+    <Authors>Sainsbury Wellcome Centre</Authors>
+    <Copyright>Copyright © University College London and Contributors</Copyright>
+  </PropertyGroup>
+</Project>

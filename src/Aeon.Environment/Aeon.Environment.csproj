@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <UseWindowsForms>true</UseWindowsForms>
     <Title>Project Aeon - Environment</Title>
     <Description>Provides reactive modules for controlling and monitoring Project Aeon environments.</Description>
-    <PackageTags>Bonsai Rx Project Aeon Environment</PackageTags>
+    <PackageTags>$(PackageTags) Environment</PackageTags>
     <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
   
