@@ -27,7 +27,7 @@
         <Name>Source1</Name>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="aeon:FormatDate" />
+        <Combinator xsi:type="aeon:FormatDateTimeIso8601" />
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Value" DisplayName="Extension" Description="The file extension" />
