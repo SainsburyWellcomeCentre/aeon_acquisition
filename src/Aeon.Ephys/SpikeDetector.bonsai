@@ -8,16 +8,16 @@
   <Workflow>
     <Nodes>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Name" DisplayName="Probe" />
+        <Property Name="Name" DisplayName="Probe" Description="The probe to detect spikes on." />
       </Expression>
       <Expression xsi:type="SubscribeSubject">
-        <Name>NeuropixelsV2BetaProbeB</Name>
+        <Name>NeuropixelsV2eBetaProbeB</Name>
       </Expression>
       <Expression xsi:type="MemberSelector">
         <Selector>AmplifierData</Selector>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Scale" DisplayName="AdcScale" />
+        <Property Name="Scale" DisplayName="AdcScale" Category="Scale" />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="dsp:ConvertScale">
@@ -48,7 +48,7 @@
         </Combinator>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Name" DisplayName="ProbeHighPass" />
+        <Property Name="Name" DisplayName="ProbeHighPass" Description="The name of the subject used for the filtered probe data." />
       </Expression>
       <Expression xsi:type="rx:PublishSubject">
         <Name>ProbeBHighPass</Name>
@@ -68,7 +68,7 @@
         </Combinator>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Name" DisplayName="ProbeSpikeWaveforms" />
+        <Property Name="Name" DisplayName="ProbeSpikeWaveforms" Description="The name of the subject used for the detected spike waveforms." />
       </Expression>
       <Expression xsi:type="rx:PublishSubject">
         <Name>ProbeBSpikeWaveforms</Name>

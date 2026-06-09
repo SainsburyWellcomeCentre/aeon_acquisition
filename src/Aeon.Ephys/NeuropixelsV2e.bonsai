@@ -3,8 +3,6 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:onix1="clr-namespace:OpenEphys.Onix1;assembly=OpenEphys.Onix1"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
-                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
-                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Description>Contains control and acquisition functionality for ONIX NeuropixelsV2e probes.</Description>
   <Workflow>
@@ -86,34 +84,34 @@
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Port" />
-        <Property Name="NeuropixelsV2e" />
         <Property Name="PortVoltage" />
+        <Property Name="NeuropixelsV2A" />
+        <Property Name="NeuropixelsV2B" />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="onix1:ConfigureHeadstageNeuropixelsV2e">
           <onix1:Name>HeadstageNeuropixelsV2e</onix1:Name>
-          <onix1:NeuropixelsV2e>
-            <onix1:DeviceName>HeadstageNeuropixelsV2e/NeuropixelsV2e</onix1:DeviceName>
+          <onix1:NeuropixelsV2A>
+            <onix1:DeviceName>HeadstageNeuropixelsV2e/NeuropixelsV2A</onix1:DeviceName>
             <onix1:DeviceAddress>256</onix1:DeviceAddress>
             <onix1:Enable>true</onix1:Enable>
-            <onix1:ProbeConfigurationA>
-              <onix1:Probe>ProbeA</onix1:Probe>
+            <onix1:ProbeConfiguration>
               <onix1:InvertPolarity>true</onix1:InvertPolarity>
-              <onix1:GainCalibrationFileName />
               <onix1:Reference>External</onix1:Reference>
-              <onix1:ProbeInterfaceFileName />
-            </onix1:ProbeConfigurationA>
-            <onix1:ProbeConfigurationB>
-              <onix1:Probe>ProbeB</onix1:Probe>
+            </onix1:ProbeConfiguration>
+          </onix1:NeuropixelsV2A>
+          <onix1:NeuropixelsV2B>
+            <onix1:DeviceName>HeadstageNeuropixelsV2e/NeuropixelsV2B</onix1:DeviceName>
+            <onix1:DeviceAddress>257</onix1:DeviceAddress>
+            <onix1:Enable>true</onix1:Enable>
+            <onix1:ProbeConfiguration>
               <onix1:InvertPolarity>true</onix1:InvertPolarity>
-              <onix1:GainCalibrationFileName />
               <onix1:Reference>External</onix1:Reference>
-              <onix1:ProbeInterfaceFileName />
-            </onix1:ProbeConfigurationB>
-          </onix1:NeuropixelsV2e>
+            </onix1:ProbeConfiguration>
+          </onix1:NeuropixelsV2B>
           <onix1:Bno055>
             <onix1:DeviceName>HeadstageNeuropixelsV2e/PolledBno055</onix1:DeviceName>
-            <onix1:DeviceAddress>257</onix1:DeviceAddress>
+            <onix1:DeviceAddress>258</onix1:DeviceAddress>
             <onix1:Enable>true</onix1:Enable>
             <onix1:AxisMap>YZX</onix1:AxisMap>
             <onix1:AxisSign>MirrorY MirrorX</onix1:AxisSign>
@@ -135,7 +133,7 @@
       </Expression>
       <Expression xsi:type="PropertySource" TypeArguments="onix1:NeuropixelsV2eBetaData,onix1:NeuropixelsV2Probe">
         <MemberName>ProbeIndex</MemberName>
-        <Value>ProbeB</Value>
+        <Value />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Take">
@@ -157,7 +155,7 @@
             </Expression>
             <Expression xsi:type="Equal">
               <Operand xsi:type="WorkflowProperty" TypeArguments="onix1:NeuropixelsV2Probe">
-                <Value>ProbeA</Value>
+                <Value />
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -169,9 +167,20 @@
         </Workflow>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="BufferSize" />
+        <Property Name="Value" DisplayName="BufferSize" Description="The read buffer size of the Ephys probe devices connected to the ONIX headstage" Category="Configuration" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="IntProperty">
+          <Value>3000</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="BufferSize" />
+        </PropertyMappings>
       </Expression>
       <Expression xsi:type="rx:SelectMany">
+        <Name>GetProbeA</Name>
         <Workflow>
           <Nodes>
             <Expression xsi:type="ExternalizedMapping">
@@ -180,8 +189,7 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="onix1:NeuropixelsV2eData">
                 <onix1:DeviceName>HeadstageNeuropixelsV2e/NeuropixelsV2e</onix1:DeviceName>
-                <onix1:BufferSize>30</onix1:BufferSize>
-                <onix1:ProbeIndex>ProbeA</onix1:ProbeIndex>
+                <onix1:BufferSize>3000</onix1:BufferSize>
                 <onix1:OrderByDepth>false</onix1:OrderByDepth>
               </Combinator>
             </Expression>
@@ -194,7 +202,7 @@
         </Workflow>
       </Expression>
       <Expression xsi:type="rx:PublishSubject">
-        <Name>NeuropixelsV2ProbeA</Name>
+        <Name>NeuropixelsV2eProbeA</Name>
       </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>ProbeIndex</Name>
@@ -208,7 +216,7 @@
             </Expression>
             <Expression xsi:type="Equal">
               <Operand xsi:type="WorkflowProperty" TypeArguments="onix1:NeuropixelsV2Probe">
-                <Value>ProbeB</Value>
+                <Value />
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -220,6 +228,7 @@
         </Workflow>
       </Expression>
       <Expression xsi:type="rx:SelectMany">
+        <Name>GetProbeB</Name>
         <Workflow>
           <Nodes>
             <Expression xsi:type="ExternalizedMapping">
@@ -228,8 +237,7 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="onix1:NeuropixelsV2eData">
                 <onix1:DeviceName>HeadstageNeuropixelsV2e/NeuropixelsV2e</onix1:DeviceName>
-                <onix1:BufferSize>30</onix1:BufferSize>
-                <onix1:ProbeIndex>ProbeB</onix1:ProbeIndex>
+                <onix1:BufferSize>3000</onix1:BufferSize>
                 <onix1:OrderByDepth>false</onix1:OrderByDepth>
               </Combinator>
             </Expression>
@@ -242,43 +250,10 @@
         </Workflow>
       </Expression>
       <Expression xsi:type="rx:PublishSubject">
-        <Name>NeuropixelsV2ProbeB</Name>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="onix1:HarpSyncInputData">
-          <onix1:DeviceName>BreakoutBoard/HarpSyncInput</onix1:DeviceName>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>HarpTime</Selector>
-      </Expression>
-      <Expression xsi:type="scr:ExpressionTransform">
-        <scr:Name>AlignHarpTimestamp</scr:Name>
-        <scr:Description>Adjust the input timestamp to reflect expected time on reception of elapsed second.</scr:Description>
-        <scr:Expression>double(it + 1)</scr:Expression>
-      </Expression>
-      <Expression xsi:type="rx:PublishSubject">
-        <Name>HarpClock</Name>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Zip" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="harp:CreateTimestamped" />
-      </Expression>
-      <Expression xsi:type="rx:PublishSubject">
-        <Name>OnixHarpSync</Name>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="onix1:MemoryMonitorData">
-          <onix1:DeviceName>BreakoutBoard/MemoryMonitor</onix1:DeviceName>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="rx:PublishSubject">
-        <Name>OnixMemoryUsage</Name>
+        <Name>NeuropixelsV2eProbeB</Name>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Period" DisplayName="ImuSamplingPeriod" Category="BNO055" />
+        <Property Name="Period" DisplayName="ImuSamplingPeriod" Description="The period between subsequent samples taken from the IMU device." Category="BNO055" />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Timer">
@@ -293,7 +268,7 @@
         </Combinator>
       </Expression>
       <Expression xsi:type="rx:PublishSubject">
-        <Name>NeuropixelsV2Bno055</Name>
+        <Name>NeuropixelsV2eBno055</Name>
       </Expression>
     </Nodes>
     <Edges>
@@ -306,24 +281,18 @@
       <Edge From="7" To="8" Label="Source1" />
       <Edge From="8" To="9" Label="Source1" />
       <Edge From="10" To="11" Label="Source1" />
-      <Edge From="11" To="13" Label="Source1" />
-      <Edge From="12" To="13" Label="Source2" />
-      <Edge From="12" To="17" Label="Source2" />
+      <Edge From="11" To="15" Label="Source1" />
+      <Edge From="12" To="13" Label="Source1" />
       <Edge From="13" To="14" Label="Source1" />
+      <Edge From="14" To="15" Label="Source2" />
+      <Edge From="14" To="19" Label="Source2" />
       <Edge From="15" To="16" Label="Source1" />
-      <Edge From="16" To="17" Label="Source1" />
       <Edge From="17" To="18" Label="Source1" />
+      <Edge From="18" To="19" Label="Source1" />
       <Edge From="19" To="20" Label="Source1" />
-      <Edge From="19" To="23" Label="Source1" />
-      <Edge From="20" To="21" Label="Source1" />
       <Edge From="21" To="22" Label="Source1" />
-      <Edge From="22" To="23" Label="Source2" />
+      <Edge From="22" To="23" Label="Source1" />
       <Edge From="23" To="24" Label="Source1" />
-      <Edge From="24" To="25" Label="Source1" />
-      <Edge From="26" To="27" Label="Source1" />
-      <Edge From="28" To="29" Label="Source1" />
-      <Edge From="29" To="30" Label="Source1" />
-      <Edge From="30" To="31" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
