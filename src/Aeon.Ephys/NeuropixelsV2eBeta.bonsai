@@ -7,6 +7,44 @@
   <Description>Contains control and acquisition functionality for ONIX NeuropixelsV2eBeta probes.</Description>
   <Workflow>
     <Nodes>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Value" DisplayName="NeuropixelsV2A" />
+      </Expression>
+      <Expression xsi:type="PropertySource" TypeArguments="onix1:ConfigureHeadstageNeuropixelsV2eBeta,onix1:ConfigureNeuropixelsV2BetaPsbDecoder">
+        <MemberName>NeuropixelsV2A</MemberName>
+        <Value>
+          <DeviceName>HeadstageNeuropixelsV2eBeta/NeuropixelsV2A</DeviceName>
+          <DeviceAddress>256</DeviceAddress>
+          <Enable>true</Enable>
+          <EnableLed>true</EnableLed>
+          <ProbeConfiguration>
+            <onix1:InvertPolarity>true</onix1:InvertPolarity>
+            <onix1:Reference>External</onix1:Reference>
+          </ProbeConfiguration>
+        </Value>
+      </Expression>
+      <Expression xsi:type="rx:AsyncSubject">
+        <Name>NeuropixelsV2eBetaProbeAConfig</Name>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Value" DisplayName="NeuropixelsV2B" />
+      </Expression>
+      <Expression xsi:type="PropertySource" TypeArguments="onix1:ConfigureHeadstageNeuropixelsV2eBeta,onix1:ConfigureNeuropixelsV2BetaPsbDecoder">
+        <MemberName>NeuropixelsV2B</MemberName>
+        <Value>
+          <DeviceName>HeadstageNeuropixelsV2eBeta/NeuropixelsV2B</DeviceName>
+          <DeviceAddress>257</DeviceAddress>
+          <Enable>true</Enable>
+          <EnableLed>true</EnableLed>
+          <ProbeConfiguration>
+            <onix1:InvertPolarity>true</onix1:InvertPolarity>
+            <onix1:Reference>External</onix1:Reference>
+          </ProbeConfiguration>
+        </Value>
+      </Expression>
+      <Expression xsi:type="rx:AsyncSubject">
+        <Name>NeuropixelsV2eBetaProbeBConfig</Name>
+      </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="onix1:CreateContext">
           <onix1:Driver>riffa</onix1:Driver>
@@ -85,8 +123,22 @@
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Port" />
         <Property Name="PortVoltage" />
-        <Property Name="NeuropixelsV2B" />
-        <Property Name="NeuropixelsV2A" />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>NeuropixelsV2eBetaProbeAConfig</Name>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="NeuropixelsV2A" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>NeuropixelsV2eBetaProbeBConfig</Name>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="NeuropixelsV2B" />
+        </PropertyMappings>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="onix1:ConfigureHeadstageNeuropixelsV2eBeta">
@@ -131,24 +183,24 @@
           <onix1:WriteSize>2048</onix1:WriteSize>
         </Combinator>
       </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Value" DisplayName="ProbeA" Category="Connected Probes" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="BooleanProperty">
-          <Value>false</Value>
-        </Combinator>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>NeuropixelsV2eBetaProbeAConfig</Name>
       </Expression>
       <Expression xsi:type="rx:Condition">
+        <Name>ProbeEnabled</Name>
         <Workflow>
           <Nodes>
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
             </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Enable</Selector>
+            </Expression>
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -174,7 +226,7 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="onix1:NeuropixelsV2eBetaData">
-                <onix1:DeviceName>HeadstageNeuropixelsV2eBeta/NeuropixelsV2eBeta</onix1:DeviceName>
+                <onix1:DeviceName>HeadstageNeuropixelsV2eBeta/NeuropixelsV2A</onix1:DeviceName>
                 <onix1:BufferSize>3000</onix1:BufferSize>
                 <onix1:OrderByDepth>false</onix1:OrderByDepth>
               </Combinator>
@@ -190,24 +242,24 @@
       <Expression xsi:type="rx:PublishSubject">
         <Name>NeuropixelsV2eBetaProbeA</Name>
       </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Value" DisplayName="ProbeB" Category="Connected Probes" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="BooleanProperty">
-          <Value>false</Value>
-        </Combinator>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>NeuropixelsV2eBetaProbeBConfig</Name>
       </Expression>
       <Expression xsi:type="rx:Condition">
+        <Name>ProbeEnabled</Name>
         <Workflow>
           <Nodes>
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
             </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Enable</Selector>
+            </Expression>
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -220,7 +272,7 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="onix1:NeuropixelsV2eBetaData">
-                <onix1:DeviceName>HeadstageNeuropixelsV2eBeta/NeuropixelsV2eBeta</onix1:DeviceName>
+                <onix1:DeviceName>HeadstageNeuropixelsV2eBeta/NeuropixelsV2B</onix1:DeviceName>
                 <onix1:BufferSize>3000</onix1:BufferSize>
                 <onix1:OrderByDepth>false</onix1:OrderByDepth>
               </Combinator>
@@ -237,7 +289,7 @@
         <Name>NeuropixelsV2eBetaProbeB</Name>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Period" DisplayName="ImuSamplingPeriod" Description="The period between subsequent samples taken from the IMU device." Category="BNO055" />
+        <Property Name="Period" DisplayName="ImuSamplingPeriod" Category="BNO055" />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Timer">
@@ -256,26 +308,32 @@
       </Expression>
     </Nodes>
     <Edges>
-      <Edge From="0" To="2" Label="Source1" />
-      <Edge From="1" To="2" Label="Source2" />
-      <Edge From="2" To="4" Label="Source1" />
-      <Edge From="3" To="4" Label="Source2" />
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
       <Edge From="4" To="5" Label="Source1" />
-      <Edge From="6" To="7" Label="Source1" />
-      <Edge From="7" To="8" Label="Source1" />
-      <Edge From="8" To="12" Label="Source1" />
-      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="6" To="8" Label="Source1" />
+      <Edge From="7" To="8" Label="Source2" />
+      <Edge From="8" To="14" Label="Source1" />
+      <Edge From="9" To="14" Label="Source2" />
       <Edge From="10" To="11" Label="Source1" />
-      <Edge From="11" To="12" Label="Source2" />
-      <Edge From="11" To="17" Label="Source2" />
+      <Edge From="11" To="14" Label="Source3" />
       <Edge From="12" To="13" Label="Source1" />
+      <Edge From="13" To="14" Label="Source4" />
       <Edge From="14" To="15" Label="Source1" />
-      <Edge From="15" To="16" Label="Source1" />
       <Edge From="16" To="17" Label="Source1" />
-      <Edge From="17" To="18" Label="Source1" />
+      <Edge From="17" To="21" Label="Source1" />
+      <Edge From="18" To="19" Label="Source1" />
       <Edge From="19" To="20" Label="Source1" />
-      <Edge From="20" To="21" Label="Source1" />
+      <Edge From="20" To="21" Label="Source2" />
+      <Edge From="20" To="25" Label="Source1" />
       <Edge From="21" To="22" Label="Source1" />
+      <Edge From="23" To="24" Label="Source1" />
+      <Edge From="24" To="25" Label="Source2" />
+      <Edge From="25" To="26" Label="Source1" />
+      <Edge From="27" To="28" Label="Source1" />
+      <Edge From="28" To="29" Label="Source1" />
+      <Edge From="29" To="30" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
