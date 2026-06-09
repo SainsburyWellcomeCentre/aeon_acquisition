@@ -14,7 +14,7 @@
   
   <ItemGroup>
     <PackageReference Include="OpenEphys.Commutator" Version="0.2.1" />
-    <PackageReference Include="OpenEphys.Onix1" Version="0.7.0-main-ci568" />
+    <PackageReference Include="OpenEphys.Onix1" Version="0.8.0" />
   </ItemGroup>
 
   <ItemGroup>
