@@ -74,10 +74,6 @@ jobs:
         id: configure-build
         uses: bonsai-rx/configure-build@v1
 
-      # ----------------------------------------------------------------------- Configure package sources
-      - name: Configure package sources
-        run: dotnet nuget add source https://nuget.pkg.github.com/open-ephys/index.json -n open-ephys -u ${{github.actor}} -p ${{secrets.GITHUB_TOKEN}} --store-password-in-clear-text
-
       # ----------------------------------------------------------------------- Build
       - name: Restore
         run: dotnet restore
