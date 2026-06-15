@@ -71,6 +71,7 @@
             // 
             this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.resetButton.Enabled = false;
             this.resetButton.Location = new System.Drawing.Point(214, 125);
             this.resetButton.Margin = new System.Windows.Forms.Padding(12);
             this.resetButton.Name = "resetButton";
@@ -101,7 +102,7 @@
             this.currentValueLabel.AutoSize = true;
             this.currentValueLabel.Location = new System.Drawing.Point(145, 43);
             this.currentValueLabel.Name = "currentValueLabel";
-            this.currentValueLabel.Size = new System.Drawing.Size(24, 26);
+            this.currentValueLabel.Size = new System.Drawing.Size(35, 38);
             this.currentValueLabel.TabIndex = 2;
             this.currentValueLabel.Text = "0";
             // 
@@ -110,7 +111,7 @@
             this.currentLabel.AutoSize = true;
             this.currentLabel.Location = new System.Drawing.Point(15, 43);
             this.currentLabel.Name = "currentLabel";
-            this.currentLabel.Size = new System.Drawing.Size(96, 26);
+            this.currentLabel.Size = new System.Drawing.Size(144, 38);
             this.currentLabel.TabIndex = 1;
             this.currentLabel.Text = "Current: ";
             // 
@@ -125,8 +126,9 @@
             0,
             0});
             this.refillUpDown.Name = "refillUpDown";
-            this.refillUpDown.Size = new System.Drawing.Size(167, 32);
+            this.refillUpDown.Size = new System.Drawing.Size(167, 44);
             this.refillUpDown.TabIndex = 0;
+            this.refillUpDown.ValueChanged += new System.EventHandler(this.refillUpDown_ValueChanged);
             // 
             // refillButton
             // 
@@ -143,7 +145,7 @@
             // 
             // DispenserEventControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 26F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(19F, 37F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dispenserPanel);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

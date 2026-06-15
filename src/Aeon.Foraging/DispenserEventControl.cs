@@ -55,5 +55,10 @@ namespace Aeon.Foraging
                 refillUpDown.Value = 0;
             }
         }
+
+        private void refillUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            resetButton.Enabled = refillUpDown.Value != 0;
+        }
     }
 }
