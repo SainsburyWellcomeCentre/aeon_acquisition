@@ -13,6 +13,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <PackageReference Include="Bonsai.Dsp" Version="2.9.0" />
     <PackageReference Include="OpenEphys.Commutator" Version="0.2.1" />
     <PackageReference Include="OpenEphys.Onix1" Version="0.8.0" />
   </ItemGroup>
