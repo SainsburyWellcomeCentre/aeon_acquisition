@@ -255,7 +255,7 @@
               </Workflow>
             </Expression>
             <Expression xsi:type="ExternalizedMapping">
-              <Property Name="Value" DisplayName="BufferSize" Description="The read buffer size of the Ephys probe devices connected to the ONIX headstage" Category="Configuration" />
+              <Property Name="Value" DisplayName="BufferSize" Description="The read buffer size of the Ephys probe devices connected to the ONIX headstage." Category="Configuration" />
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="IntProperty">
