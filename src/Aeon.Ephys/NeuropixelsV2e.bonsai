@@ -34,9 +34,7 @@
           <Enable>false</Enable>
           <ProbeConfiguration>
             <onix1:InvertPolarity>true</onix1:InvertPolarity>
-            <onix1:GainCalibrationFileName>Z:\aeon\code\probecalibrations\SpoofProbe\23409404231\23409404231_gainCalValues.csv</onix1:GainCalibrationFileName>
             <onix1:Reference>External</onix1:Reference>
-            <onix1:ProbeInterfaceFileName>E:\probe_configs\pi_configuration.json</onix1:ProbeInterfaceFileName>
           </ProbeConfiguration>
         </Value>
       </Expression>
@@ -59,9 +57,7 @@
           <Enable>true</Enable>
           <ProbeConfiguration>
             <onix1:InvertPolarity>true</onix1:InvertPolarity>
-            <onix1:GainCalibrationFileName>Z:\aeon\code\probecalibrations\SpoofProbe\23299123163\23299123163_gainCalValues.csv</onix1:GainCalibrationFileName>
             <onix1:Reference>External</onix1:Reference>
-            <onix1:ProbeInterfaceFileName>E:\probe_configs\pi_configuration_B.json</onix1:ProbeInterfaceFileName>
           </ProbeConfiguration>
         </Value>
       </Expression>
@@ -201,9 +197,7 @@
                   <onix1:Enable>false</onix1:Enable>
                   <onix1:ProbeConfiguration>
                     <onix1:InvertPolarity>true</onix1:InvertPolarity>
-                    <onix1:GainCalibrationFileName>Z:\aeon\code\probecalibrations\SpoofProbe\23409404231\23409404231_gainCalValues.csv</onix1:GainCalibrationFileName>
                     <onix1:Reference>External</onix1:Reference>
-                    <onix1:ProbeInterfaceFileName>E:\probe_configs\pi_configuration.json</onix1:ProbeInterfaceFileName>
                   </onix1:ProbeConfiguration>
                 </onix1:NeuropixelsV2A>
                 <onix1:NeuropixelsV2B>
@@ -212,9 +206,7 @@
                   <onix1:Enable>true</onix1:Enable>
                   <onix1:ProbeConfiguration>
                     <onix1:InvertPolarity>true</onix1:InvertPolarity>
-                    <onix1:GainCalibrationFileName>Z:\aeon\code\probecalibrations\SpoofProbe\23299123163\23299123163_gainCalValues.csv</onix1:GainCalibrationFileName>
                     <onix1:Reference>External</onix1:Reference>
-                    <onix1:ProbeInterfaceFileName>E:\probe_configs\pi_configuration_B.json</onix1:ProbeInterfaceFileName>
                   </onix1:ProbeConfiguration>
                 </onix1:NeuropixelsV2B>
                 <onix1:Bno055>
