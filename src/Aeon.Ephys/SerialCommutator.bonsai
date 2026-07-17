@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.9.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:commutator="clr-namespace:OpenEphys.Commutator;assembly=OpenEphys.Commutator"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Description>Sends commands to an ONIX commutator over serial port.</Description>
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="CommutatorCommands" Description="The subject used to issue commands to the commutator." />
+      </Expression>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Tuple(sys:Double,sys:UInt64)">
+        <rx:Name>CommutatorTurns</rx:Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Item1</Selector>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="PortName" />
+        <Property Name="Enable" />
+        <Property Name="EnableLed" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="commutator:SerialCommutator">
+          <commutator:Enable>true</commutator:Enable>
+          <commutator:EnableLed>true</commutator:EnableLed>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="2" To="4" Label="Source1" />
+      <Edge From="3" To="4" Label="Source2" />
+      <Edge From="4" To="5" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>

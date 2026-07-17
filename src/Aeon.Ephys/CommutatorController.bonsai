@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.9.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:commutator="clr-namespace:OpenEphys.Commutator;assembly=OpenEphys.Commutator"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Description>Drives the turns of an ONIX rotary commutator.</Description>
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="BnoDevice" Description="The Bno device to sample from." />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>Headstage64Bno055</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:SampleInterval">
+          <rx:Interval>PT0.1S</rx:Interval>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Quaternion</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="commutator:QuaternionToTwist">
+          <commutator:RotationAxis>
+            <commutator:X>0</commutator:X>
+            <commutator:Y>0</commutator:Y>
+            <commutator:Z>1</commutator:Z>
+          </commutator:RotationAxis>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Clock</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Zip" />
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="CommutatorCommands" Description="The subject used to issue commands to the commutator." />
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>CommutatorTurns</Name>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="2" To="5" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="4" To="6" Label="Source1" />
+      <Edge From="5" To="6" Label="Source2" />
+      <Edge From="6" To="8" Label="Source1" />
+      <Edge From="7" To="8" Label="Source2" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>

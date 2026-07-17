@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.9.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Description>Filters the raw ephys input signal and extracts spike waveforms for visualization.</Description>
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="Probe" Description="The probe to detect spikes on." />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>NeuropixelsV2eBetaProbeB</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>AmplifierData</Selector>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Scale" DisplayName="AdcScale" Category="Scale" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="dsp:ConvertScale">
+          <dsp:Depth>F32</dsp:Depth>
+          <dsp:Scale>500</dsp:Scale>
+          <dsp:Shift>0</dsp:Shift>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="SampleRate" Category="Filter" />
+        <Property Name="Cutoff1" Category="Filter" />
+        <Property Name="Cutoff2" Category="Filter" />
+        <Property Name="FilterOrder" Category="Filter" />
+        <Property Name="FilterType" Category="Filter" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="dsp:Butterworth">
+          <dsp:SampleRate>30000</dsp:SampleRate>
+          <dsp:Cutoff1>300</dsp:Cutoff1>
+          <dsp:Cutoff2>5000</dsp:Cutoff2>
+          <dsp:FilterOrder>3</dsp:FilterOrder>
+          <dsp:FilterType>HighPass</dsp:FilterType>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="dsp:ReferenceChannels">
+          <dsp:Channels />
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="ProbeHighPass" Description="The name of the subject used for the filtered probe data." />
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject">
+        <Name>ProbeBHighPass</Name>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Delay" Category="Spike Detection" />
+        <Property Name="Length" Category="Spike Detection" />
+        <Property Name="Threshold" Category="Spike Detection" />
+        <Property Name="WaveformRefinement" Category="Spike Detection" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="dsp:DetectSpikes">
+          <dsp:Delay>30</dsp:Delay>
+          <dsp:Length>60</dsp:Length>
+          <dsp:Threshold />
+          <dsp:WaveformRefinement>AlignPeaks</dsp:WaveformRefinement>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="ProbeSpikeWaveforms" Description="The name of the subject used for the detected spike waveforms." />
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject">
+        <Name>ProbeBSpikeWaveforms</Name>
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="2" To="4" Label="Source1" />
+      <Edge From="3" To="4" Label="Source2" />
+      <Edge From="4" To="6" Label="Source1" />
+      <Edge From="5" To="6" Label="Source2" />
+      <Edge From="6" To="7" Label="Source1" />
+      <Edge From="7" To="9" Label="Source1" />
+      <Edge From="8" To="9" Label="Source2" />
+      <Edge From="9" To="11" Label="Source1" />
+      <Edge From="10" To="11" Label="Source2" />
+      <Edge From="11" To="13" Label="Source1" />
+      <Edge From="12" To="13" Label="Source2" />
+      <Edge From="13" To="14" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
