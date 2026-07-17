@@ -1,5 +1,6 @@
 ﻿using Aeon.Acquisition;
 using Aeon.Environment;
+using Aeon.Ephys;
 using Aeon.Foraging;
 using Aeon.Video;
 using Aeon.Vision;
@@ -19,11 +20,13 @@ namespace Aeon.Tests
             var foraging = typeof(WheelDisplacement).Assembly;
             var vision = typeof(DistanceFromPoint).Assembly;
             var sleap = typeof(FormatPose).Assembly;
+            var ephys = typeof(ConvertToHarpTimestamp).Assembly;
             AssertWorkflow.CanLoadEmbeddedResources(acquisition);
             AssertWorkflow.CanLoadEmbeddedResources(environment);
             AssertWorkflow.CanLoadEmbeddedResources(foraging);
             AssertWorkflow.CanLoadEmbeddedResources(vision);
             AssertWorkflow.CanLoadEmbeddedResources(sleap);
+            AssertWorkflow.CanLoadEmbeddedResources(ephys);
         }
 
         [TestMethod, TestCategory("DriverDependent")]
