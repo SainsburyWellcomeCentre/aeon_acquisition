@@ -51,9 +51,6 @@ jobs:
             collect-packages: true
     name: ${{matrix.platform.name}} ${{matrix.configuration}}
     runs-on: ${{matrix.platform.os}}
-    permissions:
-      # Needed to download from GitHub Packages
-      packages: read
     outputs:
       need-workflow-image-render: ${{steps.configure-build.outputs.need-workflow-image-render}}
     steps:
