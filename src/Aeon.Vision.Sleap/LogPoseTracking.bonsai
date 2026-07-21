@@ -96,7 +96,6 @@
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:LogHarp.bonsai">
               <Heartbeats xsi:nil="true" />
-              <ClosingDuration xsi:nil="true" />
               <LogName>PoseTrackingData</LogName>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />

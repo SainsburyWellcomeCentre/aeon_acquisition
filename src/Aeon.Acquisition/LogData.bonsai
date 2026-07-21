@@ -31,7 +31,11 @@
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="aeon:GroupByTime">
           <aeon:ChunkSize>1</aeon:ChunkSize>
+          <aeon:ClosingDuration>PT2S</aeon:ClosingDuration>
         </Combinator>
+      </Expression>
+      <Expression xsi:type="rx:DistinctBy">
+        <rx:KeySelector>Key</rx:KeySelector>
       </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="LogName" Description="The base name of the data log, without extension." />
@@ -108,10 +112,11 @@
       <Edge From="3" To="4" Label="Source1" />
       <Edge From="4" To="6" Label="Source3" />
       <Edge From="5" To="6" Label="Source4" />
-      <Edge From="6" To="8" Label="Source1" />
-      <Edge From="7" To="8" Label="Source2" />
-      <Edge From="8" To="9" Label="Source1" />
+      <Edge From="6" To="7" Label="Source1" />
+      <Edge From="7" To="9" Label="Source1" />
+      <Edge From="8" To="9" Label="Source2" />
       <Edge From="9" To="10" Label="Source1" />
+      <Edge From="10" To="11" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
