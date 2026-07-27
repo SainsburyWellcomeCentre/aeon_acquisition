@@ -6,6 +6,7 @@ using Aeon.Video;
 using Aeon.Vision;
 using Aeon.Vision.Sleap;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Reflection;
 
 namespace Aeon.Tests
 {
@@ -21,12 +22,14 @@ namespace Aeon.Tests
             var vision = typeof(DistanceFromPoint).Assembly;
             var sleap = typeof(FormatPose).Assembly;
             var ephys = typeof(ConvertToHarpTimestamp).Assembly;
+            var commutator = Assembly.Load("Aeon.Tether.Commutator");
             AssertWorkflow.CanLoadEmbeddedResources(acquisition);
             AssertWorkflow.CanLoadEmbeddedResources(environment);
             AssertWorkflow.CanLoadEmbeddedResources(foraging);
             AssertWorkflow.CanLoadEmbeddedResources(vision);
             AssertWorkflow.CanLoadEmbeddedResources(sleap);
             AssertWorkflow.CanLoadEmbeddedResources(ephys);
+            AssertWorkflow.CanLoadEmbeddedResources(commutator);
         }
 
         [TestMethod, TestCategory("DriverDependent")]

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Title>Project Aeon - Tether Commutator</Title>
+    <Description>Provides a reactive interface for driving rotary commutators managing tether cable twist in Project Aeon experiments.</Description>
+    <PackageTags>$(PackageTags) Tether Commutator</PackageTags>
+    <TargetFramework>net472</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="**\*.bonsai" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bonsai.Core" Version="2.9.0" />
+    <PackageReference Include="Bonsai.Windows.Input" Version="2.9.0" />
+    <PackageReference Include="OpenEphys.Commutator" Version="0.2.1" />
+  </ItemGroup>
+
+</Project>
