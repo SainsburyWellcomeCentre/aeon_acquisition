@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Foraging", "src\Aeon.F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Tests", "src\Aeon.Tests\Aeon.Tests.csproj", "{235C151D-1507-4EDA-8BE9-79FA24EE858E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Tether.Commutator", "src\Aeon.Tether.Commutator\Aeon.Tether.Commutator.csproj", "{DA263401-D869-4450-81FB-B949308CE8FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Tether.Commutation", "src\Aeon.Tether.Commutation\Aeon.Tether.Commutation.csproj", "{DA263401-D869-4450-81FB-B949308CE8FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Video", "src\Aeon.Video\Aeon.Video.csproj", "{1D11793E-85E9-473C-8EF6-F4BD4B249E30}"
 EndProject

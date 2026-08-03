@@ -22,14 +22,14 @@ namespace Aeon.Tests
             var vision = typeof(DistanceFromPoint).Assembly;
             var sleap = typeof(FormatPose).Assembly;
             var ephys = typeof(ConvertToHarpTimestamp).Assembly;
-            var commutator = Assembly.Load("Aeon.Tether.Commutator");
+            var commutation = Assembly.Load("Aeon.Tether.Commutation");
             AssertWorkflow.CanLoadEmbeddedResources(acquisition);
             AssertWorkflow.CanLoadEmbeddedResources(environment);
             AssertWorkflow.CanLoadEmbeddedResources(foraging);
             AssertWorkflow.CanLoadEmbeddedResources(vision);
             AssertWorkflow.CanLoadEmbeddedResources(sleap);
             AssertWorkflow.CanLoadEmbeddedResources(ephys);
-            AssertWorkflow.CanLoadEmbeddedResources(commutator);
+            AssertWorkflow.CanLoadEmbeddedResources(commutation);
         }
 
         [TestMethod, TestCategory("DriverDependent")]
