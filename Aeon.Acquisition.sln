@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Tests", "src\Aeon.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Tether.Commutation", "src\Aeon.Tether.Commutation\Aeon.Tether.Commutation.csproj", "{DA263401-D869-4450-81FB-B949308CE8FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Tether.Translation", "src\Aeon.Tether.Translation\Aeon.Tether.Translation.csproj", "{47E6FF07-48EB-4243-8F37-92166107803F}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Video", "src\Aeon.Video\Aeon.Video.csproj", "{1D11793E-85E9-473C-8EF6-F4BD4B249E30}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon.Vision", "src\Aeon.Vision\Aeon.Vision.csproj", "{709D0302-5A4F-4F76-8596-41B74DF3B3E9}"
@@ -67,6 +69,10 @@ Global
 		{DA263401-D869-4450-81FB-B949308CE8FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA263401-D869-4450-81FB-B949308CE8FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA263401-D869-4450-81FB-B949308CE8FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47E6FF07-48EB-4243-8F37-92166107803F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47E6FF07-48EB-4243-8F37-92166107803F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47E6FF07-48EB-4243-8F37-92166107803F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47E6FF07-48EB-4243-8F37-92166107803F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1D11793E-85E9-473C-8EF6-F4BD4B249E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1D11793E-85E9-473C-8EF6-F4BD4B249E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D11793E-85E9-473C-8EF6-F4BD4B249E30}.Release|Any CPU.ActiveCfg = Release|Any CPU

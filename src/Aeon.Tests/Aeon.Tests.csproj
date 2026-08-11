@@ -24,6 +24,7 @@
     <ProjectReference Include="..\Aeon.Ephys\Aeon.Ephys.csproj" />
     <ProjectReference Include="..\Aeon.Foraging\Aeon.Foraging.csproj" />
     <ProjectReference Include="..\Aeon.Tether.Commutation\Aeon.Tether.Commutation.csproj" />
+    <ProjectReference Include="..\Aeon.Tether.Translation\Aeon.Tether.Translation.csproj" />
     <ProjectReference Include="..\Aeon.Video\Aeon.Video.csproj" />
     <ProjectReference Include="..\Aeon.Vision\Aeon.Vision.csproj" />
     <ProjectReference Include="..\Aeon.Vision.Sleap\Aeon.Vision.Sleap.csproj" />

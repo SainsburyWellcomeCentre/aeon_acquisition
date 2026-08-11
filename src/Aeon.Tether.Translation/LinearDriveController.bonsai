@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.9.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:aeon-translation="clr-namespace:Aeon.Tether.Translation;assembly=Aeon.Tether.Translation"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Description>Computes the optimal linear drive position for maintaining tether slack from the tracked position.</Description>
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="PositionSource" Description="The source of tracked positions used to compute the drive position." />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>Tracking</Name>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="ArenaCenter" />
+        <Property Name="MotorPlumbLine" />
+        <Property Name="ArenaRadiusPixels" />
+        <Property Name="ArenaRadiusCentimeters" />
+        <Property Name="TetherGuideAltitude" />
+        <Property Name="TetherGuideHeight" />
+        <Property Name="TetherMaxSlackLength" />
+        <Property Name="LinearRailLength" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="aeon-translation:OptimalDrivePosition" />
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>LinearDriveSetPosition</Name>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Name" DisplayName="LinearDriveSetPosition" />
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="3" Label="Source1" />
+      <Edge From="2" To="3" Label="Source2" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="5" To="4" Label="Source2" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
