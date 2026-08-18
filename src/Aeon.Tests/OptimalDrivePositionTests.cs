@@ -55,7 +55,7 @@ namespace Aeon.Tests
         public void Process_SlackBeyondMaximum_ReturnsZero()
         {
             // A centroid far from the plumb line demands more slack than allowed, so
-            // the drive is commanded fully retracted at position zero.
+            // the drive is commanded fully extended at position zero.
             var transform = new OptimalDrivePosition
             {
                 MotorPlumbLine = new Point(0, 0),

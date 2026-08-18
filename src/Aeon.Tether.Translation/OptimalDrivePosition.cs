@@ -8,7 +8,7 @@ using System.Reactive.Linq;
 namespace Aeon.Tether.Translation
 {
     [Combinator]
-    [Description("Calculates the optimal horizontal position of the linear drive for maintaining tether slack, where zero corresponds to the tether fully retracted and one to fully extended.")]
+    [Description("Calculates the optimal horizontal position of the linear drive for maintaining tether slack, where zero corresponds to the tether fully extended and one to fully retracted.")]
     [WorkflowElementCategory(ElementCategory.Transform)]
     public class OptimalDrivePosition
     {
