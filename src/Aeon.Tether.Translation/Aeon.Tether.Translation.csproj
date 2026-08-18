@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Title>Project Aeon - Tether Translation</Title>
+    <Description>Provides a reactive interface for driving a linear actuator to regulate tether cable slack in Project Aeon experiments.</Description>
+    <PackageTags>$(PackageTags) Tether Translation</PackageTags>
+    <TargetFramework>net472</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="**\*.bonsai" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aeon.LinearDrive" Version="0.1.0" />
+    <PackageReference Include="Bonsai.Core" Version="2.9.0" />
+    <PackageReference Include="Bonsai.Dsp" Version="2.9.0" />
+    <PackageReference Include="Bonsai.Harp" Version="3.6.1" />
+    <PackageReference Include="Bonsai.Vision" Version="2.9.0" />
+  </ItemGroup>
+
+</Project>

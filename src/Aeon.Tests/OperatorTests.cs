@@ -2,6 +2,7 @@
 using Aeon.Environment;
 using Aeon.Ephys;
 using Aeon.Foraging;
+using Aeon.Tether.Translation;
 using Aeon.Video;
 using Aeon.Vision;
 using Aeon.Vision.Sleap;
@@ -22,14 +23,16 @@ namespace Aeon.Tests
             var vision = typeof(DistanceFromPoint).Assembly;
             var sleap = typeof(FormatPose).Assembly;
             var ephys = typeof(ConvertToHarpTimestamp).Assembly;
-            var commutator = Assembly.Load("Aeon.Tether.Commutator");
+            var commutation = Assembly.Load("Aeon.Tether.Commutation");
+            var translation = typeof(OptimalDrivePosition).Assembly;
             AssertWorkflow.CanLoadEmbeddedResources(acquisition);
             AssertWorkflow.CanLoadEmbeddedResources(environment);
             AssertWorkflow.CanLoadEmbeddedResources(foraging);
             AssertWorkflow.CanLoadEmbeddedResources(vision);
             AssertWorkflow.CanLoadEmbeddedResources(sleap);
             AssertWorkflow.CanLoadEmbeddedResources(ephys);
-            AssertWorkflow.CanLoadEmbeddedResources(commutator);
+            AssertWorkflow.CanLoadEmbeddedResources(commutation);
+            AssertWorkflow.CanLoadEmbeddedResources(translation);
         }
 
         [TestMethod, TestCategory("DriverDependent")]

@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Title>Project Aeon - Tether Commutator</Title>
+    <Title>Project Aeon - Tether Commutation</Title>
     <Description>Provides a reactive interface for driving rotary commutators managing tether cable twist in Project Aeon experiments.</Description>
-    <PackageTags>$(PackageTags) Tether Commutator</PackageTags>
+    <PackageTags>$(PackageTags) Tether Commutation</PackageTags>
     <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
 
