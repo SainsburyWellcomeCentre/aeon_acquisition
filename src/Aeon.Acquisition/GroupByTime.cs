@@ -9,21 +9,6 @@ using System.Xml;
 
 namespace Aeon.Acquisition
 {
-    /// <summary>
-    /// Represents an operator that groups Harp time-series in whole hour chunks of fixed size.
-    /// </summary>
-    /// <remarks>
-    /// Each chunk group stays open until the sequence terminates unless <see cref="ClosingDuration"/>
-    /// is set. When it is set, a chunk closes once the clock advances past the end of the chunk plus
-    /// that duration, with a heartbeat source driving the clock when one is provided and the incoming
-    /// timestamps driving it otherwise. A grace of about two seconds suits the Harp synchronization
-    /// model, where sync pulses land on the whole-second boundary and a device may step backward around
-    /// a boundary but never beyond one sync period, so the grace keeps such a step from falling into an
-    /// already closed chunk. A larger backward jump, such as connecting a new synchronizer, exceeds the
-    /// grace and reopens the closed chunk as a new group. The chunk size and closing duration are read
-    /// once when the grouped sequence is created, so a property mapping applied while the sequence is
-    /// running does not resize open chunks.
-    /// </remarks>
     [Combinator]
     [Description("Groups Harp time-series in whole hour chunks of fixed size.")]
     [WorkflowElementCategory(ElementCategory.Combinator)]
