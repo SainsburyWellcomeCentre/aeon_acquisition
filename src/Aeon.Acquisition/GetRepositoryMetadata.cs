@@ -27,11 +27,7 @@ namespace Aeon.Acquisition
                     throw new InvalidOperationException("The repository has no remote named 'origin'.");
                 }
 
-                return new RepositoryMetadata
-                {
-                    Commit = tip.Sha,
-                    Url = remote.Url,
-                };
+                return new RepositoryMetadata(tip.Sha, remote.Url);
             });
         }
     }
