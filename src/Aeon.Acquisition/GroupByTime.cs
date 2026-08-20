@@ -60,6 +60,13 @@ namespace Aeon.Acquisition
             return elementDelta > new TimeSpan(chunkSize, 0, 0) + closingDuration;
         }
 
+        static IObservable<double> HeartbeatClock(IObservable<HarpMessage> heartbeats)
+        {
+            return heartbeats.Select(message => message.GetTimestamp()).Concat(
+                Observable.Throw<double>(new InvalidOperationException(
+                    "The heartbeat sequence terminated before the source sequence.")));
+        }
+
         IObservable<IGroupedObservable<DateTime, TResult>> Process<TSource, TResult>(
             IObservable<TSource> source,
             Func<TSource, double> timeSelector,
@@ -78,7 +85,7 @@ namespace Aeon.Acquisition
                     chunk => clock.FirstOrDefaultAsync(seconds => ShouldCloseChunk(chunk.Key, seconds, chunkSize, closingDuration.GetValueOrDefault())));
 
             return heartbeats != null
-                ? GroupByUntilChunkCloses(source, heartbeats.Select(message => message.GetTimestamp()))
+                ? GroupByUntilChunkCloses(source, HeartbeatClock(heartbeats))
                 : source.Publish(shared => GroupByUntilChunkCloses(shared, shared.Select(timeSelector)));
         }
 

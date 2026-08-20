@@ -230,6 +230,42 @@ namespace Aeon.Tests
         }
 
         [TestMethod]
+        public void Process_HeartbeatCompletesBeforeSource_RaisesError()
+        {
+            var source = new Subject<Timestamped<int>>();
+            var heartbeats = new Subject<HarpMessage>();
+            var groupByTime = new GroupByTime { ChunkSize = 1, ClosingDuration = TimeSpan.Zero };
+            Exception error = null;
+            using (groupByTime.Process(source, heartbeats).Subscribe(_ => { }, exception => error = exception))
+            {
+                source.OnNext(Timestamped.Create(1, 0));
+                heartbeats.OnCompleted();
+            }
+
+            Assert.IsInstanceOfType<InvalidOperationException>(error);
+        }
+
+        [TestMethod]
+        public void Process_SourceCompletesWithoutHeartbeat_CompletesWithoutError()
+        {
+            // A source without a heartbeat is its own clock, so the clock terminating is the source
+            // terminating and must not be reported as a heartbeat that stopped early.
+            var source = new Subject<Timestamped<int>>();
+            var groupByTime = new GroupByTime { ChunkSize = 1, ClosingDuration = TimeSpan.Zero };
+            Exception error = null;
+            var completed = false;
+            using (groupByTime.Process(source).Subscribe(_ => { }, exception => error = exception, () => completed = true))
+            {
+                source.OnNext(Timestamped.Create(1, 0));
+                source.OnNext(Timestamped.Create(2, 3660));
+                source.OnCompleted();
+            }
+
+            Assert.IsNull(error);
+            Assert.IsTrue(completed);
+        }
+
+        [TestMethod]
         public void Process_ChunkSizeChangedAfterProcessCall_UsesCapturedChunkSize()
         {
             var source = new Subject<Timestamped<int>>();
