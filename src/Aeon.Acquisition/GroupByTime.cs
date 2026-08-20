@@ -30,13 +30,13 @@ namespace Aeon.Acquisition
         public TimeSpan? ClosingDuration { get; set; }
 
         [Browsable(false)]
-        [XmlElement(nameof(ClosingDuration))]
+        [XmlElement(nameof(ClosingDuration), IsNullable = true)]
         public string ClosingDurationXml
         {
             get
             {
                 var timeShift = ClosingDuration;
-                if (timeShift.HasValue) return XmlConvert.ToString(timeShift.Value);
+                if (timeShift.HasValue) return XmlConvert.ToString(timeShift.GetValueOrDefault());
                 else return null;
             }
             set
@@ -46,60 +46,71 @@ namespace Aeon.Acquisition
             }
         }
 
-        DateTime GetChunkIndex(double seconds)
+        static DateTime GetChunkIndex(double seconds, int chunkSize)
         {
             var currentTime = ReferenceTime.AddSeconds(seconds);
-            var timeBin = currentTime.Hour / ChunkSize;
-            return currentTime.Date.AddHours(timeBin * ChunkSize);
+            var timeBin = currentTime.Hour / chunkSize;
+            return currentTime.Date.AddHours(timeBin * chunkSize);
+        }
+
+        static bool ShouldCloseChunk(DateTime chunkKey, double seconds, int chunkSize, TimeSpan closingDuration)
+        {
+            var elementTimestamp = ReferenceTime.AddSeconds(seconds);
+            var elementDelta = elementTimestamp - chunkKey;
+            return elementDelta > new TimeSpan(chunkSize, 0, 0) + closingDuration;
+        }
+
+        static IObservable<double> HeartbeatClock(IObservable<HarpMessage> heartbeats)
+        {
+            return heartbeats.Select(message => message.GetTimestamp()).Concat(
+                Observable.Throw<double>(new InvalidOperationException(
+                    "The heartbeat sequence terminated before the source sequence.")));
+        }
+
+        IObservable<IGroupedObservable<DateTime, TResult>> Process<TSource, TResult>(
+            IObservable<TSource> source,
+            Func<TSource, double> timeSelector,
+            Func<TSource, TResult> resultSelector,
+            IObservable<HarpMessage> heartbeats)
+        {
+            var chunkSize = ChunkSize;
+            var closingDuration = ClosingDuration;
+
+            DateTime keySelector(TSource value) => GetChunkIndex(timeSelector(value), chunkSize);
+            if (!closingDuration.HasValue)
+                return source.GroupBy(keySelector, resultSelector);
+
+            IObservable<IGroupedObservable<DateTime, TResult>> GroupByUntilChunkCloses(IObservable<TSource> source, IObservable<double> clock)
+                => source.GroupByUntil(keySelector, resultSelector,
+                    chunk => clock.FirstOrDefaultAsync(seconds => ShouldCloseChunk(chunk.Key, seconds, chunkSize, closingDuration.GetValueOrDefault())));
+
+            return heartbeats != null
+                ? GroupByUntilChunkCloses(source, HeartbeatClock(heartbeats))
+                : source.Publish(shared => GroupByUntilChunkCloses(shared, shared.Select(timeSelector)));
         }
 
         public IObservable<IGroupedObservable<DateTime, Timestamped<TSource>>> Process<TSource>(IObservable<Timestamped<TSource>> source)
-        {
-            return source.GroupBy(value => GetChunkIndex(value.Seconds));
-        }
+            => Process(source, value => value.Seconds, value => value, heartbeats: null);
 
         public IObservable<IGroupedObservable<DateTime, HarpMessage>> Process(IObservable<HarpMessage> source)
-        {
-            return source.GroupBy(value => GetChunkIndex(value.GetTimestamp()));
-        }
+            => Process(source, value => value.GetTimestamp(), value => value, heartbeats: null);
 
         public IObservable<IGroupedObservable<DateTime, Timestamped<TSource>>> Process<TSource>(IObservable<Tuple<TSource, double>> source)
-        {
-            return source.GroupBy(value => GetChunkIndex(value.Item2), value => Timestamped.Create(value.Item1, value.Item2));
-        }
-
-        bool ShouldCloseChunk<TElement>(IGroupedObservable<DateTime, TElement> chunk, HarpMessage heartbeat)
-        {
-            var beatTimestamp = ReferenceTime.AddSeconds(heartbeat.GetTimestamp());
-            var beatDelta = beatTimestamp - chunk.Key;
-            return beatDelta > new TimeSpan(ChunkSize, 0, 0) + ClosingDuration;
-        }
+            => Process(source, value => value.Item2, value => Timestamped.Create(value.Item1, value.Item2), heartbeats: null);
 
         public IObservable<IGroupedObservable<DateTime, Timestamped<TSource>>> Process<TSource>(
             IObservable<Timestamped<TSource>> source,
             IObservable<HarpMessage> heartbeats)
-        {
-            return source.GroupByUntil(
-                value => GetChunkIndex(value.Seconds),
-                chunk => heartbeats.FirstOrDefaultAsync(message => ShouldCloseChunk(chunk, message)));
-        }
+            => Process(source, value => value.Seconds, value => value, heartbeats);
 
         public IObservable<IGroupedObservable<DateTime, HarpMessage>> Process(
             IObservable<HarpMessage> source,
             IObservable<HarpMessage> heartbeats)
-        {
-            return source.GroupByUntil(
-                value => GetChunkIndex(value.GetTimestamp()),
-                chunk => heartbeats.FirstOrDefaultAsync(message => ShouldCloseChunk(chunk, message)));
-        }
+            => Process(source, value => value.GetTimestamp(), value => value, heartbeats);
 
         public IObservable<IGroupedObservable<DateTime, Timestamped<TSource>>> Process<TSource>(
             IObservable<Tuple<TSource, double>> source,
             IObservable<HarpMessage> heartbeats)
-        {
-            return source.GroupByUntil(
-                value => GetChunkIndex(value.Item2), value => Timestamped.Create(value.Item1, value.Item2),
-                chunk => heartbeats.FirstOrDefaultAsync(message => ShouldCloseChunk(chunk, message)));
-        }
+            => Process(source, value => value.Item2, value => Timestamped.Create(value.Item1, value.Item2), heartbeats);
     }
 }

@@ -85,7 +85,11 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="aeon:GroupByTime">
                 <aeon:ChunkSize>1</aeon:ChunkSize>
+                <aeon:ClosingDuration>PT2S</aeon:ClosingDuration>
               </Combinator>
+            </Expression>
+            <Expression xsi:type="rx:DistinctBy">
+              <rx:KeySelector>Key</rx:KeySelector>
             </Expression>
             <Expression xsi:type="rx:CreateObservable">
               <Name>LogHarp</Name>
@@ -177,6 +181,7 @@
             <Edge From="17" To="18" Label="Source1" />
             <Edge From="18" To="19" Label="Source1" />
             <Edge From="19" To="20" Label="Source1" />
+            <Edge From="20" To="21" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
