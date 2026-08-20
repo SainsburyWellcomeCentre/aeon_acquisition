@@ -14,10 +14,10 @@
       <Expression xsi:type="rx:PublishSubject" TypeArguments="harp:Timestamped(onix1:HarpSyncInputDataFrame)">
         <rx:Name>OnixHarpSync</rx:Name>
       </Expression>
-      <Expression xsi:type="rx:PublishSubject" TypeArguments="onix1:NeuropixelsV2DataFrame">
+      <Expression xsi:type="rx:PublishSubject" TypeArguments="onix1:NeuropixelsV2eBetaDataFrame">
         <rx:Name>NeuropixelsV2eBetaProbeA</rx:Name>
       </Expression>
-      <Expression xsi:type="rx:PublishSubject" TypeArguments="onix1:NeuropixelsV2DataFrame">
+      <Expression xsi:type="rx:PublishSubject" TypeArguments="onix1:NeuropixelsV2eBetaDataFrame">
         <rx:Name>NeuropixelsV2eBetaProbeB</rx:Name>
       </Expression>
       <Expression xsi:type="rx:PublishSubject" TypeArguments="onix1:Bno055DataFrame">
@@ -289,7 +289,7 @@
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="rx:PublishSubject">
+            <Expression xsi:type="MulticastSubject">
               <Name>NeuropixelsV2eBetaProbeA</Name>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
@@ -335,7 +335,7 @@
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="rx:PublishSubject">
+            <Expression xsi:type="MulticastSubject">
               <Name>NeuropixelsV2eBetaProbeB</Name>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -344,7 +344,7 @@
                 <onix1:PolledRegisters>All</onix1:PolledRegisters>
               </Combinator>
             </Expression>
-            <Expression xsi:type="rx:PublishSubject">
+            <Expression xsi:type="MulticastSubject">
               <Name>NeuropixelsV2eBetaBno055</Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Aeon.Ephys:OnixDeviceMonitor.bonsai" />
