@@ -42,7 +42,7 @@
         <Property Name="Name" DisplayName="BnoDevice" Description="The Bno device to sample from." />
       </Expression>
       <Expression xsi:type="SubscribeSubject">
-        <Name>NeuropixelsV2eBno055</Name>
+        <Name>HeadstageBno055</Name>
       </Expression>
       <Expression xsi:type="MemberSelector">
         <Selector>Clock</Selector>
