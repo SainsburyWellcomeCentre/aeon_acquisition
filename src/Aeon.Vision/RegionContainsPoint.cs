@@ -36,29 +36,40 @@ namespace Aeon.Vision
 
         public IObservable<Timestamped<bool>> Process(IObservable<Timestamped<Point2f>> source)
         {
-            return source.Select(x =>
+            return Observable.Defer(() =>
             {
-                var containsPoint = Contains(Regions, x.Value);
-                return Timestamped.Create(containsPoint, x.Seconds);
+                var regions = Regions;
+                return source.Select(x =>
+                {
+                    var containsPoint = Contains(regions, x.Value);
+                    return Timestamped.Create(containsPoint, x.Seconds);
+                });
             });
         }
 
         public IObservable<Timestamped<bool>> Process(IObservable<Timestamped<ConnectedComponent>> source)
         {
-            return source.Select(x =>
+            return Observable.Defer(() =>
             {
-                var containsPoint = Contains(Regions, x.Value.Centroid);
-                return Timestamped.Create(containsPoint, x.Seconds);
+                var regions = Regions;
+                return source.Select(x =>
+                {
+                    var containsPoint = Contains(regions, x.Value.Centroid);
+                    return Timestamped.Create(containsPoint, x.Seconds);
+                });
             });
         }
 
         public IObservable<Timestamped<bool>> Process(IObservable<Timestamped<ConnectedComponentCollection>> source)
         {
-            return source.Select(x =>
+            return Observable.Defer(() =>
             {
                 var regions = Regions;
-                var containsPoint = x.Value.Any(component => Contains(regions, component.Centroid));
-                return Timestamped.Create(containsPoint, x.Seconds);
+                return source.Select(x =>
+                {
+                    var containsPoint = x.Value.Any(component => Contains(regions, component.Centroid));
+                    return Timestamped.Create(containsPoint, x.Seconds);
+                });
             });
         }
     }
