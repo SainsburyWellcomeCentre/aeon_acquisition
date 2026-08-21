@@ -14,7 +14,9 @@
   
   <ItemGroup>
     <PackageReference Include="Bonsai.Dsp" Version="2.9.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="OpenEphys.Onix1" Version="0.8.0" />
+    <PackageReference Include="YamlDotNet" Version="16.3.0" />
   </ItemGroup>
 
   <ItemGroup>

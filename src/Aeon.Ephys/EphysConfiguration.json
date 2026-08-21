@@ -1,0 +1,665 @@
+{
+  "$defs": {
+    "AutoPortVoltage": {
+      "description": "The headstage port voltage, or auto-negotiation when left unset.",
+      "properties": {
+        "Requested": {
+          "default": null,
+          "description": "Requested port voltage in volts. Leave unset to auto-negotiate.",
+          "title": "Requested",
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "title": "AutoPortVoltage",
+      "type": "object",
+      "x-sgen-typename": "OpenEphys.Onix1.AutoPortVoltage"
+    },
+    "Bno055": {
+      "description": "The BNO055 inertial measurement unit.",
+      "properties": {
+        "Enable": {
+          "default": true,
+          "description": "Whether to acquire orientation data.",
+          "title": "Enable",
+          "type": "boolean"
+        }
+      },
+      "title": "Bno055",
+      "type": "object",
+      "x-sgen-typename": "OpenEphys.Onix1.ConfigureBno055"
+    },
+    "ElectricalStimulator": {
+      "description": "The Headstage64 electrical stimulator.",
+      "properties": {
+        "Arm": {
+          "default": false,
+          "description": "Whether to power the stimulator's supplies and respect triggers.",
+          "title": "Arm",
+          "type": "boolean"
+        },
+        "TriggerDelay": {
+          "default": 0,
+          "description": "Delay from trigger to stimulus, in \u00b5s.",
+          "minimum": 0,
+          "title": "TriggerDelay",
+          "type": "integer"
+        },
+        "PhaseOneDuration": {
+          "default": 0,
+          "description": "Duration of phase one, in \u00b5s.",
+          "minimum": 0,
+          "title": "PhaseOneDuration",
+          "type": "integer"
+        },
+        "PhaseOneCurrent": {
+          "default": 0,
+          "description": "Current during phase one, in \u00b5A.",
+          "title": "PhaseOneCurrent",
+          "type": "number"
+        },
+        "InterPhaseInterval": {
+          "default": 0,
+          "description": "Interval between phases, in \u00b5s.",
+          "minimum": 0,
+          "title": "InterPhaseInterval",
+          "type": "integer"
+        },
+        "InterPhaseCurrent": {
+          "default": 0,
+          "description": "Current between phases, in \u00b5A.",
+          "title": "InterPhaseCurrent",
+          "type": "number"
+        },
+        "PhaseTwoDuration": {
+          "default": 0,
+          "description": "Duration of phase two, in \u00b5s.",
+          "minimum": 0,
+          "title": "PhaseTwoDuration",
+          "type": "integer"
+        },
+        "PhaseTwoCurrent": {
+          "default": 0,
+          "description": "Current during phase two, in \u00b5A.",
+          "title": "PhaseTwoCurrent",
+          "type": "number"
+        },
+        "InterPulseInterval": {
+          "default": 0,
+          "description": "Interval between pulses, in \u00b5s.",
+          "minimum": 0,
+          "title": "InterPulseInterval",
+          "type": "integer"
+        },
+        "BurstPulseCount": {
+          "default": 0,
+          "description": "Number of pulses per burst.",
+          "minimum": 0,
+          "title": "BurstPulseCount",
+          "type": "integer"
+        },
+        "InterBurstInterval": {
+          "default": 0,
+          "description": "Interval between bursts, in \u00b5s.",
+          "minimum": 0,
+          "title": "InterBurstInterval",
+          "type": "integer"
+        },
+        "TrainBurstCount": {
+          "default": 0,
+          "description": "Number of bursts per train.",
+          "minimum": 0,
+          "title": "TrainBurstCount",
+          "type": "integer"
+        }
+      },
+      "title": "ElectricalStimulator",
+      "type": "object",
+      "x-sgen-typename": "OpenEphys.Onix1.ConfigureHeadstage64ElectricalStimulator"
+    },
+    "HarpSyncInput": {
+      "description": "The Harp clock synchronisation input on the ONIX breakout board.",
+      "properties": {
+        "Enable": {
+          "default": true,
+          "description": "Whether to acquire Harp synchronisation data.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "Source": {
+          "$ref": "#/$defs/HarpSyncSource",
+          "description": "The hardware source of the synchronisation signal.",
+          "title": "Source"
+        },
+        "DeviceName": {
+          "default": "BreakoutBoard/HarpSyncInput",
+          "description": "Device name, qualified by the breakout board name.",
+          "title": "DeviceName",
+          "type": "string"
+        },
+        "DeviceAddress": {
+          "default": 12,
+          "description": "Fixed hardware address of the Harp sync input on the breakout board.",
+          "title": "DeviceAddress",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "Source"
+      ],
+      "title": "HarpSyncInput",
+      "type": "object",
+      "x-sgen-typename": "OpenEphys.Onix1.ConfigureHarpSyncInput"
+    },
+    "HarpSyncSource": {
+      "description": "The hardware source of the Harp synchronisation signal.",
+      "enum": [
+        "Breakout",
+        "ClockAdapter"
+      ],
+      "title": "HarpSyncSource",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.HarpSyncSource"
+    },
+    "Headstage": {
+      "description": "Any supported ONIX headstage, selected by its discriminator.",
+      "discriminator": {
+        "mapping": {
+          "Headstage64": "#/$defs/Headstage64",
+          "NeuropixelsV2eBetaHeadstage": "#/$defs/NeuropixelsV2eBetaHeadstage",
+          "NeuropixelsV2eHeadstage": "#/$defs/NeuropixelsV2eHeadstage"
+        },
+        "propertyName": "DiscriminatorType"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/NeuropixelsV2eHeadstage"
+        },
+        {
+          "$ref": "#/$defs/NeuropixelsV2eBetaHeadstage"
+        },
+        {
+          "$ref": "#/$defs/Headstage64"
+        }
+      ],
+      "title": "Headstage"
+    },
+    "Headstage64": {
+      "description": "A 64-channel headstage carrying an RHD2164 amplifier, IMU and stimulators.",
+      "properties": {
+        "Port": {
+          "$ref": "#/$defs/PortName",
+          "default": "PortA",
+          "description": "The breakout-board port the headstage is connected to.",
+          "title": "Port"
+        },
+        "PortVoltage": {
+          "$ref": "#/$defs/AutoPortVoltage",
+          "description": "Port voltage settings for the headstage link.",
+          "title": "PortVoltage"
+        },
+        "BufferSize": {
+          "default": 30,
+          "description": "Number of frames buffered per probe read.",
+          "exclusiveMinimum": 0,
+          "title": "BufferSize",
+          "type": "integer"
+        },
+        "Rhd2164": {
+          "$ref": "#/$defs/Rhd2164",
+          "description": "Configuration for the RHD2164 amplifier."
+        },
+        "Bno055": {
+          "$ref": "#/$defs/Bno055",
+          "description": "Configuration for the inertial measurement unit."
+        },
+        "Ts4231": {
+          "$ref": "#/$defs/TS4231",
+          "description": "Configuration for the optical position sensor.",
+          "title": "Ts4231"
+        },
+        "ElectricalStimulator": {
+          "$ref": "#/$defs/ElectricalStimulator",
+          "description": "Configuration for the electrical stimulator."
+        },
+        "OpticalStimulator": {
+          "$ref": "#/$defs/OpticalStimulator",
+          "description": "Configuration for the optical stimulator."
+        },
+        "DiscriminatorType": {
+          "const": "Headstage64",
+          "default": "Headstage64",
+          "title": "DiscriminatorType",
+          "type": "string"
+        }
+      },
+      "required": [
+        "PortVoltage",
+        "Rhd2164",
+        "Bno055",
+        "Ts4231",
+        "ElectricalStimulator",
+        "OpticalStimulator"
+      ],
+      "title": "Headstage64",
+      "type": "object"
+    },
+    "NeuropixelsV2BetaProbe": {
+      "description": "One of the two probes addressed by a Neuropixels 2.0e beta headstage.",
+      "properties": {
+        "Enable": {
+          "default": false,
+          "description": "Whether to acquire data from this probe.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "EnableLed": {
+          "default": true,
+          "description": "Whether to enable the probe's LED.",
+          "title": "EnableLed",
+          "type": "boolean"
+        },
+        "ProbeConfiguration": {
+          "$ref": "#/$defs/NeuropixelsV2QuadShankProbeConfiguration",
+          "description": "Calibration and reference settings for this probe.",
+          "title": "ProbeConfiguration"
+        }
+      },
+      "required": [
+        "ProbeConfiguration"
+      ],
+      "title": "NeuropixelsV2BetaProbe",
+      "type": "object"
+    },
+    "NeuropixelsV2Probe": {
+      "description": "One of the two probes addressed by a Neuropixels 2.0e headstage.",
+      "properties": {
+        "Enable": {
+          "default": false,
+          "description": "Whether to acquire data from this probe.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "ProbeConfiguration": {
+          "$ref": "#/$defs/NeuropixelsV2QuadShankProbeConfiguration",
+          "description": "Calibration and reference settings for this probe.",
+          "title": "ProbeConfiguration"
+        }
+      },
+      "required": [
+        "ProbeConfiguration"
+      ],
+      "title": "NeuropixelsV2Probe",
+      "type": "object"
+    },
+    "NeuropixelsV2QuadShankProbeConfiguration": {
+      "description": "Per-probe settings for a Neuropixels 2.0 quad-shank probe.",
+      "properties": {
+        "ReferenceSerialized": {
+          "default": "External",
+          "description": "The probe reference to record against: External or Ground.",
+          "examples": [
+            "External",
+            "Ground"
+          ],
+          "title": "ReferenceSerialized",
+          "type": "string"
+        },
+        "InvertPolarity": {
+          "default": true,
+          "description": "Whether to invert the polarity of the recorded signal.",
+          "title": "InvertPolarity",
+          "type": "boolean"
+        },
+        "GainCalibrationFileName": {
+          "default": "",
+          "description": "Path to the gain calibration file supplied with the probe.",
+          "examples": [
+            "NP2_gain_calibration.csv"
+          ],
+          "title": "GainCalibrationFileName",
+          "type": "string"
+        },
+        "ProbeInterfaceFileName": {
+          "default": "",
+          "description": "Path to the ProbeInterface file describing the probe geometry.",
+          "examples": [
+            "NP2_probe_interface.json"
+          ],
+          "title": "ProbeInterfaceFileName",
+          "type": "string"
+        }
+      },
+      "title": "NeuropixelsV2QuadShankProbeConfiguration",
+      "type": "object",
+      "x-sgen-typename": "OpenEphys.Onix1.NeuropixelsV2QuadShankProbeConfiguration"
+    },
+    "NeuropixelsV2eBetaHeadstage": {
+      "description": "A Neuropixels 2.0e beta headstage carrying two quad-shank probes.",
+      "properties": {
+        "Port": {
+          "$ref": "#/$defs/PortName",
+          "default": "PortA",
+          "description": "The breakout-board port the headstage is connected to.",
+          "title": "Port"
+        },
+        "PortVoltage": {
+          "$ref": "#/$defs/AutoPortVoltage",
+          "description": "Port voltage settings for the headstage link.",
+          "title": "PortVoltage"
+        },
+        "BufferSize": {
+          "default": 30,
+          "description": "Number of frames buffered per probe read.",
+          "exclusiveMinimum": 0,
+          "title": "BufferSize",
+          "type": "integer"
+        },
+        "TrackingLed": {
+          "default": false,
+          "description": "Whether to enable the headstage's tracking LED.",
+          "title": "TrackingLed",
+          "type": "boolean"
+        },
+        "ProbeA": {
+          "$ref": "#/$defs/NeuropixelsV2BetaProbe",
+          "description": "Configuration for probe A.",
+          "title": "ProbeA"
+        },
+        "ProbeB": {
+          "$ref": "#/$defs/NeuropixelsV2BetaProbe",
+          "description": "Configuration for probe B.",
+          "title": "ProbeB"
+        },
+        "DiscriminatorType": {
+          "const": "NeuropixelsV2eBetaHeadstage",
+          "default": "NeuropixelsV2eBetaHeadstage",
+          "title": "DiscriminatorType",
+          "type": "string"
+        }
+      },
+      "required": [
+        "PortVoltage",
+        "ProbeA",
+        "ProbeB"
+      ],
+      "title": "NeuropixelsV2eBetaHeadstage",
+      "type": "object"
+    },
+    "NeuropixelsV2eHeadstage": {
+      "description": "A Neuropixels 2.0e headstage carrying two quad-shank probes.",
+      "properties": {
+        "Port": {
+          "$ref": "#/$defs/PortName",
+          "default": "PortA",
+          "description": "The breakout-board port the headstage is connected to.",
+          "title": "Port"
+        },
+        "PortVoltage": {
+          "$ref": "#/$defs/AutoPortVoltage",
+          "description": "Port voltage settings for the headstage link.",
+          "title": "PortVoltage"
+        },
+        "BufferSize": {
+          "default": 30,
+          "description": "Number of frames buffered per probe read.",
+          "exclusiveMinimum": 0,
+          "title": "BufferSize",
+          "type": "integer"
+        },
+        "ProbeA": {
+          "$ref": "#/$defs/NeuropixelsV2Probe",
+          "description": "Configuration for probe A.",
+          "title": "ProbeA"
+        },
+        "ProbeB": {
+          "$ref": "#/$defs/NeuropixelsV2Probe",
+          "description": "Configuration for probe B.",
+          "title": "ProbeB"
+        },
+        "DiscriminatorType": {
+          "const": "NeuropixelsV2eHeadstage",
+          "default": "NeuropixelsV2eHeadstage",
+          "title": "DiscriminatorType",
+          "type": "string"
+        }
+      },
+      "required": [
+        "PortVoltage",
+        "ProbeA",
+        "ProbeB"
+      ],
+      "title": "NeuropixelsV2eHeadstage",
+      "type": "object"
+    },
+    "OpticalStimulator": {
+      "description": "The Headstage64 optical stimulator.",
+      "properties": {
+        "Arm": {
+          "default": true,
+          "description": "Whether the stimulator should respect triggers.",
+          "title": "Arm",
+          "type": "boolean"
+        },
+        "MaxCurrent": {
+          "default": 100,
+          "description": "Maximum current per channel, in mA.",
+          "title": "MaxCurrent",
+          "type": "number"
+        },
+        "ChannelOneCurrent": {
+          "default": 100,
+          "description": "Percentage of maximum current on channel one.",
+          "title": "ChannelOneCurrent",
+          "type": "number"
+        },
+        "ChannelTwoCurrent": {
+          "default": 0,
+          "description": "Percentage of maximum current on channel two.",
+          "title": "ChannelTwoCurrent",
+          "type": "number"
+        },
+        "Delay": {
+          "default": 0,
+          "description": "Delay from trigger to stimulus, in ms.",
+          "title": "Delay",
+          "type": "number"
+        },
+        "PulseDuration": {
+          "default": 5,
+          "description": "Duration of each pulse, in ms.",
+          "title": "PulseDuration",
+          "type": "number"
+        },
+        "PulsesPerSecond": {
+          "default": 50,
+          "description": "Pulse frequency within a burst, in Hz.",
+          "title": "PulsesPerSecond",
+          "type": "number"
+        },
+        "PulsesPerBurst": {
+          "default": 20,
+          "description": "Number of pulses per burst.",
+          "minimum": 0,
+          "title": "PulsesPerBurst",
+          "type": "integer"
+        },
+        "BurstsPerTrain": {
+          "default": 1,
+          "description": "Number of bursts per train.",
+          "minimum": 0,
+          "title": "BurstsPerTrain",
+          "type": "integer"
+        },
+        "InterBurstInterval": {
+          "default": 0,
+          "description": "Interval between bursts, in ms.",
+          "title": "InterBurstInterval",
+          "type": "number"
+        }
+      },
+      "title": "OpticalStimulator",
+      "type": "object",
+      "x-sgen-typename": "OpenEphys.Onix1.ConfigureHeadstage64OpticalStimulator"
+    },
+    "PortName": {
+      "description": "The headstage port on the ONIX breakout board.",
+      "enum": [
+        "PortA",
+        "PortB"
+      ],
+      "title": "PortName",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.PortName"
+    },
+    "Rhd2000AnalogHighCutoff": {
+      "description": "Upper cutoff frequency of the RHD2164 analog bandwidth filter.",
+      "enum": [
+        "High20000Hz",
+        "High15000Hz",
+        "High10000Hz",
+        "High7500Hz",
+        "High5000Hz",
+        "High3000Hz",
+        "High2500Hz",
+        "High2000Hz",
+        "High1500Hz",
+        "High1000Hz",
+        "High750Hz",
+        "High500Hz",
+        "High300Hz",
+        "High250Hz",
+        "High200Hz",
+        "High150Hz",
+        "High100Hz"
+      ],
+      "title": "Rhd2000AnalogHighCutoff",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.Rhd2000AnalogHighCutoff"
+    },
+    "Rhd2000AnalogLowCutoff": {
+      "description": "Lower cutoff frequency of the RHD2164 analog bandwidth filter.",
+      "enum": [
+        "Low500Hz",
+        "Low300Hz",
+        "Low250Hz",
+        "Low200Hz",
+        "Low150Hz",
+        "Low100Hz",
+        "Low75Hz",
+        "Low50Hz",
+        "Low30Hz",
+        "Low25Hz",
+        "Low20Hz",
+        "Low15Hz",
+        "Low10Hz",
+        "Low7500mHz",
+        "Low5000mHz",
+        "Low3000mHz",
+        "Low2500mHz",
+        "Low2000mHz",
+        "Low1500mHz",
+        "Low1000mHz",
+        "Low750mHz",
+        "Low500mHz",
+        "Low300mHz",
+        "Low250mHz",
+        "Low100mHz"
+      ],
+      "title": "Rhd2000AnalogLowCutoff",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.Rhd2000AnalogLowCutoff"
+    },
+    "Rhd2000DspCutoff": {
+      "description": "Cutoff frequency of the RHD2164 DSP high-pass filter, or `OFF` to disable it.",
+      "enum": [
+        "Differential",
+        "Dsp3309Hz",
+        "Dsp1374Hz",
+        "Dsp638Hz",
+        "Dsp308Hz",
+        "Dsp152Hz",
+        "Dsp75Hz",
+        "Dsp37Hz",
+        "Dsp19Hz",
+        "Dsp9336mHz",
+        "Dsp4665mHz",
+        "Dsp2332mHz",
+        "Dsp1166mHz",
+        "Dsp583mHz",
+        "Dsp291mHz",
+        "Dsp146mHz",
+        "Off"
+      ],
+      "title": "Rhd2000DspCutoff",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.Rhd2000DspCutoff"
+    },
+    "Rhd2164": {
+      "description": "The RHD2164 64-channel electrophysiology amplifier.",
+      "properties": {
+        "Enable": {
+          "default": true,
+          "description": "Whether to acquire data from the amplifier.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "AnalogHighCutoff": {
+          "$ref": "#/$defs/Rhd2000AnalogHighCutoff",
+          "default": "High10000Hz",
+          "description": "Upper cutoff frequency of the analog bandwidth filter.",
+          "title": "AnalogHighCutoff"
+        },
+        "AnalogLowCutoff": {
+          "$ref": "#/$defs/Rhd2000AnalogLowCutoff",
+          "default": "Low100mHz",
+          "description": "Lower cutoff frequency of the analog bandwidth filter.",
+          "title": "AnalogLowCutoff"
+        },
+        "DspCutoff": {
+          "$ref": "#/$defs/Rhd2000DspCutoff",
+          "default": "Off",
+          "description": "Cutoff frequency of the DSP high-pass filter.",
+          "title": "DspCutoff"
+        }
+      },
+      "title": "Rhd2164",
+      "type": "object",
+      "x-sgen-typename": "OpenEphys.Onix1.ConfigureRhd2164"
+    },
+    "TS4231": {
+      "description": "An array of TS4231 lighthouse receivers for 3D position tracking.",
+      "properties": {
+        "Enable": {
+          "default": true,
+          "description": "Whether to acquire position data.",
+          "title": "Enable",
+          "type": "boolean"
+        }
+      },
+      "title": "TS4231",
+      "type": "object",
+      "x-sgen-typename": "OpenEphys.Onix1.ConfigureTS4231V1"
+    }
+  },
+  "description": "Top-level ONIX electrophysiology configuration loaded from YAML.",
+  "properties": {
+    "Headstage": {
+      "$ref": "#/$defs/Headstage",
+      "description": "Configuration for the connected headstage."
+    },
+    "HarpInput": {
+      "$ref": "#/$defs/HarpSyncInput",
+      "description": "Configuration for the breakout board's Harp synchronisation input.",
+      "title": "HarpInput"
+    }
+  },
+  "required": [
+    "Headstage",
+    "HarpInput"
+  ],
+  "title": "EphysConfiguration",
+  "type": "object"
+}
