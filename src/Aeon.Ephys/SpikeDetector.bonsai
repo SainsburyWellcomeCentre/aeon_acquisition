@@ -11,7 +11,7 @@
         <Property Name="Name" DisplayName="Probe" Description="The probe to detect spikes on." />
       </Expression>
       <Expression xsi:type="SubscribeSubject">
-        <Name>NeuropixelsV2eBetaProbeB</Name>
+        <Name>ProbeB</Name>
       </Expression>
       <Expression xsi:type="MemberSelector">
         <Selector>AmplifierData</Selector>

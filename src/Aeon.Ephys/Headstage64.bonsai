@@ -2,439 +2,252 @@
 <WorkflowBuilder Version="2.9.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
-                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:p1="clr-namespace:Aeon.Ephys;assembly=Aeon.Ephys"
                  xmlns:onix1="clr-namespace:OpenEphys.Onix1;assembly=OpenEphys.Onix1"
                  xmlns="https://bonsai-rx.org/2018/workflow">
-  <Description>Contains control and acquisition functionality for an ONIX multifunction 64-channel headstage.
-</Description>
   <Workflow>
     <Nodes>
-      <Expression xsi:type="rx:PublishSubject" TypeArguments="harp:Timestamped(onix1:HarpSyncInputDataFrame)">
-        <rx:Name>OnixHarpSync</rx:Name>
-      </Expression>
-      <Expression xsi:type="rx:PublishSubject" TypeArguments="onix1:MemoryMonitorDataFrame">
-        <rx:Name>OnixMemoryUsage</rx:Name>
-      </Expression>
-      <Expression xsi:type="rx:PublishSubject" TypeArguments="onix1:Rhd2000DataFrame">
-        <rx:Name>Headstage64Rhd2164</rx:Name>
-      </Expression>
-      <Expression xsi:type="rx:PublishSubject" TypeArguments="onix1:Bno055DataFrame">
-        <rx:Name>Headstage64Bno055</rx:Name>
-      </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Value" DisplayName="OpticalStimulator" />
-      </Expression>
-      <Expression xsi:type="PropertySource" TypeArguments="onix1:ConfigureHeadstage64,onix1:ConfigureHeadstage64OpticalStimulator">
-        <MemberName>OpticalStimulator</MemberName>
-        <Value>
-          <DeviceName>Headstage64/Headstage64OpticalStimulator</DeviceName>
-          <DeviceAddress>260</DeviceAddress>
-          <Arm>true</Arm>
-          <Delay>0</Delay>
-          <MaxCurrent>100</MaxCurrent>
-          <ChannelOneCurrent>100</ChannelOneCurrent>
-          <ChannelTwoCurrent>0</ChannelTwoCurrent>
-          <PulseDuration>5</PulseDuration>
-          <PulsesPerSecond>50</PulsesPerSecond>
-          <PulsesPerBurst>20</PulsesPerBurst>
-          <InterBurstInterval>0</InterBurstInterval>
-          <BurstsPerTrain>1</BurstsPerTrain>
-        </Value>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Take">
-          <rx:Count>1</rx:Count>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="rx:AsyncSubject">
-        <Name>OpticalStimulatorHeadstage64Config</Name>
-      </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Value" DisplayName="ElectricalStimulator" />
-      </Expression>
-      <Expression xsi:type="PropertySource" TypeArguments="onix1:ConfigureHeadstage64,onix1:ConfigureHeadstage64ElectricalStimulator">
-        <MemberName>ElectricalStimulator</MemberName>
-        <Value>
-          <DeviceName>Headstage64/Headstage64ElectricalStimulator</DeviceName>
-          <DeviceAddress>259</DeviceAddress>
-          <Arm>false</Arm>
-          <TriggerDelay>0</TriggerDelay>
-          <PhaseOneCurrent>0</PhaseOneCurrent>
-          <InterPhaseCurrent>0</InterPhaseCurrent>
-          <PhaseTwoCurrent>0</PhaseTwoCurrent>
-          <PhaseOneDuration>0</PhaseOneDuration>
-          <InterPhaseInterval>0</InterPhaseInterval>
-          <PhaseTwoDuration>0</PhaseTwoDuration>
-          <InterPulseInterval>0</InterPulseInterval>
-          <InterBurstInterval>0</InterBurstInterval>
-          <BurstPulseCount>0</BurstPulseCount>
-          <TrainBurstCount>0</TrainBurstCount>
-        </Value>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Take">
-          <rx:Count>1</rx:Count>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="rx:AsyncSubject">
-        <Name>ElectricalStimulatorHeadstage64Config</Name>
-      </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Value" DisplayName="TS4231" />
-      </Expression>
-      <Expression xsi:type="PropertySource" TypeArguments="onix1:ConfigureHeadstage64,onix1:ConfigureTS4231V1">
-        <MemberName>TS4231</MemberName>
-        <Value>
-          <DeviceName>Headstage64/TS4231V1</DeviceName>
-          <DeviceAddress>258</DeviceAddress>
-          <Enable>false</Enable>
-        </Value>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Take">
-          <rx:Count>1</rx:Count>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="rx:AsyncSubject">
-        <Name>TS4231Headstage64Config</Name>
-      </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Value" DisplayName="Bno055" />
-      </Expression>
-      <Expression xsi:type="PropertySource" TypeArguments="onix1:ConfigureHeadstage64,onix1:ConfigureBno055">
-        <MemberName>Bno055</MemberName>
-        <Value>
-          <DeviceName>Headstage64/Bno055</DeviceName>
-          <DeviceAddress>257</DeviceAddress>
-          <Enable>true</Enable>
-        </Value>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Take">
-          <rx:Count>1</rx:Count>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="rx:AsyncSubject">
-        <Name>Bno055Headstage64Config</Name>
-      </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Value" DisplayName="Rhd2164" />
-      </Expression>
-      <Expression xsi:type="PropertySource" TypeArguments="onix1:ConfigureHeadstage64,onix1:ConfigureRhd2164">
-        <MemberName>Rhd2164</MemberName>
-        <Value>
-          <DeviceName>Headstage64/Rhd2164</DeviceName>
-          <DeviceAddress>256</DeviceAddress>
-          <Enable>true</Enable>
-          <DspCutoff>Off</DspCutoff>
-          <AnalogLowCutoff>Low100mHz</AnalogLowCutoff>
-          <AnalogHighCutoff>High10000Hz</AnalogHighCutoff>
-        </Value>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Take">
-          <rx:Count>1</rx:Count>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="rx:AsyncSubject">
-        <Name>Rhd2164Headstage64Config</Name>
-      </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>OpticalStimulatorHeadstage64Config</Name>
-      </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>ElectricalStimulatorHeadstage64Config</Name>
-      </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>TS4231Headstage64Config</Name>
-      </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>Bno055Headstage64Config</Name>
-      </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>Rhd2164Headstage64Config</Name>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Zip" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Take">
-          <rx:Count>1</rx:Count>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="HarpInput" />
-        <Property Name="Port" />
-        <Property Name="PortVoltage" />
-        <Property Name="BufferSize" />
+      <Expression xsi:type="WorkflowInput">
+        <Name>Source1</Name>
       </Expression>
       <Expression xsi:type="rx:SelectMany">
-        <Name>EphysAcquisition</Name>
+        <Name>64ChannelHeadstage</Name>
+        <Description>Contains control and acquisition functionality for an ONIX multifunction 64-channel headstage.
+</Description>
         <Workflow>
           <Nodes>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="onix1:CreateContext">
-                <onix1:Driver>riffa</onix1:Driver>
-                <onix1:Index>0</onix1:Index>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="ExternalizedMapping">
-              <Property Name="HarpInput" />
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="onix1:ConfigureBreakoutBoard">
-                <onix1:Name>BreakoutBoard</onix1:Name>
-                <onix1:Heartbeat>
-                  <onix1:DeviceName>BreakoutBoard/PersistentHeartbeat</onix1:DeviceName>
-                  <onix1:DeviceAddress>0</onix1:DeviceAddress>
-                  <onix1:BeatsPerSecond>100</onix1:BeatsPerSecond>
-                </onix1:Heartbeat>
-                <onix1:AnalogIO>
-                  <onix1:DeviceName>BreakoutBoard/AnalogIO</onix1:DeviceName>
-                  <onix1:DeviceAddress>6</onix1:DeviceAddress>
-                  <onix1:Enable>false</onix1:Enable>
-                  <onix1:InputRange0>TenVolts</onix1:InputRange0>
-                  <onix1:InputRange1>TenVolts</onix1:InputRange1>
-                  <onix1:InputRange2>TenVolts</onix1:InputRange2>
-                  <onix1:InputRange3>TenVolts</onix1:InputRange3>
-                  <onix1:InputRange4>TenVolts</onix1:InputRange4>
-                  <onix1:InputRange5>TenVolts</onix1:InputRange5>
-                  <onix1:InputRange6>TenVolts</onix1:InputRange6>
-                  <onix1:InputRange7>TenVolts</onix1:InputRange7>
-                  <onix1:InputRange8>TenVolts</onix1:InputRange8>
-                  <onix1:InputRange9>TenVolts</onix1:InputRange9>
-                  <onix1:InputRange10>TenVolts</onix1:InputRange10>
-                  <onix1:InputRange11>TenVolts</onix1:InputRange11>
-                  <onix1:Direction0>Input</onix1:Direction0>
-                  <onix1:Direction1>Input</onix1:Direction1>
-                  <onix1:Direction2>Input</onix1:Direction2>
-                  <onix1:Direction3>Input</onix1:Direction3>
-                  <onix1:Direction4>Input</onix1:Direction4>
-                  <onix1:Direction5>Input</onix1:Direction5>
-                  <onix1:Direction6>Input</onix1:Direction6>
-                  <onix1:Direction7>Input</onix1:Direction7>
-                  <onix1:Direction8>Input</onix1:Direction8>
-                  <onix1:Direction9>Input</onix1:Direction9>
-                  <onix1:Direction10>Input</onix1:Direction10>
-                  <onix1:Direction11>Input</onix1:Direction11>
-                </onix1:AnalogIO>
-                <onix1:DigitalIO>
-                  <onix1:DeviceName>BreakoutBoard/DigitalIO</onix1:DeviceName>
-                  <onix1:DeviceAddress>7</onix1:DeviceAddress>
-                  <onix1:Enable>true</onix1:Enable>
-                  <onix1:DeadTime>0</onix1:DeadTime>
-                  <onix1:SampleRate xsi:nil="true" />
-                </onix1:DigitalIO>
-                <onix1:ClockOutput>
-                  <onix1:DeviceName>BreakoutBoard/OutputClock</onix1:DeviceName>
-                  <onix1:DeviceAddress>5</onix1:DeviceAddress>
-                  <onix1:ClockGate>false</onix1:ClockGate>
-                  <onix1:Frequency>1000000</onix1:Frequency>
-                  <onix1:DutyCycle>50</onix1:DutyCycle>
-                  <onix1:Delay>0</onix1:Delay>
-                </onix1:ClockOutput>
-                <onix1:HarpInput>
-                  <onix1:DeviceName>BreakoutBoard/HarpSyncInput</onix1:DeviceName>
-                  <onix1:DeviceAddress>12</onix1:DeviceAddress>
-                  <onix1:Enable>true</onix1:Enable>
-                  <onix1:Source>ClockAdapter</onix1:Source>
-                </onix1:HarpInput>
-                <onix1:MemoryMonitor>
-                  <onix1:DeviceName>BreakoutBoard/MemoryMonitor</onix1:DeviceName>
-                  <onix1:DeviceAddress>10</onix1:DeviceAddress>
-                  <onix1:Enable>true</onix1:Enable>
-                  <onix1:SamplesPerSecond>10</onix1:SamplesPerSecond>
-                </onix1:MemoryMonitor>
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
               </Combinator>
             </Expression>
-            <Expression xsi:type="ExternalizedMapping">
-              <Property Name="Port" />
-              <Property Name="PortVoltage" />
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p1:Configure64ChannelHeadstageDevices" />
+            </Expression>
+            <Expression xsi:type="rx:AsyncSubject">
+              <Name>EphysConfig</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>BufferSize</Selector>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
-              <Name>Bno055Headstage64Config</Name>
+              <Name>EphysConfig</Name>
             </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="Bno055" />
-              </PropertyMappings>
+            <Expression xsi:type="rx:SelectMany">
+              <Name>GrabContext</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>EphysContext</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                </Edges>
+              </Workflow>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TS4231Headstage64Config</Name>
+            <Expression xsi:type="rx:SelectMany">
+              <Name>Acquisition</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>EphysConfig</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>BufferSize</Selector>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>ReadBufferSize</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>EphysConfig</Name>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="Bno055" Selector="Bno055" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>EphysConfig</Name>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="TS4231" Selector="Ts4231" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>EphysConfig</Name>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="Rhd2164" Selector="Rhd2164" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>EphysConfig</Name>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="ElectricalStimulator" Selector="ElectricalStimulator" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>EphysConfig</Name>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="OpticalStimulator" Selector="OpticalStimulator" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>EphysConfig</Name>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="Port" Selector="Port" />
+                      <Property Name="PortVoltage" Selector="PortVoltage" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="onix1:ConfigureHeadstage64">
+                      <onix1:Name>Headstage64</onix1:Name>
+                      <onix1:Rhd2164>
+                        <onix1:DeviceName>Headstage64/Rhd2164</onix1:DeviceName>
+                        <onix1:DeviceAddress>256</onix1:DeviceAddress>
+                        <onix1:Enable>true</onix1:Enable>
+                        <onix1:DspCutoff>Off</onix1:DspCutoff>
+                        <onix1:AnalogLowCutoff>Low100mHz</onix1:AnalogLowCutoff>
+                        <onix1:AnalogHighCutoff>High10000Hz</onix1:AnalogHighCutoff>
+                      </onix1:Rhd2164>
+                      <onix1:Bno055>
+                        <onix1:DeviceName>Headstage64/Bno055</onix1:DeviceName>
+                        <onix1:DeviceAddress>257</onix1:DeviceAddress>
+                        <onix1:Enable>true</onix1:Enable>
+                      </onix1:Bno055>
+                      <onix1:TS4231>
+                        <onix1:DeviceName>Headstage64/Ts4231</onix1:DeviceName>
+                        <onix1:DeviceAddress>258</onix1:DeviceAddress>
+                        <onix1:Enable>false</onix1:Enable>
+                      </onix1:TS4231>
+                      <onix1:ElectricalStimulator>
+                        <onix1:DeviceName>Headstage64/ElectricalStimulator</onix1:DeviceName>
+                        <onix1:DeviceAddress>259</onix1:DeviceAddress>
+                        <onix1:Arm>false</onix1:Arm>
+                        <onix1:TriggerDelay>0</onix1:TriggerDelay>
+                        <onix1:PhaseOneCurrent>0</onix1:PhaseOneCurrent>
+                        <onix1:InterPhaseCurrent>0</onix1:InterPhaseCurrent>
+                        <onix1:PhaseTwoCurrent>0</onix1:PhaseTwoCurrent>
+                        <onix1:PhaseOneDuration>0</onix1:PhaseOneDuration>
+                        <onix1:InterPhaseInterval>0</onix1:InterPhaseInterval>
+                        <onix1:PhaseTwoDuration>0</onix1:PhaseTwoDuration>
+                        <onix1:InterPulseInterval>0</onix1:InterPulseInterval>
+                        <onix1:InterBurstInterval>0</onix1:InterBurstInterval>
+                        <onix1:BurstPulseCount>0</onix1:BurstPulseCount>
+                        <onix1:TrainBurstCount>0</onix1:TrainBurstCount>
+                      </onix1:ElectricalStimulator>
+                      <onix1:OpticalStimulator>
+                        <onix1:DeviceName>Headstage64/OpticalStimulator</onix1:DeviceName>
+                        <onix1:DeviceAddress>260</onix1:DeviceAddress>
+                        <onix1:Arm>false</onix1:Arm>
+                        <onix1:Delay>0</onix1:Delay>
+                        <onix1:MaxCurrent>100</onix1:MaxCurrent>
+                        <onix1:ChannelOneCurrent>100</onix1:ChannelOneCurrent>
+                        <onix1:ChannelTwoCurrent>0</onix1:ChannelTwoCurrent>
+                        <onix1:PulseDuration>5</onix1:PulseDuration>
+                        <onix1:PulsesPerSecond>50</onix1:PulsesPerSecond>
+                        <onix1:PulsesPerBurst>20</onix1:PulsesPerBurst>
+                        <onix1:InterBurstInterval>0</onix1:InterBurstInterval>
+                        <onix1:BurstsPerTrain>1</onix1:BurstsPerTrain>
+                      </onix1:OpticalStimulator>
+                      <onix1:Port>PortA</onix1:Port>
+                      <onix1:PortVoltage>
+                        <onix1:Requested>8</onix1:Requested>
+                      </onix1:PortVoltage>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="onix1:StartAcquisition">
+                      <onix1:ReadSize>4096</onix1:ReadSize>
+                      <onix1:WriteSize>2048</onix1:WriteSize>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>ReadBufferSize</Name>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="BufferSize" Selector="it" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="onix1:Rhd2164Data">
+                      <onix1:DeviceName>Headstage64/Rhd2164</onix1:DeviceName>
+                      <onix1:BufferSize>3000</onix1:BufferSize>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p1:ConvertToEphysFrame" />
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>ProbeA</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="onix1:Bno055Data">
+                      <onix1:DeviceName>Headstage64/Bno055</onix1:DeviceName>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>HeadstageBno055</Name>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="3" To="16" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="16" Label="Source2" />
+                  <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="7" To="16" Label="Source3" />
+                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="9" To="16" Label="Source4" />
+                  <Edge From="10" To="11" Label="Source1" />
+                  <Edge From="11" To="16" Label="Source5" />
+                  <Edge From="12" To="13" Label="Source1" />
+                  <Edge From="13" To="16" Label="Source6" />
+                  <Edge From="14" To="15" Label="Source1" />
+                  <Edge From="15" To="16" Label="Source7" />
+                  <Edge From="16" To="17" Label="Source1" />
+                  <Edge From="18" To="19" Label="Source1" />
+                  <Edge From="19" To="20" Label="Source1" />
+                  <Edge From="20" To="21" Label="Source1" />
+                  <Edge From="21" To="22" Label="Source1" />
+                  <Edge From="23" To="24" Label="Source1" />
+                </Edges>
+              </Workflow>
             </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="TS4231" />
-              </PropertyMappings>
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>Rhd2164Headstage64Config</Name>
-            </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="Rhd2164" />
-              </PropertyMappings>
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>ElectricalStimulatorHeadstage64Config</Name>
-            </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="ElectricalStimulator" />
-              </PropertyMappings>
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>OpticalStimulatorHeadstage64Config</Name>
-            </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="OpticalStimulator" />
-              </PropertyMappings>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="onix1:ConfigureHeadstage64">
-                <onix1:Name>Headstage64</onix1:Name>
-                <onix1:Rhd2164>
-                  <onix1:DeviceName>Headstage64/Rhd2164</onix1:DeviceName>
-                  <onix1:DeviceAddress>256</onix1:DeviceAddress>
-                  <onix1:Enable>true</onix1:Enable>
-                  <onix1:DspCutoff>Off</onix1:DspCutoff>
-                  <onix1:AnalogLowCutoff>Low100mHz</onix1:AnalogLowCutoff>
-                  <onix1:AnalogHighCutoff>High10000Hz</onix1:AnalogHighCutoff>
-                </onix1:Rhd2164>
-                <onix1:Bno055>
-                  <onix1:DeviceName>Headstage64/Bno055</onix1:DeviceName>
-                  <onix1:DeviceAddress>257</onix1:DeviceAddress>
-                  <onix1:Enable>true</onix1:Enable>
-                </onix1:Bno055>
-                <onix1:TS4231>
-                  <onix1:DeviceName>Headstage64/TS4231V1</onix1:DeviceName>
-                  <onix1:DeviceAddress>258</onix1:DeviceAddress>
-                  <onix1:Enable>false</onix1:Enable>
-                </onix1:TS4231>
-                <onix1:ElectricalStimulator>
-                  <onix1:DeviceName>Headstage64/Headstage64ElectricalStimulator</onix1:DeviceName>
-                  <onix1:DeviceAddress>259</onix1:DeviceAddress>
-                  <onix1:Arm>false</onix1:Arm>
-                  <onix1:TriggerDelay>0</onix1:TriggerDelay>
-                  <onix1:PhaseOneCurrent>0</onix1:PhaseOneCurrent>
-                  <onix1:InterPhaseCurrent>0</onix1:InterPhaseCurrent>
-                  <onix1:PhaseTwoCurrent>0</onix1:PhaseTwoCurrent>
-                  <onix1:PhaseOneDuration>0</onix1:PhaseOneDuration>
-                  <onix1:InterPhaseInterval>0</onix1:InterPhaseInterval>
-                  <onix1:PhaseTwoDuration>0</onix1:PhaseTwoDuration>
-                  <onix1:InterPulseInterval>0</onix1:InterPulseInterval>
-                  <onix1:InterBurstInterval>0</onix1:InterBurstInterval>
-                  <onix1:BurstPulseCount>0</onix1:BurstPulseCount>
-                  <onix1:TrainBurstCount>0</onix1:TrainBurstCount>
-                </onix1:ElectricalStimulator>
-                <onix1:OpticalStimulator>
-                  <onix1:DeviceName>Headstage64/Headstage64OpticalStimulator</onix1:DeviceName>
-                  <onix1:DeviceAddress>260</onix1:DeviceAddress>
-                  <onix1:Arm>true</onix1:Arm>
-                  <onix1:Delay>0</onix1:Delay>
-                  <onix1:MaxCurrent>100</onix1:MaxCurrent>
-                  <onix1:ChannelOneCurrent>100</onix1:ChannelOneCurrent>
-                  <onix1:ChannelTwoCurrent>0</onix1:ChannelTwoCurrent>
-                  <onix1:PulseDuration>5</onix1:PulseDuration>
-                  <onix1:PulsesPerSecond>50</onix1:PulsesPerSecond>
-                  <onix1:PulsesPerBurst>20</onix1:PulsesPerBurst>
-                  <onix1:InterBurstInterval>0</onix1:InterBurstInterval>
-                  <onix1:BurstsPerTrain>1</onix1:BurstsPerTrain>
-                </onix1:OpticalStimulator>
-                <onix1:Port>PortA</onix1:Port>
-                <onix1:PortVoltage>
-                  <onix1:Requested>8.2</onix1:Requested>
-                </onix1:PortVoltage>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="onix1:StartAcquisition">
-                <onix1:ReadSize>4096</onix1:ReadSize>
-                <onix1:WriteSize>2048</onix1:WriteSize>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="ExternalizedMapping">
-              <Property Name="Value" DisplayName="BufferSize" Description="The read buffer size of the Intan Rhd2164 bioacquisition chip." Category="Configuration" />
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="IntProperty">
-                <Value>3000</Value>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="BufferSize" />
-              </PropertyMappings>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="onix1:Rhd2164Data">
-                <onix1:DeviceName>Headstage64/Rhd2164</onix1:DeviceName>
-                <onix1:BufferSize>30</onix1:BufferSize>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="MulticastSubject">
-              <Name>Headstage64Rhd2164</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="onix1:Bno055Data">
-                <onix1:DeviceName>Headstage64/Bno055</onix1:DeviceName>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="MulticastSubject">
-              <Name>Headstage64Bno055</Name>
-            </Expression>
-            <Expression xsi:type="IncludeWorkflow" Path="Aeon.Ephys:OnixDeviceMonitor.bonsai" />
           </Nodes>
           <Edges>
-            <Edge From="0" To="2" Label="Source1" />
-            <Edge From="1" To="2" Label="Source2" />
-            <Edge From="2" To="14" Label="Source1" />
-            <Edge From="3" To="14" Label="Source2" />
-            <Edge From="4" To="5" Label="Source1" />
-            <Edge From="5" To="14" Label="Source3" />
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
             <Edge From="6" To="7" Label="Source1" />
-            <Edge From="7" To="14" Label="Source4" />
-            <Edge From="8" To="9" Label="Source1" />
-            <Edge From="9" To="14" Label="Source5" />
-            <Edge From="10" To="11" Label="Source1" />
-            <Edge From="11" To="14" Label="Source6" />
-            <Edge From="12" To="13" Label="Source1" />
-            <Edge From="13" To="14" Label="Source7" />
-            <Edge From="14" To="15" Label="Source1" />
-            <Edge From="16" To="17" Label="Source1" />
-            <Edge From="17" To="18" Label="Source1" />
-            <Edge From="18" To="19" Label="Source1" />
-            <Edge From="19" To="20" Label="Source1" />
-            <Edge From="21" To="22" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
+      <Expression xsi:type="WorkflowOutput" />
     </Nodes>
     <Edges>
-      <Edge From="4" To="5" Label="Source1" />
-      <Edge From="5" To="6" Label="Source1" />
-      <Edge From="6" To="7" Label="Source1" />
-      <Edge From="8" To="9" Label="Source1" />
-      <Edge From="9" To="10" Label="Source1" />
-      <Edge From="10" To="11" Label="Source1" />
-      <Edge From="12" To="13" Label="Source1" />
-      <Edge From="13" To="14" Label="Source1" />
-      <Edge From="14" To="15" Label="Source1" />
-      <Edge From="16" To="17" Label="Source1" />
-      <Edge From="17" To="18" Label="Source1" />
-      <Edge From="18" To="19" Label="Source1" />
-      <Edge From="20" To="21" Label="Source1" />
-      <Edge From="21" To="22" Label="Source1" />
-      <Edge From="22" To="23" Label="Source1" />
-      <Edge From="24" To="29" Label="Source1" />
-      <Edge From="25" To="29" Label="Source2" />
-      <Edge From="26" To="29" Label="Source3" />
-      <Edge From="27" To="29" Label="Source4" />
-      <Edge From="28" To="29" Label="Source5" />
-      <Edge From="29" To="30" Label="Source1" />
-      <Edge From="30" To="32" Label="Source1" />
-      <Edge From="31" To="32" Label="Source2" />
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="2" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
