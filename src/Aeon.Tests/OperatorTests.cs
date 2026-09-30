@@ -1,6 +1,5 @@
 ﻿using Aeon.Acquisition;
 using Aeon.Environment;
-using Aeon.Ephys;
 using Aeon.Foraging;
 using Aeon.Tether.Translation;
 using Aeon.Video;
@@ -22,7 +21,7 @@ namespace Aeon.Tests
             var foraging = typeof(WheelDisplacement).Assembly;
             var vision = typeof(DistanceFromPoint).Assembly;
             var sleap = typeof(FormatPose).Assembly;
-            var ephys = typeof(ConvertToHarpTimestamp).Assembly;
+            var ephys = Assembly.Load("Aeon.Ephys");
             var commutation = Assembly.Load("Aeon.Tether.Commutation");
             var translation = typeof(OptimalDrivePosition).Assembly;
             AssertWorkflow.CanLoadEmbeddedResources(acquisition);
