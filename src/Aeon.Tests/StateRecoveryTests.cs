@@ -65,10 +65,7 @@ namespace Aeon.Tests
             }
         }
 
-        // EnvironmentState has the same defect as EnvironmentSubjectState, but the operator
-        // is not changed yet. See issue #277, which asks if the present behaviour is
-        // intentional. Remove the Ignore attribute together with the repair.
-        [TestMethod, Ignore("Fails until issue #277 is resolved.")]
+        [TestMethod]
         public void EnvironmentState_RepeatedRestarts_RecoversState()
         {
             const EnvironmentStateType ExpectedType = EnvironmentStateType.Experiment;
