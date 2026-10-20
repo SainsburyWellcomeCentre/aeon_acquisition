@@ -217,6 +217,147 @@ namespace Aeon.Environment
 
 
     /// <summary>
+    /// Represents a network client for automated room light control.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents a network client for automated room light control.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class LightCycle
+    {
+    
+        private string _eventSocket;
+    
+        private string _commandSocket;
+    
+        private string _roomName;
+    
+        private string _configFileName;
+    
+        public LightCycle()
+        {
+            _eventSocket = ">tcp://localhost:4303";
+            _commandSocket = ">tcp://localhost:4304";
+            _configFileName = "lightcycle.config";
+        }
+    
+        protected LightCycle(LightCycle other)
+        {
+            _eventSocket = other._eventSocket;
+            _commandSocket = other._commandSocket;
+            _roomName = other._roomName;
+            _configFileName = other._configFileName;
+        }
+    
+        /// <summary>
+        /// Specifies the endpoint from which the Light Server publishes events.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("eventSocket")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="eventSocket")]
+        [System.ComponentModel.DescriptionAttribute("Specifies the endpoint from which the Light Server publishes events.")]
+        public string EventSocket
+        {
+            get
+            {
+                return _eventSocket;
+            }
+            set
+            {
+                _eventSocket = value;
+            }
+        }
+    
+        /// <summary>
+        /// Specifies the endpoint to send commands to the Light Server.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("commandSocket")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="commandSocket")]
+        [System.ComponentModel.DescriptionAttribute("Specifies the endpoint to send commands to the Light Server.")]
+        public string CommandSocket
+        {
+            get
+            {
+                return _commandSocket;
+            }
+            set
+            {
+                _commandSocket = value;
+            }
+        }
+    
+        /// <summary>
+        /// The name of the room to monitor and control.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("roomName", Required=Newtonsoft.Json.Required.Always)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="roomName")]
+        [System.ComponentModel.DescriptionAttribute("The name of the room to monitor and control.")]
+        public string RoomName
+        {
+            get
+            {
+                return _roomName;
+            }
+            set
+            {
+                _roomName = value;
+            }
+        }
+    
+        /// <summary>
+        /// The name of the CSV file describing the light model, where each row represents one whole minute and the red, cold white and warm white, light levels set for that minute.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("configFileName")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="configFileName")]
+        [System.ComponentModel.DescriptionAttribute("The name of the CSV file describing the light model, where each row represents on" +
+            "e whole minute and the red, cold white and warm white, light levels set for that" +
+            " minute.")]
+        public string ConfigFileName
+        {
+            get
+            {
+                return _configFileName;
+            }
+            set
+            {
+                _configFileName = value;
+            }
+        }
+    
+        public System.IObservable<LightCycle> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new LightCycle(this)));
+        }
+    
+        public System.IObservable<LightCycle> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new LightCycle(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("EventSocket = " + _eventSocket + ", ");
+            stringBuilder.Append("CommandSocket = " + _commandSocket + ", ");
+            stringBuilder.Append("RoomName = " + _roomName + ", ");
+            stringBuilder.Append("ConfigFileName = " + _configFileName);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
     /// Specifies the channel map for every light fixture in the room.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
@@ -322,6 +463,99 @@ namespace Aeon.Environment
 
 
     /// <summary>
+    /// Represents acquisition functionality for automated habitat weighing scales.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents acquisition functionality for automated habitat weighing scales.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class WeightScale
+    {
+    
+        private string _portName;
+    
+        private int _filterWindow;
+    
+        public WeightScale()
+        {
+            _filterWindow = 40;
+        }
+    
+        protected WeightScale(WeightScale other)
+        {
+            _portName = other._portName;
+            _filterWindow = other._filterWindow;
+        }
+    
+        /// <summary>
+        /// The name of the device serial port.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("portName", Required=Newtonsoft.Json.Required.Always)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="portName")]
+        [System.ComponentModel.DescriptionAttribute("The name of the device serial port.")]
+        public string PortName
+        {
+            get
+            {
+                return _portName;
+            }
+            set
+            {
+                _portName = value;
+            }
+        }
+    
+        /// <summary>
+        /// Sliding window size of the weight linear regression filter.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("filterWindow")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="filterWindow")]
+        [System.ComponentModel.DescriptionAttribute("Sliding window size of the weight linear regression filter.")]
+        public int FilterWindow
+        {
+            get
+            {
+                return _filterWindow;
+            }
+            set
+            {
+                _filterWindow = value;
+            }
+        }
+    
+        public System.IObservable<WeightScale> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new WeightScale(this)));
+        }
+    
+        public System.IObservable<WeightScale> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new WeightScale(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("PortName = " + _portName + ", ");
+            stringBuilder.Append("FilterWindow = " + _filterWindow);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
     /// Serializes a sequence of data model objects into JSON strings.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
@@ -349,9 +583,19 @@ namespace Aeon.Environment
             return Process<Fixture>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<LightCycle> source)
+        {
+            return Process<LightCycle>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<RoomFixtures> source)
         {
             return Process<RoomFixtures>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<WeightScale> source)
+        {
+            return Process<WeightScale>(source);
         }
     }
 
@@ -365,7 +609,9 @@ namespace Aeon.Environment
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ChannelMap>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Fixture>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LightCycle>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RoomFixtures>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<WeightScale>))]
     public partial class DeserializeFromJson : Bonsai.Expressions.SingleArgumentExpressionBuilder
     {
     
@@ -427,9 +673,19 @@ namespace Aeon.Environment
             return Process<Fixture>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<LightCycle> source)
+        {
+            return Process<LightCycle>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<RoomFixtures> source)
         {
             return Process<RoomFixtures>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<WeightScale> source)
+        {
+            return Process<WeightScale>(source);
         }
     }
 
@@ -443,7 +699,9 @@ namespace Aeon.Environment
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ChannelMap>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Fixture>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LightCycle>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RoomFixtures>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<WeightScale>))]
     public partial class DeserializeFromYaml : Bonsai.Expressions.SingleArgumentExpressionBuilder
     {
     

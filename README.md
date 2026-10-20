@@ -6,7 +6,7 @@ The Project Aeon acquisition repository contains the set of standardized data ac
 
 ### Schema classes
 
-Configuration models are declared with [`bonsai-sgen`](https://pypi.org/project/bonsai-sgen/) under `src/swc/aeon/acquisition`, and [`Bonsai.Sgen`](https://www.nuget.org/packages/Bonsai.Sgen) generates from them the C# classes used by the Bonsai workflows. Each Python package there describes the acquisition package of the same name, so `swc.aeon.acquisition.environment` describes `Aeon.Environment`.
+Configuration models are declared with [`bonsai-sgen`](https://pypi.org/project/bonsai-sgen/) under `src/swc/aeon/acquisition`, and [`Bonsai.Sgen`](https://www.nuget.org/packages/Bonsai.Sgen) generates from them the C# classes used by the Bonsai workflows. Each Python package there that declares an `SGEN_NAMESPACE` describes the acquisition package of the same name, so `swc.aeon.acquisition.environment` describes `Aeon.Environment`. The `swc.aeon.acquisition.harp` package declares none, since it holds only the Harp device base classes, whose fields are generated in each device model deriving from them.
 
 1. Install `Bonsai.Sgen` and create the Python environment:
 
