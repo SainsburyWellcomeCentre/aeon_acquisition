@@ -1,0 +1,115 @@
+{
+  "$defs": {
+    "ChannelMap": {
+      "description": "Represents channel map configuration used by the light controller.",
+      "properties": {
+        "rooms": {
+          "additionalProperties": {
+            "$ref": "#/$defs/RoomFixtures"
+          },
+          "description": "Specifies the collection of light channel maps for all rooms.",
+          "title": "Rooms",
+          "type": "object"
+        }
+      },
+      "required": [
+        "rooms"
+      ],
+      "title": "ChannelMap",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Environment.ChannelMap"
+    },
+    "Fixture": {
+      "description": "Represents the channel assignment and calibration of a single light fixture.",
+      "properties": {
+        "channels": {
+          "description": "Specifies the collection of channels assigned to the fixture.",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Channels",
+          "type": "array"
+        },
+        "interpolationMethod": {
+          "$ref": "#/$defs/InterpolationMethod",
+          "description": "Specifies the method used to interpolate light values for a fixture."
+        },
+        "calibrationFile": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Specifies the path to the calibration file for this fixture.",
+          "title": "CalibrationFile"
+        }
+      },
+      "required": [
+        "channels",
+        "interpolationMethod"
+      ],
+      "title": "Fixture",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Environment.Fixture"
+    },
+    "InterpolationMethod": {
+      "description": "Specifies the available interpolation methods.",
+      "enum": [
+        "None",
+        "Zero",
+        "Linear"
+      ],
+      "title": "InterpolationMethod",
+      "type": "string",
+      "x-sgen-typename": "Aeon.Environment.InterpolationMethod"
+    },
+    "RoomFixtures": {
+      "description": "Specifies the channel map for every light fixture in the room.",
+      "properties": {
+        "coldWhite": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fixture"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "ColdWhite"
+        },
+        "warmWhite": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fixture"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "WarmWhite"
+        },
+        "red": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fixture"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Red"
+        }
+      },
+      "title": "RoomFixtures",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Environment.RoomFixtures"
+    }
+  }
+}
