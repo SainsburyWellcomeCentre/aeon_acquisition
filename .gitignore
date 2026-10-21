@@ -3,3 +3,5 @@
 **/.bonsai/Packages/
 **/.bonsai/Settings/
 /artifacts/
+__pycache__/
+*.egg-info/

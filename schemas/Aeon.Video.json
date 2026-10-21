@@ -1,0 +1,99 @@
+{
+  "$defs": {
+    "CameraController": {
+      "description": "Represents synchronized trigger generation for a set of cameras.",
+      "properties": {
+        "portName": {
+          "description": "The name of the device serial port.",
+          "examples": [
+            "COM"
+          ],
+          "title": "PortName",
+          "type": "string"
+        },
+        "triggers": {
+          "additionalProperties": {
+            "$ref": "#/$defs/CameraControllerTrigger"
+          },
+          "description": "Specifies the configuration of each camera trigger output.",
+          "propertyNames": {
+            "$ref": "#/$defs/TriggerName"
+          },
+          "title": "Triggers",
+          "type": "object"
+        }
+      },
+      "required": [
+        "portName",
+        "triggers"
+      ],
+      "title": "CameraController",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Video.CameraController"
+    },
+    "CameraControllerTrigger": {
+      "description": "Represents the configuration of a camera trigger output.",
+      "properties": {
+        "frequency": {
+          "default": 50,
+          "description": "The frequency of the camera TTL trigger.",
+          "title": "Frequency",
+          "type": "integer"
+        }
+      },
+      "title": "CameraControllerTrigger",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Video.CameraControllerTrigger"
+    },
+    "SpinnakerCamera": {
+      "description": "Represents a FLIR Spinnaker camera acquisition module.",
+      "properties": {
+        "serialNumber": {
+          "description": "The serial number of the camera.",
+          "examples": [
+            "00000"
+          ],
+          "title": "SerialNumber",
+          "type": "string"
+        },
+        "exposureTime": {
+          "default": 1000,
+          "description": "The exposure time of the sensor, in microseconds.",
+          "minimum": 100,
+          "title": "ExposureTime",
+          "type": "number"
+        },
+        "gain": {
+          "default": 0,
+          "description": "The camera gain.",
+          "minimum": 0,
+          "title": "Gain",
+          "type": "number"
+        },
+        "binning": {
+          "default": 1,
+          "description": "The camera binning configuration.",
+          "minimum": 1,
+          "title": "Binning",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "serialNumber"
+      ],
+      "title": "SpinnakerCamera",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Video.SpinnakerCamera"
+    },
+    "TriggerName": {
+      "description": "Specifies the available camera trigger outputs.",
+      "enum": [
+        "Trigger0",
+        "Trigger1"
+      ],
+      "title": "TriggerName",
+      "type": "string",
+      "x-sgen-typename": "Aeon.Video.TriggerName"
+    }
+  }
+}
