@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -33,6 +34,7 @@ namespace Aeon.Acquisition
                 var tagBase = $"{prefix}-{SanitizeName(repo.Head.FriendlyName)}.";
                 var nextNumber = repo.Tags
                     .Select(tag => tag.FriendlyName)
+                    .Concat(ListRemoteTagNames(repo, Remote, tagBase))
                     .Where(name => name.StartsWith(tagBase, StringComparison.Ordinal))
                     .Select(name => int.TryParse(name.Substring(tagBase.Length), out var number) ? number : 0)
                     .DefaultIfEmpty(0)
@@ -58,6 +60,36 @@ namespace Aeon.Acquisition
             var invalidChars = Path.GetInvalidFileNameChars();
             var sanitized = name.Select(c => invalidChars.Contains(c) ? '-' : c);
             return new string(sanitized.ToArray());
+        }
+
+        static IEnumerable<string> ListRemoteTagNames(IRepository repo, string remote, string tagBase)
+        {
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "git",
+                Arguments = $"ls-remote --tags {remote} refs/tags/{tagBase}*",
+                WorkingDirectory = repo.Info.WorkingDirectory,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+            using var process = System.Diagnostics.Process.Start(startInfo);
+            var output = process.StandardOutput.ReadToEnd();
+            process.StandardError.ReadToEnd();
+            process.WaitForExit();
+            if (process.ExitCode != 0) return Enumerable.Empty<string>();
+
+            var names = new List<string>();
+            foreach (var line in output.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                var parts = line.Trim().Split('\t');
+                if (parts.Length == 2 && parts[1].StartsWith("refs/tags/", StringComparison.Ordinal))
+                {
+                    names.Add(parts[1].Substring("refs/tags/".Length));
+                }
+            }
+            return names;
         }
 
         static void PushTag(IRepository repo, string remote, string tagName)
