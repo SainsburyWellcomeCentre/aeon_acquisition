@@ -11,6 +11,17 @@ namespace Aeon.Tests
 {
     public static class AssertWorkflow
     {
+        public static void CanBuildEmbeddedResource(Assembly assembly, string name)
+        {
+            using (var workflowStream = assembly.GetManifestResourceStream(name))
+            using (var reader = XmlReader.Create(workflowStream))
+            {
+                reader.MoveToContent();
+                var workflowBuilder = (WorkflowBuilder)WorkflowBuilder.Serializer.Deserialize(reader);
+                Assert.IsNotNull(workflowBuilder.Workflow.Build(), $"Embedded workflow {name} failed to build.");
+            }
+        }
+
         public static void CanLoadEmbeddedResources(Assembly assembly)
         {
             foreach (var name in assembly.GetManifestResourceNames())

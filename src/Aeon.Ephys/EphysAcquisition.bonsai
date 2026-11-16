@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.9.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:onix1="clr-namespace:OpenEphys.Onix1;assembly=OpenEphys.Onix1"
+                 xmlns:p1="clr-namespace:Aeon.Ephys;assembly=Aeon.Ephys"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Description>Acquires electrophysiology data from the ONIX headstage described by a configuration file.</Description>
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Declarations</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="rx:PublishSubject" TypeArguments="harp:Timestamped(onix1:HarpSyncInputDataFrame)">
+              <rx:Name>OnixHarpSync</rx:Name>
+            </Expression>
+            <Expression xsi:type="rx:PublishSubject" TypeArguments="onix1:MemoryMonitorDataFrame">
+              <rx:Name>OnixMemoryUsage</rx:Name>
+            </Expression>
+            <Expression xsi:type="rx:PublishSubject" TypeArguments="onix1:Bno055DataFrame">
+              <rx:Name>HeadstageBno055</rx:Name>
+            </Expression>
+            <Expression xsi:type="rx:PublishSubject" TypeArguments="p1:EphysFrame">
+              <rx:Name>ProbeA</rx:Name>
+            </Expression>
+            <Expression xsi:type="rx:PublishSubject" TypeArguments="p1:EphysFrame">
+              <rx:Name>ProbeB</rx:Name>
+            </Expression>
+            <Expression xsi:type="rx:AsyncSubject" TypeArguments="sys:Int32">
+              <rx:Name>ReadBufferSize</rx:Name>
+            </Expression>
+          </Nodes>
+          <Edges />
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Path" DisplayName="EphysConfigurationPath" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="io:ReadAllText">
+          <io:Path>Ephys.yaml</io:Path>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Take">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="p1:DeserializeFromYaml">
+        <p1:Type xsi:type="TypeMapping" TypeArguments="p1:EphysConfiguration" />
+      </Expression>
+      <Expression xsi:type="rx:AsyncSubject">
+        <Name>EphysConfiguration</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>EphysConfiguration</Name>
+      </Expression>
+      <Expression xsi:type="rx:SelectMany">
+        <Name>CreateContext</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>HarpInput</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="rx:AsyncSubject">
+              <Name>HarpSyncConfig</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="onix1:CreateContext">
+                <onix1:Driver>riffa</onix1:Driver>
+                <onix1:Index>0</onix1:Index>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>HarpSyncConfig</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="HarpInput" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p1:ConfigureBreakoutBoardDevices" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="4" To="7" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="6" To="7" Label="Source2" />
+            <Edge From="7" To="8" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="rx:BehaviorSubject">
+        <Name>EphysContext</Name>
+      </Expression>
+      <Expression xsi:type="rx:SelectMany">
+        <Name>AcquireHeadstage</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>EphysConfiguration</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Headstage</Selector>
+            </Expression>
+            <Expression xsi:type="p1:MatchHeadstage">
+              <p1:Type xsi:type="TypeMapping" TypeArguments="p1:NeuropixelsV2eConfiguration" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Aeon.Ephys:NeuropixelsV2e.bonsai" />
+            <Expression xsi:type="p1:MatchHeadstage">
+              <p1:Type xsi:type="TypeMapping" TypeArguments="p1:NeuropixelsV2eBetaConfiguration" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Aeon.Ephys:NeuropixelsV2eBeta.bonsai" />
+            <Expression xsi:type="p1:MatchHeadstage">
+              <p1:Type xsi:type="TypeMapping" TypeArguments="p1:Headstage64Configuration" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Aeon.Ephys:Headstage64.bonsai" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="1" To="4" Label="Source1" />
+            <Edge From="1" To="6" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Aeon.Ephys:OnixDeviceMonitor.bonsai" />
+    </Nodes>
+    <Edges>
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="6" To="7" Label="Source1" />
+      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="8" To="9" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
