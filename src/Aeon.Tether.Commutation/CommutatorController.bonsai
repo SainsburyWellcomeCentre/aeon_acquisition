@@ -11,7 +11,7 @@
         <Property Name="Name" DisplayName="BnoDevice" Description="The Bno device to sample from." />
       </Expression>
       <Expression xsi:type="SubscribeSubject">
-        <Name>Headstage64Bno055</Name>
+        <Name>HeadstageBno055</Name>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:SampleInterval">

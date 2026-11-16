@@ -35,6 +35,15 @@ namespace Aeon.Tests
             AssertWorkflow.CanLoadEmbeddedResources(translation);
         }
 
+        [TestMethod]
+        public void Build_EphysAcquisition()
+        {
+            // EphysAcquisition declares the subjects and supplies the headstage input, so
+            // building it builds every ephys workflow it includes.
+            var ephys = typeof(ConvertToHarpTimestamp).Assembly;
+            AssertWorkflow.CanBuildEmbeddedResource(ephys, "Aeon.Ephys.EphysAcquisition.bonsai");
+        }
+
         [TestMethod, TestCategory("DriverDependent")]
         public void Load_DriverDependentWorkflows()
         {
