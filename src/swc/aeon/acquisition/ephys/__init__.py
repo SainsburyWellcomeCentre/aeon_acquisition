@@ -1,8 +1,9 @@
 """Models for the Aeon.Ephys package."""
 
 from enum import StrEnum
+from typing import Annotated
 
-from bonsai.sgen import SchemaEnum, SchemaModel
+from bonsai.sgen import DiscriminatedUnion, SchemaEnum, SchemaModel, SchemaUnion
 from pydantic import Field
 
 SGEN_NAMESPACE = "Aeon.Ephys"
@@ -125,7 +126,7 @@ class Bno055Configuration(SchemaModel):
 class Ts4231Configuration(SchemaModel):
     """Represents the acquisition settings of a TS4231 lighthouse receiver array."""
 
-    enable: bool = Field(default=True, description="Specifies whether the receivers produce data.")
+    enable: bool = Field(default=False, description="Specifies whether the receivers produce data.")
 
 
 class ElectricalStimulatorConfiguration(SchemaModel):
@@ -148,7 +149,7 @@ class ElectricalStimulatorConfiguration(SchemaModel):
 class OpticalStimulatorConfiguration(SchemaModel):
     """Represents the settings of the headstage onboard optical stimulator."""
 
-    arm: bool = Field(default=True, description="Specifies whether the stimulator responds to triggers.")
+    arm: bool = Field(default=False, description="Specifies whether the stimulator responds to triggers.")
     max_current: float = Field(default=100, description="The maximum current per channel, in mA.")
     channel_one_current: float = Field(
         default=100, description="The percentage of the maximum current driving channel one."
@@ -193,4 +194,201 @@ class Headstage64Configuration(SchemaModel):
     optical_stimulator: OpticalStimulatorConfiguration = Field(
         default=OpticalStimulatorConfiguration(),
         description="The settings of the optical stimulator.",
+    )
+    buffer_size: int = Field(
+        default=3000, ge=1, description="The number of samples collected in each data frame."
+    )
+
+
+class HarpSyncSource(SchemaEnum, StrEnum, sgen_typename="OpenEphys.Onix1.HarpSyncSource"):
+    """Specifies the physical input the Harp synchronisation signal arrives on."""
+
+    BREAKOUT = "Breakout"
+    CLOCK_ADAPTER = "ClockAdapter"
+
+
+class NeuropixelsV2QuadShankReference(
+    SchemaEnum, StrEnum, sgen_typename="OpenEphys.Onix1.NeuropixelsV2QuadShankReference"
+):
+    """Specifies the available reference sources of a Neuropixels 2.0 quad-shank probe."""
+
+    EXTERNAL = "External"
+    TIP_1 = "Tip1"
+    TIP_2 = "Tip2"
+    TIP_3 = "Tip3"
+    TIP_4 = "Tip4"
+    GROUND = "Ground"
+
+
+class Bno055AxisMap(SchemaEnum, StrEnum, sgen_typename="OpenEphys.Onix1.Bno055AxisMap"):
+    """Specifies the axis order compensating for the mounting orientation of a BNO055 unit."""
+
+    XYZ = "XYZ"
+    XZY = "XZY"
+    YXZ = "YXZ"
+    YZX = "YZX"
+    ZXY = "ZXY"
+    ZYX = "ZYX"
+
+
+class Bno055AxisSign(SchemaEnum, StrEnum, sgen_typename="OpenEphys.Onix1.Bno055AxisSign"):
+    """Specifies an axis inverted to compensate for the mounting orientation of a BNO055 unit."""
+
+    DEFAULT = "Default"
+    MIRROR_Z = "MirrorZ"
+    MIRROR_Y = "MirrorY"
+    MIRROR_X = "MirrorX"
+
+
+class NeuropixelsV2QuadShankConfiguration(SchemaModel):
+    """Represents the electrode settings of a Neuropixels 2.0 quad-shank probe."""
+
+    invert_polarity: bool = Field(
+        default=True, description="Specifies whether the acquired voltages are inverted."
+    )
+    reference: NeuropixelsV2QuadShankReference = Field(
+        default=NeuropixelsV2QuadShankReference.EXTERNAL,
+        description="The reference source of all enabled electrodes.",
+    )
+    gain_calibration_file_name: str = Field(
+        default="", description="The path of the gain calibration file supplied with the probe."
+    )
+    probe_interface_file_name: str = Field(
+        default="",
+        description="The path of a probe interface file selecting the enabled electrodes. "
+        "Left empty, the default channel map is used.",
+    )
+
+
+class NeuropixelsV2eProbeConfiguration(SchemaModel):
+    """Represents the acquisition settings of a Neuropixels 2.0 probe."""
+
+    enable: bool = Field(default=True, description="Specifies whether the probe produces data.")
+    probe_configuration: NeuropixelsV2QuadShankConfiguration = Field(
+        default=NeuropixelsV2QuadShankConfiguration(),
+        description="The electrode settings of the probe.",
+    )
+
+
+class NeuropixelsV2BetaProbeConfiguration(SchemaModel):
+    """Represents the acquisition settings of a beta Neuropixels 2.0 probe."""
+
+    enable: bool = Field(default=True, description="Specifies whether the probe produces data.")
+    enable_led: bool = Field(
+        default=True, description="Specifies whether the headstage indicator LED is enabled."
+    )
+    probe_configuration: NeuropixelsV2QuadShankConfiguration = Field(
+        default=NeuropixelsV2QuadShankConfiguration(),
+        description="The electrode settings of the probe.",
+    )
+
+
+class PolledBno055Configuration(SchemaModel):
+    """Represents the acquisition settings of a polled BNO055 inertial measurement unit."""
+
+    enable: bool = Field(default=True, description="Specifies whether the unit produces data.")
+    axis_map: Bno055AxisMap = Field(
+        default=Bno055AxisMap.YZX,
+        description="The axis order compensating for the mounting orientation of the unit.",
+    )
+    axis_sign: list[Bno055AxisSign] = Field(
+        default=[Bno055AxisSign.MIRROR_Y, Bno055AxisSign.MIRROR_X],
+        description="The axes inverted to compensate for the mounting orientation of the unit.",
+    )
+
+
+class NeuropixelsV2eConfiguration(SchemaModel):
+    """Represents the acquisition settings of an ONIX NeuropixelsV2e headstage."""
+
+    name: str = Field(
+        default="HeadstageNeuropixelsV2e",
+        description="The name identifying the devices in the headstage. "
+        "It must match the device names expected by the data operators.",
+    )
+    port: PortName = Field(
+        default=PortName.PORT_A, description="The breakout board port the headstage is connected to."
+    )
+    port_voltage: PortVoltageConfiguration = Field(
+        default=PortVoltageConfiguration(),
+        description="The link voltage settings for the headstage port.",
+    )
+    probe_a: NeuropixelsV2eProbeConfiguration = Field(
+        default=NeuropixelsV2eProbeConfiguration(), description="The settings of probe A."
+    )
+    probe_b: NeuropixelsV2eProbeConfiguration = Field(
+        default=NeuropixelsV2eProbeConfiguration(), description="The settings of probe B."
+    )
+    bno055: PolledBno055Configuration = Field(
+        default=PolledBno055Configuration(),
+        description="The settings of the inertial measurement unit.",
+    )
+    buffer_size: int = Field(
+        default=3000, ge=1, description="The number of samples collected in each probe data frame."
+    )
+
+
+class NeuropixelsV2eBetaConfiguration(SchemaModel):
+    """Represents the acquisition settings of an ONIX beta NeuropixelsV2e headstage."""
+
+    name: str = Field(
+        default="HeadstageNeuropixelsV2eBeta",
+        description="The name identifying the devices in the headstage. "
+        "It must match the device names expected by the data operators.",
+    )
+    port: PortName = Field(
+        default=PortName.PORT_A, description="The breakout board port the headstage is connected to."
+    )
+    port_voltage: PortVoltageConfiguration = Field(
+        default=PortVoltageConfiguration(),
+        description="The link voltage settings for the headstage port.",
+    )
+    tracking_led: bool = Field(
+        default=False, description="Specifies whether the tracking LED is enabled."
+    )
+    probe_a: NeuropixelsV2BetaProbeConfiguration = Field(
+        default=NeuropixelsV2BetaProbeConfiguration(), description="The settings of probe A."
+    )
+    probe_b: NeuropixelsV2BetaProbeConfiguration = Field(
+        default=NeuropixelsV2BetaProbeConfiguration(), description="The settings of probe B."
+    )
+    bno055: PolledBno055Configuration = Field(
+        default=PolledBno055Configuration(),
+        description="The settings of the inertial measurement unit.",
+    )
+    buffer_size: int = Field(
+        default=3000, ge=1, description="The number of samples collected in each probe data frame."
+    )
+
+
+class Headstage(SchemaUnion):
+    """The headstage connected to the breakout board, selected by the type property."""
+
+    root: Annotated[
+        Headstage64Configuration | NeuropixelsV2eConfiguration | NeuropixelsV2eBetaConfiguration,
+        DiscriminatedUnion("type"),
+    ]
+
+
+class HarpSyncInputConfiguration(SchemaModel):
+    """Represents the acquisition settings of the breakout board Harp synchronisation input."""
+
+    enable: bool = Field(default=True, description="Specifies whether sync events produce data.")
+    source: HarpSyncSource = Field(
+        default=HarpSyncSource.CLOCK_ADAPTER,
+        description="The physical input the Harp synchronisation signal arrives on.",
+    )
+
+
+class EphysConfiguration(SchemaModel):
+    """Represents the acquisition settings of an Aeon ephys rig."""
+
+    subject: str = Field(
+        description="The ID of the implanted subject, naming its surgery record file."
+    )
+    headstage: Headstage = Field(
+        description="The settings of the connected headstage, selected by the type property."
+    )
+    harp_input: HarpSyncInputConfiguration = Field(
+        default=HarpSyncInputConfiguration(),
+        description="The settings of the Harp synchronisation input.",
     )
