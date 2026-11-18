@@ -1,5 +1,88 @@
 {
   "$defs": {
+    "AnalogIOConfiguration": {
+      "description": "Represents the acquisition settings of the breakout board analog IO channels.",
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "Specifies whether the analog channels produce data.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "inputRange": {
+          "default": [
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts"
+          ],
+          "description": "The input voltage range of each channel, in channel order.",
+          "items": {
+            "$ref": "#/$defs/AnalogIOVoltageRange"
+          },
+          "maxItems": 12,
+          "minItems": 12,
+          "title": "InputRange",
+          "type": "array"
+        },
+        "direction": {
+          "default": [
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input"
+          ],
+          "description": "The direction of each channel, in channel order.",
+          "items": {
+            "$ref": "#/$defs/AnalogIODirection"
+          },
+          "maxItems": 12,
+          "minItems": 12,
+          "title": "Direction",
+          "type": "array"
+        }
+      },
+      "title": "AnalogIOConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.AnalogIOConfiguration"
+    },
+    "AnalogIODirection": {
+      "description": "Specifies the direction of an analog IO channel.",
+      "enum": [
+        "Input",
+        "Output"
+      ],
+      "title": "AnalogIODirection",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.AnalogIODirection"
+    },
+    "AnalogIOVoltageRange": {
+      "description": "Specifies the available input voltage ranges of an analog IO channel.",
+      "enum": [
+        "TenVolts",
+        "TwoPointFiveVolts",
+        "FiveVolts"
+      ],
+      "title": "AnalogIOVoltageRange",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.AnalogIOVoltageRange"
+    },
     "Bno055AxisMap": {
       "description": "Specifies the axis order compensating for the mounting orientation of a BNO055 unit.",
       "enum": [
@@ -39,6 +122,131 @@
       "title": "Bno055Configuration",
       "type": "object",
       "x-sgen-typename": "Aeon.Ephys.Bno055Configuration"
+    },
+    "BreakoutBoardConfiguration": {
+      "description": "Represents the acquisition settings of the ONIX breakout board.",
+      "properties": {
+        "heartbeat": {
+          "$ref": "#/$defs/HeartbeatConfiguration",
+          "default": {
+            "beatsPerSecond": 100
+          },
+          "description": "The settings of the heartbeat.",
+          "title": "Heartbeat"
+        },
+        "analogIo": {
+          "$ref": "#/$defs/AnalogIOConfiguration",
+          "default": {
+            "enable": true,
+            "inputRange": [
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts"
+            ],
+            "direction": [
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input"
+            ]
+          },
+          "description": "The settings of the analog IO channels.",
+          "title": "AnalogIo"
+        },
+        "digitalIo": {
+          "$ref": "#/$defs/DigitalIOConfiguration",
+          "default": {
+            "enable": true,
+            "deadTime": 0.0,
+            "sampleRate": null
+          },
+          "description": "The settings of the digital IO.",
+          "title": "DigitalIo"
+        },
+        "clockOutput": {
+          "$ref": "#/$defs/OutputClockConfiguration",
+          "default": {
+            "clockGate": false,
+            "frequency": 1000000.0,
+            "dutyCycle": 50.0,
+            "delay": 0.0
+          },
+          "description": "The settings of the output clock.",
+          "title": "ClockOutput"
+        },
+        "harpInput": {
+          "$ref": "#/$defs/HarpSyncInputConfiguration",
+          "default": {
+            "enable": true,
+            "source": "ClockAdapter"
+          },
+          "description": "The settings of the Harp synchronisation input.",
+          "title": "HarpInput"
+        },
+        "memoryMonitor": {
+          "$ref": "#/$defs/MemoryMonitorConfiguration",
+          "default": {
+            "enable": true,
+            "samplesPerSecond": 10
+          },
+          "description": "The settings of the memory monitor.",
+          "title": "MemoryMonitor"
+        }
+      },
+      "title": "BreakoutBoardConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.BreakoutBoardConfiguration"
+    },
+    "DigitalIOConfiguration": {
+      "description": "Represents the acquisition settings of the breakout board digital IO.",
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "Specifies whether the digital inputs produce data.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "deadTime": {
+          "default": 0,
+          "description": "The dead time between digital event detections, in us, when sampling asynchronously.",
+          "minimum": 0,
+          "title": "DeadTime",
+          "type": "number"
+        },
+        "sampleRate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The sample rate of the digital inputs, in Hz. Left unset, data is produced on every change in input state.",
+          "title": "SampleRate"
+        }
+      },
+      "title": "DigitalIOConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.DigitalIOConfiguration"
     },
     "ElectricalStimulatorConfiguration": {
       "description": "Represents the settings of the headstage onboard electrical stimulator.",
@@ -140,14 +348,65 @@
           "$ref": "#/$defs/Headstage",
           "description": "The settings of the connected headstage, selected by the type property."
         },
-        "harpInput": {
-          "$ref": "#/$defs/HarpSyncInputConfiguration",
+        "breakoutBoard": {
+          "$ref": "#/$defs/BreakoutBoardConfiguration",
           "default": {
-            "enable": true,
-            "source": "ClockAdapter"
+            "heartbeat": {
+              "beatsPerSecond": 100
+            },
+            "analogIo": {
+              "direction": [
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input"
+              ],
+              "enable": true,
+              "inputRange": [
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts"
+              ]
+            },
+            "digitalIo": {
+              "deadTime": 0.0,
+              "enable": true,
+              "sampleRate": null
+            },
+            "clockOutput": {
+              "clockGate": false,
+              "delay": 0.0,
+              "dutyCycle": 50.0,
+              "frequency": 1000000.0
+            },
+            "harpInput": {
+              "enable": true,
+              "source": "ClockAdapter"
+            },
+            "memoryMonitor": {
+              "enable": true,
+              "samplesPerSecond": 10
+            }
           },
-          "description": "The settings of the Harp synchronisation input.",
-          "title": "HarpInput"
+          "description": "The settings of the breakout board the headstage is connected to.",
+          "title": "BreakoutBoard"
         }
       },
       "required": [
@@ -309,6 +568,42 @@
       "title": "Headstage64Configuration",
       "type": "object",
       "x-sgen-typename": "Aeon.Ephys.Headstage64Configuration"
+    },
+    "HeartbeatConfiguration": {
+      "description": "Represents the settings of the breakout board heartbeat.",
+      "properties": {
+        "beatsPerSecond": {
+          "default": 100,
+          "description": "The rate at which heartbeats are produced, in Hz.",
+          "minimum": 1,
+          "title": "BeatsPerSecond",
+          "type": "integer"
+        }
+      },
+      "title": "HeartbeatConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.HeartbeatConfiguration"
+    },
+    "MemoryMonitorConfiguration": {
+      "description": "Represents the acquisition settings of the breakout board memory monitor.",
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "Specifies whether memory usage produces data.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "samplesPerSecond": {
+          "default": 10,
+          "description": "The rate at which memory usage is recorded, in Hz.",
+          "minimum": 1,
+          "title": "SamplesPerSecond",
+          "type": "integer"
+        }
+      },
+      "title": "MemoryMonitorConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.MemoryMonitorConfiguration"
     },
     "NeuropixelsV2BetaProbeConfiguration": {
       "description": "Represents the acquisition settings of a beta Neuropixels 2.0 probe.",
@@ -641,6 +936,42 @@
       "title": "OpticalStimulatorConfiguration",
       "type": "object",
       "x-sgen-typename": "Aeon.Ephys.OpticalStimulatorConfiguration"
+    },
+    "OutputClockConfiguration": {
+      "description": "Represents the settings of the breakout board output clock.",
+      "properties": {
+        "clockGate": {
+          "default": false,
+          "description": "Specifies whether the clock gate signal is set.",
+          "title": "ClockGate",
+          "type": "boolean"
+        },
+        "frequency": {
+          "default": 1000000.0,
+          "description": "The frequency of the output clock, in Hz.",
+          "exclusiveMinimum": 0,
+          "title": "Frequency",
+          "type": "number"
+        },
+        "dutyCycle": {
+          "default": 50,
+          "description": "The duty cycle of the output clock, in percent.",
+          "maximum": 100,
+          "minimum": 0,
+          "title": "DutyCycle",
+          "type": "number"
+        },
+        "delay": {
+          "default": 0,
+          "description": "The delay following acquisition start before the clock becomes active, in seconds.",
+          "minimum": 0,
+          "title": "Delay",
+          "type": "number"
+        }
+      },
+      "title": "OutputClockConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.OutputClockConfiguration"
     },
     "PolledBno055Configuration": {
       "description": "Represents the acquisition settings of a polled BNO055 inertial measurement unit.",

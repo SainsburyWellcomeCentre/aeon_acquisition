@@ -10,6 +10,125 @@ namespace Aeon.Ephys
     #pragma warning disable // Disable all warnings
 
     /// <summary>
+    /// Represents the acquisition settings of the breakout board analog IO channels.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of the breakout board analog IO channels.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class AnalogIOConfiguration
+    {
+    
+        private bool _enable;
+    
+        private System.Collections.Generic.List<OpenEphys.Onix1.AnalogIOVoltageRange> _inputRange;
+    
+        private System.Collections.Generic.List<OpenEphys.Onix1.AnalogIODirection> _direction;
+    
+        public AnalogIOConfiguration()
+        {
+            _enable = true;
+            _inputRange = new System.Collections.Generic.List<OpenEphys.Onix1.AnalogIOVoltageRange>();
+            _direction = new System.Collections.Generic.List<OpenEphys.Onix1.AnalogIODirection>();
+        }
+    
+        protected AnalogIOConfiguration(AnalogIOConfiguration other)
+        {
+            _enable = other._enable;
+            _inputRange = other._inputRange;
+            _direction = other._direction;
+        }
+    
+        /// <summary>
+        /// Specifies whether the analog channels produce data.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("enable")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="enable")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether the analog channels produce data.")]
+        public bool Enable
+        {
+            get
+            {
+                return _enable;
+            }
+            set
+            {
+                _enable = value;
+            }
+        }
+    
+        /// <summary>
+        /// The input voltage range of each channel, in channel order.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("inputRange")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="inputRange")]
+        [System.ComponentModel.DescriptionAttribute("The input voltage range of each channel, in channel order.")]
+        public System.Collections.Generic.List<OpenEphys.Onix1.AnalogIOVoltageRange> InputRange
+        {
+            get
+            {
+                return _inputRange;
+            }
+            set
+            {
+                _inputRange = value;
+            }
+        }
+    
+        /// <summary>
+        /// The direction of each channel, in channel order.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("direction")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="direction")]
+        [System.ComponentModel.DescriptionAttribute("The direction of each channel, in channel order.")]
+        public System.Collections.Generic.List<OpenEphys.Onix1.AnalogIODirection> Direction
+        {
+            get
+            {
+                return _direction;
+            }
+            set
+            {
+                _direction = value;
+            }
+        }
+    
+        public System.IObservable<AnalogIOConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AnalogIOConfiguration(this)));
+        }
+    
+        public System.IObservable<AnalogIOConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new AnalogIOConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Enable = " + _enable + ", ");
+            stringBuilder.Append("InputRange = " + _inputRange + ", ");
+            stringBuilder.Append("Direction = " + _direction);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
     /// Represents the acquisition settings of a BNO055 inertial measurement unit.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
@@ -62,6 +181,329 @@ namespace Aeon.Ephys
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
             stringBuilder.Append("Enable = " + _enable);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the acquisition settings of the ONIX breakout board.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of the ONIX breakout board.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class BreakoutBoardConfiguration
+    {
+    
+        private HeartbeatConfiguration _heartbeat;
+    
+        private AnalogIOConfiguration _analogIo;
+    
+        private DigitalIOConfiguration _digitalIo;
+    
+        private OutputClockConfiguration _clockOutput;
+    
+        private HarpSyncInputConfiguration _harpInput;
+    
+        private MemoryMonitorConfiguration _memoryMonitor;
+    
+        public BreakoutBoardConfiguration()
+        {
+            _heartbeat = new HeartbeatConfiguration();
+            _heartbeat.BeatsPerSecond = 100;
+            _analogIo = new AnalogIOConfiguration();
+            _analogIo.Enable = true;
+            _digitalIo = new DigitalIOConfiguration();
+            _digitalIo.Enable = true;
+            _digitalIo.DeadTime = 0D;
+            _digitalIo.SampleRate = null;
+            _clockOutput = new OutputClockConfiguration();
+            _clockOutput.ClockGate = false;
+            _clockOutput.Frequency = 1000000D;
+            _clockOutput.DutyCycle = 50D;
+            _clockOutput.Delay = 0D;
+            _harpInput = new HarpSyncInputConfiguration();
+            _harpInput.Enable = true;
+            _harpInput.Source = OpenEphys.Onix1.HarpSyncSource.ClockAdapter;
+            _memoryMonitor = new MemoryMonitorConfiguration();
+            _memoryMonitor.Enable = true;
+            _memoryMonitor.SamplesPerSecond = 10;
+        }
+    
+        protected BreakoutBoardConfiguration(BreakoutBoardConfiguration other)
+        {
+            _heartbeat = other._heartbeat;
+            _analogIo = other._analogIo;
+            _digitalIo = other._digitalIo;
+            _clockOutput = other._clockOutput;
+            _harpInput = other._harpInput;
+            _memoryMonitor = other._memoryMonitor;
+        }
+    
+        /// <summary>
+        /// The settings of the heartbeat.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("heartbeat", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="heartbeat")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the heartbeat.")]
+        public HeartbeatConfiguration Heartbeat
+        {
+            get
+            {
+                return _heartbeat;
+            }
+            set
+            {
+                _heartbeat = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of the analog IO channels.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("analogIo", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="analogIo")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the analog IO channels.")]
+        public AnalogIOConfiguration AnalogIo
+        {
+            get
+            {
+                return _analogIo;
+            }
+            set
+            {
+                _analogIo = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of the digital IO.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("digitalIo", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="digitalIo")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the digital IO.")]
+        public DigitalIOConfiguration DigitalIo
+        {
+            get
+            {
+                return _digitalIo;
+            }
+            set
+            {
+                _digitalIo = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of the output clock.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("clockOutput", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="clockOutput")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the output clock.")]
+        public OutputClockConfiguration ClockOutput
+        {
+            get
+            {
+                return _clockOutput;
+            }
+            set
+            {
+                _clockOutput = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of the Harp synchronisation input.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("harpInput", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="harpInput")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the Harp synchronisation input.")]
+        public HarpSyncInputConfiguration HarpInput
+        {
+            get
+            {
+                return _harpInput;
+            }
+            set
+            {
+                _harpInput = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of the memory monitor.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("memoryMonitor", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="memoryMonitor")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the memory monitor.")]
+        public MemoryMonitorConfiguration MemoryMonitor
+        {
+            get
+            {
+                return _memoryMonitor;
+            }
+            set
+            {
+                _memoryMonitor = value;
+            }
+        }
+    
+        public System.IObservable<BreakoutBoardConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new BreakoutBoardConfiguration(this)));
+        }
+    
+        public System.IObservable<BreakoutBoardConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new BreakoutBoardConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Heartbeat = " + _heartbeat + ", ");
+            stringBuilder.Append("AnalogIo = " + _analogIo + ", ");
+            stringBuilder.Append("DigitalIo = " + _digitalIo + ", ");
+            stringBuilder.Append("ClockOutput = " + _clockOutput + ", ");
+            stringBuilder.Append("HarpInput = " + _harpInput + ", ");
+            stringBuilder.Append("MemoryMonitor = " + _memoryMonitor);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the acquisition settings of the breakout board digital IO.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of the breakout board digital IO.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class DigitalIOConfiguration
+    {
+    
+        private bool _enable;
+    
+        private double _deadTime;
+    
+        private double? _sampleRate;
+    
+        public DigitalIOConfiguration()
+        {
+            _enable = true;
+            _deadTime = 0D;
+        }
+    
+        protected DigitalIOConfiguration(DigitalIOConfiguration other)
+        {
+            _enable = other._enable;
+            _deadTime = other._deadTime;
+            _sampleRate = other._sampleRate;
+        }
+    
+        /// <summary>
+        /// Specifies whether the digital inputs produce data.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("enable")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="enable")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether the digital inputs produce data.")]
+        public bool Enable
+        {
+            get
+            {
+                return _enable;
+            }
+            set
+            {
+                _enable = value;
+            }
+        }
+    
+        /// <summary>
+        /// The dead time between digital event detections, in us, when sampling asynchronously.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("deadTime")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="deadTime")]
+        [System.ComponentModel.DescriptionAttribute("The dead time between digital event detections, in us, when sampling asynchronous" +
+            "ly.")]
+        public double DeadTime
+        {
+            get
+            {
+                return _deadTime;
+            }
+            set
+            {
+                _deadTime = value;
+            }
+        }
+    
+        /// <summary>
+        /// The sample rate of the digital inputs, in Hz. Left unset, data is produced on every change in input state.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("sampleRate")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="sampleRate")]
+        [System.ComponentModel.DescriptionAttribute("The sample rate of the digital inputs, in Hz. Left unset, data is produced on eve" +
+            "ry change in input state.")]
+        public double? SampleRate
+        {
+            get
+            {
+                return _sampleRate;
+            }
+            set
+            {
+                _sampleRate = value;
+            }
+        }
+    
+        public System.IObservable<DigitalIOConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new DigitalIOConfiguration(this)));
+        }
+    
+        public System.IObservable<DigitalIOConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new DigitalIOConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Enable = " + _enable + ", ");
+            stringBuilder.Append("DeadTime = " + _deadTime + ", ");
+            stringBuilder.Append("SampleRate = " + _sampleRate);
             return true;
         }
     
@@ -418,20 +860,37 @@ namespace Aeon.Ephys
     
         private Headstage _headstage;
     
-        private HarpSyncInputConfiguration _harpInput;
+        private BreakoutBoardConfiguration _breakoutBoard;
     
         public EphysConfiguration()
         {
-            _harpInput = new HarpSyncInputConfiguration();
-            _harpInput.Enable = true;
-            _harpInput.Source = OpenEphys.Onix1.HarpSyncSource.ClockAdapter;
+            _breakoutBoard = new BreakoutBoardConfiguration();
+            _breakoutBoard.Heartbeat = new HeartbeatConfiguration();
+            _breakoutBoard.Heartbeat.BeatsPerSecond = 100;
+            _breakoutBoard.AnalogIo = new AnalogIOConfiguration();
+            _breakoutBoard.AnalogIo.Enable = true;
+            _breakoutBoard.DigitalIo = new DigitalIOConfiguration();
+            _breakoutBoard.DigitalIo.DeadTime = 0D;
+            _breakoutBoard.DigitalIo.Enable = true;
+            _breakoutBoard.DigitalIo.SampleRate = null;
+            _breakoutBoard.ClockOutput = new OutputClockConfiguration();
+            _breakoutBoard.ClockOutput.ClockGate = false;
+            _breakoutBoard.ClockOutput.Delay = 0D;
+            _breakoutBoard.ClockOutput.DutyCycle = 50D;
+            _breakoutBoard.ClockOutput.Frequency = 1000000D;
+            _breakoutBoard.HarpInput = new HarpSyncInputConfiguration();
+            _breakoutBoard.HarpInput.Enable = true;
+            _breakoutBoard.HarpInput.Source = OpenEphys.Onix1.HarpSyncSource.ClockAdapter;
+            _breakoutBoard.MemoryMonitor = new MemoryMonitorConfiguration();
+            _breakoutBoard.MemoryMonitor.Enable = true;
+            _breakoutBoard.MemoryMonitor.SamplesPerSecond = 10;
         }
     
         protected EphysConfiguration(EphysConfiguration other)
         {
             _subject = other._subject;
             _headstage = other._headstage;
-            _harpInput = other._harpInput;
+            _breakoutBoard = other._breakoutBoard;
         }
     
         /// <summary>
@@ -472,21 +931,21 @@ namespace Aeon.Ephys
         }
     
         /// <summary>
-        /// The settings of the Harp synchronisation input.
+        /// The settings of the breakout board the headstage is connected to.
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("harpInput", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
-        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="harpInput")]
-        [System.ComponentModel.DescriptionAttribute("The settings of the Harp synchronisation input.")]
-        public HarpSyncInputConfiguration HarpInput
+        [Newtonsoft.Json.JsonPropertyAttribute("breakoutBoard", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="breakoutBoard")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the breakout board the headstage is connected to.")]
+        public BreakoutBoardConfiguration BreakoutBoard
         {
             get
             {
-                return _harpInput;
+                return _breakoutBoard;
             }
             set
             {
-                _harpInput = value;
+                _breakoutBoard = value;
             }
         }
     
@@ -504,7 +963,7 @@ namespace Aeon.Ephys
         {
             stringBuilder.Append("Subject = " + _subject + ", ");
             stringBuilder.Append("Headstage = " + _headstage + ", ");
-            stringBuilder.Append("HarpInput = " + _harpInput);
+            stringBuilder.Append("BreakoutBoard = " + _breakoutBoard);
             return true;
         }
     
@@ -939,6 +1398,171 @@ namespace Aeon.Ephys
             stringBuilder.Append("OpticalStimulator = " + _opticalStimulator + ", ");
             stringBuilder.Append("BufferSize = " + _bufferSize);
             return true;
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the settings of the breakout board heartbeat.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the settings of the breakout board heartbeat.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class HeartbeatConfiguration
+    {
+    
+        private int _beatsPerSecond;
+    
+        public HeartbeatConfiguration()
+        {
+            _beatsPerSecond = 100;
+        }
+    
+        protected HeartbeatConfiguration(HeartbeatConfiguration other)
+        {
+            _beatsPerSecond = other._beatsPerSecond;
+        }
+    
+        /// <summary>
+        /// The rate at which heartbeats are produced, in Hz.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("beatsPerSecond")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="beatsPerSecond")]
+        [System.ComponentModel.DescriptionAttribute("The rate at which heartbeats are produced, in Hz.")]
+        public int BeatsPerSecond
+        {
+            get
+            {
+                return _beatsPerSecond;
+            }
+            set
+            {
+                _beatsPerSecond = value;
+            }
+        }
+    
+        public System.IObservable<HeartbeatConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new HeartbeatConfiguration(this)));
+        }
+    
+        public System.IObservable<HeartbeatConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new HeartbeatConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("BeatsPerSecond = " + _beatsPerSecond);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the acquisition settings of the breakout board memory monitor.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of the breakout board memory monitor.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class MemoryMonitorConfiguration
+    {
+    
+        private bool _enable;
+    
+        private int _samplesPerSecond;
+    
+        public MemoryMonitorConfiguration()
+        {
+            _enable = true;
+            _samplesPerSecond = 10;
+        }
+    
+        protected MemoryMonitorConfiguration(MemoryMonitorConfiguration other)
+        {
+            _enable = other._enable;
+            _samplesPerSecond = other._samplesPerSecond;
+        }
+    
+        /// <summary>
+        /// Specifies whether memory usage produces data.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("enable")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="enable")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether memory usage produces data.")]
+        public bool Enable
+        {
+            get
+            {
+                return _enable;
+            }
+            set
+            {
+                _enable = value;
+            }
+        }
+    
+        /// <summary>
+        /// The rate at which memory usage is recorded, in Hz.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("samplesPerSecond")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="samplesPerSecond")]
+        [System.ComponentModel.DescriptionAttribute("The rate at which memory usage is recorded, in Hz.")]
+        public int SamplesPerSecond
+        {
+            get
+            {
+                return _samplesPerSecond;
+            }
+            set
+            {
+                _samplesPerSecond = value;
+            }
+        }
+    
+        public System.IObservable<MemoryMonitorConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new MemoryMonitorConfiguration(this)));
+        }
+    
+        public System.IObservable<MemoryMonitorConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new MemoryMonitorConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Enable = " + _enable + ", ");
+            stringBuilder.Append("SamplesPerSecond = " + _samplesPerSecond);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
         }
     }
 
@@ -2054,6 +2678,147 @@ namespace Aeon.Ephys
 
 
     /// <summary>
+    /// Represents the settings of the breakout board output clock.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the settings of the breakout board output clock.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class OutputClockConfiguration
+    {
+    
+        private bool _clockGate;
+    
+        private double _frequency;
+    
+        private double _dutyCycle;
+    
+        private double _delay;
+    
+        public OutputClockConfiguration()
+        {
+            _clockGate = false;
+            _frequency = 1000000D;
+            _dutyCycle = 50D;
+            _delay = 0D;
+        }
+    
+        protected OutputClockConfiguration(OutputClockConfiguration other)
+        {
+            _clockGate = other._clockGate;
+            _frequency = other._frequency;
+            _dutyCycle = other._dutyCycle;
+            _delay = other._delay;
+        }
+    
+        /// <summary>
+        /// Specifies whether the clock gate signal is set.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("clockGate")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="clockGate")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether the clock gate signal is set.")]
+        public bool ClockGate
+        {
+            get
+            {
+                return _clockGate;
+            }
+            set
+            {
+                _clockGate = value;
+            }
+        }
+    
+        /// <summary>
+        /// The frequency of the output clock, in Hz.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("frequency")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="frequency")]
+        [System.ComponentModel.DescriptionAttribute("The frequency of the output clock, in Hz.")]
+        public double Frequency
+        {
+            get
+            {
+                return _frequency;
+            }
+            set
+            {
+                _frequency = value;
+            }
+        }
+    
+        /// <summary>
+        /// The duty cycle of the output clock, in percent.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("dutyCycle")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="dutyCycle")]
+        [System.ComponentModel.DescriptionAttribute("The duty cycle of the output clock, in percent.")]
+        public double DutyCycle
+        {
+            get
+            {
+                return _dutyCycle;
+            }
+            set
+            {
+                _dutyCycle = value;
+            }
+        }
+    
+        /// <summary>
+        /// The delay following acquisition start before the clock becomes active, in seconds.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("delay")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="delay")]
+        [System.ComponentModel.DescriptionAttribute("The delay following acquisition start before the clock becomes active, in seconds" +
+            ".")]
+        public double Delay
+        {
+            get
+            {
+                return _delay;
+            }
+            set
+            {
+                _delay = value;
+            }
+        }
+    
+        public System.IObservable<OutputClockConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new OutputClockConfiguration(this)));
+        }
+    
+        public System.IObservable<OutputClockConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new OutputClockConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("ClockGate = " + _clockGate + ", ");
+            stringBuilder.Append("Frequency = " + _frequency + ", ");
+            stringBuilder.Append("DutyCycle = " + _dutyCycle + ", ");
+            stringBuilder.Append("Delay = " + _delay);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
     /// Represents the acquisition settings of a polled BNO055 inertial measurement unit.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
@@ -2689,9 +3454,24 @@ namespace Aeon.Ephys
             return System.Reactive.Linq.Observable.Select(source, value => Newtonsoft.Json.JsonConvert.SerializeObject(value, formatting));
         }
 
+        public System.IObservable<string> Process(System.IObservable<AnalogIOConfiguration> source)
+        {
+            return Process<AnalogIOConfiguration>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<Bno055Configuration> source)
         {
             return Process<Bno055Configuration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<BreakoutBoardConfiguration> source)
+        {
+            return Process<BreakoutBoardConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<DigitalIOConfiguration> source)
+        {
+            return Process<DigitalIOConfiguration>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<ElectricalStimulatorConfiguration> source)
@@ -2717,6 +3497,16 @@ namespace Aeon.Ephys
         public System.IObservable<string> Process(System.IObservable<Headstage64Configuration> source)
         {
             return Process<Headstage64Configuration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<HeartbeatConfiguration> source)
+        {
+            return Process<HeartbeatConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<MemoryMonitorConfiguration> source)
+        {
+            return Process<MemoryMonitorConfiguration>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<NeuropixelsV2BetaProbeConfiguration> source)
@@ -2749,6 +3539,11 @@ namespace Aeon.Ephys
             return Process<OpticalStimulatorConfiguration>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<OutputClockConfiguration> source)
+        {
+            return Process<OutputClockConfiguration>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<PolledBno055Configuration> source)
         {
             return Process<PolledBno055Configuration>(source);
@@ -2778,18 +3573,24 @@ namespace Aeon.Ephys
     [System.ComponentModel.DescriptionAttribute("Deserializes a sequence of JSON strings into data model objects.")]
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AnalogIOConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Bno055Configuration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BreakoutBoardConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<DigitalIOConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ElectricalStimulatorConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<EphysConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HarpSyncInputConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Headstage>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Headstage64Configuration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HeartbeatConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<MemoryMonitorConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2BetaProbeConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2QuadShankConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2eBetaConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2eConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2eProbeConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<OpticalStimulatorConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<OutputClockConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PolledBno055Configuration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PortVoltageConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Rhd2164Configuration>))]
@@ -2799,7 +3600,7 @@ namespace Aeon.Ephys
     
         public DeserializeFromJson()
         {
-            Type = new Bonsai.Expressions.TypeMapping<Bno055Configuration>();
+            Type = new Bonsai.Expressions.TypeMapping<AnalogIOConfiguration>();
         }
 
         public Bonsai.Expressions.TypeMapping Type { get; set; }
@@ -2990,9 +3791,24 @@ namespace Aeon.Ephys
             });
         }
 
+        public System.IObservable<string> Process(System.IObservable<AnalogIOConfiguration> source)
+        {
+            return Process<AnalogIOConfiguration>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<Bno055Configuration> source)
         {
             return Process<Bno055Configuration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<BreakoutBoardConfiguration> source)
+        {
+            return Process<BreakoutBoardConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<DigitalIOConfiguration> source)
+        {
+            return Process<DigitalIOConfiguration>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<ElectricalStimulatorConfiguration> source)
@@ -3018,6 +3834,16 @@ namespace Aeon.Ephys
         public System.IObservable<string> Process(System.IObservable<Headstage64Configuration> source)
         {
             return Process<Headstage64Configuration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<HeartbeatConfiguration> source)
+        {
+            return Process<HeartbeatConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<MemoryMonitorConfiguration> source)
+        {
+            return Process<MemoryMonitorConfiguration>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<NeuropixelsV2BetaProbeConfiguration> source)
@@ -3050,6 +3876,11 @@ namespace Aeon.Ephys
             return Process<OpticalStimulatorConfiguration>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<OutputClockConfiguration> source)
+        {
+            return Process<OutputClockConfiguration>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<PolledBno055Configuration> source)
         {
             return Process<PolledBno055Configuration>(source);
@@ -3079,18 +3910,24 @@ namespace Aeon.Ephys
     [System.ComponentModel.DescriptionAttribute("Deserializes a sequence of YAML strings into data model objects.")]
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AnalogIOConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Bno055Configuration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BreakoutBoardConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<DigitalIOConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ElectricalStimulatorConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<EphysConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HarpSyncInputConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Headstage>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Headstage64Configuration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HeartbeatConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<MemoryMonitorConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2BetaProbeConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2QuadShankConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2eBetaConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2eConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2eProbeConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<OpticalStimulatorConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<OutputClockConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PolledBno055Configuration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PortVoltageConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Rhd2164Configuration>))]
@@ -3100,7 +3937,7 @@ namespace Aeon.Ephys
     
         public DeserializeFromYaml()
         {
-            Type = new Bonsai.Expressions.TypeMapping<Bno055Configuration>();
+            Type = new Bonsai.Expressions.TypeMapping<AnalogIOConfiguration>();
         }
 
         public Bonsai.Expressions.TypeMapping Type { get; set; }

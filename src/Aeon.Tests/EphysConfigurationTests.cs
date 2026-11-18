@@ -46,8 +46,11 @@ namespace Aeon.Tests
                 "  bno055:",
                 "    axisMap: YZX",
                 "    axisSign: [MirrorY, MirrorX]",
-                "harpInput:",
-                "  source: ClockAdapter");
+                "breakoutBoard:",
+                "  harpInput:",
+                "    source: ClockAdapter",
+                "  memoryMonitor:",
+                "    samplesPerSecond: 5");
 
             var configuration = Deserialize(yaml);
             Assert.AreEqual("BA-12345", configuration.Subject);
@@ -67,8 +70,10 @@ namespace Aeon.Tests
             Assert.AreEqual("gain.csv", electrodes.GainCalibrationFileName);
             Assert.AreEqual(8, device.PortVoltage.Requested);
 
-            var harp = (ConfigureHarpSyncInput)configuration.HarpInput;
-            Assert.AreEqual(HarpSyncSource.ClockAdapter, harp.Source);
+            var breakout = (ConfigureBreakoutBoard)configuration.BreakoutBoard;
+            Assert.AreEqual(HarpSyncSource.ClockAdapter, breakout.HarpInput.Source);
+            Assert.AreEqual(5u, breakout.MemoryMonitor.SamplesPerSecond);
+            Assert.AreEqual("BreakoutBoard/HarpSyncInput", breakout.HarpInput.DeviceName);
         }
 
         [TestMethod]
@@ -92,6 +97,9 @@ namespace Aeon.Tests
             Assert.IsFalse(device.OpticalStimulator.Arm);
             Assert.IsFalse(device.ElectricalStimulator.Arm);
             Assert.IsFalse(device.TS4231.Enable);
+            var breakout = (ConfigureBreakoutBoard)configuration.BreakoutBoard;
+            Assert.IsTrue(breakout.MemoryMonitor.Enable);
+            Assert.AreEqual(HarpSyncSource.ClockAdapter, breakout.HarpInput.Source);
         }
 
         [TestMethod]

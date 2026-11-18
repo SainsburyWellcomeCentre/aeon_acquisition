@@ -67,7 +67,7 @@
               <Name>Source1</Name>
             </Expression>
             <Expression xsi:type="MemberSelector">
-              <Selector>HarpInput</Selector>
+              <Selector>BreakoutBoard</Selector>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Take">
@@ -75,7 +75,7 @@
               </Combinator>
             </Expression>
             <Expression xsi:type="rx:AsyncSubject">
-              <Name>HarpSyncConfig</Name>
+              <Name>BreakoutBoardConfig</Name>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="onix1:CreateContext">
@@ -84,11 +84,11 @@
               </Combinator>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
-              <Name>HarpSyncConfig</Name>
+              <Name>BreakoutBoardConfig</Name>
             </Expression>
             <Expression xsi:type="PropertyMapping">
               <PropertyMappings>
-                <Property Name="HarpInput" />
+                <Property Name="Configuration" />
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="Combinator">
