@@ -377,6 +377,117 @@ class HarpSyncInputConfiguration(SchemaModel):
     )
 
 
+class HeartbeatConfiguration(SchemaModel):
+    """Represents the settings of the breakout board heartbeat."""
+
+    beats_per_second: int = Field(
+        default=100, ge=1, description="The rate at which heartbeats are produced, in Hz."
+    )
+
+
+class AnalogIOVoltageRange(SchemaEnum, StrEnum, sgen_typename="OpenEphys.Onix1.AnalogIOVoltageRange"):
+    """Specifies the available input voltage ranges of an analog IO channel."""
+
+    TEN_VOLTS = "TenVolts"
+    TWO_POINT_FIVE_VOLTS = "TwoPointFiveVolts"
+    FIVE_VOLTS = "FiveVolts"
+
+
+class AnalogIODirection(SchemaEnum, StrEnum, sgen_typename="OpenEphys.Onix1.AnalogIODirection"):
+    """Specifies the direction of an analog IO channel."""
+
+    INPUT = "Input"
+    OUTPUT = "Output"
+
+
+# The breakout board has twelve analog channels, each with its own range and direction.
+# They are modelled as two lists indexed by channel so a YAML file lists them in order.
+class AnalogIOConfiguration(SchemaModel):
+    """Represents the acquisition settings of the breakout board analog IO channels."""
+
+    enable: bool = Field(default=True, description="Specifies whether the analog channels produce data.")
+    input_range: list[AnalogIOVoltageRange] = Field(
+        default=[AnalogIOVoltageRange.TEN_VOLTS] * 12,
+        min_length=12,
+        max_length=12,
+        description="The input voltage range of each channel, in channel order.",
+    )
+    direction: list[AnalogIODirection] = Field(
+        default=[AnalogIODirection.INPUT] * 12,
+        min_length=12,
+        max_length=12,
+        description="The direction of each channel, in channel order.",
+    )
+
+
+class DigitalIOConfiguration(SchemaModel):
+    """Represents the acquisition settings of the breakout board digital IO."""
+
+    enable: bool = Field(default=True, description="Specifies whether the digital inputs produce data.")
+    dead_time: float = Field(
+        default=0,
+        ge=0,
+        description="The dead time between digital event detections, in us, when sampling asynchronously.",
+    )
+    sample_rate: float | None = Field(
+        default=None,
+        description="The sample rate of the digital inputs, in Hz. "
+        "Left unset, data is produced on every change in input state.",
+    )
+
+
+class OutputClockConfiguration(SchemaModel):
+    """Represents the settings of the breakout board output clock."""
+
+    clock_gate: bool = Field(default=False, description="Specifies whether the clock gate signal is set.")
+    frequency: float = Field(default=1e6, gt=0, description="The frequency of the output clock, in Hz.")
+    duty_cycle: float = Field(
+        default=50, ge=0, le=100, description="The duty cycle of the output clock, in percent."
+    )
+    delay: float = Field(
+        default=0,
+        ge=0,
+        description="The delay following acquisition start before the clock becomes active, in seconds.",
+    )
+
+
+# The memory monitor is off in ONIX by default. It is on here because the acquisition
+# workflows publish its data as OnixMemoryUsage and the backlog alert is silent without it.
+class MemoryMonitorConfiguration(SchemaModel):
+    """Represents the acquisition settings of the breakout board memory monitor."""
+
+    enable: bool = Field(default=True, description="Specifies whether memory usage produces data.")
+    samples_per_second: int = Field(
+        default=10, ge=1, description="The rate at which memory usage is recorded, in Hz."
+    )
+
+
+# The breakout board has no name field. Its device names are fixed to what the monitoring
+# workflows ask for, and it has no port, so nothing about its identity is configurable.
+class BreakoutBoardConfiguration(SchemaModel):
+    """Represents the acquisition settings of the ONIX breakout board."""
+
+    heartbeat: HeartbeatConfiguration = Field(
+        default=HeartbeatConfiguration(), description="The settings of the heartbeat."
+    )
+    analog_io: AnalogIOConfiguration = Field(
+        default=AnalogIOConfiguration(), description="The settings of the analog IO channels."
+    )
+    digital_io: DigitalIOConfiguration = Field(
+        default=DigitalIOConfiguration(), description="The settings of the digital IO."
+    )
+    clock_output: OutputClockConfiguration = Field(
+        default=OutputClockConfiguration(), description="The settings of the output clock."
+    )
+    harp_input: HarpSyncInputConfiguration = Field(
+        default=HarpSyncInputConfiguration(),
+        description="The settings of the Harp synchronisation input.",
+    )
+    memory_monitor: MemoryMonitorConfiguration = Field(
+        default=MemoryMonitorConfiguration(), description="The settings of the memory monitor."
+    )
+
+
 class EphysConfiguration(SchemaModel):
     """Represents the acquisition settings of an Aeon ephys rig."""
 
@@ -384,7 +495,7 @@ class EphysConfiguration(SchemaModel):
     headstage: Headstage = Field(
         description="The settings of the connected headstage, selected by the type property."
     )
-    harp_input: HarpSyncInputConfiguration = Field(
-        default=HarpSyncInputConfiguration(),
-        description="The settings of the Harp synchronisation input.",
+    breakout_board: BreakoutBoardConfiguration = Field(
+        default=BreakoutBoardConfiguration(),
+        description="The settings of the breakout board the headstage is connected to.",
     )
