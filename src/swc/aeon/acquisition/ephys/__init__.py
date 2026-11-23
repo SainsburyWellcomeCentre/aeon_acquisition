@@ -250,9 +250,6 @@ class NeuropixelsV2QuadShankConfiguration(SchemaModel):
         default=NeuropixelsV2QuadShankReference.EXTERNAL,
         description="The reference source of all enabled electrodes.",
     )
-    gain_calibration_file_name: str = Field(
-        default="", description="The path of the gain calibration file supplied with the probe."
-    )
     probe_interface_file_name: str = Field(
         default="",
         description="The path of a probe interface file selecting the enabled electrodes. "
@@ -488,10 +485,17 @@ class BreakoutBoardConfiguration(SchemaModel):
     )
 
 
+# The gain calibration file of each enabled probe is not configured here. It is resolved at
+# acquisition from the calibration root and the probe serial recorded in the surgery record.
 class EphysConfiguration(SchemaModel):
     """Represents the acquisition settings of an Aeon ephys rig."""
 
     subject: str = Field(description="The ID of the implanted subject, naming its surgery record file.")
+    calibration_root: str = Field(
+        default="",
+        description="The folder holding the probe gain calibration files. "
+        "Each probe has a subfolder named by its serial number, holding <serial>_gainCalValues.csv.",
+    )
     headstage: Headstage = Field(
         description="The settings of the connected headstage, selected by the type property."
     )
@@ -499,3 +503,29 @@ class EphysConfiguration(SchemaModel):
         default=BreakoutBoardConfiguration(),
         description="The settings of the breakout board the headstage is connected to.",
     )
+
+
+class ProbeImplant(SchemaModel):
+    """Represents one probe insertion, as recorded at surgery."""
+
+    probe: str = Field(description="The acquisition probe the insertion is wired to, ProbeA or ProbeB.")
+    serial_number: str = Field(
+        description="The serial number of the probe. It names the gain calibration file of the probe."
+    )
+    target_area: str = Field(description="The targeted brain area.")
+    insertion_number: int = Field(
+        description="The insertion index distinguishing the probes implanted in one subject."
+    )
+    implantation_date: str | None = Field(
+        default=None, description="The implantation date in ISO 8601 form, YYYY-MM-DD."
+    )
+    probe_part_number: str | None = Field(
+        default=None, description="The part number of the implanted probe, for example NP2014."
+    )
+
+
+class ImplantedSubject(SchemaModel):
+    """Represents the surgery record of one implanted subject."""
+
+    subject: str = Field(description="The ID of the subject. It must match the record file name.")
+    implants: list[ProbeImplant] = Field(description="The probe insertions, one entry per implanted probe.")

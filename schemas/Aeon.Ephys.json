@@ -344,6 +344,12 @@
           "title": "Subject",
           "type": "string"
         },
+        "calibrationRoot": {
+          "default": "",
+          "description": "The folder holding the probe gain calibration files. Each probe has a subfolder named by its serial number, holding <serial>_gainCalValues.csv.",
+          "title": "CalibrationRoot",
+          "type": "string"
+        },
         "headstage": {
           "$ref": "#/$defs/Headstage",
           "description": "The settings of the connected headstage, selected by the type property."
@@ -584,6 +590,31 @@
       "type": "object",
       "x-sgen-typename": "Aeon.Ephys.HeartbeatConfiguration"
     },
+    "ImplantedSubject": {
+      "description": "Represents the surgery record of one implanted subject.",
+      "properties": {
+        "subject": {
+          "description": "The ID of the subject. It must match the record file name.",
+          "title": "Subject",
+          "type": "string"
+        },
+        "implants": {
+          "description": "The probe insertions, one entry per implanted probe.",
+          "items": {
+            "$ref": "#/$defs/ProbeImplant"
+          },
+          "title": "Implants",
+          "type": "array"
+        }
+      },
+      "required": [
+        "subject",
+        "implants"
+      ],
+      "title": "ImplantedSubject",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.ImplantedSubject"
+    },
     "MemoryMonitorConfiguration": {
       "description": "Represents the acquisition settings of the breakout board memory monitor.",
       "properties": {
@@ -625,7 +656,6 @@
           "default": {
             "invertPolarity": true,
             "reference": "External",
-            "gainCalibrationFileName": "",
             "probeInterfaceFileName": ""
           },
           "description": "The electrode settings of the probe.",
@@ -650,12 +680,6 @@
           "default": "External",
           "description": "The reference source of all enabled electrodes.",
           "title": "Reference"
-        },
-        "gainCalibrationFileName": {
-          "default": "",
-          "description": "The path of the gain calibration file supplied with the probe.",
-          "title": "GainCalibrationFileName",
-          "type": "string"
         },
         "probeInterfaceFileName": {
           "default": "",
@@ -717,7 +741,6 @@
             "enable": true,
             "enableLed": true,
             "probeConfiguration": {
-              "gainCalibrationFileName": "",
               "invertPolarity": true,
               "probeInterfaceFileName": "",
               "reference": "External"
@@ -732,7 +755,6 @@
             "enable": true,
             "enableLed": true,
             "probeConfiguration": {
-              "gainCalibrationFileName": "",
               "invertPolarity": true,
               "probeInterfaceFileName": "",
               "reference": "External"
@@ -794,7 +816,6 @@
           "default": {
             "enable": true,
             "probeConfiguration": {
-              "gainCalibrationFileName": "",
               "invertPolarity": true,
               "probeInterfaceFileName": "",
               "reference": "External"
@@ -808,7 +829,6 @@
           "default": {
             "enable": true,
             "probeConfiguration": {
-              "gainCalibrationFileName": "",
               "invertPolarity": true,
               "probeInterfaceFileName": "",
               "reference": "External"
@@ -856,7 +876,6 @@
           "default": {
             "invertPolarity": true,
             "reference": "External",
-            "gainCalibrationFileName": "",
             "probeInterfaceFileName": ""
           },
           "description": "The electrode settings of the probe.",
@@ -1035,6 +1054,66 @@
       "title": "PortVoltageConfiguration",
       "type": "object",
       "x-sgen-typename": "Aeon.Ephys.PortVoltageConfiguration"
+    },
+    "ProbeImplant": {
+      "description": "Represents one probe insertion, as recorded at surgery.",
+      "properties": {
+        "probe": {
+          "description": "The acquisition probe the insertion is wired to, ProbeA or ProbeB.",
+          "title": "Probe",
+          "type": "string"
+        },
+        "serialNumber": {
+          "description": "The serial number of the probe. It names the gain calibration file of the probe.",
+          "title": "SerialNumber",
+          "type": "string"
+        },
+        "targetArea": {
+          "description": "The targeted brain area.",
+          "title": "TargetArea",
+          "type": "string"
+        },
+        "insertionNumber": {
+          "description": "The insertion index distinguishing the probes implanted in one subject.",
+          "title": "InsertionNumber",
+          "type": "integer"
+        },
+        "implantationDate": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The implantation date in ISO 8601 form, YYYY-MM-DD.",
+          "title": "ImplantationDate"
+        },
+        "probePartNumber": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The part number of the implanted probe, for example NP2014.",
+          "title": "ProbePartNumber"
+        }
+      },
+      "required": [
+        "probe",
+        "serialNumber",
+        "targetArea",
+        "insertionNumber"
+      ],
+      "title": "ProbeImplant",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.ProbeImplant"
     },
     "Rhd2000AnalogHighCutoff": {
       "description": "Specifies the available upper cutoff frequencies of the analog bandwidth filter.",

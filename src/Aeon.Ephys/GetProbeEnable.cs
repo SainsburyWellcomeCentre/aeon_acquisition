@@ -31,14 +31,22 @@ namespace Aeon.Ephys
         /// </returns>
         public IObservable<bool> Process(IObservable<EphysConfiguration> source)
         {
-            return source.Select(configuration => configuration.Headstage switch
+            return source.Select(configuration => IsEnabled(configuration, ProbeName));
+        }
+
+        /// <summary>
+        /// Returns whether the specified probe is enabled in the ephys configuration.
+        /// </summary>
+        internal static bool IsEnabled(EphysConfiguration configuration, ProbeName probeName)
+        {
+            return configuration.Headstage switch
             {
                 NeuropixelsV2eConfiguration headstage => IsEnabled(
-                    ProbeName == ProbeName.ProbeA ? headstage.ProbeA : headstage.ProbeB),
+                    probeName == ProbeName.ProbeA ? headstage.ProbeA : headstage.ProbeB),
                 NeuropixelsV2eBetaConfiguration headstage => IsEnabled(
-                    ProbeName == ProbeName.ProbeA ? headstage.ProbeA : headstage.ProbeB),
+                    probeName == ProbeName.ProbeA ? headstage.ProbeA : headstage.ProbeB),
                 _ => false
-            });
+            };
         }
 
         static bool IsEnabled(NeuropixelsV2eProbeConfiguration? probe)

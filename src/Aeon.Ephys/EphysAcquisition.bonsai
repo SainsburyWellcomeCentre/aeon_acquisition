@@ -33,6 +33,9 @@
             <Expression xsi:type="rx:AsyncSubject" TypeArguments="sys:Int32">
               <rx:Name>ReadBufferSize</rx:Name>
             </Expression>
+            <Expression xsi:type="rx:AsyncSubject" TypeArguments="p1:ImplantedSubject">
+              <rx:Name>ImplantedSubject</rx:Name>
+            </Expression>
           </Nodes>
           <Edges />
         </Workflow>
@@ -52,6 +55,51 @@
       </Expression>
       <Expression xsi:type="p1:DeserializeFromYaml">
         <p1:Type xsi:type="TypeMapping" TypeArguments="p1:EphysConfiguration" />
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="SubjectRecordsPath" />
+      </Expression>
+      <Expression xsi:type="rx:SelectMany">
+        <Name>ResolveCalibration</Name>
+        <Description>Loads the surgery record of the configured subject and resolves the gain calibration file of each enabled probe from it.</Description>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Path" DisplayName="SubjectRecordsPath" Description="The folder holding one surgery record file per subject, named &lt;subject&gt;.yaml." />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p1:ReadSubjectRecord">
+                <p1:Path>Z:\aeon\config\ephys\subjects</p1:Path>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="p1:DeserializeFromYaml">
+              <p1:Type xsi:type="TypeMapping" TypeArguments="p1:ImplantedSubject" />
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>ImplantedSubject</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Zip" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p1:ResolveGainCalibration" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="2" Label="Source1" />
+            <Edge From="0" To="5" Label="Source1" />
+            <Edge From="1" To="2" Label="Source2" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source2" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+          </Edges>
+        </Workflow>
       </Expression>
       <Expression xsi:type="rx:AsyncSubject">
         <Name>EphysConfiguration</Name>
@@ -150,10 +198,12 @@
       <Edge From="1" To="2" Label="Source1" />
       <Edge From="2" To="3" Label="Source1" />
       <Edge From="3" To="4" Label="Source1" />
-      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="4" To="6" Label="Source1" />
+      <Edge From="5" To="6" Label="Source2" />
       <Edge From="6" To="7" Label="Source1" />
-      <Edge From="7" To="8" Label="Source1" />
       <Edge From="8" To="9" Label="Source1" />
+      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="10" To="11" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>

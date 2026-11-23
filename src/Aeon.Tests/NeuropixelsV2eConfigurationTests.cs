@@ -20,7 +20,6 @@ namespace Aeon.Tests
                     {
                         InvertPolarity = false,
                         Reference = NeuropixelsV2QuadShankReference.Ground,
-                        GainCalibrationFileName = "gain.csv",
                         ProbeInterfaceFileName = "probe.json"
                     }
                 },
@@ -47,7 +46,6 @@ namespace Aeon.Tests
             Assert.AreEqual(configuration.ProbeA.Enable, probe.Enable);
             Assert.AreEqual(expected.InvertPolarity, electrodes.InvertPolarity);
             Assert.AreEqual(expected.Reference, electrodes.Reference);
-            Assert.AreEqual(expected.GainCalibrationFileName, electrodes.GainCalibrationFileName);
             Assert.AreEqual(expected.ProbeInterfaceFileName, electrodes.ProbeInterfaceFileName);
             Assert.AreEqual(configuration.ProbeB.Enable, headstage.NeuropixelsV2B.Enable);
         }
