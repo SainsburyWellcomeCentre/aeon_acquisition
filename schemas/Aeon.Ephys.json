@@ -1,5 +1,114 @@
 {
   "$defs": {
+    "AnalogIOConfiguration": {
+      "description": "Represents the acquisition settings of the breakout board analog IO channels.",
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "Specifies whether the analog channels produce data.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "inputRange": {
+          "default": [
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts",
+            "TenVolts"
+          ],
+          "description": "The input voltage range of each channel, in channel order.",
+          "items": {
+            "$ref": "#/$defs/AnalogIOVoltageRange"
+          },
+          "maxItems": 12,
+          "minItems": 12,
+          "title": "InputRange",
+          "type": "array"
+        },
+        "direction": {
+          "default": [
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input",
+            "Input"
+          ],
+          "description": "The direction of each channel, in channel order.",
+          "items": {
+            "$ref": "#/$defs/AnalogIODirection"
+          },
+          "maxItems": 12,
+          "minItems": 12,
+          "title": "Direction",
+          "type": "array"
+        }
+      },
+      "title": "AnalogIOConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.AnalogIOConfiguration"
+    },
+    "AnalogIODirection": {
+      "description": "Specifies the direction of an analog IO channel.",
+      "enum": [
+        "Input",
+        "Output"
+      ],
+      "title": "AnalogIODirection",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.AnalogIODirection"
+    },
+    "AnalogIOVoltageRange": {
+      "description": "Specifies the available input voltage ranges of an analog IO channel.",
+      "enum": [
+        "TenVolts",
+        "TwoPointFiveVolts",
+        "FiveVolts"
+      ],
+      "title": "AnalogIOVoltageRange",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.AnalogIOVoltageRange"
+    },
+    "Bno055AxisMap": {
+      "description": "Specifies the axis order compensating for the mounting orientation of a BNO055 unit.",
+      "enum": [
+        "XYZ",
+        "XZY",
+        "YXZ",
+        "YZX",
+        "ZXY",
+        "ZYX"
+      ],
+      "title": "Bno055AxisMap",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.Bno055AxisMap"
+    },
+    "Bno055AxisSign": {
+      "description": "Specifies an axis inverted to compensate for the mounting orientation of a BNO055 unit.",
+      "enum": [
+        "Default",
+        "MirrorZ",
+        "MirrorY",
+        "MirrorX"
+      ],
+      "title": "Bno055AxisSign",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.Bno055AxisSign"
+    },
     "Bno055Configuration": {
       "description": "Represents the acquisition settings of a BNO055 inertial measurement unit.",
       "properties": {
@@ -13,6 +122,131 @@
       "title": "Bno055Configuration",
       "type": "object",
       "x-sgen-typename": "Aeon.Ephys.Bno055Configuration"
+    },
+    "BreakoutBoardConfiguration": {
+      "description": "Represents the acquisition settings of the ONIX breakout board.",
+      "properties": {
+        "heartbeat": {
+          "$ref": "#/$defs/HeartbeatConfiguration",
+          "default": {
+            "beatsPerSecond": 100
+          },
+          "description": "The settings of the heartbeat.",
+          "title": "Heartbeat"
+        },
+        "analogIo": {
+          "$ref": "#/$defs/AnalogIOConfiguration",
+          "default": {
+            "enable": true,
+            "inputRange": [
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts",
+              "TenVolts"
+            ],
+            "direction": [
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input",
+              "Input"
+            ]
+          },
+          "description": "The settings of the analog IO channels.",
+          "title": "AnalogIo"
+        },
+        "digitalIo": {
+          "$ref": "#/$defs/DigitalIOConfiguration",
+          "default": {
+            "enable": true,
+            "deadTime": 0.0,
+            "sampleRate": null
+          },
+          "description": "The settings of the digital IO.",
+          "title": "DigitalIo"
+        },
+        "clockOutput": {
+          "$ref": "#/$defs/OutputClockConfiguration",
+          "default": {
+            "clockGate": false,
+            "frequency": 1000000.0,
+            "dutyCycle": 50.0,
+            "delay": 0.0
+          },
+          "description": "The settings of the output clock.",
+          "title": "ClockOutput"
+        },
+        "harpInput": {
+          "$ref": "#/$defs/HarpSyncInputConfiguration",
+          "default": {
+            "enable": true,
+            "source": "ClockAdapter"
+          },
+          "description": "The settings of the Harp synchronisation input.",
+          "title": "HarpInput"
+        },
+        "memoryMonitor": {
+          "$ref": "#/$defs/MemoryMonitorConfiguration",
+          "default": {
+            "enable": true,
+            "samplesPerSecond": 10
+          },
+          "description": "The settings of the memory monitor.",
+          "title": "MemoryMonitor"
+        }
+      },
+      "title": "BreakoutBoardConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.BreakoutBoardConfiguration"
+    },
+    "DigitalIOConfiguration": {
+      "description": "Represents the acquisition settings of the breakout board digital IO.",
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "Specifies whether the digital inputs produce data.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "deadTime": {
+          "default": 0,
+          "description": "The dead time between digital event detections, in us, when sampling asynchronously.",
+          "minimum": 0,
+          "title": "DeadTime",
+          "type": "number"
+        },
+        "sampleRate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The sample rate of the digital inputs, in Hz. Left unset, data is produced on every change in input state.",
+          "title": "SampleRate"
+        }
+      },
+      "title": "DigitalIOConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.DigitalIOConfiguration"
     },
     "ElectricalStimulatorConfiguration": {
       "description": "Represents the settings of the headstage onboard electrical stimulator.",
@@ -102,6 +336,141 @@
       "type": "object",
       "x-sgen-typename": "Aeon.Ephys.ElectricalStimulatorConfiguration"
     },
+    "EphysConfiguration": {
+      "description": "Represents the acquisition settings of an Aeon ephys rig.",
+      "properties": {
+        "subject": {
+          "description": "The ID of the implanted subject, naming its surgery record file.",
+          "title": "Subject",
+          "type": "string"
+        },
+        "headstage": {
+          "$ref": "#/$defs/Headstage",
+          "description": "The settings of the connected headstage, selected by the type property."
+        },
+        "breakoutBoard": {
+          "$ref": "#/$defs/BreakoutBoardConfiguration",
+          "default": {
+            "heartbeat": {
+              "beatsPerSecond": 100
+            },
+            "analogIo": {
+              "direction": [
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input",
+                "Input"
+              ],
+              "enable": true,
+              "inputRange": [
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts",
+                "TenVolts"
+              ]
+            },
+            "digitalIo": {
+              "deadTime": 0.0,
+              "enable": true,
+              "sampleRate": null
+            },
+            "clockOutput": {
+              "clockGate": false,
+              "delay": 0.0,
+              "dutyCycle": 50.0,
+              "frequency": 1000000.0
+            },
+            "harpInput": {
+              "enable": true,
+              "source": "ClockAdapter"
+            },
+            "memoryMonitor": {
+              "enable": true,
+              "samplesPerSecond": 10
+            }
+          },
+          "description": "The settings of the breakout board the headstage is connected to.",
+          "title": "BreakoutBoard"
+        }
+      },
+      "required": [
+        "subject",
+        "headstage"
+      ],
+      "title": "EphysConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.EphysConfiguration"
+    },
+    "HarpSyncInputConfiguration": {
+      "description": "Represents the acquisition settings of the breakout board Harp synchronisation input.",
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "Specifies whether sync events produce data.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "source": {
+          "$ref": "#/$defs/HarpSyncSource",
+          "default": "ClockAdapter",
+          "description": "The physical input the Harp synchronisation signal arrives on.",
+          "title": "Source"
+        }
+      },
+      "title": "HarpSyncInputConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.HarpSyncInputConfiguration"
+    },
+    "HarpSyncSource": {
+      "description": "Specifies the physical input the Harp synchronisation signal arrives on.",
+      "enum": [
+        "Breakout",
+        "ClockAdapter"
+      ],
+      "title": "HarpSyncSource",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.HarpSyncSource"
+    },
+    "Headstage": {
+      "description": "The headstage connected to the breakout board, selected by the type property.",
+      "discriminator": {
+        "mapping": {
+          "Headstage64Configuration": "#/$defs/Headstage64Configuration",
+          "NeuropixelsV2eBetaConfiguration": "#/$defs/NeuropixelsV2eBetaConfiguration",
+          "NeuropixelsV2eConfiguration": "#/$defs/NeuropixelsV2eConfiguration"
+        },
+        "propertyName": "type"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Headstage64Configuration"
+        },
+        {
+          "$ref": "#/$defs/NeuropixelsV2eConfiguration"
+        },
+        {
+          "$ref": "#/$defs/NeuropixelsV2eBetaConfiguration"
+        }
+      ],
+      "title": "Headstage",
+      "x-sgen-typename": "Aeon.Ephys.Headstage"
+    },
     "Headstage64Configuration": {
       "description": "Represents the acquisition settings of an ONIX 64-channel headstage.",
       "properties": {
@@ -147,7 +516,7 @@
         "ts4231": {
           "$ref": "#/$defs/Ts4231Configuration",
           "default": {
-            "enable": true
+            "enable": false
           },
           "description": "The settings of the lighthouse receiver array.",
           "title": "Ts4231"
@@ -174,7 +543,7 @@
         "opticalStimulator": {
           "$ref": "#/$defs/OpticalStimulatorConfiguration",
           "default": {
-            "arm": true,
+            "arm": false,
             "maxCurrent": 100.0,
             "channelOneCurrent": 100.0,
             "channelTwoCurrent": 0.0,
@@ -187,17 +556,322 @@
           },
           "description": "The settings of the optical stimulator.",
           "title": "OpticalStimulator"
+        },
+        "bufferSize": {
+          "default": 3000,
+          "description": "The number of samples collected in each data frame.",
+          "minimum": 1,
+          "title": "BufferSize",
+          "type": "integer"
         }
       },
       "title": "Headstage64Configuration",
       "type": "object",
       "x-sgen-typename": "Aeon.Ephys.Headstage64Configuration"
     },
+    "HeartbeatConfiguration": {
+      "description": "Represents the settings of the breakout board heartbeat.",
+      "properties": {
+        "beatsPerSecond": {
+          "default": 100,
+          "description": "The rate at which heartbeats are produced, in Hz.",
+          "minimum": 1,
+          "title": "BeatsPerSecond",
+          "type": "integer"
+        }
+      },
+      "title": "HeartbeatConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.HeartbeatConfiguration"
+    },
+    "MemoryMonitorConfiguration": {
+      "description": "Represents the acquisition settings of the breakout board memory monitor.",
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "Specifies whether memory usage produces data.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "samplesPerSecond": {
+          "default": 10,
+          "description": "The rate at which memory usage is recorded, in Hz.",
+          "minimum": 1,
+          "title": "SamplesPerSecond",
+          "type": "integer"
+        }
+      },
+      "title": "MemoryMonitorConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.MemoryMonitorConfiguration"
+    },
+    "NeuropixelsV2BetaProbeConfiguration": {
+      "description": "Represents the acquisition settings of a beta Neuropixels 2.0 probe.",
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "Specifies whether the probe produces data.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "enableLed": {
+          "default": true,
+          "description": "Specifies whether the headstage indicator LED is enabled.",
+          "title": "EnableLed",
+          "type": "boolean"
+        },
+        "probeConfiguration": {
+          "$ref": "#/$defs/NeuropixelsV2QuadShankConfiguration",
+          "default": {
+            "invertPolarity": true,
+            "reference": "External",
+            "gainCalibrationFileName": "",
+            "probeInterfaceFileName": ""
+          },
+          "description": "The electrode settings of the probe.",
+          "title": "ProbeConfiguration"
+        }
+      },
+      "title": "NeuropixelsV2BetaProbeConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.NeuropixelsV2BetaProbeConfiguration"
+    },
+    "NeuropixelsV2QuadShankConfiguration": {
+      "description": "Represents the electrode settings of a Neuropixels 2.0 quad-shank probe.",
+      "properties": {
+        "invertPolarity": {
+          "default": true,
+          "description": "Specifies whether the acquired voltages are inverted.",
+          "title": "InvertPolarity",
+          "type": "boolean"
+        },
+        "reference": {
+          "$ref": "#/$defs/NeuropixelsV2QuadShankReference",
+          "default": "External",
+          "description": "The reference source of all enabled electrodes.",
+          "title": "Reference"
+        },
+        "gainCalibrationFileName": {
+          "default": "",
+          "description": "The path of the gain calibration file supplied with the probe.",
+          "title": "GainCalibrationFileName",
+          "type": "string"
+        },
+        "probeInterfaceFileName": {
+          "default": "",
+          "description": "The path of a probe interface file selecting the enabled electrodes. Left empty, the default channel map is used.",
+          "title": "ProbeInterfaceFileName",
+          "type": "string"
+        }
+      },
+      "title": "NeuropixelsV2QuadShankConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.NeuropixelsV2QuadShankConfiguration"
+    },
+    "NeuropixelsV2QuadShankReference": {
+      "description": "Specifies the available reference sources of a Neuropixels 2.0 quad-shank probe.",
+      "enum": [
+        "External",
+        "Tip1",
+        "Tip2",
+        "Tip3",
+        "Tip4",
+        "Ground"
+      ],
+      "title": "NeuropixelsV2QuadShankReference",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.NeuropixelsV2QuadShankReference"
+    },
+    "NeuropixelsV2eBetaConfiguration": {
+      "description": "Represents the acquisition settings of an ONIX beta NeuropixelsV2e headstage.",
+      "properties": {
+        "name": {
+          "default": "HeadstageNeuropixelsV2eBeta",
+          "description": "The name identifying the devices in the headstage. It must match the device names expected by the data operators.",
+          "title": "Name",
+          "type": "string"
+        },
+        "port": {
+          "$ref": "#/$defs/PortName",
+          "default": "PortA",
+          "description": "The breakout board port the headstage is connected to.",
+          "title": "Port"
+        },
+        "portVoltage": {
+          "$ref": "#/$defs/PortVoltageConfiguration",
+          "default": {
+            "requested": null
+          },
+          "description": "The link voltage settings for the headstage port.",
+          "title": "PortVoltage"
+        },
+        "trackingLed": {
+          "default": false,
+          "description": "Specifies whether the tracking LED is enabled.",
+          "title": "TrackingLed",
+          "type": "boolean"
+        },
+        "probeA": {
+          "$ref": "#/$defs/NeuropixelsV2BetaProbeConfiguration",
+          "default": {
+            "enable": true,
+            "enableLed": true,
+            "probeConfiguration": {
+              "gainCalibrationFileName": "",
+              "invertPolarity": true,
+              "probeInterfaceFileName": "",
+              "reference": "External"
+            }
+          },
+          "description": "The settings of probe A.",
+          "title": "ProbeA"
+        },
+        "probeB": {
+          "$ref": "#/$defs/NeuropixelsV2BetaProbeConfiguration",
+          "default": {
+            "enable": true,
+            "enableLed": true,
+            "probeConfiguration": {
+              "gainCalibrationFileName": "",
+              "invertPolarity": true,
+              "probeInterfaceFileName": "",
+              "reference": "External"
+            }
+          },
+          "description": "The settings of probe B.",
+          "title": "ProbeB"
+        },
+        "bno055": {
+          "$ref": "#/$defs/PolledBno055Configuration",
+          "default": {
+            "enable": true,
+            "axisMap": "YZX",
+            "axisSign": [
+              "MirrorY",
+              "MirrorX"
+            ]
+          },
+          "description": "The settings of the inertial measurement unit.",
+          "title": "Bno055"
+        },
+        "bufferSize": {
+          "default": 3000,
+          "description": "The number of samples collected in each probe data frame.",
+          "minimum": 1,
+          "title": "BufferSize",
+          "type": "integer"
+        }
+      },
+      "title": "NeuropixelsV2eBetaConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.NeuropixelsV2eBetaConfiguration"
+    },
+    "NeuropixelsV2eConfiguration": {
+      "description": "Represents the acquisition settings of an ONIX NeuropixelsV2e headstage.",
+      "properties": {
+        "name": {
+          "default": "HeadstageNeuropixelsV2e",
+          "description": "The name identifying the devices in the headstage. It must match the device names expected by the data operators.",
+          "title": "Name",
+          "type": "string"
+        },
+        "port": {
+          "$ref": "#/$defs/PortName",
+          "default": "PortA",
+          "description": "The breakout board port the headstage is connected to.",
+          "title": "Port"
+        },
+        "portVoltage": {
+          "$ref": "#/$defs/PortVoltageConfiguration",
+          "default": {
+            "requested": null
+          },
+          "description": "The link voltage settings for the headstage port.",
+          "title": "PortVoltage"
+        },
+        "probeA": {
+          "$ref": "#/$defs/NeuropixelsV2eProbeConfiguration",
+          "default": {
+            "enable": true,
+            "probeConfiguration": {
+              "gainCalibrationFileName": "",
+              "invertPolarity": true,
+              "probeInterfaceFileName": "",
+              "reference": "External"
+            }
+          },
+          "description": "The settings of probe A.",
+          "title": "ProbeA"
+        },
+        "probeB": {
+          "$ref": "#/$defs/NeuropixelsV2eProbeConfiguration",
+          "default": {
+            "enable": true,
+            "probeConfiguration": {
+              "gainCalibrationFileName": "",
+              "invertPolarity": true,
+              "probeInterfaceFileName": "",
+              "reference": "External"
+            }
+          },
+          "description": "The settings of probe B.",
+          "title": "ProbeB"
+        },
+        "bno055": {
+          "$ref": "#/$defs/PolledBno055Configuration",
+          "default": {
+            "enable": true,
+            "axisMap": "YZX",
+            "axisSign": [
+              "MirrorY",
+              "MirrorX"
+            ]
+          },
+          "description": "The settings of the inertial measurement unit.",
+          "title": "Bno055"
+        },
+        "bufferSize": {
+          "default": 3000,
+          "description": "The number of samples collected in each probe data frame.",
+          "minimum": 1,
+          "title": "BufferSize",
+          "type": "integer"
+        }
+      },
+      "title": "NeuropixelsV2eConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.NeuropixelsV2eConfiguration"
+    },
+    "NeuropixelsV2eProbeConfiguration": {
+      "description": "Represents the acquisition settings of a Neuropixels 2.0 probe.",
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "Specifies whether the probe produces data.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "probeConfiguration": {
+          "$ref": "#/$defs/NeuropixelsV2QuadShankConfiguration",
+          "default": {
+            "invertPolarity": true,
+            "reference": "External",
+            "gainCalibrationFileName": "",
+            "probeInterfaceFileName": ""
+          },
+          "description": "The electrode settings of the probe.",
+          "title": "ProbeConfiguration"
+        }
+      },
+      "title": "NeuropixelsV2eProbeConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.NeuropixelsV2eProbeConfiguration"
+    },
     "OpticalStimulatorConfiguration": {
       "description": "Represents the settings of the headstage onboard optical stimulator.",
       "properties": {
         "arm": {
-          "default": true,
+          "default": false,
           "description": "Specifies whether the stimulator responds to triggers.",
           "title": "Arm",
           "type": "boolean"
@@ -262,6 +936,74 @@
       "title": "OpticalStimulatorConfiguration",
       "type": "object",
       "x-sgen-typename": "Aeon.Ephys.OpticalStimulatorConfiguration"
+    },
+    "OutputClockConfiguration": {
+      "description": "Represents the settings of the breakout board output clock.",
+      "properties": {
+        "clockGate": {
+          "default": false,
+          "description": "Specifies whether the clock gate signal is set.",
+          "title": "ClockGate",
+          "type": "boolean"
+        },
+        "frequency": {
+          "default": 1000000.0,
+          "description": "The frequency of the output clock, in Hz.",
+          "exclusiveMinimum": 0,
+          "title": "Frequency",
+          "type": "number"
+        },
+        "dutyCycle": {
+          "default": 50,
+          "description": "The duty cycle of the output clock, in percent.",
+          "maximum": 100,
+          "minimum": 0,
+          "title": "DutyCycle",
+          "type": "number"
+        },
+        "delay": {
+          "default": 0,
+          "description": "The delay following acquisition start before the clock becomes active, in seconds.",
+          "minimum": 0,
+          "title": "Delay",
+          "type": "number"
+        }
+      },
+      "title": "OutputClockConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.OutputClockConfiguration"
+    },
+    "PolledBno055Configuration": {
+      "description": "Represents the acquisition settings of a polled BNO055 inertial measurement unit.",
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "Specifies whether the unit produces data.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "axisMap": {
+          "$ref": "#/$defs/Bno055AxisMap",
+          "default": "YZX",
+          "description": "The axis order compensating for the mounting orientation of the unit.",
+          "title": "AxisMap"
+        },
+        "axisSign": {
+          "default": [
+            "MirrorY",
+            "MirrorX"
+          ],
+          "description": "The axes inverted to compensate for the mounting orientation of the unit.",
+          "items": {
+            "$ref": "#/$defs/Bno055AxisSign"
+          },
+          "title": "AxisSign",
+          "type": "array"
+        }
+      },
+      "title": "PolledBno055Configuration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.PolledBno055Configuration"
     },
     "PortName": {
       "description": "Specifies the available headstage ports on the breakout board.",
@@ -413,7 +1155,7 @@
       "description": "Represents the acquisition settings of a TS4231 lighthouse receiver array.",
       "properties": {
         "enable": {
-          "default": true,
+          "default": false,
           "description": "Specifies whether the receivers produce data.",
           "title": "Enable",
           "type": "boolean"

@@ -10,6 +10,125 @@ namespace Aeon.Ephys
     #pragma warning disable // Disable all warnings
 
     /// <summary>
+    /// Represents the acquisition settings of the breakout board analog IO channels.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of the breakout board analog IO channels.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class AnalogIOConfiguration
+    {
+    
+        private bool _enable;
+    
+        private System.Collections.Generic.List<OpenEphys.Onix1.AnalogIOVoltageRange> _inputRange;
+    
+        private System.Collections.Generic.List<OpenEphys.Onix1.AnalogIODirection> _direction;
+    
+        public AnalogIOConfiguration()
+        {
+            _enable = true;
+            _inputRange = new System.Collections.Generic.List<OpenEphys.Onix1.AnalogIOVoltageRange>();
+            _direction = new System.Collections.Generic.List<OpenEphys.Onix1.AnalogIODirection>();
+        }
+    
+        protected AnalogIOConfiguration(AnalogIOConfiguration other)
+        {
+            _enable = other._enable;
+            _inputRange = other._inputRange;
+            _direction = other._direction;
+        }
+    
+        /// <summary>
+        /// Specifies whether the analog channels produce data.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("enable")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="enable")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether the analog channels produce data.")]
+        public bool Enable
+        {
+            get
+            {
+                return _enable;
+            }
+            set
+            {
+                _enable = value;
+            }
+        }
+    
+        /// <summary>
+        /// The input voltage range of each channel, in channel order.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("inputRange")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="inputRange")]
+        [System.ComponentModel.DescriptionAttribute("The input voltage range of each channel, in channel order.")]
+        public System.Collections.Generic.List<OpenEphys.Onix1.AnalogIOVoltageRange> InputRange
+        {
+            get
+            {
+                return _inputRange;
+            }
+            set
+            {
+                _inputRange = value;
+            }
+        }
+    
+        /// <summary>
+        /// The direction of each channel, in channel order.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("direction")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="direction")]
+        [System.ComponentModel.DescriptionAttribute("The direction of each channel, in channel order.")]
+        public System.Collections.Generic.List<OpenEphys.Onix1.AnalogIODirection> Direction
+        {
+            get
+            {
+                return _direction;
+            }
+            set
+            {
+                _direction = value;
+            }
+        }
+    
+        public System.IObservable<AnalogIOConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AnalogIOConfiguration(this)));
+        }
+    
+        public System.IObservable<AnalogIOConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new AnalogIOConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Enable = " + _enable + ", ");
+            stringBuilder.Append("InputRange = " + _inputRange + ", ");
+            stringBuilder.Append("Direction = " + _direction);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
     /// Represents the acquisition settings of a BNO055 inertial measurement unit.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
@@ -62,6 +181,329 @@ namespace Aeon.Ephys
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
             stringBuilder.Append("Enable = " + _enable);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the acquisition settings of the ONIX breakout board.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of the ONIX breakout board.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class BreakoutBoardConfiguration
+    {
+    
+        private HeartbeatConfiguration _heartbeat;
+    
+        private AnalogIOConfiguration _analogIo;
+    
+        private DigitalIOConfiguration _digitalIo;
+    
+        private OutputClockConfiguration _clockOutput;
+    
+        private HarpSyncInputConfiguration _harpInput;
+    
+        private MemoryMonitorConfiguration _memoryMonitor;
+    
+        public BreakoutBoardConfiguration()
+        {
+            _heartbeat = new HeartbeatConfiguration();
+            _heartbeat.BeatsPerSecond = 100;
+            _analogIo = new AnalogIOConfiguration();
+            _analogIo.Enable = true;
+            _digitalIo = new DigitalIOConfiguration();
+            _digitalIo.Enable = true;
+            _digitalIo.DeadTime = 0D;
+            _digitalIo.SampleRate = null;
+            _clockOutput = new OutputClockConfiguration();
+            _clockOutput.ClockGate = false;
+            _clockOutput.Frequency = 1000000D;
+            _clockOutput.DutyCycle = 50D;
+            _clockOutput.Delay = 0D;
+            _harpInput = new HarpSyncInputConfiguration();
+            _harpInput.Enable = true;
+            _harpInput.Source = OpenEphys.Onix1.HarpSyncSource.ClockAdapter;
+            _memoryMonitor = new MemoryMonitorConfiguration();
+            _memoryMonitor.Enable = true;
+            _memoryMonitor.SamplesPerSecond = 10;
+        }
+    
+        protected BreakoutBoardConfiguration(BreakoutBoardConfiguration other)
+        {
+            _heartbeat = other._heartbeat;
+            _analogIo = other._analogIo;
+            _digitalIo = other._digitalIo;
+            _clockOutput = other._clockOutput;
+            _harpInput = other._harpInput;
+            _memoryMonitor = other._memoryMonitor;
+        }
+    
+        /// <summary>
+        /// The settings of the heartbeat.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("heartbeat", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="heartbeat")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the heartbeat.")]
+        public HeartbeatConfiguration Heartbeat
+        {
+            get
+            {
+                return _heartbeat;
+            }
+            set
+            {
+                _heartbeat = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of the analog IO channels.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("analogIo", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="analogIo")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the analog IO channels.")]
+        public AnalogIOConfiguration AnalogIo
+        {
+            get
+            {
+                return _analogIo;
+            }
+            set
+            {
+                _analogIo = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of the digital IO.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("digitalIo", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="digitalIo")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the digital IO.")]
+        public DigitalIOConfiguration DigitalIo
+        {
+            get
+            {
+                return _digitalIo;
+            }
+            set
+            {
+                _digitalIo = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of the output clock.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("clockOutput", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="clockOutput")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the output clock.")]
+        public OutputClockConfiguration ClockOutput
+        {
+            get
+            {
+                return _clockOutput;
+            }
+            set
+            {
+                _clockOutput = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of the Harp synchronisation input.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("harpInput", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="harpInput")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the Harp synchronisation input.")]
+        public HarpSyncInputConfiguration HarpInput
+        {
+            get
+            {
+                return _harpInput;
+            }
+            set
+            {
+                _harpInput = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of the memory monitor.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("memoryMonitor", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="memoryMonitor")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the memory monitor.")]
+        public MemoryMonitorConfiguration MemoryMonitor
+        {
+            get
+            {
+                return _memoryMonitor;
+            }
+            set
+            {
+                _memoryMonitor = value;
+            }
+        }
+    
+        public System.IObservable<BreakoutBoardConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new BreakoutBoardConfiguration(this)));
+        }
+    
+        public System.IObservable<BreakoutBoardConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new BreakoutBoardConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Heartbeat = " + _heartbeat + ", ");
+            stringBuilder.Append("AnalogIo = " + _analogIo + ", ");
+            stringBuilder.Append("DigitalIo = " + _digitalIo + ", ");
+            stringBuilder.Append("ClockOutput = " + _clockOutput + ", ");
+            stringBuilder.Append("HarpInput = " + _harpInput + ", ");
+            stringBuilder.Append("MemoryMonitor = " + _memoryMonitor);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the acquisition settings of the breakout board digital IO.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of the breakout board digital IO.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class DigitalIOConfiguration
+    {
+    
+        private bool _enable;
+    
+        private double _deadTime;
+    
+        private double? _sampleRate;
+    
+        public DigitalIOConfiguration()
+        {
+            _enable = true;
+            _deadTime = 0D;
+        }
+    
+        protected DigitalIOConfiguration(DigitalIOConfiguration other)
+        {
+            _enable = other._enable;
+            _deadTime = other._deadTime;
+            _sampleRate = other._sampleRate;
+        }
+    
+        /// <summary>
+        /// Specifies whether the digital inputs produce data.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("enable")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="enable")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether the digital inputs produce data.")]
+        public bool Enable
+        {
+            get
+            {
+                return _enable;
+            }
+            set
+            {
+                _enable = value;
+            }
+        }
+    
+        /// <summary>
+        /// The dead time between digital event detections, in us, when sampling asynchronously.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("deadTime")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="deadTime")]
+        [System.ComponentModel.DescriptionAttribute("The dead time between digital event detections, in us, when sampling asynchronous" +
+            "ly.")]
+        public double DeadTime
+        {
+            get
+            {
+                return _deadTime;
+            }
+            set
+            {
+                _deadTime = value;
+            }
+        }
+    
+        /// <summary>
+        /// The sample rate of the digital inputs, in Hz. Left unset, data is produced on every change in input state.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("sampleRate")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="sampleRate")]
+        [System.ComponentModel.DescriptionAttribute("The sample rate of the digital inputs, in Hz. Left unset, data is produced on eve" +
+            "ry change in input state.")]
+        public double? SampleRate
+        {
+            get
+            {
+                return _sampleRate;
+            }
+            set
+            {
+                _sampleRate = value;
+            }
+        }
+    
+        public System.IObservable<DigitalIOConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new DigitalIOConfiguration(this)));
+        }
+    
+        public System.IObservable<DigitalIOConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new DigitalIOConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Enable = " + _enable + ", ");
+            stringBuilder.Append("DeadTime = " + _deadTime + ", ");
+            stringBuilder.Append("SampleRate = " + _sampleRate);
             return true;
         }
     
@@ -405,13 +847,286 @@ namespace Aeon.Ephys
 
 
     /// <summary>
+    /// Represents the acquisition settings of an Aeon ephys rig.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of an Aeon ephys rig.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class EphysConfiguration
+    {
+    
+        private string _subject;
+    
+        private Headstage _headstage;
+    
+        private BreakoutBoardConfiguration _breakoutBoard;
+    
+        public EphysConfiguration()
+        {
+            _breakoutBoard = new BreakoutBoardConfiguration();
+            _breakoutBoard.Heartbeat = new HeartbeatConfiguration();
+            _breakoutBoard.Heartbeat.BeatsPerSecond = 100;
+            _breakoutBoard.AnalogIo = new AnalogIOConfiguration();
+            _breakoutBoard.AnalogIo.Enable = true;
+            _breakoutBoard.DigitalIo = new DigitalIOConfiguration();
+            _breakoutBoard.DigitalIo.DeadTime = 0D;
+            _breakoutBoard.DigitalIo.Enable = true;
+            _breakoutBoard.DigitalIo.SampleRate = null;
+            _breakoutBoard.ClockOutput = new OutputClockConfiguration();
+            _breakoutBoard.ClockOutput.ClockGate = false;
+            _breakoutBoard.ClockOutput.Delay = 0D;
+            _breakoutBoard.ClockOutput.DutyCycle = 50D;
+            _breakoutBoard.ClockOutput.Frequency = 1000000D;
+            _breakoutBoard.HarpInput = new HarpSyncInputConfiguration();
+            _breakoutBoard.HarpInput.Enable = true;
+            _breakoutBoard.HarpInput.Source = OpenEphys.Onix1.HarpSyncSource.ClockAdapter;
+            _breakoutBoard.MemoryMonitor = new MemoryMonitorConfiguration();
+            _breakoutBoard.MemoryMonitor.Enable = true;
+            _breakoutBoard.MemoryMonitor.SamplesPerSecond = 10;
+        }
+    
+        protected EphysConfiguration(EphysConfiguration other)
+        {
+            _subject = other._subject;
+            _headstage = other._headstage;
+            _breakoutBoard = other._breakoutBoard;
+        }
+    
+        /// <summary>
+        /// The ID of the implanted subject, naming its surgery record file.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("subject", Required=Newtonsoft.Json.Required.Always)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="subject")]
+        [System.ComponentModel.DescriptionAttribute("The ID of the implanted subject, naming its surgery record file.")]
+        public string Subject
+        {
+            get
+            {
+                return _subject;
+            }
+            set
+            {
+                _subject = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of the connected headstage, selected by the type property.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("headstage", Required=Newtonsoft.Json.Required.Always)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="headstage")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the connected headstage, selected by the type property.")]
+        public Headstage Headstage
+        {
+            get
+            {
+                return _headstage;
+            }
+            set
+            {
+                _headstage = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of the breakout board the headstage is connected to.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("breakoutBoard", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="breakoutBoard")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the breakout board the headstage is connected to.")]
+        public BreakoutBoardConfiguration BreakoutBoard
+        {
+            get
+            {
+                return _breakoutBoard;
+            }
+            set
+            {
+                _breakoutBoard = value;
+            }
+        }
+    
+        public System.IObservable<EphysConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new EphysConfiguration(this)));
+        }
+    
+        public System.IObservable<EphysConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new EphysConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Subject = " + _subject + ", ");
+            stringBuilder.Append("Headstage = " + _headstage + ", ");
+            stringBuilder.Append("BreakoutBoard = " + _breakoutBoard);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the acquisition settings of the breakout board Harp synchronisation input.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of the breakout board Harp synchronisation in" +
+        "put.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class HarpSyncInputConfiguration
+    {
+    
+        private bool _enable;
+    
+        private OpenEphys.Onix1.HarpSyncSource _source;
+    
+        public HarpSyncInputConfiguration()
+        {
+            _enable = true;
+            _source = OpenEphys.Onix1.HarpSyncSource.ClockAdapter;
+        }
+    
+        protected HarpSyncInputConfiguration(HarpSyncInputConfiguration other)
+        {
+            _enable = other._enable;
+            _source = other._source;
+        }
+    
+        /// <summary>
+        /// Specifies whether sync events produce data.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("enable")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="enable")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether sync events produce data.")]
+        public bool Enable
+        {
+            get
+            {
+                return _enable;
+            }
+            set
+            {
+                _enable = value;
+            }
+        }
+    
+        /// <summary>
+        /// The physical input the Harp synchronisation signal arrives on.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("source")]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="source")]
+        [System.ComponentModel.DescriptionAttribute("The physical input the Harp synchronisation signal arrives on.")]
+        public OpenEphys.Onix1.HarpSyncSource Source
+        {
+            get
+            {
+                return _source;
+            }
+            set
+            {
+                _source = value;
+            }
+        }
+    
+        public System.IObservable<HarpSyncInputConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new HarpSyncInputConfiguration(this)));
+        }
+    
+        public System.IObservable<HarpSyncInputConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new HarpSyncInputConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Enable = " + _enable + ", ");
+            stringBuilder.Append("Source = " + _source);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// The headstage connected to the breakout board, selected by the type property.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [Newtonsoft.Json.JsonConverter(typeof(JsonInheritanceConverter), "type")]
+    [YamlDiscriminator("type")]
+    [JsonInheritanceAttribute("Headstage64Configuration", typeof(Headstage64Configuration))]
+    [JsonInheritanceAttribute("NeuropixelsV2eConfiguration", typeof(NeuropixelsV2eConfiguration))]
+    [JsonInheritanceAttribute("NeuropixelsV2eBetaConfiguration", typeof(NeuropixelsV2eBetaConfiguration))]
+    [System.ComponentModel.DescriptionAttribute("The headstage connected to the breakout board, selected by the type property.")]
+    public abstract partial class Headstage
+    {
+    
+        protected Headstage()
+        {
+        }
+    
+        protected Headstage(Headstage other)
+        {
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            return false;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
     /// Represents the acquisition settings of an ONIX 64-channel headstage.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
     [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of an ONIX 64-channel headstage.")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
-    public partial class Headstage64Configuration
+    public partial class Headstage64Configuration : Headstage
     {
     
         private string _name;
@@ -430,6 +1145,8 @@ namespace Aeon.Ephys
     
         private OpticalStimulatorConfiguration _opticalStimulator;
     
+        private int _bufferSize;
+    
         public Headstage64Configuration()
         {
             _name = "Headstage64";
@@ -444,7 +1161,7 @@ namespace Aeon.Ephys
             _bno055 = new Bno055Configuration();
             _bno055.Enable = true;
             _ts4231 = new Ts4231Configuration();
-            _ts4231.Enable = true;
+            _ts4231.Enable = false;
             _electricalStimulator = new ElectricalStimulatorConfiguration();
             _electricalStimulator.Arm = false;
             _electricalStimulator.TriggerDelay = 0;
@@ -459,7 +1176,7 @@ namespace Aeon.Ephys
             _electricalStimulator.InterBurstInterval = 0;
             _electricalStimulator.TrainBurstCount = 0;
             _opticalStimulator = new OpticalStimulatorConfiguration();
-            _opticalStimulator.Arm = true;
+            _opticalStimulator.Arm = false;
             _opticalStimulator.MaxCurrent = 100D;
             _opticalStimulator.ChannelOneCurrent = 100D;
             _opticalStimulator.ChannelTwoCurrent = 0D;
@@ -469,9 +1186,11 @@ namespace Aeon.Ephys
             _opticalStimulator.PulsesPerBurst = 20;
             _opticalStimulator.InterBurstInterval = 0D;
             _opticalStimulator.BurstsPerTrain = 1;
+            _bufferSize = 3000;
         }
     
-        protected Headstage64Configuration(Headstage64Configuration other)
+        protected Headstage64Configuration(Headstage64Configuration other) : 
+                base(other)
         {
             _name = other._name;
             _port = other._port;
@@ -481,6 +1200,7 @@ namespace Aeon.Ephys
             _ts4231 = other._ts4231;
             _electricalStimulator = other._electricalStimulator;
             _opticalStimulator = other._opticalStimulator;
+            _bufferSize = other._bufferSize;
         }
     
         /// <summary>
@@ -634,6 +1354,24 @@ namespace Aeon.Ephys
             }
         }
     
+        /// <summary>
+        /// The number of samples collected in each data frame.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("bufferSize")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="bufferSize")]
+        [System.ComponentModel.DescriptionAttribute("The number of samples collected in each data frame.")]
+        public int BufferSize
+        {
+            get
+            {
+                return _bufferSize;
+            }
+            set
+            {
+                _bufferSize = value;
+            }
+        }
+    
         public System.IObservable<Headstage64Configuration> Generate()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new Headstage64Configuration(this)));
@@ -644,8 +1382,12 @@ namespace Aeon.Ephys
             return System.Reactive.Linq.Observable.Select(source, _ => new Headstage64Configuration(this));
         }
     
-        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
+            if (base.PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(", ");
+            }
             stringBuilder.Append("Name = " + _name + ", ");
             stringBuilder.Append("Port = " + _port + ", ");
             stringBuilder.Append("PortVoltage = " + _portVoltage + ", ");
@@ -653,7 +1395,992 @@ namespace Aeon.Ephys
             stringBuilder.Append("Bno055 = " + _bno055 + ", ");
             stringBuilder.Append("Ts4231 = " + _ts4231 + ", ");
             stringBuilder.Append("ElectricalStimulator = " + _electricalStimulator + ", ");
-            stringBuilder.Append("OpticalStimulator = " + _opticalStimulator);
+            stringBuilder.Append("OpticalStimulator = " + _opticalStimulator + ", ");
+            stringBuilder.Append("BufferSize = " + _bufferSize);
+            return true;
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the settings of the breakout board heartbeat.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the settings of the breakout board heartbeat.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class HeartbeatConfiguration
+    {
+    
+        private int _beatsPerSecond;
+    
+        public HeartbeatConfiguration()
+        {
+            _beatsPerSecond = 100;
+        }
+    
+        protected HeartbeatConfiguration(HeartbeatConfiguration other)
+        {
+            _beatsPerSecond = other._beatsPerSecond;
+        }
+    
+        /// <summary>
+        /// The rate at which heartbeats are produced, in Hz.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("beatsPerSecond")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="beatsPerSecond")]
+        [System.ComponentModel.DescriptionAttribute("The rate at which heartbeats are produced, in Hz.")]
+        public int BeatsPerSecond
+        {
+            get
+            {
+                return _beatsPerSecond;
+            }
+            set
+            {
+                _beatsPerSecond = value;
+            }
+        }
+    
+        public System.IObservable<HeartbeatConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new HeartbeatConfiguration(this)));
+        }
+    
+        public System.IObservable<HeartbeatConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new HeartbeatConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("BeatsPerSecond = " + _beatsPerSecond);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the acquisition settings of the breakout board memory monitor.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of the breakout board memory monitor.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class MemoryMonitorConfiguration
+    {
+    
+        private bool _enable;
+    
+        private int _samplesPerSecond;
+    
+        public MemoryMonitorConfiguration()
+        {
+            _enable = true;
+            _samplesPerSecond = 10;
+        }
+    
+        protected MemoryMonitorConfiguration(MemoryMonitorConfiguration other)
+        {
+            _enable = other._enable;
+            _samplesPerSecond = other._samplesPerSecond;
+        }
+    
+        /// <summary>
+        /// Specifies whether memory usage produces data.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("enable")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="enable")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether memory usage produces data.")]
+        public bool Enable
+        {
+            get
+            {
+                return _enable;
+            }
+            set
+            {
+                _enable = value;
+            }
+        }
+    
+        /// <summary>
+        /// The rate at which memory usage is recorded, in Hz.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("samplesPerSecond")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="samplesPerSecond")]
+        [System.ComponentModel.DescriptionAttribute("The rate at which memory usage is recorded, in Hz.")]
+        public int SamplesPerSecond
+        {
+            get
+            {
+                return _samplesPerSecond;
+            }
+            set
+            {
+                _samplesPerSecond = value;
+            }
+        }
+    
+        public System.IObservable<MemoryMonitorConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new MemoryMonitorConfiguration(this)));
+        }
+    
+        public System.IObservable<MemoryMonitorConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new MemoryMonitorConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Enable = " + _enable + ", ");
+            stringBuilder.Append("SamplesPerSecond = " + _samplesPerSecond);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the acquisition settings of a beta Neuropixels 2.0 probe.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of a beta Neuropixels 2.0 probe.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class NeuropixelsV2BetaProbeConfiguration
+    {
+    
+        private bool _enable;
+    
+        private bool _enableLed;
+    
+        private NeuropixelsV2QuadShankConfiguration _probeConfiguration;
+    
+        public NeuropixelsV2BetaProbeConfiguration()
+        {
+            _enable = true;
+            _enableLed = true;
+            _probeConfiguration = new NeuropixelsV2QuadShankConfiguration();
+            _probeConfiguration.InvertPolarity = true;
+            _probeConfiguration.Reference = OpenEphys.Onix1.NeuropixelsV2QuadShankReference.External;
+            _probeConfiguration.GainCalibrationFileName = "";
+            _probeConfiguration.ProbeInterfaceFileName = "";
+        }
+    
+        protected NeuropixelsV2BetaProbeConfiguration(NeuropixelsV2BetaProbeConfiguration other)
+        {
+            _enable = other._enable;
+            _enableLed = other._enableLed;
+            _probeConfiguration = other._probeConfiguration;
+        }
+    
+        /// <summary>
+        /// Specifies whether the probe produces data.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("enable")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="enable")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether the probe produces data.")]
+        public bool Enable
+        {
+            get
+            {
+                return _enable;
+            }
+            set
+            {
+                _enable = value;
+            }
+        }
+    
+        /// <summary>
+        /// Specifies whether the headstage indicator LED is enabled.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("enableLed")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="enableLed")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether the headstage indicator LED is enabled.")]
+        public bool EnableLed
+        {
+            get
+            {
+                return _enableLed;
+            }
+            set
+            {
+                _enableLed = value;
+            }
+        }
+    
+        /// <summary>
+        /// The electrode settings of the probe.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("probeConfiguration", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="probeConfiguration")]
+        [System.ComponentModel.DescriptionAttribute("The electrode settings of the probe.")]
+        public NeuropixelsV2QuadShankConfiguration ProbeConfiguration
+        {
+            get
+            {
+                return _probeConfiguration;
+            }
+            set
+            {
+                _probeConfiguration = value;
+            }
+        }
+    
+        public System.IObservable<NeuropixelsV2BetaProbeConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new NeuropixelsV2BetaProbeConfiguration(this)));
+        }
+    
+        public System.IObservable<NeuropixelsV2BetaProbeConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new NeuropixelsV2BetaProbeConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Enable = " + _enable + ", ");
+            stringBuilder.Append("EnableLed = " + _enableLed + ", ");
+            stringBuilder.Append("ProbeConfiguration = " + _probeConfiguration);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the electrode settings of a Neuropixels 2.0 quad-shank probe.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the electrode settings of a Neuropixels 2.0 quad-shank probe.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class NeuropixelsV2QuadShankConfiguration
+    {
+    
+        private bool _invertPolarity;
+    
+        private OpenEphys.Onix1.NeuropixelsV2QuadShankReference _reference;
+    
+        private string _gainCalibrationFileName;
+    
+        private string _probeInterfaceFileName;
+    
+        public NeuropixelsV2QuadShankConfiguration()
+        {
+            _invertPolarity = true;
+            _reference = OpenEphys.Onix1.NeuropixelsV2QuadShankReference.External;
+            _gainCalibrationFileName = "";
+            _probeInterfaceFileName = "";
+        }
+    
+        protected NeuropixelsV2QuadShankConfiguration(NeuropixelsV2QuadShankConfiguration other)
+        {
+            _invertPolarity = other._invertPolarity;
+            _reference = other._reference;
+            _gainCalibrationFileName = other._gainCalibrationFileName;
+            _probeInterfaceFileName = other._probeInterfaceFileName;
+        }
+    
+        /// <summary>
+        /// Specifies whether the acquired voltages are inverted.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("invertPolarity")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="invertPolarity")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether the acquired voltages are inverted.")]
+        public bool InvertPolarity
+        {
+            get
+            {
+                return _invertPolarity;
+            }
+            set
+            {
+                _invertPolarity = value;
+            }
+        }
+    
+        /// <summary>
+        /// The reference source of all enabled electrodes.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("reference")]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="reference")]
+        [System.ComponentModel.DescriptionAttribute("The reference source of all enabled electrodes.")]
+        public OpenEphys.Onix1.NeuropixelsV2QuadShankReference Reference
+        {
+            get
+            {
+                return _reference;
+            }
+            set
+            {
+                _reference = value;
+            }
+        }
+    
+        /// <summary>
+        /// The path of the gain calibration file supplied with the probe.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("gainCalibrationFileName")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="gainCalibrationFileName")]
+        [System.ComponentModel.DescriptionAttribute("The path of the gain calibration file supplied with the probe.")]
+        public string GainCalibrationFileName
+        {
+            get
+            {
+                return _gainCalibrationFileName;
+            }
+            set
+            {
+                _gainCalibrationFileName = value;
+            }
+        }
+    
+        /// <summary>
+        /// The path of a probe interface file selecting the enabled electrodes. Left empty, the default channel map is used.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("probeInterfaceFileName")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="probeInterfaceFileName")]
+        [System.ComponentModel.DescriptionAttribute("The path of a probe interface file selecting the enabled electrodes. Left empty, " +
+            "the default channel map is used.")]
+        public string ProbeInterfaceFileName
+        {
+            get
+            {
+                return _probeInterfaceFileName;
+            }
+            set
+            {
+                _probeInterfaceFileName = value;
+            }
+        }
+    
+        public System.IObservable<NeuropixelsV2QuadShankConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new NeuropixelsV2QuadShankConfiguration(this)));
+        }
+    
+        public System.IObservable<NeuropixelsV2QuadShankConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new NeuropixelsV2QuadShankConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("InvertPolarity = " + _invertPolarity + ", ");
+            stringBuilder.Append("Reference = " + _reference + ", ");
+            stringBuilder.Append("GainCalibrationFileName = " + _gainCalibrationFileName + ", ");
+            stringBuilder.Append("ProbeInterfaceFileName = " + _probeInterfaceFileName);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the acquisition settings of an ONIX beta NeuropixelsV2e headstage.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of an ONIX beta NeuropixelsV2e headstage.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class NeuropixelsV2eBetaConfiguration : Headstage
+    {
+    
+        private string _name;
+    
+        private OpenEphys.Onix1.PortName _port;
+    
+        private PortVoltageConfiguration _portVoltage;
+    
+        private bool _trackingLed;
+    
+        private NeuropixelsV2BetaProbeConfiguration _probeA;
+    
+        private NeuropixelsV2BetaProbeConfiguration _probeB;
+    
+        private PolledBno055Configuration _bno055;
+    
+        private int _bufferSize;
+    
+        public NeuropixelsV2eBetaConfiguration()
+        {
+            _name = "HeadstageNeuropixelsV2eBeta";
+            _port = OpenEphys.Onix1.PortName.PortA;
+            _portVoltage = new PortVoltageConfiguration();
+            _portVoltage.Requested = null;
+            _trackingLed = false;
+            _probeA = new NeuropixelsV2BetaProbeConfiguration();
+            _probeA.Enable = true;
+            _probeA.EnableLed = true;
+            _probeA.ProbeConfiguration = new NeuropixelsV2QuadShankConfiguration();
+            _probeA.ProbeConfiguration.GainCalibrationFileName = "";
+            _probeA.ProbeConfiguration.InvertPolarity = true;
+            _probeA.ProbeConfiguration.ProbeInterfaceFileName = "";
+            _probeA.ProbeConfiguration.Reference = OpenEphys.Onix1.NeuropixelsV2QuadShankReference.External;
+            _probeB = new NeuropixelsV2BetaProbeConfiguration();
+            _probeB.Enable = true;
+            _probeB.EnableLed = true;
+            _probeB.ProbeConfiguration = new NeuropixelsV2QuadShankConfiguration();
+            _probeB.ProbeConfiguration.GainCalibrationFileName = "";
+            _probeB.ProbeConfiguration.InvertPolarity = true;
+            _probeB.ProbeConfiguration.ProbeInterfaceFileName = "";
+            _probeB.ProbeConfiguration.Reference = OpenEphys.Onix1.NeuropixelsV2QuadShankReference.External;
+            _bno055 = new PolledBno055Configuration();
+            _bno055.Enable = true;
+            _bno055.AxisMap = OpenEphys.Onix1.Bno055AxisMap.YZX;
+            _bufferSize = 3000;
+        }
+    
+        protected NeuropixelsV2eBetaConfiguration(NeuropixelsV2eBetaConfiguration other) : 
+                base(other)
+        {
+            _name = other._name;
+            _port = other._port;
+            _portVoltage = other._portVoltage;
+            _trackingLed = other._trackingLed;
+            _probeA = other._probeA;
+            _probeB = other._probeB;
+            _bno055 = other._bno055;
+            _bufferSize = other._bufferSize;
+        }
+    
+        /// <summary>
+        /// The name identifying the devices in the headstage. It must match the device names expected by the data operators.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("name")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="name")]
+        [System.ComponentModel.DescriptionAttribute("The name identifying the devices in the headstage. It must match the device names" +
+            " expected by the data operators.")]
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+            }
+        }
+    
+        /// <summary>
+        /// The breakout board port the headstage is connected to.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("port")]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="port")]
+        [System.ComponentModel.DescriptionAttribute("The breakout board port the headstage is connected to.")]
+        public OpenEphys.Onix1.PortName Port
+        {
+            get
+            {
+                return _port;
+            }
+            set
+            {
+                _port = value;
+            }
+        }
+    
+        /// <summary>
+        /// The link voltage settings for the headstage port.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("portVoltage", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="portVoltage")]
+        [System.ComponentModel.DescriptionAttribute("The link voltage settings for the headstage port.")]
+        public PortVoltageConfiguration PortVoltage
+        {
+            get
+            {
+                return _portVoltage;
+            }
+            set
+            {
+                _portVoltage = value;
+            }
+        }
+    
+        /// <summary>
+        /// Specifies whether the tracking LED is enabled.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("trackingLed")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="trackingLed")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether the tracking LED is enabled.")]
+        public bool TrackingLed
+        {
+            get
+            {
+                return _trackingLed;
+            }
+            set
+            {
+                _trackingLed = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of probe A.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("probeA", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="probeA")]
+        [System.ComponentModel.DescriptionAttribute("The settings of probe A.")]
+        public NeuropixelsV2BetaProbeConfiguration ProbeA
+        {
+            get
+            {
+                return _probeA;
+            }
+            set
+            {
+                _probeA = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of probe B.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("probeB", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="probeB")]
+        [System.ComponentModel.DescriptionAttribute("The settings of probe B.")]
+        public NeuropixelsV2BetaProbeConfiguration ProbeB
+        {
+            get
+            {
+                return _probeB;
+            }
+            set
+            {
+                _probeB = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of the inertial measurement unit.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("bno055", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="bno055")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the inertial measurement unit.")]
+        public PolledBno055Configuration Bno055
+        {
+            get
+            {
+                return _bno055;
+            }
+            set
+            {
+                _bno055 = value;
+            }
+        }
+    
+        /// <summary>
+        /// The number of samples collected in each probe data frame.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("bufferSize")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="bufferSize")]
+        [System.ComponentModel.DescriptionAttribute("The number of samples collected in each probe data frame.")]
+        public int BufferSize
+        {
+            get
+            {
+                return _bufferSize;
+            }
+            set
+            {
+                _bufferSize = value;
+            }
+        }
+    
+        public System.IObservable<NeuropixelsV2eBetaConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new NeuropixelsV2eBetaConfiguration(this)));
+        }
+    
+        public System.IObservable<NeuropixelsV2eBetaConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new NeuropixelsV2eBetaConfiguration(this));
+        }
+    
+        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            if (base.PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(", ");
+            }
+            stringBuilder.Append("Name = " + _name + ", ");
+            stringBuilder.Append("Port = " + _port + ", ");
+            stringBuilder.Append("PortVoltage = " + _portVoltage + ", ");
+            stringBuilder.Append("TrackingLed = " + _trackingLed + ", ");
+            stringBuilder.Append("ProbeA = " + _probeA + ", ");
+            stringBuilder.Append("ProbeB = " + _probeB + ", ");
+            stringBuilder.Append("Bno055 = " + _bno055 + ", ");
+            stringBuilder.Append("BufferSize = " + _bufferSize);
+            return true;
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the acquisition settings of an ONIX NeuropixelsV2e headstage.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of an ONIX NeuropixelsV2e headstage.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class NeuropixelsV2eConfiguration : Headstage
+    {
+    
+        private string _name;
+    
+        private OpenEphys.Onix1.PortName _port;
+    
+        private PortVoltageConfiguration _portVoltage;
+    
+        private NeuropixelsV2eProbeConfiguration _probeA;
+    
+        private NeuropixelsV2eProbeConfiguration _probeB;
+    
+        private PolledBno055Configuration _bno055;
+    
+        private int _bufferSize;
+    
+        public NeuropixelsV2eConfiguration()
+        {
+            _name = "HeadstageNeuropixelsV2e";
+            _port = OpenEphys.Onix1.PortName.PortA;
+            _portVoltage = new PortVoltageConfiguration();
+            _portVoltage.Requested = null;
+            _probeA = new NeuropixelsV2eProbeConfiguration();
+            _probeA.Enable = true;
+            _probeA.ProbeConfiguration = new NeuropixelsV2QuadShankConfiguration();
+            _probeA.ProbeConfiguration.GainCalibrationFileName = "";
+            _probeA.ProbeConfiguration.InvertPolarity = true;
+            _probeA.ProbeConfiguration.ProbeInterfaceFileName = "";
+            _probeA.ProbeConfiguration.Reference = OpenEphys.Onix1.NeuropixelsV2QuadShankReference.External;
+            _probeB = new NeuropixelsV2eProbeConfiguration();
+            _probeB.Enable = true;
+            _probeB.ProbeConfiguration = new NeuropixelsV2QuadShankConfiguration();
+            _probeB.ProbeConfiguration.GainCalibrationFileName = "";
+            _probeB.ProbeConfiguration.InvertPolarity = true;
+            _probeB.ProbeConfiguration.ProbeInterfaceFileName = "";
+            _probeB.ProbeConfiguration.Reference = OpenEphys.Onix1.NeuropixelsV2QuadShankReference.External;
+            _bno055 = new PolledBno055Configuration();
+            _bno055.Enable = true;
+            _bno055.AxisMap = OpenEphys.Onix1.Bno055AxisMap.YZX;
+            _bufferSize = 3000;
+        }
+    
+        protected NeuropixelsV2eConfiguration(NeuropixelsV2eConfiguration other) : 
+                base(other)
+        {
+            _name = other._name;
+            _port = other._port;
+            _portVoltage = other._portVoltage;
+            _probeA = other._probeA;
+            _probeB = other._probeB;
+            _bno055 = other._bno055;
+            _bufferSize = other._bufferSize;
+        }
+    
+        /// <summary>
+        /// The name identifying the devices in the headstage. It must match the device names expected by the data operators.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("name")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="name")]
+        [System.ComponentModel.DescriptionAttribute("The name identifying the devices in the headstage. It must match the device names" +
+            " expected by the data operators.")]
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+            }
+        }
+    
+        /// <summary>
+        /// The breakout board port the headstage is connected to.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("port")]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="port")]
+        [System.ComponentModel.DescriptionAttribute("The breakout board port the headstage is connected to.")]
+        public OpenEphys.Onix1.PortName Port
+        {
+            get
+            {
+                return _port;
+            }
+            set
+            {
+                _port = value;
+            }
+        }
+    
+        /// <summary>
+        /// The link voltage settings for the headstage port.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("portVoltage", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="portVoltage")]
+        [System.ComponentModel.DescriptionAttribute("The link voltage settings for the headstage port.")]
+        public PortVoltageConfiguration PortVoltage
+        {
+            get
+            {
+                return _portVoltage;
+            }
+            set
+            {
+                _portVoltage = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of probe A.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("probeA", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="probeA")]
+        [System.ComponentModel.DescriptionAttribute("The settings of probe A.")]
+        public NeuropixelsV2eProbeConfiguration ProbeA
+        {
+            get
+            {
+                return _probeA;
+            }
+            set
+            {
+                _probeA = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of probe B.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("probeB", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="probeB")]
+        [System.ComponentModel.DescriptionAttribute("The settings of probe B.")]
+        public NeuropixelsV2eProbeConfiguration ProbeB
+        {
+            get
+            {
+                return _probeB;
+            }
+            set
+            {
+                _probeB = value;
+            }
+        }
+    
+        /// <summary>
+        /// The settings of the inertial measurement unit.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("bno055", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="bno055")]
+        [System.ComponentModel.DescriptionAttribute("The settings of the inertial measurement unit.")]
+        public PolledBno055Configuration Bno055
+        {
+            get
+            {
+                return _bno055;
+            }
+            set
+            {
+                _bno055 = value;
+            }
+        }
+    
+        /// <summary>
+        /// The number of samples collected in each probe data frame.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("bufferSize")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="bufferSize")]
+        [System.ComponentModel.DescriptionAttribute("The number of samples collected in each probe data frame.")]
+        public int BufferSize
+        {
+            get
+            {
+                return _bufferSize;
+            }
+            set
+            {
+                _bufferSize = value;
+            }
+        }
+    
+        public System.IObservable<NeuropixelsV2eConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new NeuropixelsV2eConfiguration(this)));
+        }
+    
+        public System.IObservable<NeuropixelsV2eConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new NeuropixelsV2eConfiguration(this));
+        }
+    
+        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            if (base.PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(", ");
+            }
+            stringBuilder.Append("Name = " + _name + ", ");
+            stringBuilder.Append("Port = " + _port + ", ");
+            stringBuilder.Append("PortVoltage = " + _portVoltage + ", ");
+            stringBuilder.Append("ProbeA = " + _probeA + ", ");
+            stringBuilder.Append("ProbeB = " + _probeB + ", ");
+            stringBuilder.Append("Bno055 = " + _bno055 + ", ");
+            stringBuilder.Append("BufferSize = " + _bufferSize);
+            return true;
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the acquisition settings of a Neuropixels 2.0 probe.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of a Neuropixels 2.0 probe.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class NeuropixelsV2eProbeConfiguration
+    {
+    
+        private bool _enable;
+    
+        private NeuropixelsV2QuadShankConfiguration _probeConfiguration;
+    
+        public NeuropixelsV2eProbeConfiguration()
+        {
+            _enable = true;
+            _probeConfiguration = new NeuropixelsV2QuadShankConfiguration();
+            _probeConfiguration.InvertPolarity = true;
+            _probeConfiguration.Reference = OpenEphys.Onix1.NeuropixelsV2QuadShankReference.External;
+            _probeConfiguration.GainCalibrationFileName = "";
+            _probeConfiguration.ProbeInterfaceFileName = "";
+        }
+    
+        protected NeuropixelsV2eProbeConfiguration(NeuropixelsV2eProbeConfiguration other)
+        {
+            _enable = other._enable;
+            _probeConfiguration = other._probeConfiguration;
+        }
+    
+        /// <summary>
+        /// Specifies whether the probe produces data.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("enable")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="enable")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether the probe produces data.")]
+        public bool Enable
+        {
+            get
+            {
+                return _enable;
+            }
+            set
+            {
+                _enable = value;
+            }
+        }
+    
+        /// <summary>
+        /// The electrode settings of the probe.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("probeConfiguration", ObjectCreationHandling=Newtonsoft.Json.ObjectCreationHandling.Replace)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="probeConfiguration")]
+        [System.ComponentModel.DescriptionAttribute("The electrode settings of the probe.")]
+        public NeuropixelsV2QuadShankConfiguration ProbeConfiguration
+        {
+            get
+            {
+                return _probeConfiguration;
+            }
+            set
+            {
+                _probeConfiguration = value;
+            }
+        }
+    
+        public System.IObservable<NeuropixelsV2eProbeConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new NeuropixelsV2eProbeConfiguration(this)));
+        }
+    
+        public System.IObservable<NeuropixelsV2eProbeConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new NeuropixelsV2eProbeConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Enable = " + _enable + ", ");
+            stringBuilder.Append("ProbeConfiguration = " + _probeConfiguration);
             return true;
         }
     
@@ -704,7 +2431,7 @@ namespace Aeon.Ephys
     
         public OpticalStimulatorConfiguration()
         {
-            _arm = true;
+            _arm = false;
             _maxCurrent = 100D;
             _channelOneCurrent = 100D;
             _channelTwoCurrent = 0D;
@@ -951,6 +2678,267 @@ namespace Aeon.Ephys
 
 
     /// <summary>
+    /// Represents the settings of the breakout board output clock.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the settings of the breakout board output clock.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class OutputClockConfiguration
+    {
+    
+        private bool _clockGate;
+    
+        private double _frequency;
+    
+        private double _dutyCycle;
+    
+        private double _delay;
+    
+        public OutputClockConfiguration()
+        {
+            _clockGate = false;
+            _frequency = 1000000D;
+            _dutyCycle = 50D;
+            _delay = 0D;
+        }
+    
+        protected OutputClockConfiguration(OutputClockConfiguration other)
+        {
+            _clockGate = other._clockGate;
+            _frequency = other._frequency;
+            _dutyCycle = other._dutyCycle;
+            _delay = other._delay;
+        }
+    
+        /// <summary>
+        /// Specifies whether the clock gate signal is set.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("clockGate")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="clockGate")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether the clock gate signal is set.")]
+        public bool ClockGate
+        {
+            get
+            {
+                return _clockGate;
+            }
+            set
+            {
+                _clockGate = value;
+            }
+        }
+    
+        /// <summary>
+        /// The frequency of the output clock, in Hz.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("frequency")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="frequency")]
+        [System.ComponentModel.DescriptionAttribute("The frequency of the output clock, in Hz.")]
+        public double Frequency
+        {
+            get
+            {
+                return _frequency;
+            }
+            set
+            {
+                _frequency = value;
+            }
+        }
+    
+        /// <summary>
+        /// The duty cycle of the output clock, in percent.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("dutyCycle")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="dutyCycle")]
+        [System.ComponentModel.DescriptionAttribute("The duty cycle of the output clock, in percent.")]
+        public double DutyCycle
+        {
+            get
+            {
+                return _dutyCycle;
+            }
+            set
+            {
+                _dutyCycle = value;
+            }
+        }
+    
+        /// <summary>
+        /// The delay following acquisition start before the clock becomes active, in seconds.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("delay")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="delay")]
+        [System.ComponentModel.DescriptionAttribute("The delay following acquisition start before the clock becomes active, in seconds" +
+            ".")]
+        public double Delay
+        {
+            get
+            {
+                return _delay;
+            }
+            set
+            {
+                _delay = value;
+            }
+        }
+    
+        public System.IObservable<OutputClockConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new OutputClockConfiguration(this)));
+        }
+    
+        public System.IObservable<OutputClockConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new OutputClockConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("ClockGate = " + _clockGate + ", ");
+            stringBuilder.Append("Frequency = " + _frequency + ", ");
+            stringBuilder.Append("DutyCycle = " + _dutyCycle + ", ");
+            stringBuilder.Append("Delay = " + _delay);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the acquisition settings of a polled BNO055 inertial measurement unit.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the acquisition settings of a polled BNO055 inertial measurement unit." +
+        "")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class PolledBno055Configuration
+    {
+    
+        private bool _enable;
+    
+        private OpenEphys.Onix1.Bno055AxisMap _axisMap;
+    
+        private System.Collections.Generic.List<OpenEphys.Onix1.Bno055AxisSign> _axisSign;
+    
+        public PolledBno055Configuration()
+        {
+            _enable = true;
+            _axisMap = OpenEphys.Onix1.Bno055AxisMap.YZX;
+            _axisSign = new System.Collections.Generic.List<OpenEphys.Onix1.Bno055AxisSign>();
+        }
+    
+        protected PolledBno055Configuration(PolledBno055Configuration other)
+        {
+            _enable = other._enable;
+            _axisMap = other._axisMap;
+            _axisSign = other._axisSign;
+        }
+    
+        /// <summary>
+        /// Specifies whether the unit produces data.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("enable")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="enable")]
+        [System.ComponentModel.DescriptionAttribute("Specifies whether the unit produces data.")]
+        public bool Enable
+        {
+            get
+            {
+                return _enable;
+            }
+            set
+            {
+                _enable = value;
+            }
+        }
+    
+        /// <summary>
+        /// The axis order compensating for the mounting orientation of the unit.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("axisMap")]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="axisMap")]
+        [System.ComponentModel.DescriptionAttribute("The axis order compensating for the mounting orientation of the unit.")]
+        public OpenEphys.Onix1.Bno055AxisMap AxisMap
+        {
+            get
+            {
+                return _axisMap;
+            }
+            set
+            {
+                _axisMap = value;
+            }
+        }
+    
+        /// <summary>
+        /// The axes inverted to compensate for the mounting orientation of the unit.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("axisSign")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="axisSign")]
+        [System.ComponentModel.DescriptionAttribute("The axes inverted to compensate for the mounting orientation of the unit.")]
+        public System.Collections.Generic.List<OpenEphys.Onix1.Bno055AxisSign> AxisSign
+        {
+            get
+            {
+                return _axisSign;
+            }
+            set
+            {
+                _axisSign = value;
+            }
+        }
+    
+        public System.IObservable<PolledBno055Configuration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new PolledBno055Configuration(this)));
+        }
+    
+        public System.IObservable<PolledBno055Configuration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new PolledBno055Configuration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Enable = " + _enable + ", ");
+            stringBuilder.Append("AxisMap = " + _axisMap + ", ");
+            stringBuilder.Append("AxisSign = " + _axisSign);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
     /// Represents the link voltage supplied to a headstage port.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
@@ -1177,7 +3165,7 @@ namespace Aeon.Ephys
     
         public Ts4231Configuration()
         {
-            _enable = true;
+            _enable = false;
         }
     
         protected Ts4231Configuration(Ts4231Configuration other)
@@ -1234,6 +3222,220 @@ namespace Aeon.Ephys
     }
 
 
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Interface, AllowMultiple = true)]
+    internal class JsonInheritanceAttribute : System.Attribute
+    {
+        public JsonInheritanceAttribute(string key, System.Type type)
+        {
+            Key = key;
+            Type = type;
+        }
+
+        public string Key { get; private set; }
+
+        public System.Type Type { get; private set; }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    public class JsonInheritanceConverter : Newtonsoft.Json.JsonConverter
+    {
+        internal static readonly string DefaultDiscriminatorName = "discriminator";
+
+        private readonly string _discriminatorName;
+
+        [System.ThreadStatic]
+        private static bool _isReading;
+
+        [System.ThreadStatic]
+        private static bool _isWriting;
+
+        public JsonInheritanceConverter()
+        {
+            _discriminatorName = DefaultDiscriminatorName;
+        }
+
+        public JsonInheritanceConverter(string discriminatorName)
+        {
+            _discriminatorName = discriminatorName;
+        }
+
+        public string DiscriminatorName { get { return _discriminatorName; } }
+
+        public override void WriteJson(Newtonsoft.Json.JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            try
+            {
+                _isWriting = true;
+
+                var jObject = Newtonsoft.Json.Linq.JObject.FromObject(value, serializer);
+                jObject.AddFirst(new Newtonsoft.Json.Linq.JProperty(_discriminatorName, GetSubtypeDiscriminator(value.GetType())));
+                writer.WriteToken(jObject.CreateReader());
+            }
+            finally
+            {
+                _isWriting = false;
+            }
+        }
+
+        public override bool CanWrite
+        {
+            get
+            {
+                if (_isWriting)
+                {
+                    _isWriting = false;
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        public override bool CanRead
+        {
+            get
+            {
+                if (_isReading)
+                {
+                    _isReading = false;
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        public override bool CanConvert(System.Type objectType)
+        {
+            return true;
+        }
+
+        public override object ReadJson(Newtonsoft.Json.JsonReader reader, System.Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            var jObject = serializer.Deserialize<Newtonsoft.Json.Linq.JObject>(reader);
+            if (jObject == null)
+                return null;
+
+            var discriminatorValue = jObject.GetValue(_discriminatorName);
+            var discriminator = discriminatorValue != null ? Newtonsoft.Json.Linq.Extensions.Value<string>(discriminatorValue) : null;
+            var subtype = GetObjectSubtype(objectType, discriminator);
+
+            var objectContract = serializer.ContractResolver.ResolveContract(subtype) as Newtonsoft.Json.Serialization.JsonObjectContract;
+            if (objectContract == null || System.Linq.Enumerable.All(objectContract.Properties, p => p.PropertyName != _discriminatorName))
+            {
+                jObject.Remove(_discriminatorName);
+            }
+
+            try
+            {
+                _isReading = true;
+                return serializer.Deserialize(jObject.CreateReader(), subtype);
+            }
+            finally
+            {
+                _isReading = false;
+            }
+        }
+
+        private System.Type GetObjectSubtype(System.Type objectType, string discriminator)
+        {
+            foreach (var attribute in System.Reflection.CustomAttributeExtensions.GetCustomAttributes<JsonInheritanceAttribute>(System.Reflection.IntrospectionExtensions.GetTypeInfo(objectType), false))
+            {
+                if (attribute.Key == discriminator)
+                    return attribute.Type;
+            }
+
+            return objectType;
+        }
+
+        private string GetSubtypeDiscriminator(System.Type objectType)
+        {
+            foreach (var attribute in System.Reflection.CustomAttributeExtensions.GetCustomAttributes<JsonInheritanceAttribute>(System.Reflection.IntrospectionExtensions.GetTypeInfo(objectType), true))
+            {
+                if (attribute.Type == objectType)
+                    return attribute.Key;
+            }
+
+            foreach (var attribute in System.Reflection.CustomAttributeExtensions.GetCustomAttributes<JsonInheritanceAttribute>(System.Reflection.IntrospectionExtensions.GetTypeInfo(objectType), true))
+            {
+                if (attribute.Type.IsAssignableFrom(objectType))
+                    return attribute.Key;
+            }
+
+            return objectType.Name;
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DefaultPropertyAttribute("Type")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Combinator)]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Headstage64Configuration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2eConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2eBetaConfiguration>))]
+    public partial class MatchHeadstage : Bonsai.Expressions.SingleArgumentExpressionBuilder
+    {
+    
+        public Bonsai.Expressions.TypeMapping Type { get; set; }
+
+        public override System.Linq.Expressions.Expression Build(System.Collections.Generic.IEnumerable<System.Linq.Expressions.Expression> arguments)
+        {
+            var typeMapping = Type;
+            var source = System.Linq.Enumerable.First(arguments);
+            var inputType = source.Type.GetGenericArguments()[0];
+            var elementType = inputType;
+            var returnType = typeMapping != null ? typeMapping.GetType().GetGenericArguments()[0] : typeof(Headstage);
+            if (!elementType.IsInterface && !elementType.IsAssignableFrom(typeof(Headstage)) && !typeof(Headstage).IsAssignableFrom(elementType))
+            {
+                var value = System.Linq.Expressions.Expression.Parameter(elementType, "value");
+                var conversion = System.Linq.Expressions.Expression.Convert(value, typeof(Headstage));
+                source = System.Linq.Expressions.Expression.Call(
+                    typeof(System.Reactive.Linq.Observable),
+                    "Select",
+                    new System.Type[] { elementType, typeof(Headstage) },
+                    source,
+                    System.Linq.Expressions.Expression.Lambda(conversion, value));
+                elementType = typeof(Headstage);
+            }
+
+            if (returnType.IsAssignableFrom(elementType))
+            {
+                return System.Linq.Expressions.Expression.Convert(
+                    source,
+                    typeof(System.IObservable<>).MakeGenericType(returnType));
+            }
+
+            if (!elementType.IsInterface && !elementType.IsAssignableFrom(returnType))
+            {
+                throw new System.InvalidOperationException(
+                    "The input type '" + inputType + "' can never match the type '" + returnType + "'.");
+            }
+
+            return System.Linq.Expressions.Expression.Call(
+                typeof(MatchHeadstage),
+                "Process",
+                new System.Type[] { returnType },
+                source);
+        }
+
+    
+        private static System.IObservable<TResult> Process<TResult>(System.IObservable<object> source)
+            where TResult : Headstage
+        {
+            return System.Reactive.Linq.Observable.Create<TResult>(observer =>
+            {
+                var sourceObserver = System.Reactive.Observer.Create<object>(
+                    value =>
+                    {
+                        var match = value as TResult;
+                        if (match != null) observer.OnNext(match);
+                    },
+                    observer.OnError,
+                    observer.OnCompleted);
+                return System.ObservableExtensions.SubscribeSafe(source, sourceObserver);
+            });
+        }
+    }
+
+
     /// <summary>
     /// Serializes a sequence of data model objects into JSON strings.
     /// </summary>
@@ -1252,9 +3454,24 @@ namespace Aeon.Ephys
             return System.Reactive.Linq.Observable.Select(source, value => Newtonsoft.Json.JsonConvert.SerializeObject(value, formatting));
         }
 
+        public System.IObservable<string> Process(System.IObservable<AnalogIOConfiguration> source)
+        {
+            return Process<AnalogIOConfiguration>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<Bno055Configuration> source)
         {
             return Process<Bno055Configuration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<BreakoutBoardConfiguration> source)
+        {
+            return Process<BreakoutBoardConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<DigitalIOConfiguration> source)
+        {
+            return Process<DigitalIOConfiguration>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<ElectricalStimulatorConfiguration> source)
@@ -1262,14 +3479,74 @@ namespace Aeon.Ephys
             return Process<ElectricalStimulatorConfiguration>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<EphysConfiguration> source)
+        {
+            return Process<EphysConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<HarpSyncInputConfiguration> source)
+        {
+            return Process<HarpSyncInputConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<Headstage> source)
+        {
+            return Process<Headstage>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<Headstage64Configuration> source)
         {
             return Process<Headstage64Configuration>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<HeartbeatConfiguration> source)
+        {
+            return Process<HeartbeatConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<MemoryMonitorConfiguration> source)
+        {
+            return Process<MemoryMonitorConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<NeuropixelsV2BetaProbeConfiguration> source)
+        {
+            return Process<NeuropixelsV2BetaProbeConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<NeuropixelsV2QuadShankConfiguration> source)
+        {
+            return Process<NeuropixelsV2QuadShankConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<NeuropixelsV2eBetaConfiguration> source)
+        {
+            return Process<NeuropixelsV2eBetaConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<NeuropixelsV2eConfiguration> source)
+        {
+            return Process<NeuropixelsV2eConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<NeuropixelsV2eProbeConfiguration> source)
+        {
+            return Process<NeuropixelsV2eProbeConfiguration>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<OpticalStimulatorConfiguration> source)
         {
             return Process<OpticalStimulatorConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<OutputClockConfiguration> source)
+        {
+            return Process<OutputClockConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<PolledBno055Configuration> source)
+        {
+            return Process<PolledBno055Configuration>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<PortVoltageConfiguration> source)
@@ -1296,10 +3573,25 @@ namespace Aeon.Ephys
     [System.ComponentModel.DescriptionAttribute("Deserializes a sequence of JSON strings into data model objects.")]
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AnalogIOConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Bno055Configuration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BreakoutBoardConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<DigitalIOConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ElectricalStimulatorConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<EphysConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HarpSyncInputConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Headstage>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Headstage64Configuration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HeartbeatConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<MemoryMonitorConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2BetaProbeConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2QuadShankConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2eBetaConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2eConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2eProbeConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<OpticalStimulatorConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<OutputClockConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PolledBno055Configuration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PortVoltageConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Rhd2164Configuration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Ts4231Configuration>))]
@@ -1308,7 +3600,7 @@ namespace Aeon.Ephys
     
         public DeserializeFromJson()
         {
-            Type = new Bonsai.Expressions.TypeMapping<Bno055Configuration>();
+            Type = new Bonsai.Expressions.TypeMapping<AnalogIOConfiguration>();
         }
 
         public Bonsai.Expressions.TypeMapping Type { get; set; }
@@ -1331,6 +3623,150 @@ namespace Aeon.Ephys
     }
 
 
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.AttributeUsageAttribute((System.AttributeTargets.Class | System.AttributeTargets.Interface))]
+    public class YamlDiscriminatorAttribute : System.Attribute
+    {
+    
+        public YamlDiscriminatorAttribute(string discriminator)
+        {
+            Discriminator = discriminator;
+        }
+
+        public string Discriminator { get; private set; }
+
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    public class YamlDiscriminatorTypeInspector : YamlDotNet.Serialization.TypeInspectors.ReflectionTypeInspector
+    {
+    
+        readonly YamlDotNet.Serialization.ITypeInspector innerTypeDescriptor;
+        readonly bool ignoreInheritedDiscriminators;
+
+        public YamlDiscriminatorTypeInspector(YamlDotNet.Serialization.ITypeInspector innerTypeDescriptor)
+            : this(innerTypeDescriptor, false)
+        {
+        }
+
+        public YamlDiscriminatorTypeInspector(YamlDotNet.Serialization.ITypeInspector innerTypeDescriptor, bool ignoreInheritedDiscriminators)
+        {
+            if (innerTypeDescriptor == null)
+            {
+                throw new System.ArgumentNullException("innerTypeDescriptor");
+            }
+
+            this.innerTypeDescriptor = innerTypeDescriptor;
+            this.ignoreInheritedDiscriminators = ignoreInheritedDiscriminators;
+        }
+
+        public override System.Collections.Generic.IEnumerable<YamlDotNet.Serialization.IPropertyDescriptor> GetProperties(System.Type type, object container)
+        {
+            var innerProperties = innerTypeDescriptor.GetProperties(type, container);
+
+            var discriminatorAttribute = (YamlDiscriminatorAttribute)System.Attribute.GetCustomAttribute(type, typeof(YamlDiscriminatorAttribute));
+            var inheritanceAttributes = (JsonInheritanceAttribute[])System.Attribute.GetCustomAttributes(type, typeof(JsonInheritanceAttribute));
+            var typeMatch = System.Array.Find(inheritanceAttributes, attribute => attribute.Type == type)
+                ?? System.Array.Find(inheritanceAttributes, attribute => attribute.Type.IsAssignableFrom(type));
+            if (discriminatorAttribute != null && typeMatch != null)
+            {
+                return System.Linq.Enumerable.Concat(new[]
+                {
+                    new DiscriminatorPropertyDescriptor(discriminatorAttribute.Discriminator, typeMatch.Key)
+                }, innerProperties);
+            }
+
+            if (ignoreInheritedDiscriminators)
+            {
+                var inheritedDiscriminator = GetInheritedDiscriminator(type);
+                if (inheritedDiscriminator != null)
+                {
+                    return System.Linq.Enumerable.Concat(new[]
+                    {
+                        new DiscriminatorPropertyDescriptor(inheritedDiscriminator, null)
+                    }, innerProperties);
+                }
+            }
+
+            return innerProperties;
+        }
+
+        static string GetInheritedDiscriminator(System.Type type)
+        {
+            foreach (var attribute in type.GetCustomAttributes(true))
+            {
+                var attributeType = attribute.GetType();
+                if (attributeType.Name == "YamlDiscriminatorAttribute")
+                {
+                    return (string)attributeType.GetProperty("Discriminator").GetValue(attribute, null);
+                }
+            }
+
+            return null;
+        }
+
+        class DiscriminatorPropertyDescriptor : YamlDotNet.Serialization.IPropertyDescriptor
+        {
+            readonly string key;
+
+            public DiscriminatorPropertyDescriptor(string discriminator, string value)
+            {
+                ScalarStyle = YamlDotNet.Core.ScalarStyle.Plain;
+                Name = discriminator;
+                key = value;
+            }
+
+            public string Name { get; private set; }
+
+            public bool Required
+            {
+                get { return true; }
+            }
+
+            public bool CanWrite
+            {
+                get { return true; }
+            }
+
+            public System.Type Type
+            {
+                get { return typeof(string); }
+            }
+
+            public System.Type TypeOverride { get; set; }
+
+            public System.Type ConverterType
+            {
+                get { return null; }
+            }
+
+            public bool AllowNulls
+            {
+                get { return false; }
+            }
+
+            public int Order { get; set; }
+
+            public YamlDotNet.Core.ScalarStyle ScalarStyle { get; set; }
+
+            public T GetCustomAttribute<T>() where T : System.Attribute
+            {
+                return null;
+            }
+
+            public YamlDotNet.Serialization.IObjectDescriptor Read(object target)
+            {
+                return new YamlDotNet.Serialization.ObjectDescriptor(key, Type, Type, ScalarStyle);
+            }
+
+            public void Write(object target, object value)
+            {
+            }
+        }
+    }
+
+
     /// <summary>
     /// Serializes a sequence of data model objects into YAML strings.
     /// </summary>
@@ -1348,10 +3784,16 @@ namespace Aeon.Ephys
                 var serializer = new YamlDotNet.Serialization.SerializerBuilder()
                     .WithQuotingNecessaryStrings()
                     .WithYamlFormatter(new YamlDotNet.Serialization.YamlFormatter { PotentiallyQuoteEnums = _ => false })
+                    .WithTypeInspector(inspector => new YamlDiscriminatorTypeInspector(inspector))
                     .WithTypeConverter(new YamlDotNet.Serialization.Converters.DateTimeOffsetConverter())
                     .Build();
                 return System.Reactive.Linq.Observable.Select(source, value => serializer.Serialize(value)); 
             });
+        }
+
+        public System.IObservable<string> Process(System.IObservable<AnalogIOConfiguration> source)
+        {
+            return Process<AnalogIOConfiguration>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<Bno055Configuration> source)
@@ -1359,9 +3801,34 @@ namespace Aeon.Ephys
             return Process<Bno055Configuration>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<BreakoutBoardConfiguration> source)
+        {
+            return Process<BreakoutBoardConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<DigitalIOConfiguration> source)
+        {
+            return Process<DigitalIOConfiguration>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<ElectricalStimulatorConfiguration> source)
         {
             return Process<ElectricalStimulatorConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<EphysConfiguration> source)
+        {
+            return Process<EphysConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<HarpSyncInputConfiguration> source)
+        {
+            return Process<HarpSyncInputConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<Headstage> source)
+        {
+            return Process<Headstage>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<Headstage64Configuration> source)
@@ -1369,9 +3836,54 @@ namespace Aeon.Ephys
             return Process<Headstage64Configuration>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<HeartbeatConfiguration> source)
+        {
+            return Process<HeartbeatConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<MemoryMonitorConfiguration> source)
+        {
+            return Process<MemoryMonitorConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<NeuropixelsV2BetaProbeConfiguration> source)
+        {
+            return Process<NeuropixelsV2BetaProbeConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<NeuropixelsV2QuadShankConfiguration> source)
+        {
+            return Process<NeuropixelsV2QuadShankConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<NeuropixelsV2eBetaConfiguration> source)
+        {
+            return Process<NeuropixelsV2eBetaConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<NeuropixelsV2eConfiguration> source)
+        {
+            return Process<NeuropixelsV2eConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<NeuropixelsV2eProbeConfiguration> source)
+        {
+            return Process<NeuropixelsV2eProbeConfiguration>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<OpticalStimulatorConfiguration> source)
         {
             return Process<OpticalStimulatorConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<OutputClockConfiguration> source)
+        {
+            return Process<OutputClockConfiguration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<PolledBno055Configuration> source)
+        {
+            return Process<PolledBno055Configuration>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<PortVoltageConfiguration> source)
@@ -1398,10 +3910,25 @@ namespace Aeon.Ephys
     [System.ComponentModel.DescriptionAttribute("Deserializes a sequence of YAML strings into data model objects.")]
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AnalogIOConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Bno055Configuration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BreakoutBoardConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<DigitalIOConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ElectricalStimulatorConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<EphysConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HarpSyncInputConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Headstage>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Headstage64Configuration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HeartbeatConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<MemoryMonitorConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2BetaProbeConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2QuadShankConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2eBetaConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2eConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2eProbeConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<OpticalStimulatorConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<OutputClockConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PolledBno055Configuration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PortVoltageConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Rhd2164Configuration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Ts4231Configuration>))]
@@ -1410,7 +3937,7 @@ namespace Aeon.Ephys
     
         public DeserializeFromYaml()
         {
-            Type = new Bonsai.Expressions.TypeMapping<Bno055Configuration>();
+            Type = new Bonsai.Expressions.TypeMapping<AnalogIOConfiguration>();
         }
 
         public Bonsai.Expressions.TypeMapping Type { get; set; }
@@ -1426,11 +3953,56 @@ namespace Aeon.Ephys
                 System.Linq.Enumerable.Single(arguments));
         }
 
+        private static void AddTypeDiscriminator<T>(YamlDotNet.Serialization.BufferedDeserialization.ITypeDiscriminatingNodeDeserializerOptions o)
+        {
+            var baseType = typeof(T);
+            var discriminator = System.Reflection.CustomAttributeExtensions.GetCustomAttribute<YamlDiscriminatorAttribute>(baseType).Discriminator;
+            var typeMapping = System.Linq.Enumerable.ToDictionary(
+                System.Reflection.CustomAttributeExtensions.GetCustomAttributes<JsonInheritanceAttribute>(baseType),
+                attr => attr.Key,
+                attr => attr.Type);
+            o.AddKeyValueTypeDiscriminator<T>(discriminator, typeMapping);
+        }
+
+        class UnionNodeDeserializer : YamlDotNet.Serialization.INodeDeserializer
+        {
+            readonly YamlDotNet.Serialization.INodeDeserializer innerDeserializer;
+
+            public UnionNodeDeserializer(YamlDotNet.Serialization.INodeDeserializer innerDeserializer)
+            {
+                this.innerDeserializer = innerDeserializer;
+            }
+
+            public bool Deserialize(
+                YamlDotNet.Core.IParser reader,
+                System.Type expectedType,
+                System.Func<YamlDotNet.Core.IParser, System.Type, object> nestedObjectDeserializer,
+                out object value,
+                YamlDotNet.Serialization.ObjectDeserializer rootDeserializer)
+            {
+                if (!System.Attribute.IsDefined(expectedType, typeof(YamlDiscriminatorAttribute), false))
+                {
+                    value = null;
+                    return false;
+                }
+
+                return innerDeserializer.Deserialize(reader, expectedType, nestedObjectDeserializer, out value, rootDeserializer);
+            }
+        }
+
         private static System.IObservable<T> Process<T>(System.IObservable<string> source)
         {
             return System.Reactive.Linq.Observable.Defer(() =>
             {
                 var serializer = new YamlDotNet.Serialization.DeserializerBuilder()
+                    .WithTypeInspector(inspector => new YamlDiscriminatorTypeInspector(inspector, true))
+                    .WithTypeDiscriminatingNodeDeserializer(o =>
+                    {
+                        AddTypeDiscriminator<Headstage>(o);
+                    })
+                    .WithNodeDeserializer(
+                        inner => new UnionNodeDeserializer(inner),
+                        s => s.InsteadOf<YamlDotNet.Serialization.BufferedDeserialization.TypeDiscriminatingNodeDeserializer>())
                     .WithTypeConverter(new YamlDotNet.Serialization.Converters.DateTimeOffsetConverter())
                     .Build();
                 return System.Reactive.Linq.Observable.Select(source, value =>
