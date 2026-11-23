@@ -6,6 +6,7 @@ using Aeon.Tether.Translation;
 using Aeon.Video;
 using Aeon.Vision;
 using Aeon.Vision.Sleap;
+using Bonsai.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 
@@ -42,6 +43,17 @@ namespace Aeon.Tests
             // building it builds every ephys workflow it includes.
             var ephys = typeof(ConvertToHarpTimestamp).Assembly;
             AssertWorkflow.CanBuildEmbeddedResource(ephys, "Aeon.Ephys.EphysAcquisition.bonsai");
+        }
+
+        [TestMethod]
+        public void Build_EphysWatchdog()
+        {
+            // The watchdog subscribes only to subjects EphysAcquisition declares. The two
+            // includes side by side build as a rig workflow would include them.
+            var workflow = new ExpressionBuilderGraph();
+            workflow.Add(new IncludeWorkflowBuilder { Path = "Aeon.Ephys:EphysAcquisition.bonsai" });
+            workflow.Add(new IncludeWorkflowBuilder { Path = "Aeon.Ephys:EphysWatchdog.bonsai" });
+            Assert.IsNotNull(workflow.Build());
         }
 
         [TestMethod, TestCategory("DriverDependent")]
