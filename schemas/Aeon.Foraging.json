@@ -1,0 +1,67 @@
+{
+  "$defs": {
+    "CreateFeederCommand": {
+      "description": "Creates a command to send to an underground feeder controller.",
+      "properties": {
+        "command": {
+          "$ref": "#/$defs/FeederCommand",
+          "default": "DeliverPellet",
+          "description": "The command to send to the feeder device.",
+          "title": "Command"
+        }
+      },
+      "title": "CreateFeederCommand",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Foraging.CreateFeederCommand"
+    },
+    "FeederCommand": {
+      "description": "Specifies the available commands for an underground feeder controller.",
+      "enum": [
+        "DeliverPellet",
+        "ResetFeeder"
+      ],
+      "title": "FeederCommand",
+      "type": "string",
+      "x-sgen-typename": "Aeon.Foraging.FeederCommand"
+    },
+    "UndergroundFeeder": {
+      "description": "Represents control and acquisition functionality for an underground feeder module.",
+      "properties": {
+        "portName": {
+          "description": "The name of the device serial port.",
+          "examples": [
+            "COM"
+          ],
+          "title": "PortName",
+          "type": "string"
+        },
+        "pelletDeliveryRetryCount": {
+          "default": 2,
+          "description": "The number of times to retry a failed pellet delivery.",
+          "minimum": 0,
+          "title": "PelletDeliveryRetryCount",
+          "type": "integer"
+        },
+        "pelletDeliveryTimeout": {
+          "default": 1,
+          "description": "The amount of time in seconds to wait for pellet detection before reporting a failure.",
+          "minimum": 0,
+          "title": "PelletDeliveryTimeout",
+          "type": "number"
+        },
+        "wheelRadius": {
+          "default": -4.0,
+          "description": "The radius of the wheel, in centimeters.",
+          "title": "WheelRadius",
+          "type": "number"
+        }
+      },
+      "required": [
+        "portName"
+      ],
+      "title": "UndergroundFeeder",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Foraging.UndergroundFeeder"
+    }
+  }
+}

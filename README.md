@@ -6,17 +6,23 @@ The Project Aeon acquisition repository contains the set of standardized data ac
 
 ### Schema classes
 
-1. Install [`bonsai.sgen`](https://www.nuget.org/packages/Bonsai.Sgen) by running the `restore` command:
+Configuration models are declared with [`bonsai-sgen`](https://pypi.org/project/bonsai-sgen/) under `src/swc/aeon/acquisition`, and [`Bonsai.Sgen`](https://www.nuget.org/packages/Bonsai.Sgen) generates from them the C# classes used by the Bonsai workflows. Each Python package there that declares an `SGEN_NAMESPACE` describes the acquisition package of the same name, so `swc.aeon.acquisition.environment` describes `Aeon.Environment`. The `swc.aeon.acquisition.harp` package declares none, since it holds only the Harp device base classes, whose fields are generated in each device model deriving from them.
+
+1. Install `Bonsai.Sgen` and create the Python environment:
 
     ```
     dotnet tool restore
+    uv sync
     ```
 
-2. Run the command to regenerate each schema class, e.g. for `ChannelMap.json`:
+2. Export the schema of a package and regenerate its serialization classes:
 
     ```
-    dotnet bonsai.sgen --namespace Aeon.Environment --schema ChannelMap.json
+    uv run bonsai-sgen export swc.aeon.acquisition.environment -o schemas
+    uv run bonsai-sgen generate swc.aeon.acquisition.environment -o src/Aeon.Environment --serializer json yaml
     ```
+
+Each package produces two files, its JSON schema under `schemas/` and its serialization classes at the root of the matching project. For `Aeon.Environment` these are `schemas/Aeon.Environment.json` and `src/Aeon.Environment/Aeon.Environment.Generated.cs`.
 
 ## Deployment Instructions
 

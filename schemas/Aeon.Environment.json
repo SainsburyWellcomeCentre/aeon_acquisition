@@ -1,0 +1,174 @@
+{
+  "$defs": {
+    "ChannelMap": {
+      "description": "Represents channel map configuration used by the light controller.",
+      "properties": {
+        "rooms": {
+          "additionalProperties": {
+            "$ref": "#/$defs/RoomFixtures"
+          },
+          "description": "Specifies the collection of light channel maps for all rooms.",
+          "title": "Rooms",
+          "type": "object"
+        }
+      },
+      "required": [
+        "rooms"
+      ],
+      "title": "ChannelMap",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Environment.ChannelMap"
+    },
+    "Fixture": {
+      "description": "Represents the channel assignment and calibration of a single light fixture.",
+      "properties": {
+        "channels": {
+          "description": "Specifies the collection of channels assigned to the fixture.",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Channels",
+          "type": "array"
+        },
+        "interpolationMethod": {
+          "$ref": "#/$defs/InterpolationMethod",
+          "description": "Specifies the method used to interpolate light values for a fixture."
+        },
+        "calibrationFile": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Specifies the path to the calibration file for this fixture.",
+          "title": "CalibrationFile"
+        }
+      },
+      "required": [
+        "channels",
+        "interpolationMethod"
+      ],
+      "title": "Fixture",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Environment.Fixture"
+    },
+    "InterpolationMethod": {
+      "description": "Specifies the available interpolation methods.",
+      "enum": [
+        "None",
+        "Zero",
+        "Linear"
+      ],
+      "title": "InterpolationMethod",
+      "type": "string",
+      "x-sgen-typename": "Aeon.Environment.InterpolationMethod"
+    },
+    "LightCycle": {
+      "description": "Represents a network client for automated room light control.",
+      "properties": {
+        "eventSocket": {
+          "default": ">tcp://localhost:4303",
+          "description": "Specifies the endpoint from which the Light Server publishes events.",
+          "title": "EventSocket",
+          "type": "string"
+        },
+        "commandSocket": {
+          "default": ">tcp://localhost:4304",
+          "description": "Specifies the endpoint to send commands to the Light Server.",
+          "title": "CommandSocket",
+          "type": "string"
+        },
+        "roomName": {
+          "description": "The name of the room to monitor and control.",
+          "title": "RoomName",
+          "type": "string"
+        },
+        "configFileName": {
+          "default": "lightcycle.config",
+          "description": "The name of the CSV file describing the light model, where each row represents one whole minute and the red, cold white and warm white, light levels set for that minute.",
+          "title": "ConfigFileName",
+          "type": "string"
+        }
+      },
+      "required": [
+        "roomName"
+      ],
+      "title": "LightCycle",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Environment.LightCycle"
+    },
+    "RoomFixtures": {
+      "description": "Specifies the channel map for every light fixture in the room.",
+      "properties": {
+        "coldWhite": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fixture"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "ColdWhite"
+        },
+        "warmWhite": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fixture"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "WarmWhite"
+        },
+        "red": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fixture"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Red"
+        }
+      },
+      "title": "RoomFixtures",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Environment.RoomFixtures"
+    },
+    "WeightScale": {
+      "description": "Represents acquisition functionality for automated habitat weighing scales.",
+      "properties": {
+        "portName": {
+          "description": "The name of the device serial port.",
+          "examples": [
+            "COM"
+          ],
+          "title": "PortName",
+          "type": "string"
+        },
+        "filterWindow": {
+          "default": 40,
+          "description": "Sliding window size of the weight linear regression filter.",
+          "title": "FilterWindow",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "portName"
+      ],
+      "title": "WeightScale",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Environment.WeightScale"
+    }
+  }
+}

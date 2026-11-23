@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=77", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "swc-aeon-acquisition"
+dynamic = ["version"]
+requires-python = ">=3.11"
+description = "Configuration models for the Project Aeon acquisition packages."
+authors = [
+  { name = "Sainsbury Wellcome Centre" },
+  { name = "Goncalo Lopes", email = "g.lopes@neurogears.org" },
+]
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+readme = "README.md"
+keywords = ["aeon", "behavior", "bonsai", "data-acquisition", "harp", "neuroscience"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = [
+  "bonsai-sgen>=0.10.0",
+]
+
+[project.urls]
+Homepage = "https://aeon.swc.ucl.ac.uk"
+Repository = "https://github.com/SainsburyWellcomeCentre/aeon_acquisition"
+"Bug Tracker" = "https://github.com/SainsburyWellcomeCentre/aeon_acquisition/issues"
+Changelog = "https://github.com/SainsburyWellcomeCentre/aeon_acquisition/releases"
+
+[dependency-groups]
+dev = [
+  "pyright",
+  "ruff",
+]
+
+[tool.setuptools_scm]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["swc*"]
+
+[tool.ruff]
+line-length = 108
+include = ["src/swc/**/*.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "D", "UP", "B"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.pyright]
+include = ["src/swc"]

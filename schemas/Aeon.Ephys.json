@@ -1,0 +1,427 @@
+{
+  "$defs": {
+    "Bno055Configuration": {
+      "description": "Represents the acquisition settings of a BNO055 inertial measurement unit.",
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "Specifies whether the unit produces data.",
+          "title": "Enable",
+          "type": "boolean"
+        }
+      },
+      "title": "Bno055Configuration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.Bno055Configuration"
+    },
+    "ElectricalStimulatorConfiguration": {
+      "description": "Represents the settings of the headstage onboard electrical stimulator.",
+      "properties": {
+        "arm": {
+          "default": false,
+          "description": "Specifies whether the stimulator responds to triggers.",
+          "title": "Arm",
+          "type": "boolean"
+        },
+        "triggerDelay": {
+          "default": 0,
+          "description": "The delay from trigger to stimulus, in us.",
+          "minimum": 0,
+          "title": "TriggerDelay",
+          "type": "integer"
+        },
+        "phaseOneDuration": {
+          "default": 0,
+          "description": "The duration of phase one, in us.",
+          "minimum": 0,
+          "title": "PhaseOneDuration",
+          "type": "integer"
+        },
+        "phaseOneCurrent": {
+          "default": 0,
+          "description": "The current during phase one, in uA.",
+          "title": "PhaseOneCurrent",
+          "type": "number"
+        },
+        "interPhaseInterval": {
+          "default": 0,
+          "description": "The interval between phases, in us.",
+          "minimum": 0,
+          "title": "InterPhaseInterval",
+          "type": "integer"
+        },
+        "interPhaseCurrent": {
+          "default": 0,
+          "description": "The current between phases, in uA.",
+          "title": "InterPhaseCurrent",
+          "type": "number"
+        },
+        "phaseTwoDuration": {
+          "default": 0,
+          "description": "The duration of phase two, in us.",
+          "minimum": 0,
+          "title": "PhaseTwoDuration",
+          "type": "integer"
+        },
+        "phaseTwoCurrent": {
+          "default": 0,
+          "description": "The current during phase two, in uA.",
+          "title": "PhaseTwoCurrent",
+          "type": "number"
+        },
+        "interPulseInterval": {
+          "default": 0,
+          "description": "The interval between pulses, in us.",
+          "minimum": 0,
+          "title": "InterPulseInterval",
+          "type": "integer"
+        },
+        "burstPulseCount": {
+          "default": 0,
+          "description": "The number of pulses in each burst.",
+          "minimum": 0,
+          "title": "BurstPulseCount",
+          "type": "integer"
+        },
+        "interBurstInterval": {
+          "default": 0,
+          "description": "The interval between bursts, in us.",
+          "minimum": 0,
+          "title": "InterBurstInterval",
+          "type": "integer"
+        },
+        "trainBurstCount": {
+          "default": 0,
+          "description": "The number of bursts in each train.",
+          "minimum": 0,
+          "title": "TrainBurstCount",
+          "type": "integer"
+        }
+      },
+      "title": "ElectricalStimulatorConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.ElectricalStimulatorConfiguration"
+    },
+    "Headstage64Configuration": {
+      "description": "Represents the acquisition settings of an ONIX 64-channel headstage.",
+      "properties": {
+        "name": {
+          "default": "Headstage64",
+          "description": "The name identifying the devices in the headstage.",
+          "title": "Name",
+          "type": "string"
+        },
+        "port": {
+          "$ref": "#/$defs/PortName",
+          "default": "PortA",
+          "description": "The breakout board port the headstage is connected to.",
+          "title": "Port"
+        },
+        "portVoltage": {
+          "$ref": "#/$defs/PortVoltageConfiguration",
+          "default": {
+            "requested": null
+          },
+          "description": "The link voltage settings for the headstage port.",
+          "title": "PortVoltage"
+        },
+        "rhd2164": {
+          "$ref": "#/$defs/Rhd2164Configuration",
+          "default": {
+            "enable": true,
+            "analogHighCutoff": "High10000Hz",
+            "analogLowCutoff": "Low100mHz",
+            "dspCutoff": "Off"
+          },
+          "description": "The settings of the bioamplifier.",
+          "title": "Rhd2164"
+        },
+        "bno055": {
+          "$ref": "#/$defs/Bno055Configuration",
+          "default": {
+            "enable": true
+          },
+          "description": "The settings of the inertial measurement unit.",
+          "title": "Bno055"
+        },
+        "ts4231": {
+          "$ref": "#/$defs/Ts4231Configuration",
+          "default": {
+            "enable": true
+          },
+          "description": "The settings of the lighthouse receiver array.",
+          "title": "Ts4231"
+        },
+        "electricalStimulator": {
+          "$ref": "#/$defs/ElectricalStimulatorConfiguration",
+          "default": {
+            "arm": false,
+            "triggerDelay": 0,
+            "phaseOneDuration": 0,
+            "phaseOneCurrent": 0.0,
+            "interPhaseInterval": 0,
+            "interPhaseCurrent": 0.0,
+            "phaseTwoDuration": 0,
+            "phaseTwoCurrent": 0.0,
+            "interPulseInterval": 0,
+            "burstPulseCount": 0,
+            "interBurstInterval": 0,
+            "trainBurstCount": 0
+          },
+          "description": "The settings of the electrical stimulator.",
+          "title": "ElectricalStimulator"
+        },
+        "opticalStimulator": {
+          "$ref": "#/$defs/OpticalStimulatorConfiguration",
+          "default": {
+            "arm": true,
+            "maxCurrent": 100.0,
+            "channelOneCurrent": 100.0,
+            "channelTwoCurrent": 0.0,
+            "delay": 0.0,
+            "pulseDuration": 5.0,
+            "pulsesPerSecond": 50.0,
+            "pulsesPerBurst": 20,
+            "interBurstInterval": 0.0,
+            "burstsPerTrain": 1
+          },
+          "description": "The settings of the optical stimulator.",
+          "title": "OpticalStimulator"
+        }
+      },
+      "title": "Headstage64Configuration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.Headstage64Configuration"
+    },
+    "OpticalStimulatorConfiguration": {
+      "description": "Represents the settings of the headstage onboard optical stimulator.",
+      "properties": {
+        "arm": {
+          "default": true,
+          "description": "Specifies whether the stimulator responds to triggers.",
+          "title": "Arm",
+          "type": "boolean"
+        },
+        "maxCurrent": {
+          "default": 100,
+          "description": "The maximum current per channel, in mA.",
+          "title": "MaxCurrent",
+          "type": "number"
+        },
+        "channelOneCurrent": {
+          "default": 100,
+          "description": "The percentage of the maximum current driving channel one.",
+          "title": "ChannelOneCurrent",
+          "type": "number"
+        },
+        "channelTwoCurrent": {
+          "default": 0,
+          "description": "The percentage of the maximum current driving channel two.",
+          "title": "ChannelTwoCurrent",
+          "type": "number"
+        },
+        "delay": {
+          "default": 0,
+          "description": "The delay from trigger to stimulus, in ms.",
+          "title": "Delay",
+          "type": "number"
+        },
+        "pulseDuration": {
+          "default": 5,
+          "description": "The duration of each pulse, in ms.",
+          "title": "PulseDuration",
+          "type": "number"
+        },
+        "pulsesPerSecond": {
+          "default": 50,
+          "description": "The pulse frequency within a burst, in Hz.",
+          "title": "PulsesPerSecond",
+          "type": "number"
+        },
+        "pulsesPerBurst": {
+          "default": 20,
+          "description": "The number of pulses in each burst.",
+          "minimum": 0,
+          "title": "PulsesPerBurst",
+          "type": "integer"
+        },
+        "interBurstInterval": {
+          "default": 0,
+          "description": "The interval between bursts, in ms.",
+          "title": "InterBurstInterval",
+          "type": "number"
+        },
+        "burstsPerTrain": {
+          "default": 1,
+          "description": "The number of bursts in each train.",
+          "minimum": 0,
+          "title": "BurstsPerTrain",
+          "type": "integer"
+        }
+      },
+      "title": "OpticalStimulatorConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.OpticalStimulatorConfiguration"
+    },
+    "PortName": {
+      "description": "Specifies the available headstage ports on the breakout board.",
+      "enum": [
+        "PortA",
+        "PortB"
+      ],
+      "title": "PortName",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.PortName"
+    },
+    "PortVoltageConfiguration": {
+      "description": "Represents the link voltage supplied to a headstage port.",
+      "properties": {
+        "requested": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The voltage to supply, in volts. Left unset, the voltage is negotiated.",
+          "title": "Requested"
+        }
+      },
+      "title": "PortVoltageConfiguration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.PortVoltageConfiguration"
+    },
+    "Rhd2000AnalogHighCutoff": {
+      "description": "Specifies the available upper cutoff frequencies of the analog bandwidth filter.",
+      "enum": [
+        "High20000Hz",
+        "High15000Hz",
+        "High10000Hz",
+        "High7500Hz",
+        "High5000Hz",
+        "High3000Hz",
+        "High2500Hz",
+        "High2000Hz",
+        "High1500Hz",
+        "High1000Hz",
+        "High750Hz",
+        "High500Hz",
+        "High300Hz",
+        "High250Hz",
+        "High200Hz",
+        "High150Hz",
+        "High100Hz"
+      ],
+      "title": "Rhd2000AnalogHighCutoff",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.Rhd2000AnalogHighCutoff"
+    },
+    "Rhd2000AnalogLowCutoff": {
+      "description": "Specifies the available lower cutoff frequencies of the analog bandwidth filter.",
+      "enum": [
+        "Low500Hz",
+        "Low300Hz",
+        "Low250Hz",
+        "Low200Hz",
+        "Low150Hz",
+        "Low100Hz",
+        "Low75Hz",
+        "Low50Hz",
+        "Low30Hz",
+        "Low25Hz",
+        "Low20Hz",
+        "Low15Hz",
+        "Low10Hz",
+        "Low7500mHz",
+        "Low5000mHz",
+        "Low3000mHz",
+        "Low2500mHz",
+        "Low2000mHz",
+        "Low1500mHz",
+        "Low1000mHz",
+        "Low750mHz",
+        "Low500mHz",
+        "Low300mHz",
+        "Low250mHz",
+        "Low100mHz"
+      ],
+      "title": "Rhd2000AnalogLowCutoff",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.Rhd2000AnalogLowCutoff"
+    },
+    "Rhd2000DspCutoff": {
+      "description": "Specifies the available cutoff frequencies of the digital high-pass filter.",
+      "enum": [
+        "Differential",
+        "Dsp3309Hz",
+        "Dsp1374Hz",
+        "Dsp638Hz",
+        "Dsp308Hz",
+        "Dsp152Hz",
+        "Dsp75Hz",
+        "Dsp37Hz",
+        "Dsp19Hz",
+        "Dsp9336mHz",
+        "Dsp4665mHz",
+        "Dsp2332mHz",
+        "Dsp1166mHz",
+        "Dsp583mHz",
+        "Dsp291mHz",
+        "Dsp146mHz",
+        "Off"
+      ],
+      "title": "Rhd2000DspCutoff",
+      "type": "string",
+      "x-sgen-typename": "OpenEphys.Onix1.Rhd2000DspCutoff"
+    },
+    "Rhd2164Configuration": {
+      "description": "Represents the acquisition settings of an Intan RHD2164 bioamplifier.",
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "Specifies whether the amplifier produces data.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "analogHighCutoff": {
+          "$ref": "#/$defs/Rhd2000AnalogHighCutoff",
+          "default": "High10000Hz",
+          "description": "The upper cutoff frequency of the analog bandwidth filter.",
+          "title": "AnalogHighCutoff"
+        },
+        "analogLowCutoff": {
+          "$ref": "#/$defs/Rhd2000AnalogLowCutoff",
+          "default": "Low100mHz",
+          "description": "The lower cutoff frequency of the analog bandwidth filter.",
+          "title": "AnalogLowCutoff"
+        },
+        "dspCutoff": {
+          "$ref": "#/$defs/Rhd2000DspCutoff",
+          "default": "Off",
+          "description": "The cutoff frequency of the digital filter removing the amplifier offset.",
+          "title": "DspCutoff"
+        }
+      },
+      "title": "Rhd2164Configuration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.Rhd2164Configuration"
+    },
+    "Ts4231Configuration": {
+      "description": "Represents the acquisition settings of a TS4231 lighthouse receiver array.",
+      "properties": {
+        "enable": {
+          "default": true,
+          "description": "Specifies whether the receivers produce data.",
+          "title": "Enable",
+          "type": "boolean"
+        }
+      },
+      "title": "Ts4231Configuration",
+      "type": "object",
+      "x-sgen-typename": "Aeon.Ephys.Ts4231Configuration"
+    }
+  }
+}
