@@ -7,7 +7,7 @@ public partial class MemoryMonitorConfiguration
         return new OpenEphys.Onix1.ConfigureMemoryMonitor
         {
             Enable = value.Enable,
-            SamplesPerSecond = (uint)value.SamplesPerSecond
+            SamplesPerSecond = ConfigurationConversion.ToUInt32(value.SamplesPerSecond, nameof(SamplesPerSecond))
         };
     }
 }

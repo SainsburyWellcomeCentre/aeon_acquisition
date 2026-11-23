@@ -7,7 +7,7 @@ public partial class HeartbeatConfiguration
     {
         return new OpenEphys.Onix1.ConfigurePersistentHeartbeat
         {
-            BeatsPerSecond = (uint)value.BeatsPerSecond
+            BeatsPerSecond = ConfigurationConversion.ToUInt32(value.BeatsPerSecond, nameof(BeatsPerSecond))
         };
     }
 }

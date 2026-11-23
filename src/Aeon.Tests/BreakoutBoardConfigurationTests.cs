@@ -131,6 +131,22 @@ namespace Aeon.Tests
         }
 
         [TestMethod]
+        public void ConversionRejectsNegativeRates()
+        {
+            // Nothing in the generated model or its deserializers enforces the schema minimum.
+            // A negative value read from a file must fail rather than wrap to a large rate.
+            var heartbeat = new HeartbeatConfiguration { BeatsPerSecond = -1 };
+            var memoryMonitor = new MemoryMonitorConfiguration { SamplesPerSecond = -1 };
+
+            var heartbeatError = Assert.Throws<ArgumentOutOfRangeException>(
+                () => (ConfigurePersistentHeartbeat)heartbeat);
+            var memoryMonitorError = Assert.Throws<ArgumentOutOfRangeException>(
+                () => (ConfigureMemoryMonitor)memoryMonitor);
+            Assert.AreEqual(nameof(HeartbeatConfiguration.BeatsPerSecond), heartbeatError.ParamName);
+            Assert.AreEqual(nameof(MemoryMonitorConfiguration.SamplesPerSecond), memoryMonitorError.ParamName);
+        }
+
+        [TestMethod]
         public void DefaultsEnableMemoryMonitorAndKeepBoardName()
         {
             // The memory monitor is off in ONIX by default, and the OnixMemoryUsage subject and
