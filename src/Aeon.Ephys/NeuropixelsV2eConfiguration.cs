@@ -2,6 +2,16 @@ namespace Aeon.Ephys;
 
 public partial class NeuropixelsV2eConfiguration
 {
+    /// <summary>
+    /// Returns a copy of the headstage settings using the specified probe settings.
+    /// </summary>
+    internal NeuropixelsV2eConfiguration WithProbes(
+        NeuropixelsV2eProbeConfiguration probeA,
+        NeuropixelsV2eProbeConfiguration probeB)
+    {
+        return new NeuropixelsV2eConfiguration(this) { ProbeA = probeA, ProbeB = probeB };
+    }
+
     public static explicit operator OpenEphys.Onix1.ConfigureHeadstageNeuropixelsV2e(
         NeuropixelsV2eConfiguration value)
     {

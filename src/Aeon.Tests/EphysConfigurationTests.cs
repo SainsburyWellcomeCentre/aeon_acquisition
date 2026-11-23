@@ -40,7 +40,7 @@ namespace Aeon.Tests
                 "    enable: true",
                 "    probeConfiguration:",
                 "      reference: Ground",
-                "      gainCalibrationFileName: gain.csv",
+                "      probeInterfaceFileName: probe.json",
                 "  probeB:",
                 "    enable: false",
                 "  bno055:",
@@ -67,7 +67,7 @@ namespace Aeon.Tests
             Assert.AreEqual(Bno055AxisSign.MirrorY | Bno055AxisSign.MirrorX, device.Bno055.AxisSign);
             var electrodes = (NeuropixelsV2QuadShankProbeConfiguration)device.NeuropixelsV2A.ProbeConfiguration;
             Assert.AreEqual(NeuropixelsV2QuadShankReference.Ground, electrodes.Reference);
-            Assert.AreEqual("gain.csv", electrodes.GainCalibrationFileName);
+            Assert.AreEqual("probe.json", electrodes.ProbeInterfaceFileName);
             Assert.AreEqual(8, device.PortVoltage.Requested);
 
             var breakout = (ConfigureBreakoutBoard)configuration.BreakoutBoard;

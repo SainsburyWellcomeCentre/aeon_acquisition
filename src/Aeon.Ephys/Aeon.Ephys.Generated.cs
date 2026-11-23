@@ -858,12 +858,15 @@ namespace Aeon.Ephys
     
         private string _subject;
     
+        private string _calibrationRoot;
+    
         private Headstage _headstage;
     
         private BreakoutBoardConfiguration _breakoutBoard;
     
         public EphysConfiguration()
         {
+            _calibrationRoot = "";
             _breakoutBoard = new BreakoutBoardConfiguration();
             _breakoutBoard.Heartbeat = new HeartbeatConfiguration();
             _breakoutBoard.Heartbeat.BeatsPerSecond = 100;
@@ -889,6 +892,7 @@ namespace Aeon.Ephys
         protected EphysConfiguration(EphysConfiguration other)
         {
             _subject = other._subject;
+            _calibrationRoot = other._calibrationRoot;
             _headstage = other._headstage;
             _breakoutBoard = other._breakoutBoard;
         }
@@ -908,6 +912,25 @@ namespace Aeon.Ephys
             set
             {
                 _subject = value;
+            }
+        }
+    
+        /// <summary>
+        /// The folder holding the probe gain calibration files. Each probe has a subfolder named by its serial number, holding <serial>_gainCalValues.csv.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("calibrationRoot")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="calibrationRoot")]
+        [System.ComponentModel.DescriptionAttribute("The folder holding the probe gain calibration files. Each probe has a subfolder n" +
+            "amed by its serial number, holding <serial>_gainCalValues.csv.")]
+        public string CalibrationRoot
+        {
+            get
+            {
+                return _calibrationRoot;
+            }
+            set
+            {
+                _calibrationRoot = value;
             }
         }
     
@@ -962,6 +985,7 @@ namespace Aeon.Ephys
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
             stringBuilder.Append("Subject = " + _subject + ", ");
+            stringBuilder.Append("CalibrationRoot = " + _calibrationRoot + ", ");
             stringBuilder.Append("Headstage = " + _headstage + ", ");
             stringBuilder.Append("BreakoutBoard = " + _breakoutBoard);
             return true;
@@ -1474,6 +1498,100 @@ namespace Aeon.Ephys
 
 
     /// <summary>
+    /// Represents the surgery record of one implanted subject.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents the surgery record of one implanted subject.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class ImplantedSubject
+    {
+    
+        private string _subject;
+    
+        private System.Collections.Generic.List<ProbeImplant> _implants;
+    
+        public ImplantedSubject()
+        {
+            _implants = new System.Collections.Generic.List<ProbeImplant>();
+        }
+    
+        protected ImplantedSubject(ImplantedSubject other)
+        {
+            _subject = other._subject;
+            _implants = other._implants;
+        }
+    
+        /// <summary>
+        /// The ID of the subject. It must match the record file name.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("subject", Required=Newtonsoft.Json.Required.Always)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="subject")]
+        [System.ComponentModel.DescriptionAttribute("The ID of the subject. It must match the record file name.")]
+        public string Subject
+        {
+            get
+            {
+                return _subject;
+            }
+            set
+            {
+                _subject = value;
+            }
+        }
+    
+        /// <summary>
+        /// The probe insertions, one entry per implanted probe.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("implants", Required=Newtonsoft.Json.Required.Always)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="implants")]
+        [System.ComponentModel.DescriptionAttribute("The probe insertions, one entry per implanted probe.")]
+        public System.Collections.Generic.List<ProbeImplant> Implants
+        {
+            get
+            {
+                return _implants;
+            }
+            set
+            {
+                _implants = value;
+            }
+        }
+    
+        public System.IObservable<ImplantedSubject> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ImplantedSubject(this)));
+        }
+    
+        public System.IObservable<ImplantedSubject> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new ImplantedSubject(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Subject = " + _subject + ", ");
+            stringBuilder.Append("Implants = " + _implants);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
     /// Represents the acquisition settings of the breakout board memory monitor.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
@@ -1590,7 +1708,6 @@ namespace Aeon.Ephys
             _probeConfiguration = new NeuropixelsV2QuadShankConfiguration();
             _probeConfiguration.InvertPolarity = true;
             _probeConfiguration.Reference = OpenEphys.Onix1.NeuropixelsV2QuadShankReference.External;
-            _probeConfiguration.GainCalibrationFileName = "";
             _probeConfiguration.ProbeInterfaceFileName = "";
         }
     
@@ -1703,15 +1820,12 @@ namespace Aeon.Ephys
     
         private OpenEphys.Onix1.NeuropixelsV2QuadShankReference _reference;
     
-        private string _gainCalibrationFileName;
-    
         private string _probeInterfaceFileName;
     
         public NeuropixelsV2QuadShankConfiguration()
         {
             _invertPolarity = true;
             _reference = OpenEphys.Onix1.NeuropixelsV2QuadShankReference.External;
-            _gainCalibrationFileName = "";
             _probeInterfaceFileName = "";
         }
     
@@ -1719,7 +1833,6 @@ namespace Aeon.Ephys
         {
             _invertPolarity = other._invertPolarity;
             _reference = other._reference;
-            _gainCalibrationFileName = other._gainCalibrationFileName;
             _probeInterfaceFileName = other._probeInterfaceFileName;
         }
     
@@ -1761,24 +1874,6 @@ namespace Aeon.Ephys
         }
     
         /// <summary>
-        /// The path of the gain calibration file supplied with the probe.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("gainCalibrationFileName")]
-        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="gainCalibrationFileName")]
-        [System.ComponentModel.DescriptionAttribute("The path of the gain calibration file supplied with the probe.")]
-        public string GainCalibrationFileName
-        {
-            get
-            {
-                return _gainCalibrationFileName;
-            }
-            set
-            {
-                _gainCalibrationFileName = value;
-            }
-        }
-    
-        /// <summary>
         /// The path of a probe interface file selecting the enabled electrodes. Left empty, the default channel map is used.
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("probeInterfaceFileName")]
@@ -1811,7 +1906,6 @@ namespace Aeon.Ephys
         {
             stringBuilder.Append("InvertPolarity = " + _invertPolarity + ", ");
             stringBuilder.Append("Reference = " + _reference + ", ");
-            stringBuilder.Append("GainCalibrationFileName = " + _gainCalibrationFileName + ", ");
             stringBuilder.Append("ProbeInterfaceFileName = " + _probeInterfaceFileName);
             return true;
         }
@@ -1868,7 +1962,6 @@ namespace Aeon.Ephys
             _probeA.Enable = true;
             _probeA.EnableLed = true;
             _probeA.ProbeConfiguration = new NeuropixelsV2QuadShankConfiguration();
-            _probeA.ProbeConfiguration.GainCalibrationFileName = "";
             _probeA.ProbeConfiguration.InvertPolarity = true;
             _probeA.ProbeConfiguration.ProbeInterfaceFileName = "";
             _probeA.ProbeConfiguration.Reference = OpenEphys.Onix1.NeuropixelsV2QuadShankReference.External;
@@ -1876,7 +1969,6 @@ namespace Aeon.Ephys
             _probeB.Enable = true;
             _probeB.EnableLed = true;
             _probeB.ProbeConfiguration = new NeuropixelsV2QuadShankConfiguration();
-            _probeB.ProbeConfiguration.GainCalibrationFileName = "";
             _probeB.ProbeConfiguration.InvertPolarity = true;
             _probeB.ProbeConfiguration.ProbeInterfaceFileName = "";
             _probeB.ProbeConfiguration.Reference = OpenEphys.Onix1.NeuropixelsV2QuadShankReference.External;
@@ -2111,14 +2203,12 @@ namespace Aeon.Ephys
             _probeA = new NeuropixelsV2eProbeConfiguration();
             _probeA.Enable = true;
             _probeA.ProbeConfiguration = new NeuropixelsV2QuadShankConfiguration();
-            _probeA.ProbeConfiguration.GainCalibrationFileName = "";
             _probeA.ProbeConfiguration.InvertPolarity = true;
             _probeA.ProbeConfiguration.ProbeInterfaceFileName = "";
             _probeA.ProbeConfiguration.Reference = OpenEphys.Onix1.NeuropixelsV2QuadShankReference.External;
             _probeB = new NeuropixelsV2eProbeConfiguration();
             _probeB.Enable = true;
             _probeB.ProbeConfiguration = new NeuropixelsV2QuadShankConfiguration();
-            _probeB.ProbeConfiguration.GainCalibrationFileName = "";
             _probeB.ProbeConfiguration.InvertPolarity = true;
             _probeB.ProbeConfiguration.ProbeInterfaceFileName = "";
             _probeB.ProbeConfiguration.Reference = OpenEphys.Onix1.NeuropixelsV2QuadShankReference.External;
@@ -2320,7 +2410,6 @@ namespace Aeon.Ephys
             _probeConfiguration = new NeuropixelsV2QuadShankConfiguration();
             _probeConfiguration.InvertPolarity = true;
             _probeConfiguration.Reference = OpenEphys.Onix1.NeuropixelsV2QuadShankReference.External;
-            _probeConfiguration.GainCalibrationFileName = "";
             _probeConfiguration.ProbeInterfaceFileName = "";
         }
     
@@ -3009,6 +3098,186 @@ namespace Aeon.Ephys
 
 
     /// <summary>
+    /// Represents one probe insertion, as recorded at surgery.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents one probe insertion, as recorded at surgery.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class ProbeImplant
+    {
+    
+        private string _probe;
+    
+        private string _serialNumber;
+    
+        private string _targetArea;
+    
+        private int _insertionNumber;
+    
+        private string _implantationDate;
+    
+        private string _probePartNumber;
+    
+        public ProbeImplant()
+        {
+        }
+    
+        protected ProbeImplant(ProbeImplant other)
+        {
+            _probe = other._probe;
+            _serialNumber = other._serialNumber;
+            _targetArea = other._targetArea;
+            _insertionNumber = other._insertionNumber;
+            _implantationDate = other._implantationDate;
+            _probePartNumber = other._probePartNumber;
+        }
+    
+        /// <summary>
+        /// The acquisition probe the insertion is wired to, ProbeA or ProbeB.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("probe", Required=Newtonsoft.Json.Required.Always)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="probe")]
+        [System.ComponentModel.DescriptionAttribute("The acquisition probe the insertion is wired to, ProbeA or ProbeB.")]
+        public string Probe
+        {
+            get
+            {
+                return _probe;
+            }
+            set
+            {
+                _probe = value;
+            }
+        }
+    
+        /// <summary>
+        /// The serial number of the probe. It names the gain calibration file of the probe.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("serialNumber", Required=Newtonsoft.Json.Required.Always)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="serialNumber")]
+        [System.ComponentModel.DescriptionAttribute("The serial number of the probe. It names the gain calibration file of the probe.")]
+        public string SerialNumber
+        {
+            get
+            {
+                return _serialNumber;
+            }
+            set
+            {
+                _serialNumber = value;
+            }
+        }
+    
+        /// <summary>
+        /// The targeted brain area.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("targetArea", Required=Newtonsoft.Json.Required.Always)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="targetArea")]
+        [System.ComponentModel.DescriptionAttribute("The targeted brain area.")]
+        public string TargetArea
+        {
+            get
+            {
+                return _targetArea;
+            }
+            set
+            {
+                _targetArea = value;
+            }
+        }
+    
+        /// <summary>
+        /// The insertion index distinguishing the probes implanted in one subject.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("insertionNumber", Required=Newtonsoft.Json.Required.Always)]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="insertionNumber")]
+        [System.ComponentModel.DescriptionAttribute("The insertion index distinguishing the probes implanted in one subject.")]
+        public int InsertionNumber
+        {
+            get
+            {
+                return _insertionNumber;
+            }
+            set
+            {
+                _insertionNumber = value;
+            }
+        }
+    
+        /// <summary>
+        /// The implantation date in ISO 8601 form, YYYY-MM-DD.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("implantationDate")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="implantationDate")]
+        [System.ComponentModel.DescriptionAttribute("The implantation date in ISO 8601 form, YYYY-MM-DD.")]
+        public string ImplantationDate
+        {
+            get
+            {
+                return _implantationDate;
+            }
+            set
+            {
+                _implantationDate = value;
+            }
+        }
+    
+        /// <summary>
+        /// The part number of the implanted probe, for example NP2014.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("probePartNumber")]
+        [YamlDotNet.Serialization.YamlMemberAttribute(Alias="probePartNumber")]
+        [System.ComponentModel.DescriptionAttribute("The part number of the implanted probe, for example NP2014.")]
+        public string ProbePartNumber
+        {
+            get
+            {
+                return _probePartNumber;
+            }
+            set
+            {
+                _probePartNumber = value;
+            }
+        }
+    
+        public System.IObservable<ProbeImplant> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ProbeImplant(this)));
+        }
+    
+        public System.IObservable<ProbeImplant> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new ProbeImplant(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Probe = " + _probe + ", ");
+            stringBuilder.Append("SerialNumber = " + _serialNumber + ", ");
+            stringBuilder.Append("TargetArea = " + _targetArea + ", ");
+            stringBuilder.Append("InsertionNumber = " + _insertionNumber + ", ");
+            stringBuilder.Append("ImplantationDate = " + _implantationDate + ", ");
+            stringBuilder.Append("ProbePartNumber = " + _probePartNumber);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
     /// Represents the acquisition settings of an Intan RHD2164 bioamplifier.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.10.0.0 (Newtonsoft.Json v13.0.0.0, YamlDotNet v16.0.0.0)")]
@@ -3504,6 +3773,11 @@ namespace Aeon.Ephys
             return Process<HeartbeatConfiguration>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<ImplantedSubject> source)
+        {
+            return Process<ImplantedSubject>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<MemoryMonitorConfiguration> source)
         {
             return Process<MemoryMonitorConfiguration>(source);
@@ -3554,6 +3828,11 @@ namespace Aeon.Ephys
             return Process<PortVoltageConfiguration>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<ProbeImplant> source)
+        {
+            return Process<ProbeImplant>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<Rhd2164Configuration> source)
         {
             return Process<Rhd2164Configuration>(source);
@@ -3583,6 +3862,7 @@ namespace Aeon.Ephys
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Headstage>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Headstage64Configuration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HeartbeatConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ImplantedSubject>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<MemoryMonitorConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2BetaProbeConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2QuadShankConfiguration>))]
@@ -3593,6 +3873,7 @@ namespace Aeon.Ephys
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<OutputClockConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PolledBno055Configuration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PortVoltageConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ProbeImplant>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Rhd2164Configuration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Ts4231Configuration>))]
     public partial class DeserializeFromJson : Bonsai.Expressions.SingleArgumentExpressionBuilder
@@ -3841,6 +4122,11 @@ namespace Aeon.Ephys
             return Process<HeartbeatConfiguration>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<ImplantedSubject> source)
+        {
+            return Process<ImplantedSubject>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<MemoryMonitorConfiguration> source)
         {
             return Process<MemoryMonitorConfiguration>(source);
@@ -3891,6 +4177,11 @@ namespace Aeon.Ephys
             return Process<PortVoltageConfiguration>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<ProbeImplant> source)
+        {
+            return Process<ProbeImplant>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<Rhd2164Configuration> source)
         {
             return Process<Rhd2164Configuration>(source);
@@ -3920,6 +4211,7 @@ namespace Aeon.Ephys
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Headstage>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Headstage64Configuration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HeartbeatConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ImplantedSubject>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<MemoryMonitorConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2BetaProbeConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NeuropixelsV2QuadShankConfiguration>))]
@@ -3930,6 +4222,7 @@ namespace Aeon.Ephys
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<OutputClockConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PolledBno055Configuration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PortVoltageConfiguration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ProbeImplant>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Rhd2164Configuration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Ts4231Configuration>))]
     public partial class DeserializeFromYaml : Bonsai.Expressions.SingleArgumentExpressionBuilder
