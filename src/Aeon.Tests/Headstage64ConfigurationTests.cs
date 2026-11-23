@@ -102,6 +102,22 @@ namespace Aeon.Tests
         }
 
         [TestMethod]
+        public void ConversionRejectsNegativeCounts()
+        {
+            // Nothing in the generated model or its deserializers enforces the schema minimum, so
+            // a negative value read from a file must fail rather than wrap to a large count.
+            var electrical = new ElectricalStimulatorConfiguration { BurstPulseCount = -1 };
+            var optical = new OpticalStimulatorConfiguration { PulsesPerBurst = -1 };
+
+            var electricalError = Assert.Throws<ArgumentOutOfRangeException>(
+                () => (ConfigureHeadstage64ElectricalStimulator)electrical);
+            var opticalError = Assert.Throws<ArgumentOutOfRangeException>(
+                () => (ConfigureHeadstage64OpticalStimulator)optical);
+            Assert.AreEqual(nameof(ElectricalStimulatorConfiguration.BurstPulseCount), electricalError.ParamName);
+            Assert.AreEqual(nameof(OpticalStimulatorConfiguration.PulsesPerBurst), opticalError.ParamName);
+        }
+
+        [TestMethod]
         public void MappedConfigurationBuildsDeviceOperator()
         {
             // A single property mapping carries the whole configuration, so no ordering between

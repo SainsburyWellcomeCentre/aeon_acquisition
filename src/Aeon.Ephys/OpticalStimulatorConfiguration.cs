@@ -14,9 +14,9 @@ public partial class OpticalStimulatorConfiguration
             Delay = value.Delay,
             PulseDuration = value.PulseDuration,
             PulsesPerSecond = value.PulsesPerSecond,
-            PulsesPerBurst = (uint)value.PulsesPerBurst,
+            PulsesPerBurst = ConfigurationConversion.ToUInt32(value.PulsesPerBurst, nameof(PulsesPerBurst)),
             InterBurstInterval = value.InterBurstInterval,
-            BurstsPerTrain = (uint)value.BurstsPerTrain
+            BurstsPerTrain = ConfigurationConversion.ToUInt32(value.BurstsPerTrain, nameof(BurstsPerTrain))
         };
     }
 }

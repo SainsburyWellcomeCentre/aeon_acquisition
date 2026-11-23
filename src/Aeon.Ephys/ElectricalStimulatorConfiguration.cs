@@ -8,17 +8,17 @@ public partial class ElectricalStimulatorConfiguration
         return new OpenEphys.Onix1.ConfigureHeadstage64ElectricalStimulator
         {
             Arm = value.Arm,
-            TriggerDelay = (uint)value.TriggerDelay,
-            PhaseOneDuration = (uint)value.PhaseOneDuration,
+            TriggerDelay = ConfigurationConversion.ToUInt32(value.TriggerDelay, nameof(TriggerDelay)),
+            PhaseOneDuration = ConfigurationConversion.ToUInt32(value.PhaseOneDuration, nameof(PhaseOneDuration)),
             PhaseOneCurrent = value.PhaseOneCurrent,
-            InterPhaseInterval = (uint)value.InterPhaseInterval,
+            InterPhaseInterval = ConfigurationConversion.ToUInt32(value.InterPhaseInterval, nameof(InterPhaseInterval)),
             InterPhaseCurrent = value.InterPhaseCurrent,
-            PhaseTwoDuration = (uint)value.PhaseTwoDuration,
+            PhaseTwoDuration = ConfigurationConversion.ToUInt32(value.PhaseTwoDuration, nameof(PhaseTwoDuration)),
             PhaseTwoCurrent = value.PhaseTwoCurrent,
-            InterPulseInterval = (uint)value.InterPulseInterval,
-            BurstPulseCount = (uint)value.BurstPulseCount,
-            InterBurstInterval = (uint)value.InterBurstInterval,
-            TrainBurstCount = (uint)value.TrainBurstCount
+            InterPulseInterval = ConfigurationConversion.ToUInt32(value.InterPulseInterval, nameof(InterPulseInterval)),
+            BurstPulseCount = ConfigurationConversion.ToUInt32(value.BurstPulseCount, nameof(BurstPulseCount)),
+            InterBurstInterval = ConfigurationConversion.ToUInt32(value.InterBurstInterval, nameof(InterBurstInterval)),
+            TrainBurstCount = ConfigurationConversion.ToUInt32(value.TrainBurstCount, nameof(TrainBurstCount))
         };
     }
 }
