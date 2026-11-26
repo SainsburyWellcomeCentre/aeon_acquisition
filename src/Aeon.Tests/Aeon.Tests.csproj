@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
+    <!-- Native libraries such as OpenCV come from runtime packages selected by the
+         runtime identifier. Tests that call into them need one on Windows. -->
+    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
