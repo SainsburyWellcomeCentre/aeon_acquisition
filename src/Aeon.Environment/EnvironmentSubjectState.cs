@@ -39,7 +39,7 @@ namespace Aeon.Environment
                 var initialState = State.ActiveSubjects
                     .Select(subject => new EnvironmentSubjectStateMetadata(subject, EnvironmentSubjectChangeType.Remain))
                     .ToArray();
-                return changes.Do(change =>
+                return changes.StartWith(initialState).Do(change =>
                 {
                     switch (change.Type)
                     {
@@ -55,10 +55,12 @@ namespace Aeon.Environment
                             State.ActiveSubjects.Remove(change.Id);
                             break;
                         default:
-                            return;
+                            // A recovered subject does not change the state, but the file
+                            // must be written again so the next restart can read it.
+                            break;
                     }
                     StateRecovery<SubjectStateRecovery>.Serialize(Name, State);
-                }).StartWith(initialState);
+                });
             });
         }
     }
