@@ -24,11 +24,11 @@ namespace Aeon.Environment
             {
                 State = StateRecovery<EnvironmentStateRecovery>.Deserialize(Name);
                 var initialState = new EnvironmentStateMetadata(Name, State.Type);
-                return changes.Do(change =>
+                return changes.StartWith(initialState).Do(change =>
                 {
                     State.Type = change.Type;
                     StateRecovery<EnvironmentStateRecovery>.Serialize(Name, State);
-                }).StartWith(initialState);
+                });
             });
         }
     }
