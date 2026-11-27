@@ -2,11 +2,14 @@
 # Aeon.Acquisition CI/CD
 # =======================================================================================================================================================================
 # Index:
-# * Build, test, and package .NET
+# * Verify generated code
+# * Build .NET
+# * Build Python
 # * Publish packages to GitHub
 # * Publish packages to NuGet.org
+# * Publish to PyPI
 # =======================================================================================================================================================================
-# Note that this is a generic workflow meant for all Bonsai packages. Minor local modifications are fine, see https://github.com/bonsai-rx/prefect for more information.
+# Note that this is a generic workflow meant for Bonsai packages with a Python package. Minor local modifications are fine, see https://github.com/bonsai-rx/prefect.
 # =======================================================================================================================================================================
 name: Aeon.Acquisition
 on:
@@ -24,14 +27,52 @@ env:
   ContinuousIntegrationBuild: true
 jobs:
   # =====================================================================================================================================================================
-  # Build, test, and package .NET
-  #  ___      _ _    _     _          _                    _                 _                     _  _ ___ _____
-  # | _ )_  _(_) |__| |   | |_ ___ __| |_     __ _ _ _  __| |  _ __  __ _ __| |____ _ __ _ ___    | \| | __|_   _|
-  # | _ \ || | | / _` |_  |  _/ -_|_-<  _|_  / _` | ' \/ _` | | '_ \/ _` / _| / / _` / _` / -_)  _| .` | _|  | |
-  # |___/\_,_|_|_\__,_( )  \__\___/__/\__( ) \__,_|_||_\__,_| | .__/\__,_\__|_\_\__,_\__, \___| (_)_|\_|___| |_|
-  #                   |/                 |/                   |_|                    |___/
+  # Verify generated code
+  # __   __       _  __                                   _          _              _
+  # \ \ / /__ _ _(_)/ _|_  _   __ _ ___ _ _  ___ _ _ __ _| |_ ___ __| |  __ ___  __| |___
+  #  \ V / -_) '_| |  _| || | / _` / -_) ' \/ -_) '_/ _` |  _/ -_) _` | / _/ _ \/ _` / -_)
+  #   \_/\___|_| |_|_|  \_, | \__, \___|_||_\___|_| \__,_|\__\___\__,_| \__\___/\__,_\___|
+  #                     |__/  |___/
   # =====================================================================================================================================================================
-  build:
+  verify-generated:
+    name: Verify generated code
+    runs-on: ubuntu-latest
+    steps:
+      # ----------------------------------------------------------------------- Checkout
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # ----------------------------------------------------------------------- Set up tools
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 8.x
+
+      - name: Set up .NET tools
+        run: dotnet tool restore
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v8.3.2
+        with:
+          enable-cache: true
+
+      # ----------------------------------------------------------------------- Restore
+      - name: Restore
+        run: uv sync --locked
+
+      # ----------------------------------------------------------------------- Verify
+      - name: Verify generated code is up to date
+        run: uv run bonsai-sgen generate --check
+
+  # =====================================================================================================================================================================
+  # Build .NET
+  #  ___      _ _    _     _  _ ___ _____
+  # | _ )_  _(_) |__| |   | \| | __|_   _|
+  # | _ \ || | | / _` |  _| .` | _|  | |
+  # |___/\_,_|_|_\__,_| (_)_|\_|___| |_|
+  #
+  # =====================================================================================================================================================================
+  build-dotnet:
     strategy:
       fail-fast: false
       matrix:
@@ -49,7 +90,7 @@ jobs:
               rid: win-x64
             configuration: release
             collect-packages: true
-    name: ${{matrix.platform.name}} ${{matrix.configuration}}
+    name: Build .NET (${{matrix.platform.name}} ${{matrix.configuration}})
     runs-on: ${{matrix.platform.os}}
     steps:
       # ----------------------------------------------------------------------- Checkout
@@ -67,7 +108,7 @@ jobs:
       # ----------------------------------------------------------------------- Configure build
       - name: Configure build
         id: configure-build
-        uses: bonsai-rx/configure-build@v2
+        uses: bonsai-rx/configure-build@v3
 
       # ----------------------------------------------------------------------- Build
       - name: Restore
@@ -83,7 +124,7 @@ jobs:
 
       # ----------------------------------------------------------------------- Test
       - name: Test .NET Framework 4.7.2
-        run: dotnet test --no-restore --no-build --configuration ${{matrix.configuration}} --verbosity normal --framework net472 ${{ matrix.platform.test-filter }}
+        run: dotnet test --no-restore --no-build --configuration ${{matrix.configuration}} --verbosity normal --framework net472 ${{matrix.platform.test-filter}}
 
       # ----------------------------------------------------------------------- Collect artifacts
       - name: Collect NuGet packages
@@ -93,6 +134,76 @@ jobs:
           name: Packages
           if-no-files-found: error
           path: artifacts/package/${{matrix.configuration}}/**
+
+  # =====================================================================================================================================================================
+  # Build Python
+  #  ___      _ _    _   ___      _   _
+  # | _ )_  _(_) |__| | | _ \_  _| |_| |_  ___ _ _
+  # | _ \ || | | / _` | |  _/ || |  _| ' \/ _ \ ' \
+  # |___/\_,_|_|_\__,_| |_|  \_, |\__|_||_\___/_||_|
+  #                          |__/
+  # =====================================================================================================================================================================
+  build-python:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+        include:
+          - python-version: '3.11'
+            collect-packages: true
+    name: Build Python (${{matrix.python-version}})
+    runs-on: ubuntu-latest
+    steps:
+      # ----------------------------------------------------------------------- Checkout
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # ----------------------------------------------------------------------- Set up tools
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v8.3.2
+        with:
+          python-version: ${{matrix.python-version}}
+          enable-cache: true
+
+      # ----------------------------------------------------------------------- Configure build
+      - name: Configure build
+        uses: bonsai-rx/configure-build@v3
+
+      # ----------------------------------------------------------------------- Restore
+      - name: Restore
+        run: uv sync --locked
+
+      # ----------------------------------------------------------------------- Check
+      - name: Lint
+        run: uv run ruff check
+
+      - name: Type check
+        run: uv run pyright
+
+      # ----------------------------------------------------------------------- Build
+      - name: Build
+        if: matrix.collect-packages
+        env:
+          SETUPTOOLS_SCM_PRETEND_VERSION: ${{env.CiBuildVersion}}
+        run: uv build
+
+      - name: Verify setuptools-scm applied the build version
+        if: matrix.collect-packages
+        run: |
+          ls -1 dist/
+          if ls dist/*-0.0.0.tar.gz >/dev/null 2>&1; then
+            echo "::error::Built version 0.0.0, so setuptools-scm did not apply the build version. Check that pyproject.toml still declares a tool.setuptools_scm table."
+            exit 1
+          fi
+
+      # ----------------------------------------------------------------------- Collect artifacts
+      - name: Collect Python packages
+        if: matrix.collect-packages
+        uses: actions/upload-artifact@v7
+        with:
+          name: PythonPackages
+          if-no-files-found: error
+          path: dist/*
 
   # =====================================================================================================================================================================
   # Publish packages to GitHub
@@ -105,10 +216,8 @@ jobs:
   publish-github:
     name: Publish packages to GitHub
     runs-on: ubuntu-latest
-    needs: build
+    needs: [verify-generated, build-dotnet, build-python]
     permissions:
-      # Needed to attach files to releases
-      contents: write
       # Needed to upload to GitHub Packages
       packages: write
     if: github.event_name == 'push' || github.event_name == 'release'
@@ -126,19 +235,9 @@ jobs:
           name: Packages
           path: artifacts/packages/
 
-      # ----------------------------------------------------------------------- Upload release assets
-      - name: Upload release assets
-        if: github.event_name == 'release'
-        run: gh release upload --repo ${{github.repository}} ${{github.event.release.tag_name}} artifacts/packages/* --clobber
-        env:
-          GH_TOKEN: ${{github.token}}
-
       # ----------------------------------------------------------------------- Push to GitHub Packages
       - name: Push to GitHub Packages
         run: dotnet nuget push "artifacts/packages/*.nupkg" --skip-duplicate --no-symbols --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/${{github.repository_owner}}
-        env:
-          # This is a workaround for https://github.com/NuGet/Home/issues/9775
-          DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER: 0
 
   # =====================================================================================================================================================================
   # Publish packages to NuGet.org
@@ -148,12 +247,17 @@ jobs:
   # |_|  \_,_|_.__/_|_/__/_||_| | .__/\__,_\__|_\_\__,_\__, \___/__/  \__\___/ |_|\_|\_,_|\___\___|\__(_)___/_| \__, |
   #                             |_|                    |___/                                                    |___/
   # =====================================================================================================================================================================
-  publish-packages-nuget-org:
+  publish-nuget-org:
     name: Publish packages to NuGet.org
     runs-on: ubuntu-latest
     environment: public-release
-    needs: build
+    needs: [verify-generated, build-dotnet, build-python]
     if: github.event_name == 'release'
+    permissions:
+      # Needed to attach files to releases
+      contents: write
+      # Needed to request the OIDC token for NuGet.org trusted publishing
+      id-token: write
     steps:
       # ----------------------------------------------------------------------- Set up .NET
       - name: Setup .NET
@@ -168,9 +272,61 @@ jobs:
           name: Packages
           path: artifacts/packages/
 
-      # ----------------------------------------------------------------------- Push to NuGet.org
-      - name: Push to NuGet.org
-        run: dotnet nuget push "artifacts/packages/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source ${{vars.NUGET_API_URL}}
+      # ----------------------------------------------------------------------- Upload release assets
+      - name: Upload release assets
+        run: gh release upload --repo ${{github.repository}} ${{github.event.release.tag_name}} artifacts/packages/* --clobber
         env:
-          # This is a workaround for https://github.com/NuGet/Home/issues/9775
-          DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER: 0
+          GH_TOKEN: ${{github.token}}
+
+      # ----------------------------------------------------------------------- Push to NuGet.org
+      - name: Log in to NuGet.org with OIDC
+        uses: NuGet/login@v1
+        id: nuget-login
+        with:
+          user: ${{secrets.NUGET_USER}}
+
+      - name: Push to NuGet.org
+        run: dotnet nuget push "artifacts/packages/*.nupkg" --api-key ${{steps.nuget-login.outputs.NUGET_API_KEY}} --source ${{vars.NUGET_API_URL}}
+
+  # =====================================================================================================================================================================
+  # Publish to PyPI
+  #  ___      _    _ _    _      _         ___      ___ ___
+  # | _ \_  _| |__| (_)__| |_   | |_ ___  | _ \_  _| _ \_ _|
+  # |  _/ || | '_ \ | (_-< ' \  |  _/ _ \ |  _/ || |  _/| |
+  # |_|  \_,_|_.__/_|_/__/_||_|  \__\___/ |_|  \_, |_| |___|
+  #                                            |__/
+  # =====================================================================================================================================================================
+  publish-pypi:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: [verify-generated, build-dotnet, build-python]
+    if: github.event_name == 'release'
+    environment: pypi
+    permissions:
+      # Needed to attach files to releases
+      contents: write
+      # Needed by uv publish to exchange a token with PyPI trusted publishing
+      id-token: write
+    steps:
+      # ----------------------------------------------------------------------- Download built packages
+      - name: Download built packages
+        uses: actions/download-artifact@v8
+        with:
+          name: PythonPackages
+          path: dist/
+
+      # ----------------------------------------------------------------------- Upload release assets
+      - name: Upload release assets
+        run: gh release upload --repo ${{github.repository}} ${{github.event.release.tag_name}} dist/* --clobber
+        env:
+          GH_TOKEN: ${{github.token}}
+
+      # ----------------------------------------------------------------------- Set up tools
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v8.3.2
+        with:
+          enable-cache: true
+
+      # ----------------------------------------------------------------------- Publish
+      - name: Publish to PyPI
+        run: uv publish

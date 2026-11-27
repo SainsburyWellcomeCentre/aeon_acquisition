@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.11"
 
 [[package]]
@@ -13,15 +13,15 @@ wheels = [
 
 [[package]]
 name = "bonsai-sgen"
-version = "0.10.0"
+version = "0.11.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b4/32/dab2290d58788908f65843c991b267d32fa6d335dce8057ad0a5542167e4/bonsai_sgen-0.10.0.tar.gz", hash = "sha256:a52b768f01c5a7497a360ad6d320791a7ebfaaa8482698fde1a05f2d54b0f3cd", size = 35116, upload-time = "2026-10-21T00:11:22.45Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b3/6b/078f69e67ce05d4fe6518caf84503cc31d3fd6e2794a8c1edfd4d3b6aa0e/bonsai_sgen-0.11.1.tar.gz", hash = "sha256:30ea38807a28f3cac5f89171ddfe21a75a8e3a8decc3a2794367ddc92f86e138", size = 40107, upload-time = "2026-11-27T08:26:42.713Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/15/7d/f260f5fe8ef38bd700bbc45d228aa076bf87590a2ad3c488dc1e4edf4cfd/bonsai_sgen-0.10.0-py3-none-any.whl", hash = "sha256:6822331ae57faeaa49b6be0e905cadee994a170e062f757fb33b566433851de6", size = 17728, upload-time = "2026-10-21T00:11:21.362Z" },
+    { url = "https://files.pythonhosted.org/packages/ff/43/a1c5d521db6a1805ffed4f1c9fd7cab79ecb9339b5143ebc157fbbe6af0e/bonsai_sgen-0.11.1-py3-none-any.whl", hash = "sha256:d11b03f191e41c1be8656f9ace57371d4eb0f39d9dd32bfa667dbccf7528f4d5", size = 19593, upload-time = "2026-11-27T08:26:41.823Z" },
 ]
 
 [[package]]
@@ -233,7 +233,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "bonsai-sgen", specifier = ">=0.10.0" }]
+requires-dist = [{ name = "bonsai-sgen", specifier = ">=0.11.1" }]
 
 [package.metadata.requires-dev]
 dev = [
