@@ -23,7 +23,7 @@ classifiers = [
   "Topic :: Scientific/Engineering",
 ]
 dependencies = [
-  "bonsai-sgen>=0.10.0",
+  "bonsai-sgen>=0.11.1",
 ]
 
 [project.urls]
@@ -43,6 +43,11 @@ dev = [
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["swc*"]
+
+[tool.bonsai-sgen]
+modules = ["swc.aeon.acquisition"]
+output = "src/{namespace}"
+serializer = ["json", "yaml"]
 
 [tool.ruff]
 line-length = 108

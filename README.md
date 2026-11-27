@@ -15,14 +15,13 @@ Configuration models are declared with [`bonsai-sgen`](https://pypi.org/project/
     uv sync
     ```
 
-2. Export the schema of a package and regenerate its serialization classes:
+2. Regenerate the serialization classes of every package, as configured in the `[tool.bonsai-sgen]` table of `pyproject.toml`:
 
     ```
-    uv run bonsai-sgen export swc.aeon.acquisition.environment -o schemas
-    uv run bonsai-sgen generate swc.aeon.acquisition.environment -o src/Aeon.Environment --serializer json yaml
+    uv run bonsai-sgen generate
     ```
 
-Each package produces two files, its JSON schema under `schemas/` and its serialization classes at the root of the matching project. For `Aeon.Environment` these are `schemas/Aeon.Environment.json` and `src/Aeon.Environment/Aeon.Environment.Generated.cs`.
+Each package produces its serialization classes at the root of the matching project, so `Aeon.Environment` gets `src/Aeon.Environment/Aeon.Environment.Generated.cs`.
 
 ## Deployment Instructions
 
